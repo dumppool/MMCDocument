@@ -1,0 +1,44 @@
+<map id="cKinCharacter::Pose" name="cKinCharacter::Pose">
+<area shape="rect" id="node1" title=" " alt="" coords="5,468,148,495"/>
+<area shape="rect" id="node2" href="$dd/d78/classc_kin_character.html#a68ca12d76d4b8991270041dcae4be4eb" title=" " alt="" coords="401,468,569,495"/>
+<area shape="rect" id="node29" href="$dd/d78/classc_kin_character.html#af176f2116f10f6354021194945c2c19a" title=" " alt="" coords="196,316,353,343"/>
+<area shape="rect" id="node41" href="$d1/df3/classc_character.html#a9bf4292e356a20cad67949e961244cab" title=" " alt="" coords="203,493,346,520"/>
+<area shape="rect" id="node42" href="$d1/df3/classc_character.html#ade58ddd1eaf1dae9f230a595e5a5cccc" title=" " alt="" coords="209,544,341,571"/>
+<area shape="rect" id="node3" href="$d0/d77/classc_motion.html#a3795af3d768cc3d286a39ee62d4d7282" title=" " alt="" coords="1076,360,1245,387"/>
+<area shape="rect" id="node5" href="$d0/d77/classc_motion.html#a427c2d0b70030053d9561f45738e2d8b" title=" " alt="" coords="1313,157,1457,184"/>
+<area shape="rect" id="node8" href="$d0/d77/classc_motion.html#a32b90d777058b27f7474e779c4536dcf" title=" " alt="" coords="635,385,774,412"/>
+<area shape="rect" id="node18" href="$d9/d87/classc_kin_tree.html#af64ed1799d144a87342b473fdc46ec73" title=" " alt="" coords="629,537,781,564"/>
+<area shape="rect" id="node21" href="$d9/d87/classc_kin_tree.html#a2a021db5d70df4fc749693908b4673ae" title=" " alt="" coords="630,639,779,665"/>
+<area shape="rect" id="node23" href="$dd/d78/classc_kin_character.html#ac334fe30beb224f2bf899208f0fe393d" title=" " alt="" coords="617,5,792,32"/>
+<area shape="rect" id="node25" href="$d5/db9/classc_math_util.html#a3a0496ade762f12172414c797da44402" title=" " alt="" coords="627,689,783,716"/>
+<area shape="rect" id="node26" href="$d9/d87/classc_kin_tree.html#a70cfb4919e00b3e5707425a461fc7f51" title=" " alt="" coords="629,588,780,615"/>
+<area shape="rect" id="node27" href="$d9/d87/classc_kin_tree.html#a0635457bb31f60e04015b6135bb116d2" title=" " alt="" coords="631,487,779,513"/>
+<area shape="rect" id="node4" href="$d5/db9/classc_math_util.html#ac7702e2a05013616d11f03619d9b4f1e" title=" " alt="" coords="1324,411,1447,437"/>
+<area shape="rect" id="node6" href="$d0/d77/classc_motion.html#a0641ee0c15a582e31828d855a2f3f82e" title=" " alt="" coords="1313,309,1458,336"/>
+<area shape="rect" id="node7" href="$d0/d77/classc_motion.html#a345ad7c6fab23c99b0d121763b0a8c10" title=" " alt="" coords="1513,259,1681,285"/>
+<area shape="rect" id="node9" href="$d0/d77/classc_motion.html#a8380c7132109673c4fa83b2eb3c99875" title=" " alt="" coords="851,487,1005,513"/>
+<area shape="rect" id="node15" href="$d0/d77/classc_motion.html#a7e223e1c81926e39829db34262342518" title=" " alt="" coords="843,233,1013,260"/>
+<area shape="rect" id="node16" href="$d0/d77/classc_motion.html#abe1ae1f0a95179b73fb754b945270799" title=" " alt="" coords="855,385,1001,412"/>
+<area shape="rect" id="node17" href="$d0/d77/classc_motion.html#a17d2bbf0eb813779ab189590c3ef1959" title=" " alt="" coords="840,335,1016,361"/>
+<area shape="rect" id="node10" href="$d0/d77/classc_motion.html#a21666b0c6bcfb5d9c4dd06304da3fb01" title=" " alt="" coords="1068,461,1253,488"/>
+<area shape="rect" id="node11" href="$d0/d77/classc_motion.html#a9e15724e2358c019487360c2989a335e" title=" " alt="" coords="1093,613,1228,640"/>
+<area shape="rect" id="node13" href="$d0/d77/classc_motion.html#a2125fd4d150960d8dc2538f12ee80d44" title=" " alt="" coords="1080,512,1241,539"/>
+<area shape="rect" id="node14" href="$d5/db9/classc_math_util.html#a465def8d611dd4320ca9bfe5c486805d" title=" " alt="" coords="1093,563,1228,589"/>
+<area shape="rect" id="node12" href="$d0/d77/classc_motion.html#ae70cd8ffa5ec5ef8f08f70d2ed7147e8" title=" " alt="" coords="1305,512,1465,539"/>
+<area shape="rect" id="node19" href="$d9/d87/classc_kin_tree.html#aba4aced4cc6c401006617e288e84e723" title=" " alt="" coords="841,639,1015,665"/>
+<area shape="rect" id="node20" href="$d9/d87/classc_kin_tree.html#a81b9799b03d32762ac820eb0886f369c" title=" " alt="" coords="863,588,993,615"/>
+<area shape="rect" id="node22" href="$d5/db9/classc_math_util.html#a4b295f1a5fa0c95e87b942e62b2248bb" title=" " alt="" coords="853,689,1003,716"/>
+<area shape="rect" id="node24" href="$d0/d77/classc_motion.html#aaf95ffee6a9695774e623dbc6184dfc9" title=" " alt="" coords="1328,56,1443,83"/>
+<area shape="rect" id="node28" href="$d5/db9/classc_math_util.html#a703bd693dac0d20b433690577d9a8dcc" title=" " alt="" coords="853,537,1003,564"/>
+<area shape="rect" id="node30" href="$d0/d77/classc_motion.html#a5cb7a1bd1067611248adf53b8ec3660a" title=" " alt="" coords="625,259,784,285"/>
+<area shape="rect" id="node32" href="$d1/df3/classc_character.html#a599bb487669886ea5a6e827186713372" title=" " alt="" coords="405,532,565,559"/>
+<area shape="rect" id="node31" href="$d0/d77/classc_motion.html#ac6e3ccc0f0af480f6d1b78a95a375f03" title=" " alt="" coords="1089,411,1232,437"/>
+<area shape="rect" id="node33" href="$d9/d87/classc_kin_tree.html#abb4cab7f985f62308d4b36fdcd5c6145" title=" " alt="" coords="631,740,779,767"/>
+<area shape="rect" id="node34" href="$d9/d87/classc_kin_tree.html#ac840b501e27e6ce46d208b7d033f21d4" title=" " alt="" coords="847,740,1009,767"/>
+<area shape="rect" id="node35" href="$d9/d87/classc_kin_tree.html#ad5d21e19a354b6e8f5406e9167f12161" title=" " alt="" coords="845,791,1011,817"/>
+<area shape="rect" id="node36" href="$d9/d87/classc_kin_tree.html#a9c308e9e4654d96bcc47ba02770a06ea" title=" " alt="" coords="1064,791,1257,817"/>
+<area shape="rect" id="node37" href="$d9/d87/classc_kin_tree.html#a891d52af51a7a1bced694634c2f70ee9" title=" " alt="" coords="1082,841,1239,868"/>
+<area shape="rect" id="node38" href="$d9/d87/classc_kin_tree.html#ab4c2a8b42b254dc54e15e71684045a0a" title=" " alt="" coords="1101,740,1220,767"/>
+<area shape="rect" id="node39" href="$d9/d87/classc_kin_tree.html#a434aca959d5ef55a491381c7b8d90527" title=" " alt="" coords="1314,740,1457,767"/>
+<area shape="rect" id="node40" href="$d9/d87/classc_kin_tree.html#a593b283c1ce6a9fa8eb75cb9dc7396f6" title=" " alt="" coords="1527,740,1667,767"/>
+</map>

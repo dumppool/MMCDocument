@@ -1,0 +1,12 @@
+<map id="cDrawSceneSimChar" name="cDrawSceneSimChar">
+<area shape="rect" id="node1" title=" " alt="" coords="243,2065,430,2612"/>
+<area shape="rect" id="node2" href="$d8/dd1/classc_draw_scene.html" title=" " alt="" coords="236,1471,437,2003"/>
+<area shape="rect" id="node3" href="$dc/d42/classc_scene.html" title=" " alt="" coords="136,645,263,986"/>
+<area shape="rect" id="node4" href="$d6/d5d/classc_timer.html" title=" " alt="" coords="5,248,127,501"/>
+<area shape="rect" id="node8" href="$d7/d7a/classc_obj_tracer.html" title=" " alt="" coords="29,1047,188,1447"/>
+<area shape="rect" id="node5" href="$de/dd0/structc_timer_1_1t_params.html" title=" " alt="" coords="208,5,327,141"/>
+<area shape="rect" id="node6" href="$df/dbc/classc_rand.html" title=" " alt="" coords="151,204,317,545"/>
+<area shape="rect" id="node7" href="$d9/d0b/classc_camera.html" title=" " alt="" coords="287,608,448,1023"/>
+<area shape="rect" id="node9" href="$d5/dce/classc_sim_obj.html" title=" " alt="" coords="481,1559,635,1915"/>
+<area shape="rect" id="node10" href="$d8/d92/structc_contact_manager_1_1t_contact_handle.html" title=" " alt="" coords="473,747,654,883"/>
+</map>

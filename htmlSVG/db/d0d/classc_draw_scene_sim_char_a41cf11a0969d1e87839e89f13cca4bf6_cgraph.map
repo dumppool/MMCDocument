@@ -1,0 +1,9 @@
+<map id="cDrawSceneSimChar::AddTraces" name="cDrawSceneSimChar::AddTraces">
+<area shape="rect" id="node1" title=" " alt="" coords="5,49,159,90"/>
+<area shape="rect" id="node2" href="$db/d0d/classc_draw_scene_sim_char.html#af902fcda45883ede6a33df704e42e1ac" title=" " alt="" coords="207,49,360,90"/>
+<area shape="rect" id="node3" href="$d7/d7a/classc_obj_tracer.html#adc990c6ed40da90a3753bed41ce770c7" title=" " alt="" coords="408,56,556,83"/>
+<area shape="rect" id="node4" href="$d7/d7a/classc_obj_tracer.html#ace01da066617807086691a25438d8b40" title=" " alt="" coords="617,5,771,32"/>
+<area shape="rect" id="node6" href="$d7/d7a/classc_obj_tracer.html#a1ab0a6d791c2febc89f7cbfa26943b94" title=" " alt="" coords="604,56,784,83"/>
+<area shape="rect" id="node7" href="$d7/d18/structc_obj_tracer_1_1t_params.html#a1a56778e3e47afda435d012d166dba3d" title=" " alt="" coords="623,107,765,149"/>
+<area shape="rect" id="node5" href="$d0/d69/classc_circular_buffer.html#aa1e086159e132b04fa812c21f2d7e4f6" title=" " alt="" coords="832,5,992,32"/>
+</map>

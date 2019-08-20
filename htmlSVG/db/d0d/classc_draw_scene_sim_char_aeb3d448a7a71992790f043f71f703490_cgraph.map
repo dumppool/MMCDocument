@@ -1,0 +1,16 @@
+<map id="cDrawSceneSimChar::ApplyUIForce" name="cDrawSceneSimChar::ApplyUIForce">
+<area shape="rect" id="node1" title=" " alt="" coords="5,100,159,141"/>
+<area shape="rect" id="node2" href="$db/d0d/classc_draw_scene_sim_char.html#ae04276569fbb00407a1341cf23c764ad" title=" " alt="" coords="231,5,385,47"/>
+<area shape="rect" id="node3" href="$db/d0d/classc_draw_scene_sim_char.html#a4662a000dfafbc5f3a0b23e5f23e62a4" title=" " alt="" coords="231,71,385,112"/>
+<area shape="rect" id="node4" href="$d9/d0b/classc_camera.html#a00a325087c3b7487b7d3a421f3e04c0b" title=" " alt="" coords="207,137,409,163"/>
+<area shape="rect" id="node8" href="$d9/d0b/classc_camera.html#a04d8aafd7a0d5938c7d453d93358f95e" title=" " alt="" coords="211,238,405,265"/>
+<area shape="rect" id="node5" href="$d9/d0b/classc_camera.html#a0aa751bcd1e56af7c9ce41fd9ee297e1" title=" " alt="" coords="493,61,631,87"/>
+<area shape="rect" id="node6" href="$d9/d0b/classc_camera.html#a901f991e36d755b31daae1a0f1c6f5a2" title=" " alt="" coords="477,162,647,189"/>
+<area shape="rect" id="node7" href="$d9/d0b/classc_camera.html#afb9647bf9c336ce8b545bfb5b7ed80ce" title=" " alt="" coords="717,125,863,151"/>
+<area shape="rect" id="node9" href="$d9/d0b/classc_camera.html#abb1c165a7d29540124f7f6a44237a2a7" title=" " alt="" coords="457,213,667,239"/>
+<area shape="rect" id="node12" href="$d9/d0b/classc_camera.html#a33d9028e3969342e0a61d68dc57c8e08" title=" " alt="" coords="481,263,643,290"/>
+<area shape="rect" id="node13" href="$d9/d0b/classc_camera.html#aa919c339ff1ddcba1d9e82196674f1a5" title=" " alt="" coords="492,314,632,341"/>
+<area shape="rect" id="node14" href="$d9/d0b/classc_camera.html#ae7dfa3e815f4ddd27b2cb32203b65f21" title=" " alt="" coords="493,365,631,391"/>
+<area shape="rect" id="node10" href="$d9/d0b/classc_camera.html#ae717c0a2129047f1fc0a8860237056ae" title=" " alt="" coords="715,201,865,227"/>
+<area shape="rect" id="node11" href="$d9/d0b/classc_camera.html#a4354ae3977ba3b516cec0b7be3a3400b" title=" " alt="" coords="731,251,849,278"/>
+</map>

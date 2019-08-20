@@ -1,0 +1,10 @@
+<map id="cDrawPerturb::DrawTorque" name="cDrawPerturb::DrawTorque">
+<area shape="rect" id="node1" title=" " alt="" coords="859,71,1035,98"/>
+<area shape="rect" id="node2" href="$d7/d18/classc_draw_perturb.html#afe630dd735e398ab4b2557fadffa37c7" title=" " alt="" coords="654,13,791,39"/>
+<area shape="rect" id="node6" href="$db/ddf/classc_draw_sim_character.html#a8d80e489711dc094d9f5dda0f6f5bcfc" title=" " alt="" coords="650,64,795,105"/>
+<area shape="rect" id="node8" href="$d7/d18/classc_draw_perturb.html#a8c6fecca255d6230e95146f998da4e6d" title=" " alt="" coords="635,130,811,157"/>
+<area shape="rect" id="node3" href="$da/d10/classc_draw_world.html#aa75868eb35c1eaac5fb60ff052820fe3" title=" " alt="" coords="408,13,587,39"/>
+<area shape="rect" id="node4" href="$db/d0d/classc_draw_scene_sim_char.html#a88d38ea67a57370bf76ef1e2bcb0fea3" title=" " alt="" coords="207,5,360,47"/>
+<area shape="rect" id="node5" href="$db/d0d/classc_draw_scene_sim_char.html#a65bd615257485a465f9c1830c13e60e9" title=" " alt="" coords="5,5,159,47"/>
+<area shape="rect" id="node7" href="$db/d0d/classc_draw_scene_sim_char.html#ade2b8139ed9ab688252c061e13cf5aba" title=" " alt="" coords="421,64,574,105"/>
+</map>

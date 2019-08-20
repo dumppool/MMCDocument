@@ -1,0 +1,4 @@
+<map id="Json::Features::all" name="Json::Features::all">
+<area shape="rect" id="node1" title="A configuration that allows all features and assumes all strings are UTF&#45;8." alt="" coords="5,5,135,32"/>
+<area shape="rect" id="node2" href="$d2/de2/class_json_1_1_features.html#ad15a091cb61bb31323299a95970d2644" title="Initialize the configuration like JsonConfig::allFeatures;." alt="" coords="183,5,349,32"/>
+</map>

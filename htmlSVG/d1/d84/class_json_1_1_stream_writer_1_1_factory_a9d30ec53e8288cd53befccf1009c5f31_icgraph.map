@@ -1,0 +1,4 @@
+<map id="Json::StreamWriter::Factory::newStreamWriter" name="Json::StreamWriter::Factory::newStreamWriter">
+<area shape="rect" id="node1" title="Allocate a CharReader via operator new()." alt="" coords="172,5,355,47"/>
+<area shape="rect" id="node2" href="$d4/db0/namespace_json.html#ad419a7638ec8df7ec96498c1e06aad17" title="Write into stringstream, then return string, for convenience. A StreamWriter will be created from the..." alt="" coords="5,13,124,39"/>
+</map>

@@ -1,0 +1,12 @@
+<map id="cSimRigidBody" name="cSimRigidBody">
+<area shape="rect" id="node1" title=" " alt="" coords="375,424,530,765"/>
+<area shape="rect" id="node4" href="$df/dbc/classc_ground.html" title=" " alt="" coords="5,813,164,1287"/>
+<area shape="rect" id="node6" href="$dc/d85/classc_sim_box.html" title=" " alt="" coords="188,982,291,1118"/>
+<area shape="rect" id="node7" href="$da/de1/classc_sim_capsule.html" title=" " alt="" coords="315,967,441,1133"/>
+<area shape="rect" id="node8" href="$d8/d76/classc_sim_cylinder.html" title=" " alt="" coords="465,967,592,1133"/>
+<area shape="rect" id="node9" href="$df/d64/classc_sim_plane.html" title=" " alt="" coords="616,975,729,1125"/>
+<area shape="rect" id="node10" href="$d7/d24/classc_sim_sphere.html" title=" " alt="" coords="753,975,875,1125"/>
+<area shape="rect" id="node2" href="$d5/dce/classc_sim_obj.html" title=" " alt="" coords="289,5,443,376"/>
+<area shape="rect" id="node3" title=" " alt="" coords="468,152,611,229"/>
+<area shape="rect" id="node5" href="$da/d07/classc_ground_plane.html" title=" " alt="" coords="11,1335,159,1573"/>
+</map>

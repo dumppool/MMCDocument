@@ -1,0 +1,10 @@
+<map id="cDrawScene::ResetCamera" name="cDrawScene::ResetCamera">
+<area shape="rect" id="node1" title=" " alt="" coords="616,109,799,136"/>
+<area shape="rect" id="node2" href="$d8/dd1/classc_draw_scene.html#af961ad5f820420edffd46780c007be68" title=" " alt="" coords="439,81,559,108"/>
+<area shape="rect" id="node7" href="$d8/dd1/classc_draw_scene.html#a3f7fb671ce597b83ddd6643ff976ac3e" title=" " alt="" coords="431,136,568,163"/>
+<area shape="rect" id="node3" href="$dd/d87/classc_draw_r_l_scene.html#a284313524cbc2b065178fce7eb34a2d1" title=" " alt="" coords="229,5,365,32"/>
+<area shape="rect" id="node4" href="$d2/dbc/classc_draw_scene_kin_char.html#ac48c6afcfd92d4166167f6b2778d08ca" title=" " alt="" coords="214,56,381,83"/>
+<area shape="rect" id="node5" href="$db/d0d/classc_draw_scene_sim_char.html#a4e6054c41d9444218aa837fc692d38d6" title=" " alt="" coords="212,107,383,133"/>
+<area shape="rect" id="node6" href="$db/d43/classc_draw_scene_imitate.html#a4883fd5c94ea98788c07ff76c13fcf8a" title=" " alt="" coords="5,107,164,133"/>
+<area shape="rect" id="node8" href="$d2/dbc/classc_draw_scene_kin_char.html#ad09d26c70674423cef4c26b67c3f908a" title=" " alt="" coords="223,158,372,199"/>
+</map>

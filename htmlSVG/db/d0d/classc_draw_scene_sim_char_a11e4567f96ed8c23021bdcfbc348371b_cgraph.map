@@ -1,0 +1,11 @@
+<map id="cDrawSceneSimChar::DrawBodyVel" name="cDrawSceneSimChar::DrawBodyVel">
+<area shape="rect" id="node1" title=" " alt="" coords="5,166,159,207"/>
+<area shape="rect" id="node2" href="$db/ddf/classc_draw_sim_character.html#abd0b6e5f04ec9a03f4a0559c14b34b60" title=" " alt="" coords="223,137,368,178"/>
+<area shape="rect" id="node9" href="$d8/dd1/classc_draw_scene.html#aaf338c70f467f81dfffd1313df9d437d" title=" " alt="" coords="207,203,384,229"/>
+<area shape="rect" id="node3" href="$de/d51/classc_draw_util.html#a3e0e6d5260b7fb9aa090d673bc2d1f0c" title=" " alt="" coords="467,5,606,32"/>
+<area shape="rect" id="node4" href="$d5/db4/classc_sim_character.html#aa57c20d16c43f380913c9d289cfe2a66" title=" " alt="" coords="441,56,632,83"/>
+<area shape="rect" id="node5" href="$d5/db4/classc_sim_character.html#aa89bcdac2f31c2cad0cfb8a697d80330" title=" " alt="" coords="439,107,634,149"/>
+<area shape="rect" id="node6" href="$d5/db4/classc_sim_character.html#af3b06c9e7a66f1f037d547455abee55f" title=" " alt="" coords="432,173,641,200"/>
+<area shape="rect" id="node7" href="$de/d51/classc_draw_util.html#a4b68878bee6cbfe53db7dc6bb9e16f70" title=" " alt="" coords="469,224,604,251"/>
+<area shape="rect" id="node8" href="$de/d51/classc_draw_util.html#ade38eab887ec0dfe4b8f407474cb79a5" title=" " alt="" coords="455,275,618,301"/>
+</map>

@@ -1,0 +1,12 @@
+<map id="cSceneSimChar::SpawnProjectile" name="cSceneSimChar::SpawnProjectile">
+<area shape="rect" id="node1" title=" " alt="" coords="5,157,223,184"/>
+<area shape="rect" id="node2" href="$d3/de6/classc_scene_sim_char.html#af30f0c03ef2e5b6ed7bddb5a65fae9bc" title=" " alt="" coords="291,5,457,32"/>
+<area shape="rect" id="node3" href="$d3/de6/classc_scene_sim_char.html#a2136e0afb9518886b1ac13ecec3582c7" title=" " alt="" coords="273,56,475,83"/>
+<area shape="rect" id="node4" href="$d3/de6/classc_scene_sim_char.html#a3eeb4526ae6be6a4577ca0da097e46b6" title=" " alt="" coords="271,107,477,133"/>
+<area shape="rect" id="node5" href="$dc/d42/classc_scene.html#aeb6f58cf497e87b8dfe1d86628573cae" title=" " alt="" coords="313,157,435,184"/>
+<area shape="rect" id="node7" href="$df/dbc/classc_rand.html#a8fba23b9c1b891f924441902c1befcda" title=" " alt="" coords="692,247,829,273"/>
+<area shape="rect" id="node8" href="$df/dbc/classc_rand.html#a09e05343a1c864cb406148706ed2d034" title=" " alt="" coords="319,259,429,285"/>
+<area shape="rect" id="node9" href="$df/dbc/classc_rand.html#a169e9759aab6c1d2f8da25f4561831bb" title=" " alt="" coords="313,309,435,336"/>
+<area shape="rect" id="node6" href="$d6/d5d/classc_timer.html#a0ff93d80edb5af6fc764590d73316895" title=" " alt="" coords="525,157,644,184"/>
+<area shape="rect" id="node10" href="$df/dbc/classc_rand.html#a6bce3a258b730bcf7f6968a5cb6d0413" title=" " alt="" coords="527,284,642,311"/>
+</map>

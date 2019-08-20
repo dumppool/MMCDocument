@@ -1,0 +1,5 @@
+<map id="Json::CharReader::Factory::newCharReader" name="Json::CharReader::Factory::newCharReader">
+<area shape="rect" id="node1" title="Allocate a CharReader via operator new()." alt="" coords="383,5,560,47"/>
+<area shape="rect" id="node2" href="$d4/db0/namespace_json.html#a38f903cfdb57a6c4e86a7dcc42f3712c" title=" " alt="" coords="173,13,335,39"/>
+<area shape="rect" id="node3" href="$d4/db0/namespace_json.html#a01f08004efa8a401e01ebd17be77dc71" title="Read from &#39;sin&#39; into &#39;root&#39;." alt="" coords="5,13,125,39"/>
+</map>

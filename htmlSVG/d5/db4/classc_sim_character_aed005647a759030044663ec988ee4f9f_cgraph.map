@@ -1,0 +1,9 @@
+<map id="cSimCharacter::GetAngularVelocity" name="cSimCharacter::GetAngularVelocity">
+<area shape="rect" id="node1" title=" " alt="" coords="5,64,187,105"/>
+<area shape="rect" id="node2" href="$d5/db4/classc_sim_character.html#a7c90e184c49b9b0fbde8b0d6c924ec00" title=" " alt="" coords="235,71,441,98"/>
+<area shape="rect" id="node3" href="$da/d4a/classc_sim_body_joint.html#ab6bae23fd72f73820505bc9ee3434915" title=" " alt="" coords="489,5,667,47"/>
+<area shape="rect" id="node5" href="$d5/db4/classc_sim_character.html#aa0a30cfb05967fad8b59dd9adfa6f23a" title=" " alt="" coords="496,71,660,98"/>
+<area shape="rect" id="node6" href="$d1/df3/classc_character.html#a07649022cce07611b977b355f14d489f" title=" " alt="" coords="501,122,655,149"/>
+<area shape="rect" id="node4" href="$da/d4a/classc_sim_body_joint.html#a564687afb4acbb768a334263b37720d8" title=" " alt="" coords="715,13,884,39"/>
+<area shape="rect" id="node7" href="$d9/d87/classc_kin_tree.html#a81b9799b03d32762ac820eb0886f369c" title=" " alt="" coords="735,122,864,149"/>
+</map>

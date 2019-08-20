@@ -1,0 +1,11 @@
+<map id="cSimRigidBody::DisableDeactivation" name="cSimRigidBody::DisableDeactivation">
+<area shape="rect" id="node1" title=" " alt="" coords="539,132,771,159"/>
+<area shape="rect" id="node2" href="$dd/d07/classc_sim_rigid_body.html#a95980d6c8ead34d67b80ddd7ab5afba7" title=" " alt="" coords="355,132,491,159"/>
+<area shape="rect" id="node3" href="$df/d64/classc_sim_plane.html#a616448ab647867771eb58d27f71e2b3b" title=" " alt="" coords="189,5,300,32"/>
+<area shape="rect" id="node4" href="$dc/d85/classc_sim_box.html#a824505151b290d12576c9140a00d3d53" title=" " alt="" coords="195,56,295,83"/>
+<area shape="rect" id="node5" href="$d7/d24/classc_sim_sphere.html#af1ee8aa2531669f310c9435beb059ebf" title=" " alt="" coords="185,107,304,133"/>
+<area shape="rect" id="node6" href="$da/de1/classc_sim_capsule.html#a99cb7e26dcfe965235268a430ea02364" title=" " alt="" coords="183,157,307,184"/>
+<area shape="rect" id="node7" href="$d8/d76/classc_sim_cylinder.html#a489bf44c8c1590e39fe5d3c26db2da7b" title=" " alt="" coords="183,208,307,235"/>
+<area shape="rect" id="node8" href="$df/dbc/classc_ground.html#a8d912effea80bcf1746603bae54ded73" title=" " alt="" coords="197,259,293,285"/>
+<area shape="rect" id="node9" href="$da/d07/classc_ground_plane.html#abe26ea6b370eab86f189c3283cef44c7" title=" " alt="" coords="5,259,135,285"/>
+</map>

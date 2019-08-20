@@ -1,0 +1,34 @@
+<map id="cMathUtil::AxisAngleToQuaternion" name="cMathUtil::AxisAngleToQuaternion">
+<area shape="rect" id="node1" title=" " alt="" coords="968,315,1189,341"/>
+<area shape="rect" id="node2" href="$d5/db9/classc_math_util.html#ac7187604e95551ee250aa04dbbc2f7a1" title=" " alt="" coords="718,5,906,32"/>
+<area shape="rect" id="node3" href="$d5/db4/classc_sim_character.html#a3f33c32a987ae9c37947110b36cdcfe2" title=" " alt="" coords="707,56,917,83"/>
+<area shape="rect" id="node4" href="$d9/d87/classc_kin_tree.html#a878f22a69df3acfb7d223e6a3a951ccf" title=" " alt="" coords="725,107,899,133"/>
+<area shape="rect" id="node6" href="$d1/df3/classc_character.html#a030290c45295034f337bfca2fd636486" title=" " alt="" coords="722,158,902,199"/>
+<area shape="rect" id="node7" href="$d5/d1b/classc_ct_p_d_controller.html#afd6f8447cd2ac0120c9da39250683cbc" title=" " alt="" coords="729,223,895,265"/>
+<area shape="rect" id="node10" href="$d5/db9/classc_math_util.html#af755047dfddaa55088cbf6bc2bf02327" title=" " alt="" coords="716,289,908,316"/>
+<area shape="rect" id="node18" href="$d9/d87/classc_kin_tree.html#a209a5b37651e2d0feac9fa2fc6898141" title=" " alt="" coords="704,340,920,367"/>
+<area shape="rect" id="node19" href="$d9/d0b/classc_camera.html#a3831c423e4d2d333d4acf33baf930e0b" title=" " alt="" coords="741,391,883,417"/>
+<area shape="rect" id="node20" href="$d5/db4/classc_sim_character.html#a1a3707aa881b23e81ef49b86e04c9c76" title=" " alt="" coords="707,441,917,468"/>
+<area shape="rect" id="node22" href="$d5/dce/classc_sim_obj.html#a479395bb5dfa1df365ac38d56867b044" title=" " alt="" coords="738,492,886,519"/>
+<area shape="rect" id="node28" href="$de/d60/classc_scene_imitate.html#a912ee6b57ba40551c4f0be71a636521c" title=" " alt="" coords="717,543,907,585"/>
+<area shape="rect" id="node31" href="$de/d60/classc_scene_imitate.html#a45b2cc3404822e0d50df1a19ab20f505" title=" " alt="" coords="704,609,920,636"/>
+<area shape="rect" id="node5" href="$d1/df3/classc_character.html#aaa4274f17e9e20c7282d12475172b5f6" title=" " alt="" coords="461,107,647,133"/>
+<area shape="rect" id="node8" href="$d5/d1b/classc_ct_p_d_controller.html#a73cf0273d980c0442d175a3bf3ec7991" title=" " alt="" coords="452,172,656,199"/>
+<area shape="rect" id="node9" href="$d5/d1b/classc_ct_p_d_controller.html#ac6a97924404e769f8564132615ecdf8a" title=" " alt="" coords="199,172,392,199"/>
+<area shape="rect" id="node11" href="$d5/db4/classc_sim_character.html#a6a66eac5718b437270cc835d42e56002" title=" " alt="" coords="453,223,655,249"/>
+<area shape="rect" id="node12" href="$d5/db4/classc_sim_character.html#a3cca4d62a0b31a5da8268cebdd7ddc23" title=" " alt="" coords="196,248,395,275"/>
+<area shape="rect" id="node14" href="$da/dce/classc_sim_joint.html#a775e66858435fad674c89ea45a56604f" title=" " alt="" coords="454,324,654,351"/>
+<area shape="rect" id="node16" href="$de/d60/classc_scene_imitate.html#a938a744ae229f5cde2f72734c938138d" title=" " alt="" coords="457,375,651,401"/>
+<area shape="rect" id="node13" href="$d5/db4/classc_sim_character.html#a268ec8e85dcc271e9bb20a8e0c44c124" title=" " alt="" coords="5,248,139,275"/>
+<area shape="rect" id="node15" href="$da/dce/classc_sim_joint.html#aaafe3e9b815e05962fe3180300232f8f" title=" " alt="" coords="222,324,369,351"/>
+<area shape="rect" id="node17" href="$de/d60/classc_scene_imitate.html#abab73726ca94787143d8974ae7b66d13" title=" " alt="" coords="190,375,401,401"/>
+<area shape="rect" id="node21" href="$d5/db4/classc_sim_character.html#aa7df1c97b10f864b3a4d4c0e8ef767de" title=" " alt="" coords="462,441,646,468"/>
+<area shape="rect" id="node23" href="$dd/d07/classc_sim_rigid_body.html#a7e9ab664f0958e50aa0d65020e2f7b17" title=" " alt="" coords="461,492,647,519"/>
+<area shape="rect" id="node24" href="$dc/d85/classc_sim_box.html#a824505151b290d12576c9140a00d3d53" title=" " alt="" coords="245,425,345,452"/>
+<area shape="rect" id="node25" href="$d7/d24/classc_sim_sphere.html#af1ee8aa2531669f310c9435beb059ebf" title=" " alt="" coords="236,476,355,503"/>
+<area shape="rect" id="node26" href="$d8/d76/classc_sim_cylinder.html#a489bf44c8c1590e39fe5d3c26db2da7b" title=" " alt="" coords="233,527,357,553"/>
+<area shape="rect" id="node27" href="$da/de1/classc_sim_capsule.html#a99cb7e26dcfe965235268a430ea02364" title=" " alt="" coords="233,577,357,604"/>
+<area shape="rect" id="node29" href="$de/d60/classc_scene_imitate.html#a46e91c3e17e31b4ddfc0509e369f8a02" title=" " alt="" coords="454,551,654,577"/>
+<area shape="rect" id="node30" href="$de/d60/classc_scene_imitate.html#aa8ba710f2cf9be960f22ec8f1dc5eb62" title=" " alt="" coords="187,628,404,655"/>
+<area shape="rect" id="node32" href="$de/d60/classc_scene_imitate.html#a829071cfc32a9c2b669328e2ae23d057" title=" " alt="" coords="461,602,647,643"/>
+</map>

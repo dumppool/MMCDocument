@@ -1,0 +1,14 @@
+<map id="cSimObj" name="cSimObj">
+<area shape="rect" id="node1" title=" " alt="" coords="189,5,344,376"/>
+<area shape="rect" id="node2" href="$d8/df2/classc_sim_body_link.html" title=" " alt="" coords="5,490,160,890"/>
+<area shape="rect" id="node3" href="$d5/db4/classc_sim_character.html" title=" " alt="" coords="185,424,349,956"/>
+<area shape="rect" id="node5" href="$dd/d07/classc_sim_rigid_body.html" title=" " alt="" coords="517,519,672,861"/>
+<area shape="rect" id="node4" href="$d4/dfc/classc_sim_char_general.html" title=" " alt="" coords="45,1195,197,1287"/>
+<area shape="rect" id="node6" href="$df/dbc/classc_ground.html" title=" " alt="" coords="222,1004,381,1477"/>
+<area shape="rect" id="node8" href="$dc/d85/classc_sim_box.html" title=" " alt="" coords="405,1173,507,1309"/>
+<area shape="rect" id="node9" href="$da/de1/classc_sim_capsule.html" title=" " alt="" coords="531,1158,658,1323"/>
+<area shape="rect" id="node10" href="$d8/d76/classc_sim_cylinder.html" title=" " alt="" coords="682,1158,809,1323"/>
+<area shape="rect" id="node11" href="$df/d64/classc_sim_plane.html" title=" " alt="" coords="833,1165,946,1316"/>
+<area shape="rect" id="node12" href="$d7/d24/classc_sim_sphere.html" title=" " alt="" coords="970,1165,1091,1316"/>
+<area shape="rect" id="node7" href="$da/d07/classc_ground_plane.html" title=" " alt="" coords="227,1525,375,1764"/>
+</map>
