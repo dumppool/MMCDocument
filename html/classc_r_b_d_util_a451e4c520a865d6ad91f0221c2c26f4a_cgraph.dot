@@ -1,0 +1,44 @@
+digraph "cRBDUtil::BuildJointSubspace"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="cRBDUtil::BuildJointSubspace",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cRBDUtil::BuildJointSubspace\lFixed",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#a9821d64f6ff68fcb5b683cf2687cf84d",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cKinTree::GetJointParamSize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#a9c308e9e4654d96bcc47ba02770a06ea",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cRBDUtil::BuildJointSubspace\lPlanar",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#acf9f9aaf46ba0909f2ae2979347c0046",tooltip=" "];
+  Node4 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cRBDUtil::BuildJointSubspace\lPrismatic",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#ad5a5d6b2136d429f0af9a122bf22e5f8",tooltip=" "];
+  Node5 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cRBDUtil::BuildJointSubspace\lRevolute",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#ad62181e5292642cfb7fbcc8dde0f7f85",tooltip=" "];
+  Node6 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="cRBDUtil::BuildJointSubspaceRoot",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#a0bab0b817dc20d18efc7261fdbffadee",tooltip=" "];
+  Node7 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="cKinTree::GetRootRot",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#a2a021db5d70df4fc749693908b4673ae",tooltip=" "];
+  Node8 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="cKinTree::GetParamOffset",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#aba4aced4cc6c401006617e288e84e723",tooltip=" "];
+  Node8 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="cKinTree::GetRoot",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#a81b9799b03d32762ac820eb0886f369c",tooltip=" "];
+  Node8 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="cMathUtil::VecToQuat",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_math_util.html#a4b295f1a5fa0c95e87b942e62b2248bb",tooltip=" "];
+  Node7 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="cMathUtil::RotateMat",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_math_util.html#a551bc548582ac0db39df5a58feca1f0a",tooltip=" "];
+  Node1 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="cRBDUtil::BuildJointSubspace\lSpherical",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#ae562cf04fecc8072c40f9af4e5465208",tooltip=" "];
+  Node13 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="cKinTree::GetJointType",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#a891d52af51a7a1bced694634c2f70ee9",tooltip=" "];
+  Node1 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="cKinTree::IsRoot",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#ab4c2a8b42b254dc54e15e71684045a0a",tooltip=" "];
+  Node15 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="cKinTree::HasParent",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#a434aca959d5ef55a491381c7b8d90527",tooltip=" "];
+  Node16 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="cKinTree::GetParent",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#a593b283c1ce6a9fa8eb75cb9dc7396f6",tooltip=" "];
+}

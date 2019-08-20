@@ -1,0 +1,26 @@
+digraph "cRBDUtil::BuildMomentInertia"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="cRBDUtil::BuildMomentInertia",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cRBDUtil::BuildMomentInertiaBox",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#a9b69d4a5aee99bcd18f7539b6914936c",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cKinTree::GetBodyMass",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#aafa34863e8f83e270ec84d1e8dd4028a",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cRBDUtil::BuildMomentInertia\lCapsule",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#a78acee0bc12b2d71b932eeda643edc48",tooltip=" "];
+  Node4 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cRBDUtil::BuildMomentInertia\lCylinder",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#a0e0c014bb03aaf308ea66cc3c7066e91",tooltip=" "];
+  Node5 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cRBDUtil::BuildMomentInertia\lSphere",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#aaf138bd14c56a3bc5f449bd31241e950",tooltip=" "];
+  Node6 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="cKinTree::GetBodyShape",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#ad32603140e468d78346a7306a82e1238",tooltip=" "];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="cKinTree::IsValidBody",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#a7cb2fe48a53a160808118b5df8ab50fd",tooltip=" "];
+  Node8 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

@@ -1,0 +1,35 @@
+digraph "cTrajectory::Compress"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="cTrajectory::Compress",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cTrajectory::Eval",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_trajectory.html#a3bd5c695936356c9ed0f7e896a561b28",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cTrajectory::GetAnchor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_trajectory.html#ab26678db88dc5fb46f74211c63b592e9",tooltip=" "];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cTrajectory::GetNumAnchors",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_trajectory.html#aee74570cadda9442d7b84eda447e9370",tooltip=" "];
+  Node2 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cTrajectory::PhaseToAnchor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_trajectory.html#a21d0275494b67493b0c6480fab4e2ae2",tooltip=" "];
+  Node5 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cTrajectory::NormalizePhase",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_trajectory.html#a56ad91934311f3ca1c7a8f7a0cfc4b4f",tooltip=" "];
+  Node6 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="cMathUtil::Clamp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_math_util.html#ac7702e2a05013616d11f03619d9b4f1e",tooltip=" "];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="cTrajectory::Filter",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_trajectory.html#a290c3abf914b5e3f74d3101e36f8e658",tooltip=" "];
+  Node8 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="cTrajectory::AnchorToPhase",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_trajectory.html#a2e623d81c7ad372333e0bcaa00acb5c4",tooltip=" "];
+  Node9 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="cTrajectory::GetDim",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_trajectory.html#a048e7a2aabace43ec488685a5150cb5a",tooltip=" "];
+  Node8 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="cTrajectory::GetPhaseStep",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_trajectory.html#a62b3b0a902915287c7093b01121f07d9",tooltip=" "];
+  Node11 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

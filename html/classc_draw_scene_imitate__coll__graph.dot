@@ -1,0 +1,35 @@
+digraph "cDrawSceneImitate"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="cDrawSceneImitate",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cDrawRLScene",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_r_l_scene.html",tooltip=" "];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cRLScene",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_l_scene.html",tooltip=" "];
+  Node4 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cScene",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_scene.html",tooltip=" "];
+  Node5 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" mTimer" ,fontname="Helvetica"];
+  Node5 [label="cTimer",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_timer.html",tooltip=" "];
+  Node6 -> Node5 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" mParams" ,fontname="Helvetica"];
+  Node6 [label="cTimer::tParams",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structc_timer_1_1t_params.html",tooltip=" "];
+  Node7 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" mRand" ,fontname="Helvetica"];
+  Node7 [label="cRand",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_rand.html",tooltip=" "];
+  Node6 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" mTimerParams" ,fontname="Helvetica"];
+  Node8 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="cDrawScene",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_scene.html",tooltip=" "];
+  Node4 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 -> Node8 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" mShadowCam\nmCamera" ,fontname="Helvetica"];
+  Node9 [label="cCamera",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html",tooltip=" "];
+  Node10 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="cDrawSceneSimChar",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_scene_sim_char.html",tooltip=" "];
+  Node8 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 -> Node10 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" mTracer" ,fontname="Helvetica"];
+  Node11 [label="cObjTracer",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_obj_tracer.html",tooltip=" "];
+  Node5 -> Node11 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" mTimer" ,fontname="Helvetica"];
+  Node12 -> Node10 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" mSelectedObj" ,fontname="Helvetica"];
+  Node12 [label="cSimObj",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_obj.html",tooltip=" "];
+  Node13 -> Node12 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" mContactHandle" ,fontname="Helvetica"];
+  Node13 [label="cContactManager::tContact\lHandle",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structc_contact_manager_1_1t_contact_handle.html",tooltip=" "];
+}

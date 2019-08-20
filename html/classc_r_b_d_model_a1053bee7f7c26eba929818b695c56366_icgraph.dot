@@ -1,0 +1,29 @@
+digraph "cRBDModel::GetParentChildMat"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="cRBDModel::GetParentChildMat",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cRBDModel::GetSpParentChild\lTrans",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_model.html#a799d6242a5e3cd00086561bf1c87bfff",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cRBDUtil::BuildEndEffector\lJacobian",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#a8395d038e6a1e16923a2382058dc449c",tooltip=" "];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cRBDUtil::CalcWorldVel",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#adf0940116e43ef86264608f43869558a",tooltip=" "];
+  Node2 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cRBDUtil::CalcWorldJoint\lTransforms",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#a1f51dd597a77edc68d35e7a5a01cd029",tooltip=" "];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cRBDModel::UpdateSpWorld\lTrans",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_model.html#aff4e5d2e14530efc529b371b7d765293",tooltip=" "];
+  Node6 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="cRBDModel::Update",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_model.html#af4791a1c8722f4d66c8c54aee0cf0b78",tooltip=" "];
+  Node2 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="cRBDUtil::SolveInvDyna",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#ae2dc89644721027f09ba58f9c38b0b5c",tooltip=" "];
+  Node8 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="cRBDUtil::BuildBiasForce",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#a5ea3c5b2030a24e2228d161f8d5edc5d",tooltip=" "];
+  Node9 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="cRBDUtil::SolveForDyna",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#a9d60722264a4925e572c6883e5fd7ccd",tooltip=" "];
+  Node9 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="cRBDModel::UpdateBiasForce",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_model.html#a468edbed5890205333955e0a582c0b7f",tooltip=" "];
+  Node11 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

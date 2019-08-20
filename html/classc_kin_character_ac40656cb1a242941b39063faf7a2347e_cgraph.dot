@@ -1,0 +1,20 @@
+digraph "cKinCharacter::CalcCycleRootDelta"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="cKinCharacter::CalcCycle\lRootDelta",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cMotion::GetFrame",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_motion.html#a9e15724e2358c019487360c2989a335e",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cMotion::GetFrameSize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_motion.html#ae70cd8ffa5ec5ef8f08f70d2ed7147e8",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cMotion::GetNumFrames",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_motion.html#a345ad7c6fab23c99b0d121763b0a8c10",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cKinTree::GetRootPos",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#af64ed1799d144a87342b473fdc46ec73",tooltip=" "];
+  Node5 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cKinTree::GetParamOffset",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#aba4aced4cc6c401006617e288e84e723",tooltip=" "];
+  Node5 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="cKinTree::GetRoot",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#a81b9799b03d32762ac820eb0886f369c",tooltip=" "];
+}

@@ -1,0 +1,20 @@
+digraph "cSimBodyJoint::BuildWorldTrans"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="cSimBodyJoint::BuildWorld\lTrans",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cSimBodyJoint::BuildJoint\lChildTrans",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_body_joint.html#a6f59339830fb1d763a78736818c23ac3",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cMathUtil::RotateMat",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_math_util.html#a551bc548582ac0db39df5a58feca1f0a",tooltip=" "];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cMathUtil::TranslateMat",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_math_util.html#a5550ed48f8beaccbf6827db839ccf542",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cSimBodyJoint::BuildJoint\lParentTrans",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_body_joint.html#a996f4f4502700fa03bdc896abdee1fe4",tooltip=" "];
+  Node5 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cSimBodyJoint::HasChild",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_body_joint.html#a564687afb4acbb768a334263b37720d8",tooltip=" "];
+}

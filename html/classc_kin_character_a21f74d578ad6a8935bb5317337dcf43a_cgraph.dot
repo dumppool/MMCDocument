@@ -1,0 +1,20 @@
+digraph "cKinCharacter::SetOriginPos"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="cKinCharacter::SetOriginPos",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cKinCharacter::MoveOrigin",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_character.html#af914cf8bee0205b4975de2f48749d78d",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cKinTree::GetRootPos",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#af64ed1799d144a87342b473fdc46ec73",tooltip=" "];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cKinTree::GetParamOffset",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#aba4aced4cc6c401006617e288e84e723",tooltip=" "];
+  Node3 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cKinTree::GetRoot",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#a81b9799b03d32762ac820eb0886f369c",tooltip=" "];
+  Node2 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cKinTree::SetRootPos",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#a70cfb4919e00b3e5707425a461fc7f51",tooltip=" "];
+  Node6 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

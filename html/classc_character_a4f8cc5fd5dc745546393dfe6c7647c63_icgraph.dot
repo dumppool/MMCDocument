@@ -1,0 +1,16 @@
+digraph "cCharacter::SetRootRotation"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="cCharacter::SetRootRotation",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cCharacter::RotateRoot",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_character.html#aba7537f31df06594bb4d5649b5aa8345",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cSceneImitate::SyncKinChar\lNewCycle",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_scene_imitate.html#a912ee6b57ba40551c4f0be71a636521c",tooltip=" "];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cSceneImitate::UpdateKinChar",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_scene_imitate.html#a46e91c3e17e31b4ddfc0509e369f8a02",tooltip=" "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cSceneImitate::UpdateCharacters",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_scene_imitate.html#aa8ba710f2cf9be960f22ec8f1dc5eb62",tooltip=" "];
+}

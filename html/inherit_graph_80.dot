@@ -1,0 +1,37 @@
+digraph "Graphical Class Hierarchy"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node192 [label="btDefaultMotionState",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node192 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="cSimBodyLink",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_body_link.html",tooltip=" "];
+  Node192 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cSimRigidBody",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_rigid_body.html",tooltip=" "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cGround",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_ground.html",tooltip=" "];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cGroundPlane",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_ground_plane.html",tooltip=" "];
+  Node4 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="cSimBox",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_box.html",tooltip=" "];
+  Node4 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="cSimCapsule",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_capsule.html",tooltip=" "];
+  Node4 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="cSimCylinder",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_cylinder.html",tooltip=" "];
+  Node4 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="cSimPlane",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_plane.html",tooltip=" "];
+  Node4 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="cSimSphere",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_sphere.html",tooltip=" "];
+  Node183 [label="cCharacter",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_character.html",tooltip=" "];
+  Node183 -> Node184 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node184 [label="cKinCharacter",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_character.html",tooltip=" "];
+  Node183 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cSimCharacter",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_character.html",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cSimCharGeneral",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_char_general.html",tooltip=" "];
+  Node0 [label="cSimObj",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_obj.html",tooltip=" "];
+  Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node0 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node0 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

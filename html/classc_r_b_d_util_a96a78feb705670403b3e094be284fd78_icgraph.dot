@@ -1,0 +1,36 @@
+digraph "cRBDUtil::CalcWorldVel"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="cRBDUtil::CalcWorldVel",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cRBDUtil::CalcCoM",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#ac7d1edbf35b9b6ce29fc5f176a5d8e06",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cRBDUtil::CalcCoMPos",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#ad19cd3d5aa444f88000feaeb09ea9901",tooltip=" "];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cRBDUtil::BuildCOMVelProd\lAccAux",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#a76d4ee53a0b21ca24862713526f33578",tooltip=" "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cRBDUtil::BuildCOMVelProdAcc",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#a0f6b33195d055e1181e2257fda695af3",tooltip=" "];
+  Node2 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cRBDUtil::CalcCoMVel",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#a385bf56c61b5e0835b4c5e217ef28e4d",tooltip=" "];
+  Node2 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="cSceneImitate::CalcReward\lImitate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_scene_imitate.html#a5fa3ac5de8bbde3998e4943fcf8ab18b",tooltip=" "];
+  Node7 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="cSceneImitate::CalcReward",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_scene_imitate.html#aed775e0aa0df893f1df6b35cda0cbeab",tooltip=" "];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="cRBDUtil::CalcJointWorldVel",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#ad54a235392de2edaa9b13bca2ee40151",tooltip=" "];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="cKinTree::CalcWorldAngularVel",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#a0d57bcd16ba4bc6345e2b248a4a8d414",tooltip=" "];
+  Node10 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="cKinTree::CalcJointWorld\lAngularVel",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#a55a56e20423c0d2db3d0ec1210b6c659",tooltip=" "];
+  Node1 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="cKinTree::CalcWorldVel",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#adbbd8249ec14c0af4bd08660f953d0a6",tooltip=" "];
+  Node12 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="cKinTree::CalcBodyPartVel",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#a44dbaf206ff4e66fbd37cff19ee7ff76",tooltip=" "];
+  Node12 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="cKinTree::CalcJointWorldVel",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#ab000cac40a223177c1547de695185557",tooltip=" "];
+  Node14 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="cCharacter::CalcJointVel",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_character.html#a4cf1475cdd68b2d22817c0e493a99997",tooltip=" "];
+}

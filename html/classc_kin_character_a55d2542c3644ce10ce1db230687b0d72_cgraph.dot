@@ -1,0 +1,41 @@
+digraph "cKinCharacter::Reset"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="cKinCharacter::Reset",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cCharacter::Reset",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_character.html#a7007f17845dac0575ae98fd60dd0ff36",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cCharacter::GetPose0",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_character.html#ac990918decbb1df5269eb0f6e0846b79",tooltip=" "];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cCharacter::GetVel0",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_character.html#a26c32aa63f6e496ada6787d93a8ae4d4",tooltip=" "];
+  Node2 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cCharacter::ResetParams",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_character.html#a293e1d0091db9b1ff7f526a66a3a53b6",tooltip=" "];
+  Node2 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cCharacter::SetPose",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_character.html#a9bf4292e356a20cad67949e961244cab",tooltip=" "];
+  Node6 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="cCharacter::GetNumDof",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_character.html#a599bb487669886ea5a6e827186713372",tooltip=" "];
+  Node7 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="cKinTree::GetNumDof",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#abb4cab7f985f62308d4b36fdcd5c6145",tooltip=" "];
+  Node8 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="cKinTree::GetNumJoints",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#ac840b501e27e6ce46d208b7d033f21d4",tooltip=" "];
+  Node8 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="cKinTree::GetParamOffset",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#aba4aced4cc6c401006617e288e84e723",tooltip=" "];
+  Node8 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="cKinTree::GetParamSize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#ad5d21e19a354b6e8f5406e9167f12161",tooltip=" "];
+  Node11 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="cKinTree::GetJointParamSize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#a9c308e9e4654d96bcc47ba02770a06ea",tooltip=" "];
+  Node11 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="cKinTree::GetJointType",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#a891d52af51a7a1bced694634c2f70ee9",tooltip=" "];
+  Node11 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="cKinTree::IsRoot",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#ab4c2a8b42b254dc54e15e71684045a0a",tooltip=" "];
+  Node14 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="cKinTree::HasParent",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#a434aca959d5ef55a491381c7b8d90527",tooltip=" "];
+  Node15 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="cKinTree::GetParent",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#a593b283c1ce6a9fa8eb75cb9dc7396f6",tooltip=" "];
+  Node2 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="cCharacter::SetVel",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_character.html#ade58ddd1eaf1dae9f230a595e5a5cccc",tooltip=" "];
+  Node17 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

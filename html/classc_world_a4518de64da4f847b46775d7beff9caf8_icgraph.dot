@@ -1,0 +1,12 @@
+digraph "cWorld::GetInternalWorld"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="cWorld::GetInternalWorld",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cContactManager::Update",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_contact_manager.html#af30a8dd04d32858fe5f4a705a37cc703",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cWorld::Update",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_world.html#a789620db800a82950b828adb911d9e25",tooltip=" "];
+}

@@ -1,0 +1,58 @@
+digraph "Json::Value::setOffsetStart"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="Json::Value::setOffsetStart",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Json::Reader::decodeDouble",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_reader.html#a2420bbb7fd6d5d3e7e2fea894dd8f70f",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Json::Reader::decodeNumber",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_reader.html#a72f426ce3fa384d14aa10e9dd75618f0",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Json::OurReader::decodeDouble",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_our_reader.html#a1d1c3b44f6720a0e7c39b5ae8de3981c",tooltip=" "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="Json::OurReader::decodeNumber",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_our_reader.html#a712270d53a2f023c2f406ac813548340",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="Json::Reader::decodeNumber",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_reader.html#a442d1f23edf0f4350f5eeab3ee3f7d46",tooltip=" "];
+  Node6 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="Json::Reader::readObject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_reader.html#a0068eb3d8e86e91f0e4806f60da66b9c",tooltip=" "];
+  Node7 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="Json::Reader::readValue",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_reader.html#a47e56844b803d41ec993a83fadf4495c",tooltip=" "];
+  Node8 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="Json::Reader::parse",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_reader.html#ac71ef2b64c7c27b062052e692af3fb32",tooltip="Read a Value from a JSON document."];
+  Node8 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="Json::Reader::readArray",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_reader.html#afd9a30c0af205c9f327613f486fae6b8",tooltip=" "];
+  Node10 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="Json::OurReader::decodeNumber",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_our_reader.html#a272d271290933a89abfd5096dd69c9e9",tooltip=" "];
+  Node11 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="Json::OurReader::readObject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_our_reader.html#aea198f8101dba55099f4d8121a993530",tooltip=" "];
+  Node12 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="Json::OurReader::readValue",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_our_reader.html#a1765d9670d191c89a57a22ea5591d35f",tooltip=" "];
+  Node13 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="Json::OurReader::parse",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_our_reader.html#aba4f8749aab7f02ec17f107e392caf80",tooltip=" "];
+  Node14 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="Json::OurCharReader\l::parse",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_our_char_reader.html#a547f08ec5a9951ca69e8bb2e90296c83",tooltip="Read a Value from a JSON document. The document must be a UTF-8 encoded string containing the documen..."];
+  Node13 -> Node16 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="Json::OurReader::readArray",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_our_reader.html#a0b9f58faf4212c6ecb5d8e2a1ac10257",tooltip=" "];
+  Node16 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node17 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="Json::Reader::decodeString",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_reader.html#aaf736937912f5c9b8d221e57f209e3e0",tooltip=" "];
+  Node17 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node18 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="Json::OurReader::decodeString",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_our_reader.html#a34e31d8b8399b7ad493359702b6de6c9",tooltip=" "];
+  Node18 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node16 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

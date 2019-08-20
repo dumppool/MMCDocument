@@ -1,0 +1,14 @@
+digraph "cCharController::GetGoalSize"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="cCharController::GetGoalSize",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cCharController::BuildGoal\lNormGroups",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_char_controller.html#ac524fa7b40af85d8ea3106de1a00f036",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cCharController::BuildGoal\lOffsetScale",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_char_controller.html#a01888030c75dca9973c329e9f9f919f8",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cDeepMimicCharController\l::RecordGoal",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_deep_mimic_char_controller.html#a02ff7271a974b045da76ebddb4218537",tooltip=" "];
+}

@@ -1,0 +1,18 @@
+digraph "lodepng_chunk_type"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="lodepng_chunk_type",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="lodepng::getChunkInfo",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacelodepng.html#a14498932485f302467a7e49e601765d8",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="lodepng::getChunks",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacelodepng.html#ac1da042b67f822929bcb14b18c9c8ca5",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="lodepng::getFilterTypesInterlaced",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacelodepng.html#a3f6f8b357f321bb188dec62efd6e3f96",tooltip=" "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="lodepng::getFilterTypes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacelodepng.html#a76d7157fc99bb08c199d75d6c28e1a4d",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="lodepng::insertChunks",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacelodepng.html#aec38a6056b9c39b9cb7d9ab9e58a06b6",tooltip=" "];
+}

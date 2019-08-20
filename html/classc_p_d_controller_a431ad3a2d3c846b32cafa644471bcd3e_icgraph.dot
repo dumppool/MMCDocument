@@ -1,0 +1,32 @@
+digraph "cPDController::GetKp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="cPDController::GetKp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cPDController::CalcJoint\lTauPrismatic",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_p_d_controller.html#ab772d609979765d7f638829d24c9c25f",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cPDController::CalcJointTau",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_p_d_controller.html#a61098c094ba822326b5b3e1f8815b45d",tooltip=" "];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cPDController::UpdateControl\lForce",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_p_d_controller.html#a55bc39133f19f258f9765c6619838f92",tooltip=" "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cExpPDController::CalcControl\lForces",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_exp_p_d_controller.html#ab89c0bc19d88877c69b48c32a2afe9e2",tooltip=" "];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cExpPDController::Update\lControlForce",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_exp_p_d_controller.html#a6b4a1188fd67fed8f631f6ce415c4736",tooltip=" "];
+  Node6 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="cExpPDController::Update",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_exp_p_d_controller.html#a82436261295d0a3082a276bfbc2e7ff8",tooltip=" "];
+  Node4 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="cPDController::Update",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_p_d_controller.html#a21691ce60be812e16d73e13a909b5698",tooltip=" "];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="cPDController::CalcJoint\lTauRevolute",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_p_d_controller.html#a319ce63bb811cb82b571138a090d2bf5",tooltip=" "];
+  Node9 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="cPDController::CalcJoint\lTauSpherical",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_p_d_controller.html#a6db5c1ae59f16bf20dd98c2d86772d38",tooltip=" "];
+  Node10 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="cImpPDController::InitGains",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_imp_p_d_controller.html#aaa207c8eb8722eff0802365fd07f0557",tooltip=" "];
+  Node11 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="cImpPDController::Init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_imp_p_d_controller.html#a3088ee721f685b485cc6084907c292a5",tooltip=" "];
+}

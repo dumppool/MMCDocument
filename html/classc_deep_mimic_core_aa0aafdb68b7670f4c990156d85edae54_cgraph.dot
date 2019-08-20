@@ -1,0 +1,14 @@
+digraph "cDeepMimicCore::MouseClick"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="cDeepMimicCore::MouseClick",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cDeepMimicCore::CalcDevice\lCoord",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_deep_mimic_core.html#abc20315c20d02b5a9788cd2af1620baa",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cDeepMimicCore::GetWinHeight",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_deep_mimic_core.html#a0dcf66d89b0cd8c44df63bdc7664223b",tooltip=" "];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cDeepMimicCore::GetWinWidth",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_deep_mimic_core.html#a5654e21f732b12a9c9d4e99b189282f3",tooltip=" "];
+}

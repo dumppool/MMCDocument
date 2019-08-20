@@ -1,0 +1,23 @@
+digraph "cSceneImitate::ResolveCharGroundIntersect"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="cSceneImitate::ResolveChar\lGroundIntersect",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cSceneImitate::EnableSyncChar",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_scene_imitate.html#a25960e4fd9abf2b1755472f2f95e2131",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cSceneImitate::GetKinChar",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_scene_imitate.html#a712921943778a0f7631ac723f42f3fc1",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cSceneSimChar::ResolveChar\lGroundIntersect",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_scene_sim_char.html#acc56c2d6b60b69a5c1976e45a92940df",tooltip=" "];
+  Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cSceneSimChar::GetNumChars",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_scene_sim_char.html#a3eeb4526ae6be6a4577ca0da097e46b6",tooltip=" "];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cSceneImitate::SyncKinCharRoot",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_scene_imitate.html#a45b2cc3404822e0d50df1a19ab20f505",tooltip=" "];
+  Node6 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="cMathUtil::AxisAngleToQuaternion",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_math_util.html#a2676ee59b4e895344c077468da3b6c8f",tooltip=" "];
+  Node6 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="cSceneSimChar::GetCharacter",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_scene_sim_char.html#a2136e0afb9518886b1ac13ecec3582c7",tooltip=" "];
+  Node6 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

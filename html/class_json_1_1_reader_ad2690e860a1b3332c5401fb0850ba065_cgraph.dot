@@ -1,0 +1,24 @@
+digraph "Json::Reader::readComment"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Json::Reader::readComment",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Json::Reader::addComment",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_reader.html#aaea3bd62d12ffb6117a61476c0685049",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Json::normalizeEOL",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespace_json.html#a63123f3dd63f340ac517a59f44ea7aa4",tooltip=" "];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Json::Value::setComment",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_value.html#a29f3a30f7e5d3af6f38d57999bf5b480",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="Json::containsNewLine",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespace_json.html#a4d6ab0f651348832e5cc49b577a854d2",tooltip=" "];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="Json::Reader::getNextChar",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_reader.html#ab61eb61333cc9ec3afe785663a53ce90",tooltip=" "];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="Json::Reader::readCppStyle\lComment",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_reader.html#a6716ef6290b0f469efaf8d379c357967",tooltip=" "];
+  Node7 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="Json::Reader::readCStyle\lComment",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_reader.html#ae0ffe796abdc3c5851589ee500e28c79",tooltip=" "];
+  Node8 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

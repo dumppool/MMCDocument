@@ -1,0 +1,24 @@
+digraph "cDrawScene::MouseClick"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="cDrawScene::MouseClick",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cScene::MouseClick",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_scene.html#a263dfedc7b037aba0f28e52af832b1b6",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cCamera::MouseClick",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#a3ec4feb37d7c68048a486f840676eca9",tooltip=" "];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cCamera::Zoom",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#af1eb316337d2779ce7d6e01e4ce271bb",tooltip=" "];
+  Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cCamera::GetFocus",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#a0aa751bcd1e56af7c9ce41fd9ee297e1",tooltip=" "];
+  Node4 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cCamera::GetHeight",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#aa919c339ff1ddcba1d9e82196674f1a5",tooltip=" "];
+  Node4 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="cCamera::GetWidth",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#ae7dfa3e815f4ddd27b2cb32203b65f21",tooltip=" "];
+  Node4 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="cCamera::Resize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#aec91e161b17330054d26b38f0df6df3a",tooltip=" "];
+  Node4 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="cCamera::SetFocus",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#a70ed4ddecaa3607931904f5ace1cf5a4",tooltip=" "];
+}

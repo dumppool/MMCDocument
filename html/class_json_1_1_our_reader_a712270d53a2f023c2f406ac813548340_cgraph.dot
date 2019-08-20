@@ -1,0 +1,24 @@
+digraph "Json::OurReader::decodeNumber"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Json::OurReader::decodeNumber",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Json::OurReader::decodeDouble",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_our_reader.html#a1d1c3b44f6720a0e7c39b5ae8de3981c",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Json::OurReader::current\lValue",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_our_reader.html#a2acd5b1d53e7d7e17c21ff8e96edc09d",tooltip=" "];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Json::Value::setOffsetLimit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_value.html#a5e4f5853fec138150c5df6004a8c2bcf",tooltip=" "];
+  Node2 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="Json::Value::setOffsetStart",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_value.html#a92e32ea0f4f8a15853a3cf0beac9feb9",tooltip=" "];
+  Node2 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="Json::Value::swapPayload",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_value.html#a5263476047f20e2fc6de470e4de34fe5",tooltip="Swap values but leave comments and source offsets in place."];
+  Node6 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="std::swap",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacestd.html#a22cc6fcbbb1f2f705c7888b615e43582",tooltip="Specialize std::swap() for Json::Value."];
+  Node7 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="Json::Value::swap",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_value.html#aab841120d78e296e1bc06a373345e822",tooltip="Swap everything."];
+  Node8 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

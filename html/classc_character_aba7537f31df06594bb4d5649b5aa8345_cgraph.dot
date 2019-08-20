@@ -1,0 +1,26 @@
+digraph "cCharacter::RotateRoot"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="cCharacter::RotateRoot",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cCharacter::GetRootRotation",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_character.html#a72c522b920eab7dbd9f92869faa61ba2",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cKinTree::GetRootRot",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#a2a021db5d70df4fc749693908b4673ae",tooltip=" "];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cKinTree::GetParamOffset",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#aba4aced4cc6c401006617e288e84e723",tooltip=" "];
+  Node3 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cKinTree::GetRoot",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#a81b9799b03d32762ac820eb0886f369c",tooltip=" "];
+  Node3 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cMathUtil::VecToQuat",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_math_util.html#a4b295f1a5fa0c95e87b942e62b2248bb",tooltip=" "];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="cCharacter::SetRootRotation",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_character.html#a4f8cc5fd5dc745546393dfe6c7647c63",tooltip=" "];
+  Node7 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="cKinTree::SetRootRot",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#a0635457bb31f60e04015b6135bb116d2",tooltip=" "];
+  Node8 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="cMathUtil::QuatToVec",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_math_util.html#a703bd693dac0d20b433690577d9a8dcc",tooltip=" "];
+}

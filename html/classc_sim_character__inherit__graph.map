@@ -1,0 +1,6 @@
+<map id="cSimCharacter" name="cSimCharacter">
+<area shape="rect" id="node1" title=" " alt="" coords="45,80,153,107"/>
+<area shape="rect" id="node4" href="$classc_sim_char_general.html" title=" " alt="" coords="37,155,161,181"/>
+<area shape="rect" id="node2" href="$classc_character.html" title=" " alt="" coords="5,5,91,32"/>
+<area shape="rect" id="node3" href="$classc_sim_obj.html" title=" " alt="" coords="115,5,187,32"/>
+</map>

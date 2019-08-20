@@ -1,0 +1,12 @@
+digraph "cKinCharacter::MirrorFrame"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="cKinCharacter::MirrorFrame",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cKinCharacter::LoadMotion",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_character.html#aadfb26f290511a722fa701f7cf134845",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cKinCharacter::Init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_character.html#a8aae2e1ec2b7b0fcdfc9b6ee2b4df4b7",tooltip=" "];
+}

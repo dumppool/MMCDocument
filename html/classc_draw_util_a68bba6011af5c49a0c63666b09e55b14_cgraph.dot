@@ -1,0 +1,20 @@
+digraph "cDrawUtil::BuildShaders"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="cDrawUtil::BuildShaders",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cShader::BuildShader",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_shader.html#af73ee0e7e8277abd45f5e3646b0c21c1",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cShader::Clear",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_shader.html#adeb047d7f5b8c506e8740f6ae7742162",tooltip=" "];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cShader::CreateShader",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_shader.html#aa220cdbde2a307e110838034f0d735ca",tooltip=" "];
+  Node2 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cShader::LoadShader",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_shader.html#a2997e450c5b57739ec44009127d662dd",tooltip=" "];
+  Node2 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cShader::RecordUniformHandles",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_shader.html#adcc588f768a0c6299e7402f0cf579072",tooltip=" "];
+  Node6 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="cShader::GetUniformHandle",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_shader.html#a92b4b22315c0811261198a16a1389edf",tooltip=" "];
+}

@@ -1,0 +1,20 @@
+digraph "cMotion::BlendFrames"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="cMotion::BlendFrames",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cMotion::BlendFramesIntern",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_motion.html#a21666b0c6bcfb5d9c4dd06304da3fb01",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cMotion::GetFrame",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_motion.html#a9e15724e2358c019487360c2989a335e",tooltip=" "];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cMotion::GetFrameSize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_motion.html#ae70cd8ffa5ec5ef8f08f70d2ed7147e8",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cMotion::HasBlendFunc",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_motion.html#a2125fd4d150960d8dc2538f12ee80d44",tooltip=" "];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cMathUtil::Saturate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_math_util.html#a465def8d611dd4320ca9bfe5c486805d",tooltip=" "];
+  Node6 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="cMathUtil::Clamp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_math_util.html#ac7702e2a05013616d11f03619d9b4f1e",tooltip=" "];
+}

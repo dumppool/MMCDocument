@@ -1,0 +1,36 @@
+digraph "cDrawSceneSimChar::ApplyUIForce"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="cDrawSceneSimChar::\lApplyUIForce",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cDrawSceneSimChar::\lGetScene",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_scene_sim_char.html#ae04276569fbb00407a1341cf23c764ad",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cDrawSceneSimChar::\lObjectSelected",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_scene_sim_char.html#a4662a000dfafbc5f3a0b23e5f23e62a4",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cCamera::ProjectToFocalPlane",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#a00a325087c3b7487b7d3a421f3e04c0b",tooltip=" "];
+  Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cCamera::GetFocus",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#a0aa751bcd1e56af7c9ce41fd9ee297e1",tooltip=" "];
+  Node4 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cCamera::GetRayCastDir",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#a901f991e36d755b31daae1a0f1c6f5a2",tooltip=" "];
+  Node4 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="cCamera::GetViewDir",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#afb9647bf9c336ce8b545bfb5b7ed80ce",tooltip=" "];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="cCamera::ScreenToWorldPos",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#a04d8aafd7a0d5938c7d453d93358f95e",tooltip=" "];
+  Node8 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="cCamera::BuildViewWorldMatrix",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#abb1c165a7d29540124f7f6a44237a2a7",tooltip=" "];
+  Node9 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="cCamera::GetPosition",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#ae717c0a2129047f1fc0a8860237056ae",tooltip=" "];
+  Node9 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="cCamera::GetUp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#a4354ae3977ba3b516cec0b7be3a3400b",tooltip=" "];
+  Node9 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="cCamera::CalcFocalLen",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#a33d9028e3969342e0a61d68dc57c8e08",tooltip=" "];
+  Node8 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="cCamera::GetHeight",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#aa919c339ff1ddcba1d9e82196674f1a5",tooltip=" "];
+  Node8 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="cCamera::GetWidth",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#ae7dfa3e815f4ddd27b2cb32203b65f21",tooltip=" "];
+}

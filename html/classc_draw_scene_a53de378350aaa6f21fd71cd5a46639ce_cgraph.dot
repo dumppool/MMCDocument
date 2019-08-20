@@ -1,0 +1,42 @@
+digraph "cDrawScene::SetupMeshShader"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="cDrawScene::SetupMeshShader",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cCamera::BuildProjMatrix",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#af41ae01c1089d2d5cacab59dacadc238",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cCamera::BuildProjMatrix\lOrtho",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#aa5a68edc6a365e84944a24be74f9f299",tooltip=" "];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cCamera::GetHeight",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#aa919c339ff1ddcba1d9e82196674f1a5",tooltip=" "];
+  Node3 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cCamera::GetWidth",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#ae7dfa3e815f4ddd27b2cb32203b65f21",tooltip=" "];
+  Node2 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cCamera::BuildProjMatrixProj",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#a6aec6b9d16fe669aae32ddb66fea7aa4",tooltip=" "];
+  Node6 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="cCamera::CalcFocalLen",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#a33d9028e3969342e0a61d68dc57c8e08",tooltip=" "];
+  Node6 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="cCamera::BuildViewWorldMatrix",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#abb1c165a7d29540124f7f6a44237a2a7",tooltip=" "];
+  Node8 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="cCamera::GetPosition",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#ae717c0a2129047f1fc0a8860237056ae",tooltip=" "];
+  Node8 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="cCamera::GetUp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#a4354ae3977ba3b516cec0b7be3a3400b",tooltip=" "];
+  Node8 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="cCamera::GetViewDir",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#afb9647bf9c336ce8b545bfb5b7ed80ce",tooltip=" "];
+  Node1 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="cCamera::BuildWorldViewMatrix",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#a1a80f5e092b4fda59de01674378d13fe",tooltip=" "];
+  Node12 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="cMathUtil::InvRigidMat",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_math_util.html#a3f41c4c7db3fc5d2bfe3ab3069a0a5cf",tooltip=" "];
+  Node1 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="cCamera::GetFocus",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#a0aa751bcd1e56af7c9ce41fd9ee297e1",tooltip=" "];
+  Node1 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="cDrawScene::GetLightDirection",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_scene.html#abfe362ae4fa082649297f67e17c58588",tooltip=" "];
+  Node1 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="cCamera::GetNearZ",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#a4fde6b6d7814efa6d01f737d9e4af54e",tooltip=" "];
+  Node1 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

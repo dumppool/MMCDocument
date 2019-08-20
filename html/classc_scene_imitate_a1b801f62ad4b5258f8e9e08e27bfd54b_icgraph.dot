@@ -1,0 +1,12 @@
+digraph "cSceneImitate::CalcJointWeights"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="cSceneImitate::CalcJoint\lWeights",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cSceneImitate::InitJoint\lWeights",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_scene_imitate.html#a3621bee194efb864e646967dc81d48e5",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cSceneImitate::Init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_scene_imitate.html#a076f408d116f74ebd723c8b8e193c374",tooltip=" "];
+}

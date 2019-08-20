@@ -1,0 +1,12 @@
+<map id="cDrawSceneSimChar::MouseMove" name="cDrawSceneSimChar::MouseMove">
+<area shape="rect" id="node1" title=" " alt="" coords="5,103,159,145"/>
+<area shape="rect" id="node2" href="$classc_draw_scene.html#ab95d90494a77e12fe0d8b5b105a1079a" title=" " alt="" coords="207,81,379,108"/>
+<area shape="rect" id="node10" href="$classc_draw_scene_sim_char.html#a4662a000dfafbc5f3a0b23e5f23e62a4" title=" " alt="" coords="216,133,369,174"/>
+<area shape="rect" id="node3" href="$classc_scene.html#aca8c7cd9b943601412d865bfabe9abcf" title=" " alt="" coords="431,56,573,83"/>
+<area shape="rect" id="node4" href="$classc_camera.html#a0a29f3387b2409dd366d0da04f6a7511" title=" " alt="" coords="427,107,577,133"/>
+<area shape="rect" id="node5" href="$classc_camera.html#a0aa751bcd1e56af7c9ce41fd9ee297e1" title=" " alt="" coords="629,5,767,32"/>
+<area shape="rect" id="node6" href="$classc_camera.html#aa919c339ff1ddcba1d9e82196674f1a5" title=" " alt="" coords="628,56,768,83"/>
+<area shape="rect" id="node7" href="$classc_camera.html#ae7dfa3e815f4ddd27b2cb32203b65f21" title=" " alt="" coords="629,107,767,133"/>
+<area shape="rect" id="node8" href="$classc_math_util.html#a551bc548582ac0db39df5a58feca1f0a" title=" " alt="" coords="625,157,771,184"/>
+<area shape="rect" id="node9" href="$classc_camera.html#a70ed4ddecaa3607931904f5ace1cf5a4" title=" " alt="" coords="629,208,767,235"/>
+</map>

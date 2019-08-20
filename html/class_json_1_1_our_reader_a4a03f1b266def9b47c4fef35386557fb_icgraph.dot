@@ -1,0 +1,35 @@
+digraph "Json::OurReader::match"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="Json::OurReader::match",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Json::OurReader::readToken",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_our_reader.html#a0d1e66da47fe2e85f5033c59326dfdc3",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Json::OurReader::readArray",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_our_reader.html#a0b9f58faf4212c6ecb5d8e2a1ac10257",tooltip=" "];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Json::OurReader::readValue",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_our_reader.html#a1765d9670d191c89a57a22ea5591d35f",tooltip=" "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="Json::OurReader::parse",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_our_reader.html#aba4f8749aab7f02ec17f107e392caf80",tooltip=" "];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="Json::OurCharReader\l::parse",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_our_char_reader.html#a547f08ec5a9951ca69e8bb2e90296c83",tooltip="Read a Value from a JSON document. The document must be a UTF-8 encoded string containing the documen..."];
+  Node4 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="Json::OurReader::readObject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_our_reader.html#aea198f8101dba55099f4d8121a993530",tooltip=" "];
+  Node7 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="Json::OurReader::recover\lFromError",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_our_reader.html#a035651f0700a76a815e5f904c63ebb1c",tooltip=" "];
+  Node8 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="Json::OurReader::addError\lAndRecover",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_our_reader.html#a074cf3d91e9404fe89e03cfc6a43e6fb",tooltip=" "];
+  Node9 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="Json::OurReader::skipComment\lTokens",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_our_reader.html#a856dea44d92578c276856d7a65a4ebdc",tooltip=" "];
+  Node10 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

@@ -1,0 +1,20 @@
+digraph "cSimCharacter::ApplyControlForces"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="cSimCharacter::ApplyControl\lForces",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cExpPDController::ApplyControl\lForces",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_exp_p_d_controller.html#ae7c4527b7fa9555732d7a09c45a2b9da",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cExpPDController::Update",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_exp_p_d_controller.html#a82436261295d0a3082a276bfbc2e7ff8",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cPDController::ApplyControl\lForces",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_p_d_controller.html#ab9e556605537920fc445b54186672181",tooltip=" "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cPDController::Update",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_p_d_controller.html#a21691ce60be812e16d73e13a909b5698",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cDeepMimicCharController\l::UpdateApplyTau",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_deep_mimic_char_controller.html#ad81fc04cfa280e13aad6cc775e64518b",tooltip=" "];
+  Node6 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="cDeepMimicCharController\l::Update",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_deep_mimic_char_controller.html#ad3645072b817da8f199e060f0492aa6a",tooltip=" "];
+}

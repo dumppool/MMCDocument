@@ -1,0 +1,12 @@
+digraph "cTrajectory::AnchorToPhase"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="cTrajectory::AnchorToPhase",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cTrajectory::Filter",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_trajectory.html#a290c3abf914b5e3f74d3101e36f8e658",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cTrajectory::Compress",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_trajectory.html#ac933a343a8172bb0f7714231a4741967",tooltip=" "];
+}

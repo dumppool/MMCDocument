@@ -1,0 +1,14 @@
+digraph "cMathUtil::EulerToQuaternion"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="cMathUtil::EulerToQuaternion",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cMathUtil::AxisAngleToQuaternion",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_math_util.html#a2676ee59b4e895344c077468da3b6c8f",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cMathUtil::EulerToAxisAngle",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_math_util.html#a8fd8f44cd65cdaa9c5cc1b1ff4b3652e",tooltip=" "];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cMathUtil::Clamp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_math_util.html#ac7702e2a05013616d11f03619d9b4f1e",tooltip=" "];
+}

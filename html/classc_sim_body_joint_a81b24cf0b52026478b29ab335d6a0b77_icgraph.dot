@@ -1,0 +1,18 @@
+digraph "cSimBodyJoint::IsRoot"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="cSimBodyJoint::IsRoot",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cSimBodyJoint::FetchJointType",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_body_joint.html#a527c8dbef4e0ff77c22dc298f9a1bfd7",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cSimBodyJoint::Init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_body_joint.html#abb063cfb4d233e55b63863e62d87d818",tooltip=" "];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cSimCharacter::BuildJoints",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_character.html#ac3026fc1dac59be3aa9ac534a82b7ade",tooltip=" "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cSimCharacter::BuildSimBody",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_character.html#a3cca4d62a0b31a5da8268cebdd7ddc23",tooltip=" "];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cSimCharacter::Init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_character.html#a268ec8e85dcc271e9bb20a8e0c44c124",tooltip=" "];
+}

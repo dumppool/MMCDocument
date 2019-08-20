@@ -1,0 +1,20 @@
+digraph "cObjTracer::Clear"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="cObjTracer::Clear",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cDrawSceneSimChar::\lClear",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_scene_sim_char.html#aaa23ea7114ac978f7e015d8ca5d33340",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cDrawSceneImitate::\lClear",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_scene_imitate.html#a098558b683c1af866dc319a34139e4a5",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cObjTracer::Init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_obj_tracer.html#a807742c9ea662105660aea4f0a175c42",tooltip=" "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cDrawSceneSimChar::\lInitTracer",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_scene_sim_char.html#ad6d1aa9571dea69f6cbf85323e1da5e7",tooltip=" "];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cDrawSceneSimChar::Init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_scene_sim_char.html#a4e6054c41d9444218aa837fc692d38d6",tooltip=" "];
+  Node6 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="cDrawSceneImitate::Init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_scene_imitate.html#a4883fd5c94ea98788c07ff76c13fcf8a",tooltip=" "];
+}

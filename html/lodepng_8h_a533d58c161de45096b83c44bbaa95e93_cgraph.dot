@@ -1,0 +1,15 @@
+digraph "lodepng_clear_text"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="lodepng_clear_text",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="LodePNGText_cleanup",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8cpp.html#ad38d63db1da8c6309032e9744d953327",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="lodepng_free",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8cpp.html#a5cabd4078527ba33b78791fac7e8b15c",tooltip=" "];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="string_cleanup",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8cpp.html#a9886d70ad5032ac8f25f5c1c7de03b58",tooltip=" "];
+  Node4 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

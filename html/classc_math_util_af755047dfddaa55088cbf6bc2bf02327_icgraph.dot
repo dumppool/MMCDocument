@@ -1,0 +1,23 @@
+digraph "cMathUtil::EulerToQuaternion"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="cMathUtil::EulerToQuaternion",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cSimCharacter::BuildMultiBody",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_character.html#a6a66eac5718b437270cc835d42e56002",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cSimCharacter::BuildSimBody",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_character.html#a3cca4d62a0b31a5da8268cebdd7ddc23",tooltip=" "];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cSimCharacter::Init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_character.html#a268ec8e85dcc271e9bb20a8e0c44c124",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cSimJoint::BuildPoseSpherical",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_joint.html#a775e66858435fad674c89ea45a56604f",tooltip=" "];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cSimJoint::BuildPose",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_joint.html#aaafe3e9b815e05962fe3180300232f8f",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="cSceneImitate::ResetKinChar",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_scene_imitate.html#a938a744ae229f5cde2f72734c938138d",tooltip=" "];
+  Node7 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="cSceneImitate::ResetCharacters",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_scene_imitate.html#abab73726ca94787143d8974ae7b66d13",tooltip=" "];
+}

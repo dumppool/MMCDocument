@@ -1,0 +1,14 @@
+digraph "Adam7_deinterlace"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Adam7_deinterlace",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Adam7_getpassvalues",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8cpp.html#a18aff167f1895955ac0f831555e9cff3",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="readBitFromReversedStream",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8cpp.html#aa65d1743dade2919f44301461bde054d",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="setBitOfReversedStream0",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8cpp.html#aa48d4f4da5470230ccf9813a94740a1f",tooltip=" "];
+}

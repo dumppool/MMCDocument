@@ -1,0 +1,16 @@
+digraph "cPDController::GetTorqueLimit"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="cPDController::GetTorque\lLimit",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cPDController::GetJoint",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_p_d_controller.html#a853a28b721891c6daa4ffe374f51675e",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cSimCharacter::GetJoint",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_character.html#aa0a30cfb05967fad8b59dd9adfa6f23a",tooltip=" "];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cPDController::GetJointID",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_p_d_controller.html#a6d784855901fdde633d28635f0ed3a56",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cSimBodyJoint::GetTorque\lLimit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_body_joint.html#a30b08ab53dc7b5f8118cdedd35750697",tooltip=" "];
+}

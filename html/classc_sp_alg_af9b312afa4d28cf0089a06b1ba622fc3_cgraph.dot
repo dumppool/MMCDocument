@@ -1,0 +1,14 @@
+digraph "cSpAlg::CompTrans"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="cSpAlg::CompTrans",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cSpAlg::BuildTrans",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sp_alg.html#a657259da411a21199b25d83a3a8c55c2",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cSpAlg::GetRad",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sp_alg.html#af10329ae21e62779de182b68aec7b437",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cSpAlg::GetRot",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sp_alg.html#a3c3fa40ec253c0bdf9cc2278da8656f6",tooltip=" "];
+}

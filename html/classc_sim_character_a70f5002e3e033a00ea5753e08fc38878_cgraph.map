@@ -1,0 +1,15 @@
+<map id="cSimCharacter::GetRootRotation" name="cSimCharacter::GetRootRotation">
+<area shape="rect" id="node1" title=" " alt="" coords="5,136,217,163"/>
+<area shape="rect" id="node2" href="$classc_sim_body_joint.html#a11a7990aaac57fc7dd13bdf9aff4784f" title=" " alt="" coords="265,70,443,111"/>
+<area shape="rect" id="node11" href="$classc_sim_character.html#aa0a30cfb05967fad8b59dd9adfa6f23a" title=" " alt="" coords="272,136,436,163"/>
+<area shape="rect" id="node12" href="$classc_character.html#a07649022cce07611b977b355f14d489f" title=" " alt="" coords="277,187,431,213"/>
+<area shape="rect" id="node3" href="$classc_sim_body_joint.html#a033253d748efec2cf6f261ea994a6a62" title=" " alt="" coords="501,95,681,137"/>
+<area shape="rect" id="node9" href="$classc_math_util.html#a4ff0fa5a8e663a4e806cc8bf7bc138cf" title=" " alt="" coords="491,19,691,45"/>
+<area shape="rect" id="node4" href="$classc_sim_body_joint.html#a6f59339830fb1d763a78736818c23ac3" title=" " alt="" coords="739,107,912,149"/>
+<area shape="rect" id="node7" href="$classc_sim_body_joint.html#a996f4f4502700fa03bdc896abdee1fe4" title=" " alt="" coords="739,173,912,214"/>
+<area shape="rect" id="node8" href="$classc_sim_body_joint.html#a564687afb4acbb768a334263b37720d8" title=" " alt="" coords="741,56,910,83"/>
+<area shape="rect" id="node5" href="$classc_math_util.html#a551bc548582ac0db39df5a58feca1f0a" title=" " alt="" coords="967,119,1113,145"/>
+<area shape="rect" id="node6" href="$classc_math_util.html#a5550ed48f8beaccbf6827db839ccf542" title=" " alt="" coords="960,173,1120,200"/>
+<area shape="rect" id="node10" href="$classc_math_util.html#ac7702e2a05013616d11f03619d9b4f1e" title=" " alt="" coords="764,5,887,32"/>
+<area shape="rect" id="node13" href="$classc_kin_tree.html#a81b9799b03d32762ac820eb0886f369c" title=" " alt="" coords="526,187,655,213"/>
+</map>

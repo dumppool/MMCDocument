@@ -1,0 +1,58 @@
+digraph "lodepng_chunk_generate_crc"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="lodepng_chunk_generate_crc",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="lodepng_chunk_create",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8h.html#a2659e18b691b087c3b8610f44d9be8b1",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="addChunk",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8cpp.html#af19f183e437b63f5fca48f26807bfa4a",tooltip=" "];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="addChunk_bKGD",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8cpp.html#a11d25b09c2ee94045ccc8671866b45c7",tooltip=" "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="lodepng_encode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8h.html#a90e82b0ccc75cfb27ccc9756c8d96f07",tooltip=" "];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="lodepng_encode_memory",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8h.html#ada7bc92db6e9f8906a1fc85caa0b17aa",tooltip=" "];
+  Node6 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="lodepng_encode24",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8h.html#a4100642d70071029967c16afd72193ff",tooltip=" "];
+  Node6 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="lodepng_encode32",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8h.html#a75d7f3e4e388b74b7b5214c76c66382f",tooltip=" "];
+  Node6 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="lodepng_encode_file",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8h.html#a009ac38098765fcae32c9d91770b94df",tooltip=" "];
+  Node9 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="lodepng_encode24_file",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8h.html#a4f8f383c22ceb7c22b1cc7e774f0bad2",tooltip=" "];
+  Node9 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="lodepng_encode32_file",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8h.html#a018a3bd975fb886cdf1f6f544f2882e4",tooltip=" "];
+  Node3 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="addChunk_IDAT",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8cpp.html#a666f5da34d12168555c2b8bf2c538806",tooltip=" "];
+  Node12 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="addChunk_IEND",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8cpp.html#aca4038c773ca0f7cdc7b324c3c3df167",tooltip=" "];
+  Node13 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="addChunk_IHDR",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8cpp.html#a11ce54b0d8d578697bbf7d7e2dd09f1b",tooltip=" "];
+  Node14 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="addChunk_iTXt",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8cpp.html#a2d0e446a9081005e5dec2633f5ccae83",tooltip=" "];
+  Node15 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 -> Node16 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="addChunk_pHYs",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8cpp.html#a500457c22b230e0944c49e7f63a06c63",tooltip=" "];
+  Node16 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 -> Node17 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="addChunk_PLTE",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8cpp.html#a3480b1501e21550d2410844b9f245351",tooltip=" "];
+  Node17 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 -> Node18 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="addChunk_tEXt",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8cpp.html#a4a091d10da524d1f15b46642e189ae00",tooltip=" "];
+  Node18 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 -> Node19 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node19 [label="addChunk_tIME",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8cpp.html#a51c0f425a57b548959ec56a3a6809332",tooltip=" "];
+  Node19 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 -> Node20 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node20 [label="addChunk_tRNS",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8cpp.html#a927ece80cafee4b6272f129e8f0d3bec",tooltip=" "];
+  Node20 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 -> Node21 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node21 [label="addChunk_zTXt",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8cpp.html#a9623f7145f6ff3c5aeedfd904fc6127d",tooltip=" "];
+  Node21 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

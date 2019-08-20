@@ -1,0 +1,8 @@
+<map id="cSimCharacter::GetRootAngVel" name="cSimCharacter::GetRootAngVel">
+<area shape="rect" id="node1" title=" " alt="" coords="5,71,212,98"/>
+<area shape="rect" id="node2" href="$classc_sim_body_joint.html#ab6bae23fd72f73820505bc9ee3434915" title=" " alt="" coords="260,5,437,47"/>
+<area shape="rect" id="node4" href="$classc_sim_character.html#aa0a30cfb05967fad8b59dd9adfa6f23a" title=" " alt="" coords="267,71,431,98"/>
+<area shape="rect" id="node5" href="$classc_character.html#a07649022cce07611b977b355f14d489f" title=" " alt="" coords="272,122,425,149"/>
+<area shape="rect" id="node3" href="$classc_sim_body_joint.html#a564687afb4acbb768a334263b37720d8" title=" " alt="" coords="485,13,655,39"/>
+<area shape="rect" id="node6" href="$classc_kin_tree.html#a81b9799b03d32762ac820eb0886f369c" title=" " alt="" coords="505,122,635,149"/>
+</map>

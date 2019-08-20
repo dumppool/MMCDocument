@@ -1,0 +1,24 @@
+digraph "cMathUtil::ButterworthFilter"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="cMathUtil::ButterworthFilter",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cMotion::FilterFrameVel",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_motion.html#a79ddd83dbe75b607f571f99d32413228",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cMotion::BuildFrameVel",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_motion.html#a23784bf0489c51e7a9e07e6d5ab53195",tooltip=" "];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cMotion::UpdateVel",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_motion.html#a317413de34d78b54a04f3077fc6481b5",tooltip=" "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cMotion::Load",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_motion.html#a477a235be5644e9d4eafec1fa1ff2547",tooltip=" "];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cKinCharacter::LoadMotion",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_character.html#aadfb26f290511a722fa701f7cf134845",tooltip=" "];
+  Node6 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="cKinCharacter::Init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_character.html#a8aae2e1ec2b7b0fcdfc9b6ee2b4df4b7",tooltip=" "];
+  Node4 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="cMotion::SetDuration",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_motion.html#a6c79cbfd7a3e0b3c5a2e9e279720900b",tooltip=" "];
+  Node8 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="cKinCharacter::SetMotion\lDuration",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_character.html#a3c6bb5dd69f987c5487b33d70010da2f",tooltip=" "];
+}

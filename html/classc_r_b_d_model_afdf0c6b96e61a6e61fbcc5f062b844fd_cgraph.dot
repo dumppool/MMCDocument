@@ -1,0 +1,14 @@
+digraph "cRBDModel::UpdateMassMat"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="cRBDModel::UpdateMassMat",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cRBDUtil::BuildMassMat",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#a1b80902c61a908d1f929d7ac99ef730c",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cRBDModel::GetNumJoints",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_model.html#a298f53d0242de63f24588d94ed82fcfb",tooltip=" "];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cKinTree::GetNumJoints",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#ac840b501e27e6ce46d208b7d033f21d4",tooltip=" "];
+}

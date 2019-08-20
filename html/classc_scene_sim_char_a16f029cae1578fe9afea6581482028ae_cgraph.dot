@@ -1,0 +1,16 @@
+digraph "cSceneSimChar::BuildController"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="cSceneSimChar::BuildController",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cCtrlBuilder::BuildController",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_ctrl_builder.html#a67f3179d9195e44604c597baf2239a6b",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cCtrlBuilder::BuildCtController",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_ctrl_builder.html#ac733dd4f1bde3a7d828244ab96eb1d64",tooltip=" "];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cCtrlBuilder::BuildCtPDController",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_ctrl_builder.html#ad693cf89d213d374c1a7bbbfa8d80066",tooltip=" "];
+  Node2 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cCtrlBuilder::BuildCtVel\lController",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_ctrl_builder.html#a150d37ed379c2df513b0eb57bef7011f",tooltip=" "];
+}

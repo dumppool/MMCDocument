@@ -1,0 +1,14 @@
+digraph "cDrawSceneImitate::GetName"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="cDrawSceneImitate::\lGetName",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cDrawRLScene::GetName",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_r_l_scene.html#a86e14a31d2e30287b4bd3c2f810949af",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cScene::GetName",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_scene.html#affb3351abbcd192357e173e37530d8ec",tooltip=" "];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cDrawRLScene::GetRLScene",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_r_l_scene.html#ae74ea7ec3530727a49e34bc4733b3de7",tooltip=" "];
+}

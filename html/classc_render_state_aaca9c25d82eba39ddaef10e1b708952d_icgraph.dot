@@ -1,0 +1,14 @@
+digraph "cRenderState::SetBufferData"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="cRenderState::SetBufferData",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cRenderState::SetNextBufferData",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_render_state.html#abf56a8591294e7245ce930d3536aa85d",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cIBuffer::SyncBuffer",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_i_buffer.html#aa61e315fb465f83ba0f83374457a4c46",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cVertexBuffer::SyncBuffer",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_vertex_buffer.html#ab44e4b97358a28a45f971f0754a1158f",tooltip=" "];
+}

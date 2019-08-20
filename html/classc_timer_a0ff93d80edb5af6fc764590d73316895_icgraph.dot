@@ -1,0 +1,16 @@
+digraph "cTimer::GetTime"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="cTimer::GetTime",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cScene::GetTime",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_scene.html#aeb6f58cf497e87b8dfe1d86628573cae",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cSceneSimChar::SpawnProjectile",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_scene_sim_char.html#a28a3f0103b4ea585ac17a5d4a26b8acb",tooltip=" "];
+  Node2 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cSceneSimChar::UpdateObjs",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_scene_sim_char.html#a567df43e3504e84f0ab3050dc45d8e6a",tooltip=" "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cSceneSimChar::Update",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_scene_sim_char.html#afdac36d2808b3d986f7737ddef4d7aa3",tooltip=" "];
+}

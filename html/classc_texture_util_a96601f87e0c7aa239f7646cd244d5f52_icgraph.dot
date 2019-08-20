@@ -1,0 +1,12 @@
+digraph "cTextureUtil::GetNumChannels"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="cTextureUtil::GetNumChannels",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cTextureDesc::GetNumChannels",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_texture_desc.html#abc09742fa8902884938847144b6a0d7a",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cTextureDesc::ReadPixels",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_texture_desc.html#a89928d8b7219db400bc5a0b2e9453842",tooltip=" "];
+}

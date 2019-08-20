@@ -1,0 +1,20 @@
+digraph "cSimBodyJoint::ApplyTauRevolute"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="cSimBodyJoint::ApplyTauRevolute",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cSimBodyJoint::ClampTotal\lTorque",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_body_joint.html#a2ae10c3da663cd4fa1a93b4ef7043f3d",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cSimBodyJoint::GetTorque\lLimit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_body_joint.html#a30b08ab53dc7b5f8118cdedd35750697",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cSimBodyJoint::GetTotalTorque",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_body_joint.html#a0e4d13cc0efb10ad518d1b27f655bd68",tooltip=" "];
+  Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cSpAlg::GetOmega",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sp_alg.html#a1f6d2eed1bc8bee53540c8c027cea7f9",tooltip=" "];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cSimBodyJoint::SetTotalTorque",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_body_joint.html#a0329197d459d731c761eac0eee651e3a",tooltip=" "];
+  Node6 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="cSpAlg::SetOmega",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sp_alg.html#afd9eedbb993c799acd13592dd4094135",tooltip=" "];
+}

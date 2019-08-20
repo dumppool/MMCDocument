@@ -1,0 +1,24 @@
+digraph "cCamera::SetupGLView"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="cCamera::SetupGLView",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cCamera::BuildWorldViewMatrix",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#a1a80f5e092b4fda59de01674378d13fe",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cCamera::BuildViewWorldMatrix",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#abb1c165a7d29540124f7f6a44237a2a7",tooltip=" "];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cCamera::GetPosition",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#ae717c0a2129047f1fc0a8860237056ae",tooltip=" "];
+  Node3 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cCamera::GetUp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#a4354ae3977ba3b516cec0b7be3a3400b",tooltip=" "];
+  Node3 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cCamera::GetViewDir",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#afb9647bf9c336ce8b545bfb5b7ed80ce",tooltip=" "];
+  Node2 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="cMathUtil::InvRigidMat",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_math_util.html#a3f41c4c7db3fc5d2bfe3ab3069a0a5cf",tooltip=" "];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="cDrawUtil::LoadMatrixView",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_util.html#a4b2c54a1d9c8fc8e65e565b470f796e1",tooltip=" "];
+  Node8 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="cMatrixStack::SetMatrix",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_matrix_stack.html#aac860f7ced7d9119d93f1ee712142d35",tooltip=" "];
+}

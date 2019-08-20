@@ -1,0 +1,27 @@
+<map id="cCamera::GetFocus" name="cCamera::GetFocus">
+<area shape="rect" id="node1" title=" " alt="" coords="953,301,1092,327"/>
+<area shape="rect" id="node2" href="$classc_draw_scene.html#a3b7548045c8dfc7fcd1a55a411f592d1" title=" " alt="" coords="452,61,647,87"/>
+<area shape="rect" id="node5" href="$classc_draw_scene.html#acc19b8eef0bcbf3713f3d9729fd012b8" title=" " alt="" coords="726,213,882,239"/>
+<area shape="rect" id="node6" href="$classc_draw_scene_sim_char.html#a787f2a886f1c5d59e63926535c09153c" title=" " alt="" coords="727,264,881,305"/>
+<area shape="rect" id="node7" href="$classc_draw_scene.html#a704a4a0c749884492def77b88bf516d5" title=" " alt="" coords="703,381,905,423"/>
+<area shape="rect" id="node8" href="$classc_draw_scene.html#a868ae55497ba91c2e3bf5d67a2d7827e" title=" " alt="" coords="455,356,644,397"/>
+<area shape="rect" id="node12" href="$classc_camera.html#a0a29f3387b2409dd366d0da04f6a7511" title=" " alt="" coords="729,553,879,579"/>
+<area shape="rect" id="node15" href="$classc_camera.html#a00a325087c3b7487b7d3a421f3e04c0b" title=" " alt="" coords="703,498,905,525"/>
+<area shape="rect" id="node18" href="$classc_camera.html#aa37ea2e5bf92566ab9c7b368bc3d531d" title=" " alt="" coords="478,137,621,163"/>
+<area shape="rect" id="node19" href="$classc_camera.html#a7e839d1d52a16e6f7ce03b1488e128c5" title=" " alt="" coords="729,111,879,138"/>
+<area shape="rect" id="node20" href="$classc_draw_scene.html#a53de378350aaa6f21fd71cd5a46639ce" title=" " alt="" coords="444,10,655,37"/>
+<area shape="rect" id="node21" href="$classc_draw_scene.html#af61093bebaa7efb8774601cf779ab566" title=" " alt="" coords="455,421,644,463"/>
+<area shape="rect" id="node22" href="$classc_camera.html#af1eb316337d2779ce7d6e01e4ce271bb" title=" " alt="" coords="747,607,861,634"/>
+<area shape="rect" id="node3" href="$classc_draw_scene.html#ac2fea848f9552e4da69c7f50d8d866c8" title=" " alt="" coords="217,35,386,62"/>
+<area shape="rect" id="node4" href="$classc_draw_scene.html#ac983b3e7cedfa1b97c98e9038080d9a9" title=" " alt="" coords="16,35,148,62"/>
+<area shape="rect" id="node9" href="$classc_draw_scene.html#a33587d859603cd621f092cb6d95ad924" title=" " alt="" coords="207,425,396,451"/>
+<area shape="rect" id="node10" href="$classc_draw_scene_kin_char.html#a7f987dd4ef6a4db66eb6b4e655e22de8" title=" " alt="" coords="7,415,157,456"/>
+<area shape="rect" id="node11" href="$classc_draw_scene_sim_char.html#ada1475572f24d082f2221c05111cc10f" title=" " alt="" coords="5,480,159,521"/>
+<area shape="rect" id="node13" href="$classc_draw_scene.html#ab95d90494a77e12fe0d8b5b105a1079a" title=" " alt="" coords="463,553,635,579"/>
+<area shape="rect" id="node14" href="$classc_draw_scene_sim_char.html#a6f2538b73a4ac23c21b2b7c633233bb8" title=" " alt="" coords="225,545,378,587"/>
+<area shape="rect" id="node16" href="$classc_draw_scene_sim_char.html#aeb3d448a7a71992790f043f71f703490" title=" " alt="" coords="473,487,626,528"/>
+<area shape="rect" id="node17" href="$classc_draw_scene_sim_char.html#aa97fb19d895d79711c14bdd0308beba4" title=" " alt="" coords="225,480,378,521"/>
+<area shape="rect" id="node23" href="$classc_camera.html#a3ec4feb37d7c68048a486f840676eca9" title=" " alt="" coords="474,609,625,635"/>
+<area shape="rect" id="node24" href="$classc_draw_scene.html#a46e2fb4989c85dfed05cd3937bd74471" title=" " alt="" coords="216,611,387,638"/>
+<area shape="rect" id="node25" href="$classc_draw_scene_sim_char.html#a3d0fbb31c21db4102dff090be3d375cf" title=" " alt="" coords="5,604,159,645"/>
+</map>

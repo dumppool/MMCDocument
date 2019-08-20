@@ -1,0 +1,18 @@
+digraph "cDrawScene::ResetCamera"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="cDrawScene::ResetCamera",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cDrawScene::GetCamStillPos",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_scene.html#a6d98371b40e4f0170e2914bdcbacf627",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cDrawScene::GetCamTrackMode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_scene.html#a8156f751ddadb5670a15381a955b3e88",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cDrawScene::GetCamTrackPos",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_scene.html#a7055709925cf61e5177ba09e9a4cc235",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cDrawScene::GetDefaultCam\lFocus",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_scene.html#a3a7f5564e881857d0bba439541e511d1",tooltip=" "];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cCamera::TranslateFocus",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#ab6d3e9004d131648eae02c7fcfb09ca0",tooltip=" "];
+}

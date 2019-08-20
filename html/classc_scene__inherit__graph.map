@@ -1,0 +1,13 @@
+<map id="cScene" name="cScene">
+<area shape="rect" id="node1" title=" " alt="" coords="412,5,479,32"/>
+<area shape="rect" id="node2" href="$classc_draw_scene.html" title=" " alt="" coords="206,80,301,107"/>
+<area shape="rect" id="node7" href="$classc_r_l_scene.html" title=" " alt="" coords="344,80,427,107"/>
+<area shape="rect" id="node10" href="$classc_scene_kin_char.html" title=" " alt="" coords="451,80,563,107"/>
+<area shape="rect" id="node11" href="$classc_scene_sim_char.html" title=" " alt="" coords="587,80,703,107"/>
+<area shape="rect" id="node3" href="$classc_draw_r_l_scene.html" title=" " alt="" coords="341,155,451,181"/>
+<area shape="rect" id="node5" href="$classc_draw_scene_kin_char.html" title=" " alt="" coords="5,155,147,181"/>
+<area shape="rect" id="node6" href="$classc_draw_scene_sim_char.html" title=" " alt="" coords="171,155,317,181"/>
+<area shape="rect" id="node4" href="$classc_draw_scene_imitate.html" title=" " alt="" coords="253,229,387,256"/>
+<area shape="rect" id="node8" href="$classc_r_l_scene_sim_char.html" title=" " alt="" coords="522,155,654,181"/>
+<area shape="rect" id="node9" href="$classc_scene_imitate.html" title=" " alt="" coords="535,229,641,256"/>
+</map>

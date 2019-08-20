@@ -1,0 +1,17 @@
+digraph "cCamera::RotatePos"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="cCamera::RotatePos",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cCamera::GetFocus",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#a0aa751bcd1e56af7c9ce41fd9ee297e1",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cCamera::GetPosition",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#ae717c0a2129047f1fc0a8860237056ae",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cMathUtil::QuatRotVec",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_math_util.html#a3a0496ade762f12172414c797da44402",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cCamera::SetPosition",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#a7e839d1d52a16e6f7ce03b1488e128c5",tooltip=" "];
+  Node5 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

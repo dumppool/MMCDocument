@@ -1,0 +1,8 @@
+<map id="cSceneKinChar" name="cSceneKinChar">
+<area shape="rect" id="node1" title=" " alt="" coords="213,273,325,300"/>
+<area shape="rect" id="node2" href="$classc_scene.html" title=" " alt="" coords="131,184,198,211"/>
+<area shape="rect" id="node3" href="$classc_timer.html" title=" " alt="" coords="134,95,195,121"/>
+<area shape="rect" id="node4" href="$structc_timer_1_1t_params.html" title=" " alt="" coords="5,5,124,32"/>
+<area shape="rect" id="node5" href="$classc_rand.html" title=" " alt="" coords="219,95,278,121"/>
+<area shape="rect" id="node6" href="$structc_kin_character_1_1t_params.html" title=" " alt="" coords="223,184,384,211"/>
+</map>

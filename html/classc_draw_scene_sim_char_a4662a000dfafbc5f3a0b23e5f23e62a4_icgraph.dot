@@ -1,0 +1,20 @@
+digraph "cDrawSceneSimChar::ObjectSelected"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="cDrawSceneSimChar::\lObjectSelected",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cDrawSceneSimChar::\lApplyUIForce",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_scene_sim_char.html#aeb3d448a7a71992790f043f71f703490",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cDrawSceneSimChar::\lUpdateScene",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_scene_sim_char.html#aa97fb19d895d79711c14bdd0308beba4",tooltip=" "];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cDrawSceneSimChar::\lUpdate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_scene_sim_char.html#ada1475572f24d082f2221c05111cc10f",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cDrawSceneSimChar::\lHandleRayTest",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_scene_sim_char.html#a2c3b780719ffa36b58f7e6bcaff4807c",tooltip=" "];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cDrawSceneSimChar::\lMouseClick",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_scene_sim_char.html#a3d0fbb31c21db4102dff090be3d375cf",tooltip=" "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="cDrawSceneSimChar::\lMouseMove",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_scene_sim_char.html#a6f2538b73a4ac23c21b2b7c633233bb8",tooltip=" "];
+}

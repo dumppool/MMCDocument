@@ -1,0 +1,28 @@
+digraph "Graphical Class Hierarchy"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node92 [label="enable_shared_from_this",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node92 -> Node0 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node0 [label="cController",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_controller.html",tooltip=" "];
+  Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="cCharController",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_char_controller.html",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cDeepMimicCharController",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_deep_mimic_char_controller.html",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cCtController",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_ct_controller.html",tooltip=" "];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cCtPDController",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_ct_p_d_controller.html",tooltip=" "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cCtVelController",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_ct_vel_controller.html",tooltip=" "];
+  Node0 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cExpPDController",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_exp_p_d_controller.html",tooltip=" "];
+  Node6 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="cImpPDController",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_imp_p_d_controller.html",tooltip=" "];
+  Node0 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="cPDController",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_p_d_controller.html",tooltip=" "];
+  Node92 -> Node102 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node102 [label="cWorld",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_world.html",tooltip=" "];
+}

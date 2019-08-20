@@ -1,0 +1,30 @@
+digraph "cRBDModel::GetJointWorldMat"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="cRBDModel::GetJointWorldMat",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cRBDModel::GetSpJointWorld\lTrans",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_model.html#a850c45f7a46b0a087d8cc107651690dc",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cRBDModel::GetSpWorldJoint\lTrans",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_model.html#ab417b2fd9e7b641926175bc740deccfb",tooltip=" "];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cRBDModel::GetNumJoints",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_model.html#a298f53d0242de63f24588d94ed82fcfb",tooltip=" "];
+  Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cKinTree::GetNumJoints",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_tree.html#ac840b501e27e6ce46d208b7d033f21d4",tooltip=" "];
+  Node3 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cSpAlg::GetTrans",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sp_alg.html#a8e94bb73f5ef29ba51ca38ecbb230580",tooltip=" "];
+  Node2 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="cSpAlg::InvTrans",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sp_alg.html#a4e45a6062fb70ee99f80f1054da1b51c",tooltip=" "];
+  Node7 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="cSpAlg::BuildTrans",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sp_alg.html#a657259da411a21199b25d83a3a8c55c2",tooltip=" "];
+  Node7 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="cSpAlg::GetRad",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sp_alg.html#af10329ae21e62779de182b68aec7b437",tooltip=" "];
+  Node7 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="cSpAlg::GetRot",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sp_alg.html#a3c3fa40ec253c0bdf9cc2278da8656f6",tooltip=" "];
+  Node1 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="cSpAlg::TransToMat",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sp_alg.html#ae7917d94b584f240bc2cc71d885043fe",tooltip=" "];
+  Node11 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

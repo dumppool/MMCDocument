@@ -1,0 +1,18 @@
+digraph "cDrawScene::InitRenderResources"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="cDrawScene::InitRenderResources",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cDrawScene::Init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_scene.html#af961ad5f820420edffd46780c007be68",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cDrawRLScene::Init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_r_l_scene.html#a284313524cbc2b065178fce7eb34a2d1",tooltip=" "];
+  Node2 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cDrawSceneKinChar::Init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_scene_kin_char.html#ac48c6afcfd92d4166167f6b2778d08ca",tooltip=" "];
+  Node2 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cDrawSceneSimChar::Init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_scene_sim_char.html#a4e6054c41d9444218aa837fc692d38d6",tooltip=" "];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cDrawSceneImitate::Init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_scene_imitate.html#a4883fd5c94ea98788c07ff76c13fcf8a",tooltip=" "];
+}

@@ -1,0 +1,6 @@
+<map id="cSceneSimChar::BuildGround" name="cSceneSimChar::BuildGround">
+<area shape="rect" id="node1" title=" " alt="" coords="5,42,200,69"/>
+<area shape="rect" id="node2" href="$classc_ground_builder.html#a7e9e9ebe0e80a5411e71f9c2c4e4b270" title=" " alt="" coords="248,42,439,69"/>
+<area shape="rect" id="node3" href="$classc_ground_builder.html#abcb9b191bb88a904981e439ff107cfba" title=" " alt="" coords="487,5,677,47"/>
+<area shape="rect" id="node4" href="$classc_ground.html#a125f84cfc994330e982259497e1d2865" title=" " alt="" coords="487,71,677,98"/>
+</map>

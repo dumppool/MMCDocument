@@ -1,0 +1,31 @@
+digraph "Json::Value::isConvertibleTo"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Json::Value::isConvertibleTo",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Json::Value::asDouble",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_value.html#afd24002a18aef907ad746b1cb9eda0a2",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Json::Value::asString",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_value.html#ae3f9b0d38f820ccdd8888aa92ea6e792",tooltip="Embedded zeroes are possible."];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Json::decodePrefixedString",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespace_json.html#aad8b4982c1acd164f541fba396ac9fb1",tooltip=" "];
+  Node3 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="Json::valueToString",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespace_json.html#a77501ed00903d1b183a55a5fbf6b749a",tooltip=" "];
+  Node5 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="Json::uintToString",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespace_json.html#ac1ffd21a9e55122014353c773ccc496e",tooltip=" "];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="Json::InRange",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespace_json.html#aff0180507262a244de61b961178d7443",tooltip=" "];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="Json::Value::isInt",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_value.html#aff51d8b52979ca06cf9d909accd5f695",tooltip=" "];
+  Node8 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="Json::IsIntegral",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespace_json.html#a1a04cc9d31e64b5912dade003c9b99b5",tooltip=" "];
+  Node1 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="Json::Value::isNumeric",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_value.html#af961a000cd203c895e44c195ab39b866",tooltip=" "];
+  Node10 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="Json::Value::isDouble",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_value.html#a4a2e2a790e19a1c09fc5dd12d7ad47b5",tooltip=" "];
+  Node1 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="Json::Value::isUInt",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_value.html#abdda463d3269015f883587349726cfbc",tooltip=" "];
+  Node12 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

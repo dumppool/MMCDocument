@@ -1,0 +1,24 @@
+digraph "lodepng_get_color_profile"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="lodepng_get_color_profile",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="lodepng_auto_choose\l_color",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8h.html#a6b6c9c17717ab1a2159eab8048aa730a",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="lodepng_encode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8h.html#a90e82b0ccc75cfb27ccc9756c8d96f07",tooltip=" "];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="lodepng_encode_memory",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8h.html#ada7bc92db6e9f8906a1fc85caa0b17aa",tooltip=" "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="lodepng_encode24",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8h.html#a4100642d70071029967c16afd72193ff",tooltip=" "];
+  Node4 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="lodepng_encode32",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8h.html#a75d7f3e4e388b74b7b5214c76c66382f",tooltip=" "];
+  Node4 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="lodepng_encode_file",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8h.html#a009ac38098765fcae32c9d91770b94df",tooltip=" "];
+  Node7 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="lodepng_encode24_file",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8h.html#a4f8f383c22ceb7c22b1cc7e774f0bad2",tooltip=" "];
+  Node7 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="lodepng_encode32_file",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lodepng_8h.html#a018a3bd975fb886cdf1f6f544f2882e4",tooltip=" "];
+}

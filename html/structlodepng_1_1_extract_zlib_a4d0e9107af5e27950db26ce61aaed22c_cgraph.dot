@@ -1,0 +1,33 @@
+digraph "lodepng::ExtractZlib::decompress"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="lodepng::ExtractZlib\l::decompress",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="lodepng::ExtractZlib\l::inflate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structlodepng_1_1_extract_zlib.html#a606a82f96f4863b341af88ef695cf339",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="lodepng::ExtractZlib\l::inflateHuffmanBlock",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structlodepng_1_1_extract_zlib.html#ae05461026dbd3d15f73f4548008f6d0d",tooltip=" "];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="lodepng::ExtractZlib\l::generateFixedTrees",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structlodepng_1_1_extract_zlib.html#a711a6e87c83375d7a804cbd13f541d5a",tooltip=" "];
+  Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="lodepng::ExtractZlib\l::HuffmanTree::makeFromLengths",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structlodepng_1_1_extract_zlib_1_1_huffman_tree.html#aa8ebe92af3a1b1986b830e3066b73dc4",tooltip=" "];
+  Node3 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="lodepng::ExtractZlib\l::getTreeInflateDynamic",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structlodepng_1_1_extract_zlib.html#ae96ed471dcdbbc990b4d44f42d595108",tooltip=" "];
+  Node6 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="lodepng::ExtractZlib\l::huffmanDecodeSymbol",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structlodepng_1_1_extract_zlib.html#a4138fb76bf7dfcd8c81b408db7d73d6a",tooltip=" "];
+  Node7 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="lodepng::ExtractZlib\l::HuffmanTree::decode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structlodepng_1_1_extract_zlib_1_1_huffman_tree.html#a87d5230a17f1904f60639aa46390cda3",tooltip=" "];
+  Node7 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="lodepng::ExtractZlib\l::readBitFromStream",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structlodepng_1_1_extract_zlib.html#aa650adf55169e52848ac534a48245fa2",tooltip=" "];
+  Node6 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="lodepng::ExtractZlib\l::readBitsFromStream",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structlodepng_1_1_extract_zlib.html#a951594a02116a1d1b4a4037f2e35185e",tooltip=" "];
+  Node10 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="lodepng::ExtractZlib\l::inflateNoCompression",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structlodepng_1_1_extract_zlib.html#adafc510bdd213b4306eb91d35d4e75cd",tooltip=" "];
+  Node2 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

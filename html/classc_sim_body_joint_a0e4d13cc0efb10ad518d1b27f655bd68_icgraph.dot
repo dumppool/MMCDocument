@@ -1,0 +1,26 @@
+digraph "cSimBodyJoint::GetTotalTorque"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="cSimBodyJoint::GetTotalTorque",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cSimBodyJoint::ApplyTauPlanar",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_body_joint.html#a9382ee38526111440a9e6dc968d9640d",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cSimBodyJoint::ApplyTau",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_body_joint.html#ab3a01dd430c2c2fcb2acc86c48d77711",tooltip=" "];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cSimCharacter::UpdateJoints",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_character.html#a55f4a7d0cc22a80a63546eb69663592b",tooltip=" "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cSimCharacter::Update",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_character.html#a08502801e86cf01ad5066981fee504ed",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cSimBodyJoint::ApplyTauRevolute",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_body_joint.html#aaf883de0263792e8a7a317144cf3dab4",tooltip=" "];
+  Node6 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="cSimBodyJoint::ApplyTauSpherical",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_body_joint.html#a5508d930b9d95c39248e1dc9c0995275",tooltip=" "];
+  Node7 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="cDrawSimCharacter::\lDrawTorque",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_sim_character.html#a8d80e489711dc094d9f5dda0f6f5bcfc",tooltip=" "];
+  Node8 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="cDrawSceneSimChar::\lDrawTorque",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_scene_sim_char.html#ade2b8139ed9ab688252c061e13cf5aba",tooltip=" "];
+}

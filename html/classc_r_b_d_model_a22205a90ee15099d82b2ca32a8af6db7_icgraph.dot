@@ -1,0 +1,35 @@
+digraph "cRBDModel::GetNumDof"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="cRBDModel::GetNumDof",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cRBDUtil::BuildBiasForce",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#a5ea3c5b2030a24e2228d161f8d5edc5d",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cRBDUtil::SolveForDyna",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#a9d60722264a4925e572c6883e5fd7ccd",tooltip=" "];
+  Node2 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cRBDModel::UpdateBiasForce",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_model.html#a468edbed5890205333955e0a582c0b7f",tooltip=" "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cRBDModel::Update",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_model.html#af4791a1c8722f4d66c8c54aee0cf0b78",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cRBDUtil::BuildJacobian",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#a354dc852555f48a21b3e321b8e3198c6",tooltip=" "];
+  Node6 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="cRBDUtil::BuildCOMJacobian",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#a3211f5be373029b904b2090d979c5304",tooltip=" "];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="cRBDUtil::BuildMassMat",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#ab3fda084f7e9949e4a92ddfa011902b3",tooltip=" "];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="cRBDUtil::CalcCoMPos",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#ad19cd3d5aa444f88000feaeb09ea9901",tooltip=" "];
+  Node9 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="cRBDUtil::BuildCOMVelProd\lAccAux",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#a76d4ee53a0b21ca24862713526f33578",tooltip=" "];
+  Node10 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="cRBDUtil::BuildCOMVelProdAcc",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#a0f6b33195d055e1181e2257fda695af3",tooltip=" "];
+  Node1 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="cRBDModel::Init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_model.html#a96c191bfa6620f7e698622a0a85e91ee",tooltip=" "];
+  Node1 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="cRBDModel::InitJointSubspaceArr",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_model.html#afa67e8b4e575abfe4f4a07a5a44f129c",tooltip=" "];
+  Node13 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="cRBDUtil::SolveForDyna",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_r_b_d_util.html#ab6ef4626aa6340d9b0e2a33e9a4c58d5",tooltip=" "];
+}

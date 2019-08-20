@@ -1,0 +1,21 @@
+digraph "cObjTracer::UpdateTrace"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="cObjTracer::UpdateTrace",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cObjTracer::UpdateTraceCOM",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_obj_tracer.html#a657eec04356959ce21c21adbb046480b",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cCircularBuffer::Add",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_circular_buffer.html#a772e473ca90fffa7072a6062b4ed6117",tooltip=" "];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cTimer::IsEnd",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_timer.html#a4fb4c263b92427f49038a53dcd9479ae",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cObjTracer::UpdateTraceContact",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_obj_tracer.html#a4abaef22d20620d61667003354496d69",tooltip=" "];
+  Node5 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cObjTracer::UpdateTracePos",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_obj_tracer.html#a52424a64c9ef5955537d8b325992390f",tooltip=" "];
+  Node6 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

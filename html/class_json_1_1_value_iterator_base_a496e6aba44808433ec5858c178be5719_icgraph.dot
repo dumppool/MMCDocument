@@ -1,0 +1,12 @@
+digraph "Json::ValueIteratorBase::copy"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="Json::ValueIteratorBase\l::copy",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Json::ValueConstIterator\l::operator=",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_value_const_iterator.html#ad1b1c11f8d7fb22d4d3c231915f2b15b",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Json::ValueIterator\l::operator=",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_value_iterator.html#a8e23312b1db874f7e403fd7e76611bdc",tooltip=" "];
+}

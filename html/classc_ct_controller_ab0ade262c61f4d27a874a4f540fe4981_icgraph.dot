@@ -1,0 +1,28 @@
+digraph "cCtController::GetActionPhaseSize"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="cCtController::GetAction\lPhaseSize",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cCtController::GetAction\lCtrlOffset",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_ct_controller.html#a64b7a2297542f288f974fb9ff437bb1c",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cCtVelController::ApplyAction",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_ct_vel_controller.html#a5dcf21da61c3431f0d5faed8f319e2db",tooltip=" "];
+  Node2 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cCtController::BuildAction\lBounds",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_ct_controller.html#ab96786775c14e9b00adc55412d333b9f",tooltip=" "];
+  Node2 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cCtController::BuildAction\lOffsetScale",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_ct_controller.html#a9de4b4509192075c239845c63ec305e6",tooltip=" "];
+  Node2 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cCtPDController::SetPDTargets",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_ct_p_d_controller.html#a73cf0273d980c0442d175a3bf3ec7991",tooltip=" "];
+  Node6 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="cCtPDController::ApplyAction",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_ct_p_d_controller.html#ac6a97924404e769f8564132615ecdf8a",tooltip=" "];
+  Node2 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="cCtController::UpdateBuildTau",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_ct_controller.html#a669300910288b43fdf4cc641a5912bd6",tooltip=" "];
+  Node8 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="cCtController::UpdateCalcTau",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_ct_controller.html#ab96a2ef7f43c0fbd0824ae5a0ee84d92",tooltip=" "];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="cCtController::GetActionSize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_ct_controller.html#a7333caae2fa7a33082dae8eaa32e2a25",tooltip=" "];
+  Node10 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

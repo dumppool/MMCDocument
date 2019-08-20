@@ -1,0 +1,14 @@
+digraph "cTextureDesc::GetTexture"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="cTextureDesc::GetTexture",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cTextureDesc::BindTex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_texture_desc.html#a585e2b0ef23f4dec08829de433e8b3a0",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cDrawUtil::DrawTexQuad",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_util.html#a5b13cafaf21ae835a06d88da58fc366a",tooltip=" "];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cDrawUtil::CopyTexture",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_draw_util.html#a17a0dbb8ea4761cf7d480340eb64cac7",tooltip=" "];
+}

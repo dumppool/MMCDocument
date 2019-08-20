@@ -1,0 +1,20 @@
+digraph "cPDController::SetTargetTheta"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="cPDController::SetTarget\lTheta",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cPDController::Init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_p_d_controller.html#a760e2468925bff63cd0966b1a0f20c13",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cExpPDController::Init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_exp_p_d_controller.html#a3aac3bb46f672354b1b4991bc5cbb297",tooltip=" "];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cImpPDController::Init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_imp_p_d_controller.html#a3088ee721f685b485cc6084907c292a5",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cExpPDController::SetTarget\lTheta",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_exp_p_d_controller.html#ad407d0037eadcf9f3664c10c686b80df",tooltip=" "];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cCtPDController::SetPDTargets",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_ct_p_d_controller.html#a73cf0273d980c0442d175a3bf3ec7991",tooltip=" "];
+  Node6 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="cCtPDController::ApplyAction",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_ct_p_d_controller.html#ac6a97924404e769f8564132615ecdf8a",tooltip=" "];
+}

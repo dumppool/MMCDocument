@@ -1,0 +1,12 @@
+digraph "cCamera::BuildProjMatrixOrtho"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="cCamera::BuildProjMatrix\lOrtho",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cCamera::GetHeight",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#aa919c339ff1ddcba1d9e82196674f1a5",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cCamera::GetWidth",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_camera.html#ae7dfa3e815f4ddd27b2cb32203b65f21",tooltip=" "];
+}

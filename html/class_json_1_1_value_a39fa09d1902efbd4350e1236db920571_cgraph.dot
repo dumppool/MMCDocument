@@ -1,0 +1,14 @@
+digraph "Json::Value::Value"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Json::Value::Value",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Copy all, incl zeroes."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Json::duplicateAndPrefix\lStringValue",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespace_json.html#a9795a09a0141d1f12d307c4386aeaee6",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Json::throwRuntimeError",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespace_json.html#a780fd283227040c8c1a118c4d53fe58e",tooltip="used internally"];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Json::Value::initBasic",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_value.html#a32b86b71564157f40f880f5736be822a",tooltip=" "];
+}

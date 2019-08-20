@@ -1,0 +1,27 @@
+digraph "cKinCharacter::HasMotion"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="cKinCharacter::HasMotion",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cKinCharacter::CalcPose",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_character.html#a68ca12d76d4b8991270041dcae4be4eb",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cKinCharacter::Pose",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_character.html#a3ccbe74d9ad0f4d7104f901279a03a31",tooltip=" "];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cKinCharacter::LoadMotion",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_character.html#aadfb26f290511a722fa701f7cf134845",tooltip=" "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cKinCharacter::Init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_character.html#a8aae2e1ec2b7b0fcdfc9b6ee2b4df4b7",tooltip=" "];
+  Node3 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cKinCharacter::Update",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_character.html#adab771763382d1e6f2d76ad47eb3506a",tooltip=" "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="cKinCharacter::CalcVel",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_character.html#af176f2116f10f6354021194945c2c19a",tooltip=" "];
+  Node7 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="cKinCharacter::CalcAcc",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_character.html#aa3bc4cb904d48cf623b905bb9aa46006",tooltip=" "];
+  Node8 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="cKinCharacter::BuildAcc",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_character.html#aa0fd30b001acce502f898e8c3a4f6c77",tooltip=" "];
+  Node7 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="cKinCharacter::IsMotionOver",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_kin_character.html#a8d173f1a73dced01692ead4ad1ce2928",tooltip=" "];
+}

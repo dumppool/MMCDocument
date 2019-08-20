@@ -1,0 +1,18 @@
+digraph "cSimObj::SetRotation"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="cSimObj::SetRotation",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cSimRigidBody::SetRotation",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_rigid_body.html#a7e9ab664f0958e50aa0d65020e2f7b17",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cSimBox::Init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_box.html#a824505151b290d12576c9140a00d3d53",tooltip=" "];
+  Node2 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="cSimSphere::Init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_sphere.html#af1ee8aa2531669f310c9435beb059ebf",tooltip=" "];
+  Node2 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cSimCylinder::Init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_cylinder.html#a489bf44c8c1590e39fe5d3c26db2da7b",tooltip=" "];
+  Node2 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="cSimCapsule::Init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_sim_capsule.html#a99cb7e26dcfe965235268a430ea02364",tooltip=" "];
+}

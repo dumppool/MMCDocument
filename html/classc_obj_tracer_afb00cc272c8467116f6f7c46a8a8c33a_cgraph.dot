@@ -1,0 +1,12 @@
+digraph "cObjTracer::SetTraceColIdx"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="cObjTracer::SetTraceColIdx",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cObjTracer::GetTrace",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_obj_tracer.html#a0020466ce82c85cadb2a2a4063fc9909",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="cObjTracer::GetNumTraces",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classc_obj_tracer.html#a1ab0a6d791c2febc89f7cbfa26943b94",tooltip=" "];
+}

@@ -1,0 +1,14 @@
+digraph "Json::OurReader::getLocationLineAndColumn"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="Json::OurReader::getLocation\lLineAndColumn",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Json::OurReader::getFormatted\lErrorMessages",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_our_reader.html#a7971de51d73bb4aee5b0c4742c4aaaac",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Json::OurCharReader\l::parse",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_our_char_reader.html#a547f08ec5a9951ca69e8bb2e90296c83",tooltip="Read a Value from a JSON document. The document must be a UTF-8 encoded string containing the documen..."];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Json::OurReader::getLocation\lLineAndColumn",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_json_1_1_our_reader.html#ac129e94cdc260822b2fd24e2ca35e636",tooltip=" "];
+}
