@@ -1,0 +1,272 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Main Call Code Analysis - /usr/local/include/eigen3/Eigen/src/Core/Solve.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../../index.html">top level</a> - <a href="index.html">usr/local/include/eigen3/Eigen/src/Core</a> - Solve.h<span style="font-size: 80%;"> (source / <a href="Solve.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Main Call Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">14</td>
+            <td class="headerCovTableEntry">15</td>
+            <td class="headerCovTableEntryHi">93.3 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 16:51:56</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">7</td>
+            <td class="headerCovTableEntry">14</td>
+            <td class="headerCovTableEntryLo">50.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // This file is part of Eigen, a lightweight C++ template library</a>
+<span class="lineNum">       2 </span>            : // for linear algebra.
+<span class="lineNum">       3 </span>            : //
+<span class="lineNum">       4 </span>            : // Copyright (C) 2014 Gael Guennebaud &lt;gael.guennebaud@inria.fr&gt;
+<span class="lineNum">       5 </span>            : //
+<span class="lineNum">       6 </span>            : // This Source Code Form is subject to the terms of the Mozilla
+<span class="lineNum">       7 </span>            : // Public License v. 2.0. If a copy of the MPL was not distributed
+<span class="lineNum">       8 </span>            : // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+<span class="lineNum">       9 </span>            : 
+<span class="lineNum">      10 </span>            : #ifndef EIGEN_SOLVE_H
+<span class="lineNum">      11 </span>            : #define EIGEN_SOLVE_H
+<span class="lineNum">      12 </span>            : 
+<span class="lineNum">      13 </span>            : namespace Eigen {
+<span class="lineNum">      14 </span>            : 
+<span class="lineNum">      15 </span>            : template&lt;typename Decomposition, typename RhsType, typename StorageKind&gt; class SolveImpl;
+<span class="lineNum">      16 </span>            :   
+<span class="lineNum">      17 </span>            : /** \class Solve
+<span class="lineNum">      18 </span>            :   * \ingroup Core_Module
+<span class="lineNum">      19 </span>            :   *
+<span class="lineNum">      20 </span>            :   * \brief Pseudo expression representing a solving operation
+<span class="lineNum">      21 </span>            :   *
+<span class="lineNum">      22 </span>            :   * \tparam Decomposition the type of the matrix or decomposion object
+<span class="lineNum">      23 </span>            :   * \tparam Rhstype the type of the right-hand side
+<span class="lineNum">      24 </span>            :   *
+<span class="lineNum">      25 </span>            :   * This class represents an expression of A.solve(B)
+<span class="lineNum">      26 </span>            :   * and most of the time this is the only way it is used.
+<span class="lineNum">      27 </span>            :   *
+<span class="lineNum">      28 </span>            :   */
+<span class="lineNum">      29 </span>            : namespace internal {
+<span class="lineNum">      30 </span>            : 
+<span class="lineNum">      31 </span>            : // this solve_traits class permits to determine the evaluation type with respect to storage kind (Dense vs Sparse)
+<span class="lineNum">      32 </span>            : template&lt;typename Decomposition, typename RhsType,typename StorageKind&gt; struct solve_traits;
+<span class="lineNum">      33 </span>            : 
+<span class="lineNum">      34 </span>            : template&lt;typename Decomposition, typename RhsType&gt;
+<span class="lineNum">      35 </span>            : struct solve_traits&lt;Decomposition,RhsType,Dense&gt;
+<span class="lineNum">      36 </span>            : {
+<span class="lineNum">      37 </span>            :   typedef typename make_proper_matrix_type&lt;typename RhsType::Scalar,
+<span class="lineNum">      38 </span>            :                  Decomposition::ColsAtCompileTime,
+<span class="lineNum">      39 </span>            :                  RhsType::ColsAtCompileTime,
+<span class="lineNum">      40 </span>            :                  RhsType::PlainObject::Options,
+<span class="lineNum">      41 </span>            :                  Decomposition::MaxColsAtCompileTime,
+<span class="lineNum">      42 </span>            :                  RhsType::MaxColsAtCompileTime&gt;::type PlainObject;
+<span class="lineNum">      43 </span>            : };
+<span class="lineNum">      44 </span>            : 
+<span class="lineNum">      45 </span>            : template&lt;typename Decomposition, typename RhsType&gt;
+<span class="lineNum">      46 </span>            : struct traits&lt;Solve&lt;Decomposition, RhsType&gt; &gt;
+<span class="lineNum">      47 </span>            :   : traits&lt;typename solve_traits&lt;Decomposition,RhsType,typename internal::traits&lt;RhsType&gt;::StorageKind&gt;::PlainObject&gt;
+<span class="lineNum">      48 </span>            : {
+<span class="lineNum">      49 </span>            :   typedef typename solve_traits&lt;Decomposition,RhsType,typename internal::traits&lt;RhsType&gt;::StorageKind&gt;::PlainObject PlainObject;
+<span class="lineNum">      50 </span>            :   typedef typename promote_index_type&lt;typename Decomposition::StorageIndex, typename RhsType::StorageIndex&gt;::type StorageIndex;
+<span class="lineNum">      51 </span>            :   typedef traits&lt;PlainObject&gt; BaseTraits;
+<span class="lineNum">      52 </span>            :   enum {
+<span class="lineNum">      53 </span>            :     Flags = BaseTraits::Flags &amp; RowMajorBit,
+<span class="lineNum">      54 </span>            :     CoeffReadCost = HugeCost
+<span class="lineNum">      55 </span>            :   };
+<span class="lineNum">      56 </span>            : };
+<span class="lineNum">      57 </span>            : 
+<span class="lineNum">      58 </span>            : }
+<span class="lineNum">      59 </span>            : 
+<span class="lineNum">      60 </span>            : 
+<span class="lineNum">      61 </span>            : template&lt;typename Decomposition, typename RhsType&gt;
+<span class="lineNum">      62 </span>            : class Solve : public SolveImpl&lt;Decomposition,RhsType,typename internal::traits&lt;RhsType&gt;::StorageKind&gt;
+<span class="lineNum">      63 </span>            : {
+<span class="lineNum">      64 </span>            : public:
+<span class="lineNum">      65 </span>            :   typedef typename internal::traits&lt;Solve&gt;::PlainObject PlainObject;
+<a name="66"><span class="lineNum">      66 </span>            :   typedef typename internal::traits&lt;Solve&gt;::StorageIndex StorageIndex;</a>
+<span class="lineNum">      67 </span>            :   
+<span class="lineNum">      68 </span><span class="lineCov">        170 :   Solve(const Decomposition &amp;dec, const RhsType &amp;rhs)</span>
+<span class="lineNum">      69 </span><span class="lineCov">        170 :     : m_dec(dec), m_rhs(rhs)</span>
+<a name="70"><span class="lineNum">      70 </span><span class="lineCov">        170 :   {}</span></a>
+<a name="71"><span class="lineNum">      71 </span>            :   </a>
+<span class="lineNum">      72 </span><span class="lineCov">        170 :   EIGEN_DEVICE_FUNC Index rows() const { return m_dec.cols(); }</span>
+<a name="73"><span class="lineNum">      73 </span><span class="lineCov">        170 :   EIGEN_DEVICE_FUNC Index cols() const { return m_rhs.cols(); }</span></a>
+<a name="74"><span class="lineNum">      74 </span>            : </a>
+<span class="lineNum">      75 </span><span class="lineCov">        170 :   EIGEN_DEVICE_FUNC const Decomposition&amp; dec() const { return m_dec; }</span>
+<span class="lineNum">      76 </span><span class="lineCov">        170 :   EIGEN_DEVICE_FUNC const RhsType&amp;       rhs() const { return m_rhs; }</span>
+<span class="lineNum">      77 </span>            : 
+<span class="lineNum">      78 </span>            : protected:
+<span class="lineNum">      79 </span>            :   const Decomposition &amp;m_dec;
+<span class="lineNum">      80 </span>            :   const RhsType       &amp;m_rhs;
+<span class="lineNum">      81 </span>            : };
+<span class="lineNum">      82 </span>            : 
+<span class="lineNum">      83 </span>            : 
+<a name="84"><span class="lineNum">      84 </span>            : // Specialization of the Solve expression for dense results</a>
+<span class="lineNum">      85 </span>            : template&lt;typename Decomposition, typename RhsType&gt;
+<span class="lineNum">      86 </span><span class="lineCov">        170 : class SolveImpl&lt;Decomposition,RhsType,Dense&gt;</span>
+<span class="lineNum">      87 </span>            :   : public MatrixBase&lt;Solve&lt;Decomposition,RhsType&gt; &gt;
+<span class="lineNum">      88 </span>            : {
+<span class="lineNum">      89 </span>            :   typedef Solve&lt;Decomposition,RhsType&gt; Derived;
+<span class="lineNum">      90 </span>            :   
+<span class="lineNum">      91 </span>            : public:
+<span class="lineNum">      92 </span>            :   
+<span class="lineNum">      93 </span>            :   typedef MatrixBase&lt;Solve&lt;Decomposition,RhsType&gt; &gt; Base;
+<span class="lineNum">      94 </span>            :   EIGEN_DENSE_PUBLIC_INTERFACE(Derived)
+<span class="lineNum">      95 </span>            : 
+<span class="lineNum">      96 </span>            : private:
+<span class="lineNum">      97 </span>            :   
+<span class="lineNum">      98 </span>            :   Scalar coeff(Index row, Index col) const;
+<span class="lineNum">      99 </span>            :   Scalar coeff(Index i) const;
+<span class="lineNum">     100 </span>            : };
+<span class="lineNum">     101 </span>            : 
+<span class="lineNum">     102 </span>            : // Generic API dispatcher
+<span class="lineNum">     103 </span>            : template&lt;typename Decomposition, typename RhsType, typename StorageKind&gt;
+<span class="lineNum">     104 </span>            : class SolveImpl : public internal::generic_xpr_base&lt;Solve&lt;Decomposition,RhsType&gt;, MatrixXpr, StorageKind&gt;::type
+<span class="lineNum">     105 </span>            : {
+<span class="lineNum">     106 </span>            :   public:
+<span class="lineNum">     107 </span>            :     typedef typename internal::generic_xpr_base&lt;Solve&lt;Decomposition,RhsType&gt;, MatrixXpr, StorageKind&gt;::type Base;
+<span class="lineNum">     108 </span>            : };
+<span class="lineNum">     109 </span>            : 
+<span class="lineNum">     110 </span>            : namespace internal {
+<span class="lineNum">     111 </span>            : 
+<span class="lineNum">     112 </span>            : // Evaluator of Solve -&gt; eval into a temporary
+<span class="lineNum">     113 </span>            : template&lt;typename Decomposition, typename RhsType&gt;
+<span class="lineNum">     114 </span>            : struct evaluator&lt;Solve&lt;Decomposition,RhsType&gt; &gt;
+<span class="lineNum">     115 </span>            :   : public evaluator&lt;typename Solve&lt;Decomposition,RhsType&gt;::PlainObject&gt;
+<span class="lineNum">     116 </span>            : {
+<span class="lineNum">     117 </span>            :   typedef Solve&lt;Decomposition,RhsType&gt; SolveType;
+<span class="lineNum">     118 </span>            :   typedef typename SolveType::PlainObject PlainObject;
+<span class="lineNum">     119 </span>            :   typedef evaluator&lt;PlainObject&gt; Base;
+<span class="lineNum">     120 </span>            : 
+<span class="lineNum">     121 </span>            :   enum { Flags = Base::Flags | EvalBeforeNestingBit };
+<span class="lineNum">     122 </span>            :   
+<span class="lineNum">     123 </span>            :   EIGEN_DEVICE_FUNC explicit evaluator(const SolveType&amp; solve)
+<span class="lineNum">     124 </span>            :     : m_result(solve.rows(), solve.cols())
+<span class="lineNum">     125 </span>            :   {
+<span class="lineNum">     126 </span>            :     ::new (static_cast&lt;Base*&gt;(this)) Base(m_result);
+<span class="lineNum">     127 </span>            :     solve.dec()._solve_impl(solve.rhs(), m_result);
+<span class="lineNum">     128 </span>            :   }
+<span class="lineNum">     129 </span>            :   
+<span class="lineNum">     130 </span>            : protected:  
+<span class="lineNum">     131 </span>            :   PlainObject m_result;
+<span class="lineNum">     132 </span>            : };
+<span class="lineNum">     133 </span>            : 
+<span class="lineNum">     134 </span>            : // Specialization for &quot;dst = dec.solve(rhs)&quot;
+<span class="lineNum">     135 </span>            : // NOTE we need to specialize it for Dense2Dense to avoid ambiguous specialization error and a Sparse2Sparse specialization must exist somewhere
+<span class="lineNum">     136 </span>            : template&lt;typename DstXprType, typename DecType, typename RhsType, typename Scalar&gt;
+<span class="lineNum">     137 </span>            : struct Assignment&lt;DstXprType, Solve&lt;DecType,RhsType&gt;, internal::assign_op&lt;Scalar,Scalar&gt;, Dense2Dense&gt;
+<a name="138"><span class="lineNum">     138 </span>            : {</a>
+<span class="lineNum">     139 </span>            :   typedef Solve&lt;DecType,RhsType&gt; SrcXprType;
+<span class="lineNum">     140 </span><span class="lineCov">        170 :   static void run(DstXprType &amp;dst, const SrcXprType &amp;src, const internal::assign_op&lt;Scalar,Scalar&gt; &amp;)</span>
+<span class="lineNum">     141 </span>            :   {
+<span class="lineNum">     142 </span><span class="lineCov">        170 :     Index dstRows = src.rows();</span>
+<span class="lineNum">     143 </span><span class="lineCov">        170 :     Index dstCols = src.cols();</span>
+<span class="lineNum">     144 </span><span class="lineCov">        170 :     if((dst.rows()!=dstRows) || (dst.cols()!=dstCols))</span>
+<span class="lineNum">     145 </span><span class="lineNoCov">          0 :       dst.resize(dstRows, dstCols);</span>
+<span class="lineNum">     146 </span>            : 
+<span class="lineNum">     147 </span><span class="lineCov">        170 :     src.dec()._solve_impl(src.rhs(), dst);</span>
+<span class="lineNum">     148 </span><span class="lineCov">        170 :   }</span>
+<span class="lineNum">     149 </span>            : };
+<span class="lineNum">     150 </span>            : 
+<span class="lineNum">     151 </span>            : // Specialization for &quot;dst = dec.transpose().solve(rhs)&quot;
+<span class="lineNum">     152 </span>            : template&lt;typename DstXprType, typename DecType, typename RhsType, typename Scalar&gt;
+<span class="lineNum">     153 </span>            : struct Assignment&lt;DstXprType, Solve&lt;Transpose&lt;const DecType&gt;,RhsType&gt;, internal::assign_op&lt;Scalar,Scalar&gt;, Dense2Dense&gt;
+<span class="lineNum">     154 </span>            : {
+<span class="lineNum">     155 </span>            :   typedef Solve&lt;Transpose&lt;const DecType&gt;,RhsType&gt; SrcXprType;
+<span class="lineNum">     156 </span>            :   static void run(DstXprType &amp;dst, const SrcXprType &amp;src, const internal::assign_op&lt;Scalar,Scalar&gt; &amp;)
+<span class="lineNum">     157 </span>            :   {
+<span class="lineNum">     158 </span>            :     Index dstRows = src.rows();
+<span class="lineNum">     159 </span>            :     Index dstCols = src.cols();
+<span class="lineNum">     160 </span>            :     if((dst.rows()!=dstRows) || (dst.cols()!=dstCols))
+<span class="lineNum">     161 </span>            :       dst.resize(dstRows, dstCols);
+<span class="lineNum">     162 </span>            : 
+<span class="lineNum">     163 </span>            :     src.dec().nestedExpression().template _solve_impl_transposed&lt;false&gt;(src.rhs(), dst);
+<span class="lineNum">     164 </span>            :   }
+<span class="lineNum">     165 </span>            : };
+<span class="lineNum">     166 </span>            : 
+<span class="lineNum">     167 </span>            : // Specialization for &quot;dst = dec.adjoint().solve(rhs)&quot;
+<span class="lineNum">     168 </span>            : template&lt;typename DstXprType, typename DecType, typename RhsType, typename Scalar&gt;
+<span class="lineNum">     169 </span>            : struct Assignment&lt;DstXprType, Solve&lt;CwiseUnaryOp&lt;internal::scalar_conjugate_op&lt;typename DecType::Scalar&gt;, const Transpose&lt;const DecType&gt; &gt;,RhsType&gt;,
+<span class="lineNum">     170 </span>            :                   internal::assign_op&lt;Scalar,Scalar&gt;, Dense2Dense&gt;
+<span class="lineNum">     171 </span>            : {
+<span class="lineNum">     172 </span>            :   typedef Solve&lt;CwiseUnaryOp&lt;internal::scalar_conjugate_op&lt;typename DecType::Scalar&gt;, const Transpose&lt;const DecType&gt; &gt;,RhsType&gt; SrcXprType;
+<span class="lineNum">     173 </span>            :   static void run(DstXprType &amp;dst, const SrcXprType &amp;src, const internal::assign_op&lt;Scalar,Scalar&gt; &amp;)
+<span class="lineNum">     174 </span>            :   {
+<span class="lineNum">     175 </span>            :     Index dstRows = src.rows();
+<span class="lineNum">     176 </span>            :     Index dstCols = src.cols();
+<span class="lineNum">     177 </span>            :     if((dst.rows()!=dstRows) || (dst.cols()!=dstCols))
+<span class="lineNum">     178 </span>            :       dst.resize(dstRows, dstCols);
+<span class="lineNum">     179 </span>            :     
+<span class="lineNum">     180 </span>            :     src.dec().nestedExpression().nestedExpression().template _solve_impl_transposed&lt;true&gt;(src.rhs(), dst);
+<span class="lineNum">     181 </span>            :   }
+<span class="lineNum">     182 </span>            : };
+<span class="lineNum">     183 </span>            : 
+<span class="lineNum">     184 </span>            : } // end namepsace internal
+<span class="lineNum">     185 </span>            : 
+<span class="lineNum">     186 </span>            : } // end namespace Eigen
+<span class="lineNum">     187 </span>            : 
+<span class="lineNum">     188 </span>            : #endif // EIGEN_SOLVE_H
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

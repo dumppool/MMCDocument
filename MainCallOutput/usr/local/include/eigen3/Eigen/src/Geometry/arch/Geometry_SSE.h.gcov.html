@@ -1,0 +1,245 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Main Call Code Analysis - /usr/local/include/eigen3/Eigen/src/Geometry/arch/Geometry_SSE.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../../../index.html">top level</a> - <a href="index.html">usr/local/include/eigen3/Eigen/src/Geometry/arch</a> - Geometry_SSE.h<span style="font-size: 80%;"> (source / <a href="Geometry_SSE.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Main Call Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">24</td>
+            <td class="headerCovTableEntry">24</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 16:51:56</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // This file is part of Eigen, a lightweight C++ template library</a>
+<span class="lineNum">       2 </span>            : // for linear algebra.
+<span class="lineNum">       3 </span>            : //
+<span class="lineNum">       4 </span>            : // Copyright (C) 2009 Rohit Garg &lt;rpg.314@gmail.com&gt;
+<span class="lineNum">       5 </span>            : // Copyright (C) 2009-2010 Gael Guennebaud &lt;gael.guennebaud@inria.fr&gt;
+<span class="lineNum">       6 </span>            : //
+<span class="lineNum">       7 </span>            : // This Source Code Form is subject to the terms of the Mozilla
+<span class="lineNum">       8 </span>            : // Public License v. 2.0. If a copy of the MPL was not distributed
+<span class="lineNum">       9 </span>            : // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+<span class="lineNum">      10 </span>            : 
+<span class="lineNum">      11 </span>            : #ifndef EIGEN_GEOMETRY_SSE_H
+<span class="lineNum">      12 </span>            : #define EIGEN_GEOMETRY_SSE_H
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span>            : namespace Eigen { 
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span>            : namespace internal {
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span>            : template&lt;class Derived, class OtherDerived&gt;
+<span class="lineNum">      19 </span>            : struct quat_product&lt;Architecture::SSE, Derived, OtherDerived, float&gt;
+<span class="lineNum">      20 </span>            : {
+<span class="lineNum">      21 </span>            :   enum {
+<span class="lineNum">      22 </span>            :     AAlignment = traits&lt;Derived&gt;::Alignment,
+<span class="lineNum">      23 </span>            :     BAlignment = traits&lt;OtherDerived&gt;::Alignment,
+<span class="lineNum">      24 </span>            :     ResAlignment = traits&lt;Quaternion&lt;float&gt; &gt;::Alignment
+<span class="lineNum">      25 </span>            :   };
+<span class="lineNum">      26 </span>            :   static inline Quaternion&lt;float&gt; run(const QuaternionBase&lt;Derived&gt;&amp; _a, const QuaternionBase&lt;OtherDerived&gt;&amp; _b)
+<span class="lineNum">      27 </span>            :   {
+<span class="lineNum">      28 </span>            :     Quaternion&lt;float&gt; res;
+<span class="lineNum">      29 </span>            :     const __m128 mask = _mm_setr_ps(0.f,0.f,0.f,-0.f);
+<span class="lineNum">      30 </span>            :     __m128 a = _a.coeffs().template packet&lt;AAlignment&gt;(0);
+<span class="lineNum">      31 </span>            :     __m128 b = _b.coeffs().template packet&lt;BAlignment&gt;(0);
+<span class="lineNum">      32 </span>            :     __m128 s1 = _mm_mul_ps(vec4f_swizzle1(a,1,2,0,2),vec4f_swizzle1(b,2,0,1,2));
+<span class="lineNum">      33 </span>            :     __m128 s2 = _mm_mul_ps(vec4f_swizzle1(a,3,3,3,1),vec4f_swizzle1(b,0,1,2,1));
+<span class="lineNum">      34 </span>            :     pstoret&lt;float,Packet4f,ResAlignment&gt;(
+<span class="lineNum">      35 </span>            :               &amp;res.x(),
+<span class="lineNum">      36 </span>            :               _mm_add_ps(_mm_sub_ps(_mm_mul_ps(a,vec4f_swizzle1(b,3,3,3,3)),
+<span class="lineNum">      37 </span>            :                                     _mm_mul_ps(vec4f_swizzle1(a,2,0,1,0),
+<span class="lineNum">      38 </span>            :                                                vec4f_swizzle1(b,1,2,0,0))),
+<span class="lineNum">      39 </span>            :                          _mm_xor_ps(mask,_mm_add_ps(s1,s2))));
+<span class="lineNum">      40 </span>            :     
+<span class="lineNum">      41 </span>            :     return res;
+<span class="lineNum">      42 </span>            :   }
+<span class="lineNum">      43 </span>            : };
+<span class="lineNum">      44 </span>            : 
+<span class="lineNum">      45 </span>            : template&lt;class Derived&gt;
+<span class="lineNum">      46 </span>            : struct quat_conj&lt;Architecture::SSE, Derived, float&gt;
+<span class="lineNum">      47 </span>            : {
+<span class="lineNum">      48 </span>            :   enum {
+<span class="lineNum">      49 </span>            :     ResAlignment = traits&lt;Quaternion&lt;float&gt; &gt;::Alignment
+<span class="lineNum">      50 </span>            :   };
+<span class="lineNum">      51 </span>            :   static inline Quaternion&lt;float&gt; run(const QuaternionBase&lt;Derived&gt;&amp; q)
+<span class="lineNum">      52 </span>            :   {
+<span class="lineNum">      53 </span>            :     Quaternion&lt;float&gt; res;
+<span class="lineNum">      54 </span>            :     const __m128 mask = _mm_setr_ps(-0.f,-0.f,-0.f,0.f);
+<span class="lineNum">      55 </span>            :     pstoret&lt;float,Packet4f,ResAlignment&gt;(&amp;res.x(), _mm_xor_ps(mask, q.coeffs().template packet&lt;traits&lt;Derived&gt;::Alignment&gt;(0)));
+<span class="lineNum">      56 </span>            :     return res;
+<span class="lineNum">      57 </span>            :   }
+<span class="lineNum">      58 </span>            : };
+<span class="lineNum">      59 </span>            : 
+<span class="lineNum">      60 </span>            : 
+<span class="lineNum">      61 </span>            : template&lt;typename VectorLhs,typename VectorRhs&gt;
+<span class="lineNum">      62 </span>            : struct cross3_impl&lt;Architecture::SSE,VectorLhs,VectorRhs,float,true&gt;
+<span class="lineNum">      63 </span>            : {
+<span class="lineNum">      64 </span>            :   enum {
+<span class="lineNum">      65 </span>            :     ResAlignment = traits&lt;typename plain_matrix_type&lt;VectorLhs&gt;::type&gt;::Alignment
+<span class="lineNum">      66 </span>            :   };
+<span class="lineNum">      67 </span>            :   static inline typename plain_matrix_type&lt;VectorLhs&gt;::type
+<span class="lineNum">      68 </span>            :   run(const VectorLhs&amp; lhs, const VectorRhs&amp; rhs)
+<span class="lineNum">      69 </span>            :   {
+<span class="lineNum">      70 </span>            :     __m128 a = lhs.template packet&lt;traits&lt;VectorLhs&gt;::Alignment&gt;(0);
+<span class="lineNum">      71 </span>            :     __m128 b = rhs.template packet&lt;traits&lt;VectorRhs&gt;::Alignment&gt;(0);
+<span class="lineNum">      72 </span>            :     __m128 mul1=_mm_mul_ps(vec4f_swizzle1(a,1,2,0,3),vec4f_swizzle1(b,2,0,1,3));
+<span class="lineNum">      73 </span>            :     __m128 mul2=_mm_mul_ps(vec4f_swizzle1(a,2,0,1,3),vec4f_swizzle1(b,1,2,0,3));
+<span class="lineNum">      74 </span>            :     typename plain_matrix_type&lt;VectorLhs&gt;::type res;
+<span class="lineNum">      75 </span>            :     pstoret&lt;float,Packet4f,ResAlignment&gt;(&amp;res.x(),_mm_sub_ps(mul1,mul2));
+<span class="lineNum">      76 </span>            :     return res;
+<span class="lineNum">      77 </span>            :   }
+<span class="lineNum">      78 </span>            : };
+<span class="lineNum">      79 </span>            : 
+<span class="lineNum">      80 </span>            : 
+<span class="lineNum">      81 </span>            : 
+<span class="lineNum">      82 </span>            : 
+<span class="lineNum">      83 </span>            : template&lt;class Derived, class OtherDerived&gt;
+<span class="lineNum">      84 </span>            : struct quat_product&lt;Architecture::SSE, Derived, OtherDerived, double&gt;
+<span class="lineNum">      85 </span>            : {
+<span class="lineNum">      86 </span>            :   enum {
+<span class="lineNum">      87 </span>            :     BAlignment = traits&lt;OtherDerived&gt;::Alignment,
+<span class="lineNum">      88 </span>            :     ResAlignment = traits&lt;Quaternion&lt;double&gt; &gt;::Alignment
+<a name="89"><span class="lineNum">      89 </span>            :   };</a>
+<span class="lineNum">      90 </span>            : 
+<span class="lineNum">      91 </span><span class="lineCov">       5792 :   static inline Quaternion&lt;double&gt; run(const QuaternionBase&lt;Derived&gt;&amp; _a, const QuaternionBase&lt;OtherDerived&gt;&amp; _b)</span>
+<span class="lineNum">      92 </span>            :   {
+<span class="lineNum">      93 </span><span class="lineCov">      11584 :   const Packet2d mask = _mm_castsi128_pd(_mm_set_epi32(0x0,0x0,0x80000000,0x0));</span>
+<span class="lineNum">      94 </span>            : 
+<span class="lineNum">      95 </span><span class="lineCov">       5792 :   Quaternion&lt;double&gt; res;</span>
+<span class="lineNum">      96 </span>            : 
+<span class="lineNum">      97 </span><span class="lineCov">       5792 :   const double* a = _a.coeffs().data();</span>
+<span class="lineNum">      98 </span><span class="lineCov">       5792 :   Packet2d b_xy = _b.coeffs().template packet&lt;BAlignment&gt;(0);</span>
+<span class="lineNum">      99 </span><span class="lineCov">       5792 :   Packet2d b_zw = _b.coeffs().template packet&lt;BAlignment&gt;(2);</span>
+<span class="lineNum">     100 </span><span class="lineCov">       5792 :   Packet2d a_xx = pset1&lt;Packet2d&gt;(a[0]);</span>
+<span class="lineNum">     101 </span><span class="lineCov">       5792 :   Packet2d a_yy = pset1&lt;Packet2d&gt;(a[1]);</span>
+<span class="lineNum">     102 </span><span class="lineCov">       5792 :   Packet2d a_zz = pset1&lt;Packet2d&gt;(a[2]);</span>
+<span class="lineNum">     103 </span><span class="lineCov">       5792 :   Packet2d a_ww = pset1&lt;Packet2d&gt;(a[3]);</span>
+<span class="lineNum">     104 </span>            : 
+<span class="lineNum">     105 </span>            :   // two temporaries:
+<span class="lineNum">     106 </span>            :   Packet2d t1, t2;
+<span class="lineNum">     107 </span>            : 
+<span class="lineNum">     108 </span>            :   /*
+<span class="lineNum">     109 </span>            :    * t1 = ww*xy + yy*zw
+<span class="lineNum">     110 </span>            :    * t2 = zz*xy - xx*zw
+<span class="lineNum">     111 </span>            :    * res.xy = t1 +/- swap(t2)
+<span class="lineNum">     112 </span>            :    */
+<span class="lineNum">     113 </span><span class="lineCov">       5792 :   t1 = padd(pmul(a_ww, b_xy), pmul(a_yy, b_zw));</span>
+<span class="lineNum">     114 </span><span class="lineCov">       5792 :   t2 = psub(pmul(a_zz, b_xy), pmul(a_xx, b_zw));</span>
+<span class="lineNum">     115 </span>            : #ifdef EIGEN_VECTORIZE_SSE3
+<span class="lineNum">     116 </span>            :   EIGEN_UNUSED_VARIABLE(mask)
+<span class="lineNum">     117 </span>            :   pstoret&lt;double,Packet2d,ResAlignment&gt;(&amp;res.x(), _mm_addsub_pd(t1, preverse(t2)));
+<span class="lineNum">     118 </span>            : #else
+<span class="lineNum">     119 </span><span class="lineCov">      11584 :   pstoret&lt;double,Packet2d,ResAlignment&gt;(&amp;res.x(), padd(t1, pxor(mask,preverse(t2))));</span>
+<span class="lineNum">     120 </span>            : #endif
+<span class="lineNum">     121 </span>            :   
+<span class="lineNum">     122 </span>            :   /*
+<span class="lineNum">     123 </span>            :    * t1 = ww*zw - yy*xy
+<span class="lineNum">     124 </span>            :    * t2 = zz*zw + xx*xy
+<span class="lineNum">     125 </span>            :    * res.zw = t1 -/+ swap(t2) = swap( swap(t1) +/- t2)
+<span class="lineNum">     126 </span>            :    */
+<span class="lineNum">     127 </span><span class="lineCov">       5792 :   t1 = psub(pmul(a_ww, b_zw), pmul(a_yy, b_xy));</span>
+<span class="lineNum">     128 </span><span class="lineCov">       5792 :   t2 = padd(pmul(a_zz, b_zw), pmul(a_xx, b_xy));</span>
+<span class="lineNum">     129 </span>            : #ifdef EIGEN_VECTORIZE_SSE3
+<span class="lineNum">     130 </span>            :   EIGEN_UNUSED_VARIABLE(mask)
+<span class="lineNum">     131 </span>            :   pstoret&lt;double,Packet2d,ResAlignment&gt;(&amp;res.z(), preverse(_mm_addsub_pd(preverse(t1), t2)));
+<span class="lineNum">     132 </span>            : #else
+<span class="lineNum">     133 </span><span class="lineCov">      11584 :   pstoret&lt;double,Packet2d,ResAlignment&gt;(&amp;res.z(), psub(t1, pxor(mask,preverse(t2))));</span>
+<span class="lineNum">     134 </span>            : #endif
+<span class="lineNum">     135 </span>            : 
+<span class="lineNum">     136 </span><span class="lineCov">       5792 :   return res;</span>
+<span class="lineNum">     137 </span>            : }
+<span class="lineNum">     138 </span>            : };
+<span class="lineNum">     139 </span>            : 
+<span class="lineNum">     140 </span>            : template&lt;class Derived&gt;
+<span class="lineNum">     141 </span>            : struct quat_conj&lt;Architecture::SSE, Derived, double&gt;
+<span class="lineNum">     142 </span>            : {
+<span class="lineNum">     143 </span>            :   enum {
+<a name="144"><span class="lineNum">     144 </span>            :     ResAlignment = traits&lt;Quaternion&lt;double&gt; &gt;::Alignment</a>
+<span class="lineNum">     145 </span>            :   };
+<span class="lineNum">     146 </span><span class="lineCov">       5155 :   static inline Quaternion&lt;double&gt; run(const QuaternionBase&lt;Derived&gt;&amp; q)</span>
+<span class="lineNum">     147 </span>            :   {
+<span class="lineNum">     148 </span><span class="lineCov">       5155 :     Quaternion&lt;double&gt; res;</span>
+<span class="lineNum">     149 </span><span class="lineCov">       5155 :     const __m128d mask0 = _mm_setr_pd(-0.,-0.);</span>
+<span class="lineNum">     150 </span><span class="lineCov">       5155 :     const __m128d mask2 = _mm_setr_pd(-0.,0.);</span>
+<span class="lineNum">     151 </span><span class="lineCov">      15465 :     pstoret&lt;double,Packet2d,ResAlignment&gt;(&amp;res.x(), _mm_xor_pd(mask0, q.coeffs().template packet&lt;traits&lt;Derived&gt;::Alignment&gt;(0)));</span>
+<span class="lineNum">     152 </span><span class="lineCov">      15465 :     pstoret&lt;double,Packet2d,ResAlignment&gt;(&amp;res.z(), _mm_xor_pd(mask2, q.coeffs().template packet&lt;traits&lt;Derived&gt;::Alignment&gt;(2)));</span>
+<span class="lineNum">     153 </span><span class="lineCov">       5155 :     return res;</span>
+<span class="lineNum">     154 </span>            :   }
+<span class="lineNum">     155 </span>            : };
+<span class="lineNum">     156 </span>            : 
+<span class="lineNum">     157 </span>            : } // end namespace internal
+<span class="lineNum">     158 </span>            : 
+<span class="lineNum">     159 </span>            : } // end namespace Eigen
+<span class="lineNum">     160 </span>            : 
+<span class="lineNum">     161 </span>            : #endif // EIGEN_GEOMETRY_SSE_H
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

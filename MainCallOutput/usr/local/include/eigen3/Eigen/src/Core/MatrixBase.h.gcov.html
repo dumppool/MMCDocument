@@ -1,0 +1,613 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Main Call Code Analysis - /usr/local/include/eigen3/Eigen/src/Core/MatrixBase.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../../index.html">top level</a> - <a href="index.html">usr/local/include/eigen3/Eigen/src/Core</a> - MatrixBase.h<span style="font-size: 80%;"> (source / <a href="MatrixBase.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Main Call Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">8</td>
+            <td class="headerCovTableEntryLo">12.5 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 16:51:56</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">225</td>
+            <td class="headerCovTableEntry">483</td>
+            <td class="headerCovTableEntryLo">46.6 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // This file is part of Eigen, a lightweight C++ template library</a>
+<span class="lineNum">       2 </span>            : // for linear algebra.
+<span class="lineNum">       3 </span>            : //
+<span class="lineNum">       4 </span>            : // Copyright (C) 2006-2009 Benoit Jacob &lt;jacob.benoit.1@gmail.com&gt;
+<span class="lineNum">       5 </span>            : // Copyright (C) 2008 Gael Guennebaud &lt;gael.guennebaud@inria.fr&gt;
+<span class="lineNum">       6 </span>            : //
+<span class="lineNum">       7 </span>            : // This Source Code Form is subject to the terms of the Mozilla
+<span class="lineNum">       8 </span>            : // Public License v. 2.0. If a copy of the MPL was not distributed
+<span class="lineNum">       9 </span>            : // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+<span class="lineNum">      10 </span>            : 
+<span class="lineNum">      11 </span>            : #ifndef EIGEN_MATRIXBASE_H
+<span class="lineNum">      12 </span>            : #define EIGEN_MATRIXBASE_H
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span>            : namespace Eigen {
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span>            : /** \class MatrixBase
+<span class="lineNum">      17 </span>            :   * \ingroup Core_Module
+<span class="lineNum">      18 </span>            :   *
+<span class="lineNum">      19 </span>            :   * \brief Base class for all dense matrices, vectors, and expressions
+<span class="lineNum">      20 </span>            :   *
+<span class="lineNum">      21 </span>            :   * This class is the base that is inherited by all matrix, vector, and related expression
+<span class="lineNum">      22 </span>            :   * types. Most of the Eigen API is contained in this class, and its base classes. Other important
+<span class="lineNum">      23 </span>            :   * classes for the Eigen API are Matrix, and VectorwiseOp.
+<span class="lineNum">      24 </span>            :   *
+<span class="lineNum">      25 </span>            :   * Note that some methods are defined in other modules such as the \ref LU_Module LU module
+<span class="lineNum">      26 </span>            :   * for all functions related to matrix inversions.
+<span class="lineNum">      27 </span>            :   *
+<span class="lineNum">      28 </span>            :   * \tparam Derived is the derived type, e.g. a matrix type, or an expression, etc.
+<span class="lineNum">      29 </span>            :   *
+<span class="lineNum">      30 </span>            :   * When writing a function taking Eigen objects as argument, if you want your function
+<span class="lineNum">      31 </span>            :   * to take as argument any matrix, vector, or expression, just let it take a
+<span class="lineNum">      32 </span>            :   * MatrixBase argument. As an example, here is a function printFirstRow which, given
+<span class="lineNum">      33 </span>            :   * a matrix, vector, or expression \a x, prints the first row of \a x.
+<span class="lineNum">      34 </span>            :   *
+<span class="lineNum">      35 </span>            :   * \code
+<span class="lineNum">      36 </span>            :     template&lt;typename Derived&gt;
+<span class="lineNum">      37 </span>            :     void printFirstRow(const Eigen::MatrixBase&lt;Derived&gt;&amp; x)
+<span class="lineNum">      38 </span>            :     {
+<span class="lineNum">      39 </span>            :       cout &lt;&lt; x.row(0) &lt;&lt; endl;
+<span class="lineNum">      40 </span>            :     }
+<span class="lineNum">      41 </span>            :   * \endcode
+<span class="lineNum">      42 </span>            :   *
+<span class="lineNum">      43 </span>            :   * This class can be extended with the help of the plugin mechanism described on the page
+<span class="lineNum">      44 </span>            :   * \ref TopicCustomizing_Plugins by defining the preprocessor symbol \c EIGEN_MATRIXBASE_PLUGIN.
+<span class="lineNum">      45 </span>            :   *
+<span class="lineNum">      46 </span>            :   * \sa \blank \ref TopicClassHierarchy
+<span class="lineNum">      47 </span>            :   */
+<span class="lineNum">      48 </span>            : template&lt;typename Derived&gt; class MatrixBase
+<span class="lineNum">      49 </span>            :   : public DenseBase&lt;Derived&gt;
+<span class="lineNum">      50 </span>            : {
+<span class="lineNum">      51 </span>            :   public:
+<span class="lineNum">      52 </span>            : #ifndef EIGEN_PARSED_BY_DOXYGEN
+<span class="lineNum">      53 </span>            :     typedef MatrixBase StorageBaseType;
+<span class="lineNum">      54 </span>            :     typedef typename internal::traits&lt;Derived&gt;::StorageKind StorageKind;
+<span class="lineNum">      55 </span>            :     typedef typename internal::traits&lt;Derived&gt;::StorageIndex StorageIndex;
+<span class="lineNum">      56 </span>            :     typedef typename internal::traits&lt;Derived&gt;::Scalar Scalar;
+<span class="lineNum">      57 </span>            :     typedef typename internal::packet_traits&lt;Scalar&gt;::type PacketScalar;
+<span class="lineNum">      58 </span>            :     typedef typename NumTraits&lt;Scalar&gt;::Real RealScalar;
+<span class="lineNum">      59 </span>            : 
+<span class="lineNum">      60 </span>            :     typedef DenseBase&lt;Derived&gt; Base;
+<span class="lineNum">      61 </span>            :     using Base::RowsAtCompileTime;
+<span class="lineNum">      62 </span>            :     using Base::ColsAtCompileTime;
+<span class="lineNum">      63 </span>            :     using Base::SizeAtCompileTime;
+<span class="lineNum">      64 </span>            :     using Base::MaxRowsAtCompileTime;
+<span class="lineNum">      65 </span>            :     using Base::MaxColsAtCompileTime;
+<span class="lineNum">      66 </span>            :     using Base::MaxSizeAtCompileTime;
+<span class="lineNum">      67 </span>            :     using Base::IsVectorAtCompileTime;
+<span class="lineNum">      68 </span>            :     using Base::Flags;
+<span class="lineNum">      69 </span>            : 
+<span class="lineNum">      70 </span>            :     using Base::derived;
+<span class="lineNum">      71 </span>            :     using Base::const_cast_derived;
+<span class="lineNum">      72 </span>            :     using Base::rows;
+<span class="lineNum">      73 </span>            :     using Base::cols;
+<span class="lineNum">      74 </span>            :     using Base::size;
+<span class="lineNum">      75 </span>            :     using Base::coeff;
+<span class="lineNum">      76 </span>            :     using Base::coeffRef;
+<span class="lineNum">      77 </span>            :     using Base::lazyAssign;
+<span class="lineNum">      78 </span>            :     using Base::eval;
+<span class="lineNum">      79 </span>            :     using Base::operator+=;
+<span class="lineNum">      80 </span>            :     using Base::operator-=;
+<span class="lineNum">      81 </span>            :     using Base::operator*=;
+<span class="lineNum">      82 </span>            :     using Base::operator/=;
+<span class="lineNum">      83 </span>            : 
+<span class="lineNum">      84 </span>            :     typedef typename Base::CoeffReturnType CoeffReturnType;
+<span class="lineNum">      85 </span>            :     typedef typename Base::ConstTransposeReturnType ConstTransposeReturnType;
+<span class="lineNum">      86 </span>            :     typedef typename Base::RowXpr RowXpr;
+<span class="lineNum">      87 </span>            :     typedef typename Base::ColXpr ColXpr;
+<span class="lineNum">      88 </span>            : #endif // not EIGEN_PARSED_BY_DOXYGEN
+<span class="lineNum">      89 </span>            : 
+<span class="lineNum">      90 </span>            : 
+<span class="lineNum">      91 </span>            : 
+<span class="lineNum">      92 </span>            : #ifndef EIGEN_PARSED_BY_DOXYGEN
+<span class="lineNum">      93 </span>            :     /** type of the equivalent square matrix */
+<span class="lineNum">      94 </span>            :     typedef Matrix&lt;Scalar,EIGEN_SIZE_MAX(RowsAtCompileTime,ColsAtCompileTime),
+<span class="lineNum">      95 </span>            :                           EIGEN_SIZE_MAX(RowsAtCompileTime,ColsAtCompileTime)&gt; SquareMatrixType;
+<span class="lineNum">      96 </span>            : #endif // not EIGEN_PARSED_BY_DOXYGEN
+<span class="lineNum">      97 </span>            : 
+<span class="lineNum">      98 </span>            :     /** \returns the size of the main diagonal, which is min(rows(),cols()).
+<a name="99"><span class="lineNum">      99 </span>            :       * \sa rows(), cols(), SizeAtCompileTime. */</a>
+<span class="lineNum">     100 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     101 </span><span class="lineNoCov">          0 :     inline Index diagonalSize() const { return (numext::mini)(rows(),cols()); }</span>
+<span class="lineNum">     102 </span>            : 
+<span class="lineNum">     103 </span>            :     typedef typename Base::PlainObject PlainObject;
+<span class="lineNum">     104 </span>            : 
+<span class="lineNum">     105 </span>            : #ifndef EIGEN_PARSED_BY_DOXYGEN
+<span class="lineNum">     106 </span>            :     /** \internal Represents a matrix with all coefficients equal to one another*/
+<span class="lineNum">     107 </span>            :     typedef CwiseNullaryOp&lt;internal::scalar_constant_op&lt;Scalar&gt;,PlainObject&gt; ConstantReturnType;
+<span class="lineNum">     108 </span>            :     /** \internal the return type of MatrixBase::adjoint() */
+<span class="lineNum">     109 </span>            :     typedef typename internal::conditional&lt;NumTraits&lt;Scalar&gt;::IsComplex,
+<span class="lineNum">     110 </span>            :                         CwiseUnaryOp&lt;internal::scalar_conjugate_op&lt;Scalar&gt;, ConstTransposeReturnType&gt;,
+<span class="lineNum">     111 </span>            :                         ConstTransposeReturnType
+<span class="lineNum">     112 </span>            :                      &gt;::type AdjointReturnType;
+<span class="lineNum">     113 </span>            :     /** \internal Return type of eigenvalues() */
+<span class="lineNum">     114 </span>            :     typedef Matrix&lt;std::complex&lt;RealScalar&gt;, internal::traits&lt;Derived&gt;::ColsAtCompileTime, 1, ColMajor&gt; EigenvaluesReturnType;
+<span class="lineNum">     115 </span>            :     /** \internal the return type of identity */
+<span class="lineNum">     116 </span>            :     typedef CwiseNullaryOp&lt;internal::scalar_identity_op&lt;Scalar&gt;,PlainObject&gt; IdentityReturnType;
+<span class="lineNum">     117 </span>            :     /** \internal the return type of unit vectors */
+<span class="lineNum">     118 </span>            :     typedef Block&lt;const CwiseNullaryOp&lt;internal::scalar_identity_op&lt;Scalar&gt;, SquareMatrixType&gt;,
+<span class="lineNum">     119 </span>            :                   internal::traits&lt;Derived&gt;::RowsAtCompileTime,
+<span class="lineNum">     120 </span>            :                   internal::traits&lt;Derived&gt;::ColsAtCompileTime&gt; BasisReturnType;
+<span class="lineNum">     121 </span>            : #endif // not EIGEN_PARSED_BY_DOXYGEN
+<span class="lineNum">     122 </span>            : 
+<span class="lineNum">     123 </span>            : #define EIGEN_CURRENT_STORAGE_BASE_CLASS Eigen::MatrixBase
+<span class="lineNum">     124 </span>            : #define EIGEN_DOC_UNARY_ADDONS(X,Y)
+<span class="lineNum">     125 </span>            : #   include &quot;../plugins/CommonCwiseUnaryOps.h&quot;
+<span class="lineNum">     126 </span>            : #   include &quot;../plugins/CommonCwiseBinaryOps.h&quot;
+<span class="lineNum">     127 </span>            : #   include &quot;../plugins/MatrixCwiseUnaryOps.h&quot;
+<span class="lineNum">     128 </span>            : #   include &quot;../plugins/MatrixCwiseBinaryOps.h&quot;
+<span class="lineNum">     129 </span>            : #   ifdef EIGEN_MATRIXBASE_PLUGIN
+<span class="lineNum">     130 </span>            : #     include EIGEN_MATRIXBASE_PLUGIN
+<span class="lineNum">     131 </span>            : #   endif
+<span class="lineNum">     132 </span>            : #undef EIGEN_CURRENT_STORAGE_BASE_CLASS
+<span class="lineNum">     133 </span>            : #undef EIGEN_DOC_UNARY_ADDONS
+<span class="lineNum">     134 </span>            : 
+<span class="lineNum">     135 </span>            :     /** Special case of the template operator=, in order to prevent the compiler
+<span class="lineNum">     136 </span>            :       * from generating a default operator= (issue hit with g++ 4.1)
+<span class="lineNum">     137 </span>            :       */
+<span class="lineNum">     138 </span>            :     EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     139 </span>            :     Derived&amp; operator=(const MatrixBase&amp; other);
+<span class="lineNum">     140 </span>            : 
+<span class="lineNum">     141 </span>            :     // We cannot inherit here via Base::operator= since it is causing
+<span class="lineNum">     142 </span>            :     // trouble with MSVC.
+<span class="lineNum">     143 </span>            : 
+<span class="lineNum">     144 </span>            :     template &lt;typename OtherDerived&gt;
+<span class="lineNum">     145 </span>            :     EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     146 </span>            :     Derived&amp; operator=(const DenseBase&lt;OtherDerived&gt;&amp; other);
+<span class="lineNum">     147 </span>            : 
+<span class="lineNum">     148 </span>            :     template &lt;typename OtherDerived&gt;
+<span class="lineNum">     149 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     150 </span>            :     Derived&amp; operator=(const EigenBase&lt;OtherDerived&gt;&amp; other);
+<span class="lineNum">     151 </span>            : 
+<span class="lineNum">     152 </span>            :     template&lt;typename OtherDerived&gt;
+<span class="lineNum">     153 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     154 </span>            :     Derived&amp; operator=(const ReturnByValue&lt;OtherDerived&gt;&amp; other);
+<span class="lineNum">     155 </span>            : 
+<span class="lineNum">     156 </span>            :     template&lt;typename OtherDerived&gt;
+<span class="lineNum">     157 </span>            :     EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     158 </span>            :     Derived&amp; operator+=(const MatrixBase&lt;OtherDerived&gt;&amp; other);
+<span class="lineNum">     159 </span>            :     template&lt;typename OtherDerived&gt;
+<span class="lineNum">     160 </span>            :     EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     161 </span>            :     Derived&amp; operator-=(const MatrixBase&lt;OtherDerived&gt;&amp; other);
+<span class="lineNum">     162 </span>            : 
+<span class="lineNum">     163 </span>            :     template&lt;typename OtherDerived&gt;
+<span class="lineNum">     164 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     165 </span>            :     const Product&lt;Derived,OtherDerived&gt;
+<span class="lineNum">     166 </span>            :     operator*(const MatrixBase&lt;OtherDerived&gt; &amp;other) const;
+<span class="lineNum">     167 </span>            : 
+<span class="lineNum">     168 </span>            :     template&lt;typename OtherDerived&gt;
+<span class="lineNum">     169 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     170 </span>            :     const Product&lt;Derived,OtherDerived,LazyProduct&gt;
+<span class="lineNum">     171 </span>            :     lazyProduct(const MatrixBase&lt;OtherDerived&gt; &amp;other) const;
+<span class="lineNum">     172 </span>            : 
+<span class="lineNum">     173 </span>            :     template&lt;typename OtherDerived&gt;
+<span class="lineNum">     174 </span>            :     Derived&amp; operator*=(const EigenBase&lt;OtherDerived&gt;&amp; other);
+<span class="lineNum">     175 </span>            : 
+<span class="lineNum">     176 </span>            :     template&lt;typename OtherDerived&gt;
+<span class="lineNum">     177 </span>            :     void applyOnTheLeft(const EigenBase&lt;OtherDerived&gt;&amp; other);
+<span class="lineNum">     178 </span>            : 
+<span class="lineNum">     179 </span>            :     template&lt;typename OtherDerived&gt;
+<span class="lineNum">     180 </span>            :     void applyOnTheRight(const EigenBase&lt;OtherDerived&gt;&amp; other);
+<span class="lineNum">     181 </span>            : 
+<span class="lineNum">     182 </span>            :     template&lt;typename DiagonalDerived&gt;
+<span class="lineNum">     183 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     184 </span>            :     const Product&lt;Derived, DiagonalDerived, LazyProduct&gt;
+<span class="lineNum">     185 </span>            :     operator*(const DiagonalBase&lt;DiagonalDerived&gt; &amp;diagonal) const;
+<span class="lineNum">     186 </span>            : 
+<span class="lineNum">     187 </span>            :     template&lt;typename OtherDerived&gt;
+<span class="lineNum">     188 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     189 </span>            :     typename ScalarBinaryOpTraits&lt;typename internal::traits&lt;Derived&gt;::Scalar,typename internal::traits&lt;OtherDerived&gt;::Scalar&gt;::ReturnType
+<span class="lineNum">     190 </span>            :     dot(const MatrixBase&lt;OtherDerived&gt;&amp; other) const;
+<span class="lineNum">     191 </span>            : 
+<span class="lineNum">     192 </span>            :     EIGEN_DEVICE_FUNC RealScalar squaredNorm() const;
+<span class="lineNum">     193 </span>            :     EIGEN_DEVICE_FUNC RealScalar norm() const;
+<span class="lineNum">     194 </span>            :     RealScalar stableNorm() const;
+<span class="lineNum">     195 </span>            :     RealScalar blueNorm() const;
+<span class="lineNum">     196 </span>            :     RealScalar hypotNorm() const;
+<span class="lineNum">     197 </span>            :     EIGEN_DEVICE_FUNC const PlainObject normalized() const;
+<span class="lineNum">     198 </span>            :     EIGEN_DEVICE_FUNC const PlainObject stableNormalized() const;
+<span class="lineNum">     199 </span>            :     EIGEN_DEVICE_FUNC void normalize();
+<span class="lineNum">     200 </span>            :     EIGEN_DEVICE_FUNC void stableNormalize();
+<span class="lineNum">     201 </span>            : 
+<span class="lineNum">     202 </span>            :     EIGEN_DEVICE_FUNC const AdjointReturnType adjoint() const;
+<span class="lineNum">     203 </span>            :     EIGEN_DEVICE_FUNC void adjointInPlace();
+<span class="lineNum">     204 </span>            : 
+<span class="lineNum">     205 </span>            :     typedef Diagonal&lt;Derived&gt; DiagonalReturnType;
+<span class="lineNum">     206 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     207 </span>            :     DiagonalReturnType diagonal();
+<span class="lineNum">     208 </span>            : 
+<span class="lineNum">     209 </span>            :     typedef typename internal::add_const&lt;Diagonal&lt;const Derived&gt; &gt;::type ConstDiagonalReturnType;
+<span class="lineNum">     210 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     211 </span>            :     ConstDiagonalReturnType diagonal() const;
+<span class="lineNum">     212 </span>            : 
+<span class="lineNum">     213 </span>            :     template&lt;int Index&gt; struct DiagonalIndexReturnType { typedef Diagonal&lt;Derived,Index&gt; Type; };
+<span class="lineNum">     214 </span>            :     template&lt;int Index&gt; struct ConstDiagonalIndexReturnType { typedef const Diagonal&lt;const Derived,Index&gt; Type; };
+<span class="lineNum">     215 </span>            : 
+<span class="lineNum">     216 </span>            :     template&lt;int Index&gt;
+<span class="lineNum">     217 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     218 </span>            :     typename DiagonalIndexReturnType&lt;Index&gt;::Type diagonal();
+<span class="lineNum">     219 </span>            : 
+<span class="lineNum">     220 </span>            :     template&lt;int Index&gt;
+<span class="lineNum">     221 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     222 </span>            :     typename ConstDiagonalIndexReturnType&lt;Index&gt;::Type diagonal() const;
+<span class="lineNum">     223 </span>            : 
+<span class="lineNum">     224 </span>            :     typedef Diagonal&lt;Derived,DynamicIndex&gt; DiagonalDynamicIndexReturnType;
+<span class="lineNum">     225 </span>            :     typedef typename internal::add_const&lt;Diagonal&lt;const Derived,DynamicIndex&gt; &gt;::type ConstDiagonalDynamicIndexReturnType;
+<span class="lineNum">     226 </span>            : 
+<span class="lineNum">     227 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     228 </span>            :     DiagonalDynamicIndexReturnType diagonal(Index index);
+<span class="lineNum">     229 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     230 </span>            :     ConstDiagonalDynamicIndexReturnType diagonal(Index index) const;
+<span class="lineNum">     231 </span>            : 
+<span class="lineNum">     232 </span>            :     template&lt;unsigned int Mode&gt; struct TriangularViewReturnType { typedef TriangularView&lt;Derived, Mode&gt; Type; };
+<span class="lineNum">     233 </span>            :     template&lt;unsigned int Mode&gt; struct ConstTriangularViewReturnType { typedef const TriangularView&lt;const Derived, Mode&gt; Type; };
+<span class="lineNum">     234 </span>            : 
+<span class="lineNum">     235 </span>            :     template&lt;unsigned int Mode&gt;
+<span class="lineNum">     236 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     237 </span>            :     typename TriangularViewReturnType&lt;Mode&gt;::Type triangularView();
+<span class="lineNum">     238 </span>            :     template&lt;unsigned int Mode&gt;
+<span class="lineNum">     239 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     240 </span>            :     typename ConstTriangularViewReturnType&lt;Mode&gt;::Type triangularView() const;
+<span class="lineNum">     241 </span>            : 
+<span class="lineNum">     242 </span>            :     template&lt;unsigned int UpLo&gt; struct SelfAdjointViewReturnType { typedef SelfAdjointView&lt;Derived, UpLo&gt; Type; };
+<span class="lineNum">     243 </span>            :     template&lt;unsigned int UpLo&gt; struct ConstSelfAdjointViewReturnType { typedef const SelfAdjointView&lt;const Derived, UpLo&gt; Type; };
+<span class="lineNum">     244 </span>            : 
+<span class="lineNum">     245 </span>            :     template&lt;unsigned int UpLo&gt;
+<span class="lineNum">     246 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     247 </span>            :     typename SelfAdjointViewReturnType&lt;UpLo&gt;::Type selfadjointView();
+<span class="lineNum">     248 </span>            :     template&lt;unsigned int UpLo&gt;
+<span class="lineNum">     249 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     250 </span>            :     typename ConstSelfAdjointViewReturnType&lt;UpLo&gt;::Type selfadjointView() const;
+<span class="lineNum">     251 </span>            : 
+<span class="lineNum">     252 </span>            :     const SparseView&lt;Derived&gt; sparseView(const Scalar&amp; m_reference = Scalar(0),
+<span class="lineNum">     253 </span>            :                                          const typename NumTraits&lt;Scalar&gt;::Real&amp; m_epsilon = NumTraits&lt;Scalar&gt;::dummy_precision()) const;
+<span class="lineNum">     254 </span>            :     EIGEN_DEVICE_FUNC static const IdentityReturnType Identity();
+<span class="lineNum">     255 </span>            :     EIGEN_DEVICE_FUNC static const IdentityReturnType Identity(Index rows, Index cols);
+<span class="lineNum">     256 </span>            :     EIGEN_DEVICE_FUNC static const BasisReturnType Unit(Index size, Index i);
+<span class="lineNum">     257 </span>            :     EIGEN_DEVICE_FUNC static const BasisReturnType Unit(Index i);
+<span class="lineNum">     258 </span>            :     EIGEN_DEVICE_FUNC static const BasisReturnType UnitX();
+<span class="lineNum">     259 </span>            :     EIGEN_DEVICE_FUNC static const BasisReturnType UnitY();
+<span class="lineNum">     260 </span>            :     EIGEN_DEVICE_FUNC static const BasisReturnType UnitZ();
+<span class="lineNum">     261 </span>            :     EIGEN_DEVICE_FUNC static const BasisReturnType UnitW();
+<span class="lineNum">     262 </span>            : 
+<span class="lineNum">     263 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     264 </span>            :     const DiagonalWrapper&lt;const Derived&gt; asDiagonal() const;
+<span class="lineNum">     265 </span>            :     const PermutationWrapper&lt;const Derived&gt; asPermutation() const;
+<span class="lineNum">     266 </span>            : 
+<span class="lineNum">     267 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     268 </span>            :     Derived&amp; setIdentity();
+<span class="lineNum">     269 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     270 </span>            :     Derived&amp; setIdentity(Index rows, Index cols);
+<span class="lineNum">     271 </span>            : 
+<span class="lineNum">     272 </span>            :     bool isIdentity(const RealScalar&amp; prec = NumTraits&lt;Scalar&gt;::dummy_precision()) const;
+<span class="lineNum">     273 </span>            :     bool isDiagonal(const RealScalar&amp; prec = NumTraits&lt;Scalar&gt;::dummy_precision()) const;
+<span class="lineNum">     274 </span>            : 
+<span class="lineNum">     275 </span>            :     bool isUpperTriangular(const RealScalar&amp; prec = NumTraits&lt;Scalar&gt;::dummy_precision()) const;
+<span class="lineNum">     276 </span>            :     bool isLowerTriangular(const RealScalar&amp; prec = NumTraits&lt;Scalar&gt;::dummy_precision()) const;
+<span class="lineNum">     277 </span>            : 
+<span class="lineNum">     278 </span>            :     template&lt;typename OtherDerived&gt;
+<span class="lineNum">     279 </span>            :     bool isOrthogonal(const MatrixBase&lt;OtherDerived&gt;&amp; other,
+<span class="lineNum">     280 </span>            :                       const RealScalar&amp; prec = NumTraits&lt;Scalar&gt;::dummy_precision()) const;
+<span class="lineNum">     281 </span>            :     bool isUnitary(const RealScalar&amp; prec = NumTraits&lt;Scalar&gt;::dummy_precision()) const;
+<span class="lineNum">     282 </span>            : 
+<span class="lineNum">     283 </span>            :     /** \returns true if each coefficients of \c *this and \a other are all exactly equal.
+<span class="lineNum">     284 </span>            :       * \warning When using floating point scalar values you probably should rather use a
+<span class="lineNum">     285 </span>            :       *          fuzzy comparison such as isApprox()
+<span class="lineNum">     286 </span>            :       * \sa isApprox(), operator!= */
+<span class="lineNum">     287 </span>            :     template&lt;typename OtherDerived&gt;
+<span class="lineNum">     288 </span>            :     EIGEN_DEVICE_FUNC inline bool operator==(const MatrixBase&lt;OtherDerived&gt;&amp; other) const
+<span class="lineNum">     289 </span>            :     { return cwiseEqual(other).all(); }
+<span class="lineNum">     290 </span>            : 
+<span class="lineNum">     291 </span>            :     /** \returns true if at least one pair of coefficients of \c *this and \a other are not exactly equal to each other.
+<span class="lineNum">     292 </span>            :       * \warning When using floating point scalar values you probably should rather use a
+<span class="lineNum">     293 </span>            :       *          fuzzy comparison such as isApprox()
+<a name="294"><span class="lineNum">     294 </span>            :       * \sa isApprox(), operator== */</a>
+<span class="lineNum">     295 </span>            :     template&lt;typename OtherDerived&gt;
+<span class="lineNum">     296 </span><span class="lineNoCov">          0 :     EIGEN_DEVICE_FUNC inline bool operator!=(const MatrixBase&lt;OtherDerived&gt;&amp; other) const</span>
+<span class="lineNum">     297 </span><span class="lineNoCov">          0 :     { return cwiseNotEqual(other).any(); }</span>
+<span class="lineNum">     298 </span>            : 
+<span class="lineNum">     299 </span>            :     NoAlias&lt;Derived,Eigen::MatrixBase &gt; noalias();
+<span class="lineNum">     300 </span>            : 
+<span class="lineNum">     301 </span>            :     // TODO forceAlignedAccess is temporarily disabled
+<span class="lineNum">     302 </span>            :     // Need to find a nicer workaround.
+<span class="lineNum">     303 </span>            :     inline const Derived&amp; forceAlignedAccess() const { return derived(); }
+<span class="lineNum">     304 </span>            :     inline Derived&amp; forceAlignedAccess() { return derived(); }
+<span class="lineNum">     305 </span>            :     template&lt;bool Enable&gt; inline const Derived&amp; forceAlignedAccessIf() const { return derived(); }
+<span class="lineNum">     306 </span>            :     template&lt;bool Enable&gt; inline Derived&amp; forceAlignedAccessIf() { return derived(); }
+<span class="lineNum">     307 </span>            : 
+<span class="lineNum">     308 </span>            :     EIGEN_DEVICE_FUNC Scalar trace() const;
+<span class="lineNum">     309 </span>            : 
+<span class="lineNum">     310 </span>            :     template&lt;int p&gt; EIGEN_DEVICE_FUNC RealScalar lpNorm() const;
+<span class="lineNum">     311 </span>            : 
+<span class="lineNum">     312 </span>            :     EIGEN_DEVICE_FUNC MatrixBase&lt;Derived&gt;&amp; matrix() { return *this; }
+<span class="lineNum">     313 </span>            :     EIGEN_DEVICE_FUNC const MatrixBase&lt;Derived&gt;&amp; matrix() const { return *this; }
+<span class="lineNum">     314 </span>            : 
+<a name="315"><span class="lineNum">     315 </span>            :     /** \returns an \link Eigen::ArrayBase Array \endlink expression of this matrix</a>
+<span class="lineNum">     316 </span>            :       * \sa ArrayBase::matrix() */
+<span class="lineNum">     317 </span><span class="lineNoCov">          0 :     EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE ArrayWrapper&lt;Derived&gt; array() { return ArrayWrapper&lt;Derived&gt;(derived()); }</span>
+<span class="lineNum">     318 </span>            :     /** \returns a const \link Eigen::ArrayBase Array \endlink expression of this matrix
+<span class="lineNum">     319 </span>            :       * \sa ArrayBase::matrix() */
+<span class="lineNum">     320 </span>            :     EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const ArrayWrapper&lt;const Derived&gt; array() const { return ArrayWrapper&lt;const Derived&gt;(derived()); }
+<span class="lineNum">     321 </span>            : 
+<span class="lineNum">     322 </span>            : /////////// LU module ///////////
+<span class="lineNum">     323 </span>            : 
+<span class="lineNum">     324 </span>            :     inline const FullPivLU&lt;PlainObject&gt; fullPivLu() const;
+<span class="lineNum">     325 </span>            :     inline const PartialPivLU&lt;PlainObject&gt; partialPivLu() const;
+<span class="lineNum">     326 </span>            : 
+<span class="lineNum">     327 </span>            :     inline const PartialPivLU&lt;PlainObject&gt; lu() const;
+<span class="lineNum">     328 </span>            : 
+<span class="lineNum">     329 </span>            :     inline const Inverse&lt;Derived&gt; inverse() const;
+<span class="lineNum">     330 </span>            : 
+<span class="lineNum">     331 </span>            :     template&lt;typename ResultType&gt;
+<span class="lineNum">     332 </span>            :     inline void computeInverseAndDetWithCheck(
+<span class="lineNum">     333 </span>            :       ResultType&amp; inverse,
+<span class="lineNum">     334 </span>            :       typename ResultType::Scalar&amp; determinant,
+<span class="lineNum">     335 </span>            :       bool&amp; invertible,
+<span class="lineNum">     336 </span>            :       const RealScalar&amp; absDeterminantThreshold = NumTraits&lt;Scalar&gt;::dummy_precision()
+<span class="lineNum">     337 </span>            :     ) const;
+<span class="lineNum">     338 </span>            :     template&lt;typename ResultType&gt;
+<span class="lineNum">     339 </span>            :     inline void computeInverseWithCheck(
+<span class="lineNum">     340 </span>            :       ResultType&amp; inverse,
+<span class="lineNum">     341 </span>            :       bool&amp; invertible,
+<span class="lineNum">     342 </span>            :       const RealScalar&amp; absDeterminantThreshold = NumTraits&lt;Scalar&gt;::dummy_precision()
+<span class="lineNum">     343 </span>            :     ) const;
+<span class="lineNum">     344 </span>            :     Scalar determinant() const;
+<span class="lineNum">     345 </span>            : 
+<span class="lineNum">     346 </span>            : /////////// Cholesky module ///////////
+<span class="lineNum">     347 </span>            : 
+<span class="lineNum">     348 </span>            :     inline const LLT&lt;PlainObject&gt;  llt() const;
+<span class="lineNum">     349 </span>            :     inline const LDLT&lt;PlainObject&gt; ldlt() const;
+<span class="lineNum">     350 </span>            : 
+<span class="lineNum">     351 </span>            : /////////// QR module ///////////
+<span class="lineNum">     352 </span>            : 
+<span class="lineNum">     353 </span>            :     inline const HouseholderQR&lt;PlainObject&gt; householderQr() const;
+<span class="lineNum">     354 </span>            :     inline const ColPivHouseholderQR&lt;PlainObject&gt; colPivHouseholderQr() const;
+<span class="lineNum">     355 </span>            :     inline const FullPivHouseholderQR&lt;PlainObject&gt; fullPivHouseholderQr() const;
+<span class="lineNum">     356 </span>            :     inline const CompleteOrthogonalDecomposition&lt;PlainObject&gt; completeOrthogonalDecomposition() const;
+<span class="lineNum">     357 </span>            : 
+<span class="lineNum">     358 </span>            : /////////// Eigenvalues module ///////////
+<span class="lineNum">     359 </span>            : 
+<span class="lineNum">     360 </span>            :     inline EigenvaluesReturnType eigenvalues() const;
+<span class="lineNum">     361 </span>            :     inline RealScalar operatorNorm() const;
+<span class="lineNum">     362 </span>            : 
+<span class="lineNum">     363 </span>            : /////////// SVD module ///////////
+<span class="lineNum">     364 </span>            : 
+<span class="lineNum">     365 </span>            :     inline JacobiSVD&lt;PlainObject&gt; jacobiSvd(unsigned int computationOptions = 0) const;
+<span class="lineNum">     366 </span>            :     inline BDCSVD&lt;PlainObject&gt;    bdcSvd(unsigned int computationOptions = 0) const;
+<span class="lineNum">     367 </span>            : 
+<span class="lineNum">     368 </span>            : /////////// Geometry module ///////////
+<span class="lineNum">     369 </span>            : 
+<span class="lineNum">     370 </span>            :     #ifndef EIGEN_PARSED_BY_DOXYGEN
+<span class="lineNum">     371 </span>            :     /// \internal helper struct to form the return type of the cross product
+<span class="lineNum">     372 </span>            :     template&lt;typename OtherDerived&gt; struct cross_product_return_type {
+<span class="lineNum">     373 </span>            :       typedef typename ScalarBinaryOpTraits&lt;typename internal::traits&lt;Derived&gt;::Scalar,typename internal::traits&lt;OtherDerived&gt;::Scalar&gt;::ReturnType Scalar;
+<span class="lineNum">     374 </span>            :       typedef Matrix&lt;Scalar,MatrixBase::RowsAtCompileTime,MatrixBase::ColsAtCompileTime&gt; type;
+<span class="lineNum">     375 </span>            :     };
+<span class="lineNum">     376 </span>            :     #endif // EIGEN_PARSED_BY_DOXYGEN
+<span class="lineNum">     377 </span>            :     template&lt;typename OtherDerived&gt;
+<span class="lineNum">     378 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     379 </span>            : #ifndef EIGEN_PARSED_BY_DOXYGEN
+<span class="lineNum">     380 </span>            :     inline typename cross_product_return_type&lt;OtherDerived&gt;::type
+<span class="lineNum">     381 </span>            : #else
+<span class="lineNum">     382 </span>            :     inline PlainObject
+<span class="lineNum">     383 </span>            : #endif
+<span class="lineNum">     384 </span>            :     cross(const MatrixBase&lt;OtherDerived&gt;&amp; other) const;
+<span class="lineNum">     385 </span>            : 
+<span class="lineNum">     386 </span>            :     template&lt;typename OtherDerived&gt;
+<span class="lineNum">     387 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     388 </span>            :     inline PlainObject cross3(const MatrixBase&lt;OtherDerived&gt;&amp; other) const;
+<span class="lineNum">     389 </span>            : 
+<span class="lineNum">     390 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     391 </span>            :     inline PlainObject unitOrthogonal(void) const;
+<span class="lineNum">     392 </span>            : 
+<span class="lineNum">     393 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     394 </span>            :     inline Matrix&lt;Scalar,3,1&gt; eulerAngles(Index a0, Index a1, Index a2) const;
+<span class="lineNum">     395 </span>            : 
+<span class="lineNum">     396 </span>            :     // put this as separate enum value to work around possible GCC 4.3 bug (?)
+<span class="lineNum">     397 </span>            :     enum { HomogeneousReturnTypeDirection = ColsAtCompileTime==1&amp;&amp;RowsAtCompileTime==1 ? ((internal::traits&lt;Derived&gt;::Flags&amp;RowMajorBit)==RowMajorBit ? Horizontal : Vertical)
+<span class="lineNum">     398 </span>            :                                           : ColsAtCompileTime==1 ? Vertical : Horizontal };
+<span class="lineNum">     399 </span>            :     typedef Homogeneous&lt;Derived, HomogeneousReturnTypeDirection&gt; HomogeneousReturnType;
+<span class="lineNum">     400 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     401 </span>            :     inline HomogeneousReturnType homogeneous() const;
+<span class="lineNum">     402 </span>            : 
+<span class="lineNum">     403 </span>            :     enum {
+<span class="lineNum">     404 </span>            :       SizeMinusOne = SizeAtCompileTime==Dynamic ? Dynamic : SizeAtCompileTime-1
+<span class="lineNum">     405 </span>            :     };
+<span class="lineNum">     406 </span>            :     typedef Block&lt;const Derived,
+<span class="lineNum">     407 </span>            :                   internal::traits&lt;Derived&gt;::ColsAtCompileTime==1 ? SizeMinusOne : 1,
+<span class="lineNum">     408 </span>            :                   internal::traits&lt;Derived&gt;::ColsAtCompileTime==1 ? 1 : SizeMinusOne&gt; ConstStartMinusOne;
+<span class="lineNum">     409 </span>            :     typedef EIGEN_EXPR_BINARYOP_SCALAR_RETURN_TYPE(ConstStartMinusOne,Scalar,quotient) HNormalizedReturnType;
+<span class="lineNum">     410 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     411 </span>            :     inline const HNormalizedReturnType hnormalized() const;
+<span class="lineNum">     412 </span>            : 
+<span class="lineNum">     413 </span>            : ////////// Householder module ///////////
+<span class="lineNum">     414 </span>            : 
+<span class="lineNum">     415 </span>            :     void makeHouseholderInPlace(Scalar&amp; tau, RealScalar&amp; beta);
+<span class="lineNum">     416 </span>            :     template&lt;typename EssentialPart&gt;
+<span class="lineNum">     417 </span>            :     void makeHouseholder(EssentialPart&amp; essential,
+<span class="lineNum">     418 </span>            :                          Scalar&amp; tau, RealScalar&amp; beta) const;
+<span class="lineNum">     419 </span>            :     template&lt;typename EssentialPart&gt;
+<span class="lineNum">     420 </span>            :     void applyHouseholderOnTheLeft(const EssentialPart&amp; essential,
+<span class="lineNum">     421 </span>            :                                    const Scalar&amp; tau,
+<span class="lineNum">     422 </span>            :                                    Scalar* workspace);
+<span class="lineNum">     423 </span>            :     template&lt;typename EssentialPart&gt;
+<span class="lineNum">     424 </span>            :     void applyHouseholderOnTheRight(const EssentialPart&amp; essential,
+<span class="lineNum">     425 </span>            :                                     const Scalar&amp; tau,
+<span class="lineNum">     426 </span>            :                                     Scalar* workspace);
+<span class="lineNum">     427 </span>            : 
+<span class="lineNum">     428 </span>            : ///////// Jacobi module /////////
+<span class="lineNum">     429 </span>            : 
+<span class="lineNum">     430 </span>            :     template&lt;typename OtherScalar&gt;
+<span class="lineNum">     431 </span>            :     void applyOnTheLeft(Index p, Index q, const JacobiRotation&lt;OtherScalar&gt;&amp; j);
+<span class="lineNum">     432 </span>            :     template&lt;typename OtherScalar&gt;
+<span class="lineNum">     433 </span>            :     void applyOnTheRight(Index p, Index q, const JacobiRotation&lt;OtherScalar&gt;&amp; j);
+<span class="lineNum">     434 </span>            : 
+<span class="lineNum">     435 </span>            : ///////// SparseCore module /////////
+<span class="lineNum">     436 </span>            : 
+<span class="lineNum">     437 </span>            :     template&lt;typename OtherDerived&gt;
+<span class="lineNum">     438 </span>            :     EIGEN_STRONG_INLINE const typename SparseMatrixBase&lt;OtherDerived&gt;::template CwiseProductDenseReturnType&lt;Derived&gt;::Type
+<span class="lineNum">     439 </span>            :     cwiseProduct(const SparseMatrixBase&lt;OtherDerived&gt; &amp;other) const
+<span class="lineNum">     440 </span>            :     {
+<span class="lineNum">     441 </span>            :       return other.cwiseProduct(derived());
+<span class="lineNum">     442 </span>            :     }
+<span class="lineNum">     443 </span>            : 
+<span class="lineNum">     444 </span>            : ///////// MatrixFunctions module /////////
+<span class="lineNum">     445 </span>            : 
+<span class="lineNum">     446 </span>            :     typedef typename internal::stem_function&lt;Scalar&gt;::type StemFunction;
+<span class="lineNum">     447 </span>            : #define EIGEN_MATRIX_FUNCTION(ReturnType, Name, Description) \
+<span class="lineNum">     448 </span>            :     /** \returns an expression of the matrix Description of \c *this. \brief This function requires the &lt;a href=&quot;unsupported/group__MatrixFunctions__Module.html&quot;&gt; unsupported MatrixFunctions module&lt;/a&gt;. To compute the coefficient-wise Description use ArrayBase::##Name . */ \
+<span class="lineNum">     449 </span>            :     const ReturnType&lt;Derived&gt; Name() const;
+<span class="lineNum">     450 </span>            : #define EIGEN_MATRIX_FUNCTION_1(ReturnType, Name, Description, Argument) \
+<span class="lineNum">     451 </span>            :     /** \returns an expression of the matrix Description of \c *this. \brief This function requires the &lt;a href=&quot;unsupported/group__MatrixFunctions__Module.html&quot;&gt; unsupported MatrixFunctions module&lt;/a&gt;. To compute the coefficient-wise Description use ArrayBase::##Name . */ \
+<span class="lineNum">     452 </span>            :     const ReturnType&lt;Derived&gt; Name(Argument) const;
+<span class="lineNum">     453 </span>            : 
+<span class="lineNum">     454 </span>            :     EIGEN_MATRIX_FUNCTION(MatrixExponentialReturnValue, exp, exponential)
+<span class="lineNum">     455 </span>            :     /** \brief Helper function for the &lt;a href=&quot;unsupported/group__MatrixFunctions__Module.html&quot;&gt; unsupported MatrixFunctions module&lt;/a&gt;.*/
+<span class="lineNum">     456 </span>            :     const MatrixFunctionReturnValue&lt;Derived&gt; matrixFunction(StemFunction f) const;
+<span class="lineNum">     457 </span>            :     EIGEN_MATRIX_FUNCTION(MatrixFunctionReturnValue, cosh, hyperbolic cosine)
+<span class="lineNum">     458 </span>            :     EIGEN_MATRIX_FUNCTION(MatrixFunctionReturnValue, sinh, hyperbolic sine)
+<span class="lineNum">     459 </span>            :     EIGEN_MATRIX_FUNCTION(MatrixFunctionReturnValue, cos, cosine)
+<span class="lineNum">     460 </span>            :     EIGEN_MATRIX_FUNCTION(MatrixFunctionReturnValue, sin, sine)
+<span class="lineNum">     461 </span>            :     EIGEN_MATRIX_FUNCTION(MatrixSquareRootReturnValue, sqrt, square root)
+<span class="lineNum">     462 </span>            :     EIGEN_MATRIX_FUNCTION(MatrixLogarithmReturnValue, log, logarithm)
+<span class="lineNum">     463 </span>            :     EIGEN_MATRIX_FUNCTION_1(MatrixPowerReturnValue,        pow, power to \c p, const RealScalar&amp; p)
+<span class="lineNum">     464 </span>            :     EIGEN_MATRIX_FUNCTION_1(MatrixComplexPowerReturnValue, pow, power to \c p, const std::complex&lt;RealScalar&gt;&amp; p)
+<a name="465"><span class="lineNum">     465 </span>            : </a>
+<span class="lineNum">     466 </span>            :   protected:
+<span class="lineNum">     467 </span><span class="lineCov">    3899143 :     EIGEN_DEVICE_FUNC MatrixBase() : Base() {}</span>
+<span class="lineNum">     468 </span>            : 
+<span class="lineNum">     469 </span>            :   private:
+<span class="lineNum">     470 </span>            :     EIGEN_DEVICE_FUNC explicit MatrixBase(int);
+<span class="lineNum">     471 </span>            :     EIGEN_DEVICE_FUNC MatrixBase(int,int);
+<span class="lineNum">     472 </span>            :     template&lt;typename OtherDerived&gt; EIGEN_DEVICE_FUNC explicit MatrixBase(const MatrixBase&lt;OtherDerived&gt;&amp;);
+<span class="lineNum">     473 </span>            :   protected:
+<span class="lineNum">     474 </span>            :     // mixing arrays and matrices is not legal
+<span class="lineNum">     475 </span>            :     template&lt;typename OtherDerived&gt; Derived&amp; operator+=(const ArrayBase&lt;OtherDerived&gt;&amp; )
+<span class="lineNum">     476 </span>            :     {EIGEN_STATIC_ASSERT(std::ptrdiff_t(sizeof(typename OtherDerived::Scalar))==-1,YOU_CANNOT_MIX_ARRAYS_AND_MATRICES); return *this;}
+<span class="lineNum">     477 </span>            :     // mixing arrays and matrices is not legal
+<span class="lineNum">     478 </span>            :     template&lt;typename OtherDerived&gt; Derived&amp; operator-=(const ArrayBase&lt;OtherDerived&gt;&amp; )
+<span class="lineNum">     479 </span>            :     {EIGEN_STATIC_ASSERT(std::ptrdiff_t(sizeof(typename OtherDerived::Scalar))==-1,YOU_CANNOT_MIX_ARRAYS_AND_MATRICES); return *this;}
+<span class="lineNum">     480 </span>            : };
+<span class="lineNum">     481 </span>            : 
+<span class="lineNum">     482 </span>            : 
+<span class="lineNum">     483 </span>            : /***************************************************************************
+<span class="lineNum">     484 </span>            : * Implementation of matrix base methods
+<span class="lineNum">     485 </span>            : ***************************************************************************/
+<span class="lineNum">     486 </span>            : 
+<span class="lineNum">     487 </span>            : /** replaces \c *this by \c *this * \a other.
+<span class="lineNum">     488 </span>            :   *
+<span class="lineNum">     489 </span>            :   * \returns a reference to \c *this
+<span class="lineNum">     490 </span>            :   *
+<span class="lineNum">     491 </span>            :   * Example: \include MatrixBase_applyOnTheRight.cpp
+<span class="lineNum">     492 </span>            :   * Output: \verbinclude MatrixBase_applyOnTheRight.out
+<span class="lineNum">     493 </span>            :   */
+<span class="lineNum">     494 </span>            : template&lt;typename Derived&gt;
+<a name="495"><span class="lineNum">     495 </span>            : template&lt;typename OtherDerived&gt;</a>
+<span class="lineNum">     496 </span>            : inline Derived&amp;
+<span class="lineNum">     497 </span><span class="lineNoCov">          0 : MatrixBase&lt;Derived&gt;::operator*=(const EigenBase&lt;OtherDerived&gt; &amp;other)</span>
+<span class="lineNum">     498 </span>            : {
+<span class="lineNum">     499 </span><span class="lineNoCov">          0 :   other.derived().applyThisOnTheRight(derived());</span>
+<span class="lineNum">     500 </span><span class="lineNoCov">          0 :   return derived();</span>
+<span class="lineNum">     501 </span>            : }
+<span class="lineNum">     502 </span>            : 
+<span class="lineNum">     503 </span>            : /** replaces \c *this by \c *this * \a other. It is equivalent to MatrixBase::operator*=().
+<span class="lineNum">     504 </span>            :   *
+<span class="lineNum">     505 </span>            :   * Example: \include MatrixBase_applyOnTheRight.cpp
+<span class="lineNum">     506 </span>            :   * Output: \verbinclude MatrixBase_applyOnTheRight.out
+<span class="lineNum">     507 </span>            :   */
+<span class="lineNum">     508 </span>            : template&lt;typename Derived&gt;
+<span class="lineNum">     509 </span>            : template&lt;typename OtherDerived&gt;
+<span class="lineNum">     510 </span>            : inline void MatrixBase&lt;Derived&gt;::applyOnTheRight(const EigenBase&lt;OtherDerived&gt; &amp;other)
+<span class="lineNum">     511 </span>            : {
+<span class="lineNum">     512 </span>            :   other.derived().applyThisOnTheRight(derived());
+<span class="lineNum">     513 </span>            : }
+<span class="lineNum">     514 </span>            : 
+<span class="lineNum">     515 </span>            : /** replaces \c *this by \a other * \c *this.
+<span class="lineNum">     516 </span>            :   *
+<span class="lineNum">     517 </span>            :   * Example: \include MatrixBase_applyOnTheLeft.cpp
+<span class="lineNum">     518 </span>            :   * Output: \verbinclude MatrixBase_applyOnTheLeft.out
+<span class="lineNum">     519 </span>            :   */
+<span class="lineNum">     520 </span>            : template&lt;typename Derived&gt;
+<span class="lineNum">     521 </span>            : template&lt;typename OtherDerived&gt;
+<span class="lineNum">     522 </span>            : inline void MatrixBase&lt;Derived&gt;::applyOnTheLeft(const EigenBase&lt;OtherDerived&gt; &amp;other)
+<span class="lineNum">     523 </span>            : {
+<span class="lineNum">     524 </span>            :   other.derived().applyThisOnTheLeft(derived());
+<span class="lineNum">     525 </span>            : }
+<span class="lineNum">     526 </span>            : 
+<span class="lineNum">     527 </span>            : } // end namespace Eigen
+<span class="lineNum">     528 </span>            : 
+<span class="lineNum">     529 </span>            : #endif // EIGEN_MATRIXBASE_H
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

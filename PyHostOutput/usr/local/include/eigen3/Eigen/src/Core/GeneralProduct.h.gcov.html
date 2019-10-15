@@ -1,0 +1,539 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - PyHost Code Analysis - /usr/local/include/eigen3/Eigen/src/Core/GeneralProduct.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../../index.html">top level</a> - <a href="index.html">usr/local/include/eigen3/Eigen/src/Core</a> - GeneralProduct.h<span style="font-size: 80%;"> (source / <a href="GeneralProduct.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">PyHost Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">13</td>
+            <td class="headerCovTableEntry">14</td>
+            <td class="headerCovTableEntryHi">92.9 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 17:04:23</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">47</td>
+            <td class="headerCovTableEntry">70</td>
+            <td class="headerCovTableEntryLo">67.1 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // This file is part of Eigen, a lightweight C++ template library</a>
+<span class="lineNum">       2 </span>            : // for linear algebra.
+<span class="lineNum">       3 </span>            : //
+<span class="lineNum">       4 </span>            : // Copyright (C) 2006-2008 Benoit Jacob &lt;jacob.benoit.1@gmail.com&gt;
+<span class="lineNum">       5 </span>            : // Copyright (C) 2008-2011 Gael Guennebaud &lt;gael.guennebaud@inria.fr&gt;
+<span class="lineNum">       6 </span>            : //
+<span class="lineNum">       7 </span>            : // This Source Code Form is subject to the terms of the Mozilla
+<span class="lineNum">       8 </span>            : // Public License v. 2.0. If a copy of the MPL was not distributed
+<span class="lineNum">       9 </span>            : // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+<span class="lineNum">      10 </span>            : 
+<span class="lineNum">      11 </span>            : #ifndef EIGEN_GENERAL_PRODUCT_H
+<span class="lineNum">      12 </span>            : #define EIGEN_GENERAL_PRODUCT_H
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span>            : namespace Eigen {
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span>            : enum {
+<span class="lineNum">      17 </span>            :   Large = 2,
+<span class="lineNum">      18 </span>            :   Small = 3
+<span class="lineNum">      19 </span>            : };
+<span class="lineNum">      20 </span>            : 
+<span class="lineNum">      21 </span>            : namespace internal {
+<span class="lineNum">      22 </span>            : 
+<span class="lineNum">      23 </span>            : template&lt;int Rows, int Cols, int Depth&gt; struct product_type_selector;
+<span class="lineNum">      24 </span>            : 
+<span class="lineNum">      25 </span>            : template&lt;int Size, int MaxSize&gt; struct product_size_category
+<span class="lineNum">      26 </span>            : {
+<span class="lineNum">      27 </span>            :   enum {
+<span class="lineNum">      28 </span>            :     #ifndef EIGEN_CUDA_ARCH
+<span class="lineNum">      29 </span>            :     is_large = MaxSize == Dynamic ||
+<span class="lineNum">      30 </span>            :                Size &gt;= EIGEN_CACHEFRIENDLY_PRODUCT_THRESHOLD ||
+<span class="lineNum">      31 </span>            :                (Size==Dynamic &amp;&amp; MaxSize&gt;=EIGEN_CACHEFRIENDLY_PRODUCT_THRESHOLD),
+<span class="lineNum">      32 </span>            :     #else
+<span class="lineNum">      33 </span>            :     is_large = 0,
+<span class="lineNum">      34 </span>            :     #endif
+<span class="lineNum">      35 </span>            :     value = is_large  ? Large
+<span class="lineNum">      36 </span>            :           : Size == 1 ? 1
+<span class="lineNum">      37 </span>            :                       : Small
+<span class="lineNum">      38 </span>            :   };
+<span class="lineNum">      39 </span>            : };
+<span class="lineNum">      40 </span>            : 
+<span class="lineNum">      41 </span>            : template&lt;typename Lhs, typename Rhs&gt; struct product_type
+<span class="lineNum">      42 </span>            : {
+<span class="lineNum">      43 </span>            :   typedef typename remove_all&lt;Lhs&gt;::type _Lhs;
+<span class="lineNum">      44 </span>            :   typedef typename remove_all&lt;Rhs&gt;::type _Rhs;
+<span class="lineNum">      45 </span>            :   enum {
+<span class="lineNum">      46 </span>            :     MaxRows = traits&lt;_Lhs&gt;::MaxRowsAtCompileTime,
+<span class="lineNum">      47 </span>            :     Rows    = traits&lt;_Lhs&gt;::RowsAtCompileTime,
+<span class="lineNum">      48 </span>            :     MaxCols = traits&lt;_Rhs&gt;::MaxColsAtCompileTime,
+<span class="lineNum">      49 </span>            :     Cols    = traits&lt;_Rhs&gt;::ColsAtCompileTime,
+<span class="lineNum">      50 </span>            :     MaxDepth = EIGEN_SIZE_MIN_PREFER_FIXED(traits&lt;_Lhs&gt;::MaxColsAtCompileTime,
+<span class="lineNum">      51 </span>            :                                            traits&lt;_Rhs&gt;::MaxRowsAtCompileTime),
+<span class="lineNum">      52 </span>            :     Depth = EIGEN_SIZE_MIN_PREFER_FIXED(traits&lt;_Lhs&gt;::ColsAtCompileTime,
+<span class="lineNum">      53 </span>            :                                         traits&lt;_Rhs&gt;::RowsAtCompileTime)
+<span class="lineNum">      54 </span>            :   };
+<span class="lineNum">      55 </span>            : 
+<span class="lineNum">      56 </span>            :   // the splitting into different lines of code here, introducing the _select enums and the typedef below,
+<span class="lineNum">      57 </span>            :   // is to work around an internal compiler error with gcc 4.1 and 4.2.
+<span class="lineNum">      58 </span>            : private:
+<span class="lineNum">      59 </span>            :   enum {
+<span class="lineNum">      60 </span>            :     rows_select = product_size_category&lt;Rows,MaxRows&gt;::value,
+<span class="lineNum">      61 </span>            :     cols_select = product_size_category&lt;Cols,MaxCols&gt;::value,
+<span class="lineNum">      62 </span>            :     depth_select = product_size_category&lt;Depth,MaxDepth&gt;::value
+<span class="lineNum">      63 </span>            :   };
+<span class="lineNum">      64 </span>            :   typedef product_type_selector&lt;rows_select, cols_select, depth_select&gt; selector;
+<span class="lineNum">      65 </span>            : 
+<span class="lineNum">      66 </span>            : public:
+<span class="lineNum">      67 </span>            :   enum {
+<span class="lineNum">      68 </span>            :     value = selector::ret,
+<span class="lineNum">      69 </span>            :     ret = selector::ret
+<span class="lineNum">      70 </span>            :   };
+<span class="lineNum">      71 </span>            : #ifdef EIGEN_DEBUG_PRODUCT
+<span class="lineNum">      72 </span>            :   static void debug()
+<span class="lineNum">      73 </span>            :   {
+<span class="lineNum">      74 </span>            :       EIGEN_DEBUG_VAR(Rows);
+<span class="lineNum">      75 </span>            :       EIGEN_DEBUG_VAR(Cols);
+<span class="lineNum">      76 </span>            :       EIGEN_DEBUG_VAR(Depth);
+<span class="lineNum">      77 </span>            :       EIGEN_DEBUG_VAR(rows_select);
+<span class="lineNum">      78 </span>            :       EIGEN_DEBUG_VAR(cols_select);
+<span class="lineNum">      79 </span>            :       EIGEN_DEBUG_VAR(depth_select);
+<span class="lineNum">      80 </span>            :       EIGEN_DEBUG_VAR(value);
+<span class="lineNum">      81 </span>            :   }
+<span class="lineNum">      82 </span>            : #endif
+<span class="lineNum">      83 </span>            : };
+<span class="lineNum">      84 </span>            : 
+<span class="lineNum">      85 </span>            : /* The following allows to select the kind of product at compile time
+<span class="lineNum">      86 </span>            :  * based on the three dimensions of the product.
+<span class="lineNum">      87 </span>            :  * This is a compile time mapping from {1,Small,Large}^3 -&gt; {product types} */
+<span class="lineNum">      88 </span>            : // FIXME I'm not sure the current mapping is the ideal one.
+<span class="lineNum">      89 </span>            : template&lt;int M, int N&gt;  struct product_type_selector&lt;M,N,1&gt;              { enum { ret = OuterProduct }; };
+<span class="lineNum">      90 </span>            : template&lt;int M&gt;         struct product_type_selector&lt;M, 1, 1&gt;            { enum { ret = LazyCoeffBasedProductMode }; };
+<span class="lineNum">      91 </span>            : template&lt;int N&gt;         struct product_type_selector&lt;1, N, 1&gt;            { enum { ret = LazyCoeffBasedProductMode }; };
+<span class="lineNum">      92 </span>            : template&lt;int Depth&gt;     struct product_type_selector&lt;1,    1,    Depth&gt;  { enum { ret = InnerProduct }; };
+<span class="lineNum">      93 </span>            : template&lt;&gt;              struct product_type_selector&lt;1,    1,    1&gt;      { enum { ret = InnerProduct }; };
+<span class="lineNum">      94 </span>            : template&lt;&gt;              struct product_type_selector&lt;Small,1,    Small&gt;  { enum { ret = CoeffBasedProductMode }; };
+<span class="lineNum">      95 </span>            : template&lt;&gt;              struct product_type_selector&lt;1,    Small,Small&gt;  { enum { ret = CoeffBasedProductMode }; };
+<span class="lineNum">      96 </span>            : template&lt;&gt;              struct product_type_selector&lt;Small,Small,Small&gt;  { enum { ret = CoeffBasedProductMode }; };
+<span class="lineNum">      97 </span>            : template&lt;&gt;              struct product_type_selector&lt;Small, Small, 1&gt;    { enum { ret = LazyCoeffBasedProductMode }; };
+<span class="lineNum">      98 </span>            : template&lt;&gt;              struct product_type_selector&lt;Small, Large, 1&gt;    { enum { ret = LazyCoeffBasedProductMode }; };
+<span class="lineNum">      99 </span>            : template&lt;&gt;              struct product_type_selector&lt;Large, Small, 1&gt;    { enum { ret = LazyCoeffBasedProductMode }; };
+<span class="lineNum">     100 </span>            : template&lt;&gt;              struct product_type_selector&lt;1,    Large,Small&gt;  { enum { ret = CoeffBasedProductMode }; };
+<span class="lineNum">     101 </span>            : template&lt;&gt;              struct product_type_selector&lt;1,    Large,Large&gt;  { enum { ret = GemvProduct }; };
+<span class="lineNum">     102 </span>            : template&lt;&gt;              struct product_type_selector&lt;1,    Small,Large&gt;  { enum { ret = CoeffBasedProductMode }; };
+<span class="lineNum">     103 </span>            : template&lt;&gt;              struct product_type_selector&lt;Large,1,    Small&gt;  { enum { ret = CoeffBasedProductMode }; };
+<span class="lineNum">     104 </span>            : template&lt;&gt;              struct product_type_selector&lt;Large,1,    Large&gt;  { enum { ret = GemvProduct }; };
+<span class="lineNum">     105 </span>            : template&lt;&gt;              struct product_type_selector&lt;Small,1,    Large&gt;  { enum { ret = CoeffBasedProductMode }; };
+<span class="lineNum">     106 </span>            : template&lt;&gt;              struct product_type_selector&lt;Small,Small,Large&gt;  { enum { ret = GemmProduct }; };
+<span class="lineNum">     107 </span>            : template&lt;&gt;              struct product_type_selector&lt;Large,Small,Large&gt;  { enum { ret = GemmProduct }; };
+<span class="lineNum">     108 </span>            : template&lt;&gt;              struct product_type_selector&lt;Small,Large,Large&gt;  { enum { ret = GemmProduct }; };
+<span class="lineNum">     109 </span>            : template&lt;&gt;              struct product_type_selector&lt;Large,Large,Large&gt;  { enum { ret = GemmProduct }; };
+<span class="lineNum">     110 </span>            : template&lt;&gt;              struct product_type_selector&lt;Large,Small,Small&gt;  { enum { ret = CoeffBasedProductMode }; };
+<span class="lineNum">     111 </span>            : template&lt;&gt;              struct product_type_selector&lt;Small,Large,Small&gt;  { enum { ret = CoeffBasedProductMode }; };
+<span class="lineNum">     112 </span>            : template&lt;&gt;              struct product_type_selector&lt;Large,Large,Small&gt;  { enum { ret = GemmProduct }; };
+<span class="lineNum">     113 </span>            : 
+<span class="lineNum">     114 </span>            : } // end namespace internal
+<span class="lineNum">     115 </span>            : 
+<span class="lineNum">     116 </span>            : /***********************************************************************
+<span class="lineNum">     117 </span>            : *  Implementation of Inner Vector Vector Product
+<span class="lineNum">     118 </span>            : ***********************************************************************/
+<span class="lineNum">     119 </span>            : 
+<span class="lineNum">     120 </span>            : // FIXME : maybe the &quot;inner product&quot; could return a Scalar
+<span class="lineNum">     121 </span>            : // instead of a 1x1 matrix ??
+<span class="lineNum">     122 </span>            : // Pro: more natural for the user
+<span class="lineNum">     123 </span>            : // Cons: this could be a problem if in a meta unrolled algorithm a matrix-matrix
+<span class="lineNum">     124 </span>            : // product ends up to a row-vector times col-vector product... To tackle this use
+<span class="lineNum">     125 </span>            : // case, we could have a specialization for Block&lt;MatrixType,1,1&gt; with: operator=(Scalar x);
+<span class="lineNum">     126 </span>            : 
+<span class="lineNum">     127 </span>            : /***********************************************************************
+<span class="lineNum">     128 </span>            : *  Implementation of Outer Vector Vector Product
+<span class="lineNum">     129 </span>            : ***********************************************************************/
+<span class="lineNum">     130 </span>            : 
+<span class="lineNum">     131 </span>            : /***********************************************************************
+<span class="lineNum">     132 </span>            : *  Implementation of General Matrix Vector Product
+<span class="lineNum">     133 </span>            : ***********************************************************************/
+<span class="lineNum">     134 </span>            : 
+<span class="lineNum">     135 </span>            : /*  According to the shape/flags of the matrix we have to distinghish 3 different cases:
+<span class="lineNum">     136 </span>            :  *   1 - the matrix is col-major, BLAS compatible and M is large =&gt; call fast BLAS-like colmajor routine
+<span class="lineNum">     137 </span>            :  *   2 - the matrix is row-major, BLAS compatible and N is large =&gt; call fast BLAS-like rowmajor routine
+<span class="lineNum">     138 </span>            :  *   3 - all other cases are handled using a simple loop along the outer-storage direction.
+<span class="lineNum">     139 </span>            :  *  Therefore we need a lower level meta selector.
+<span class="lineNum">     140 </span>            :  *  Furthermore, if the matrix is the rhs, then the product has to be transposed.
+<span class="lineNum">     141 </span>            :  */
+<span class="lineNum">     142 </span>            : namespace internal {
+<span class="lineNum">     143 </span>            : 
+<span class="lineNum">     144 </span>            : template&lt;int Side, int StorageOrder, bool BlasCompatible&gt;
+<span class="lineNum">     145 </span>            : struct gemv_dense_selector;
+<span class="lineNum">     146 </span>            : 
+<span class="lineNum">     147 </span>            : } // end namespace internal
+<span class="lineNum">     148 </span>            : 
+<span class="lineNum">     149 </span>            : namespace internal {
+<span class="lineNum">     150 </span>            : 
+<span class="lineNum">     151 </span>            : template&lt;typename Scalar,int Size,int MaxSize,bool Cond&gt; struct gemv_static_vector_if;
+<span class="lineNum">     152 </span>            : 
+<span class="lineNum">     153 </span>            : template&lt;typename Scalar,int Size,int MaxSize&gt;
+<a name="154"><span class="lineNum">     154 </span>            : struct gemv_static_vector_if&lt;Scalar,Size,MaxSize,false&gt;</a>
+<span class="lineNum">     155 </span>            : {
+<span class="lineNum">     156 </span><span class="lineNoCov">          0 :   EIGEN_STRONG_INLINE  Scalar* data() { eigen_internal_assert(false &amp;&amp; &quot;should never be called&quot;); return 0; }</span>
+<span class="lineNum">     157 </span>            : };
+<span class="lineNum">     158 </span>            : 
+<span class="lineNum">     159 </span>            : template&lt;typename Scalar,int Size&gt;
+<span class="lineNum">     160 </span>            : struct gemv_static_vector_if&lt;Scalar,Size,Dynamic,true&gt;
+<span class="lineNum">     161 </span>            : {
+<span class="lineNum">     162 </span>            :   EIGEN_STRONG_INLINE Scalar* data() { return 0; }
+<span class="lineNum">     163 </span>            : };
+<span class="lineNum">     164 </span>            : 
+<span class="lineNum">     165 </span>            : template&lt;typename Scalar,int Size,int MaxSize&gt;
+<span class="lineNum">     166 </span>            : struct gemv_static_vector_if&lt;Scalar,Size,MaxSize,true&gt;
+<span class="lineNum">     167 </span>            : {
+<span class="lineNum">     168 </span>            :   enum {
+<span class="lineNum">     169 </span>            :     ForceAlignment  = internal::packet_traits&lt;Scalar&gt;::Vectorizable,
+<span class="lineNum">     170 </span>            :     PacketSize      = internal::packet_traits&lt;Scalar&gt;::size
+<span class="lineNum">     171 </span>            :   };
+<span class="lineNum">     172 </span>            :   #if EIGEN_MAX_STATIC_ALIGN_BYTES!=0
+<span class="lineNum">     173 </span>            :   internal::plain_array&lt;Scalar,EIGEN_SIZE_MIN_PREFER_FIXED(Size,MaxSize),0,EIGEN_PLAIN_ENUM_MIN(AlignedMax,PacketSize)&gt; m_data;
+<span class="lineNum">     174 </span>            :   EIGEN_STRONG_INLINE Scalar* data() { return m_data.array; }
+<span class="lineNum">     175 </span>            :   #else
+<span class="lineNum">     176 </span>            :   // Some architectures cannot align on the stack,
+<span class="lineNum">     177 </span>            :   // =&gt; let's manually enforce alignment by allocating more data and return the address of the first aligned element.
+<span class="lineNum">     178 </span>            :   internal::plain_array&lt;Scalar,EIGEN_SIZE_MIN_PREFER_FIXED(Size,MaxSize)+(ForceAlignment?EIGEN_MAX_ALIGN_BYTES:0),0&gt; m_data;
+<span class="lineNum">     179 </span>            :   EIGEN_STRONG_INLINE Scalar* data() {
+<span class="lineNum">     180 </span>            :     return ForceAlignment
+<span class="lineNum">     181 </span>            :             ? reinterpret_cast&lt;Scalar*&gt;((internal::UIntPtr(m_data.array) &amp; ~(std::size_t(EIGEN_MAX_ALIGN_BYTES-1))) + EIGEN_MAX_ALIGN_BYTES)
+<span class="lineNum">     182 </span>            :             : m_data.array;
+<span class="lineNum">     183 </span>            :   }
+<span class="lineNum">     184 </span>            :   #endif
+<span class="lineNum">     185 </span>            : };
+<span class="lineNum">     186 </span>            : 
+<span class="lineNum">     187 </span>            : // The vector is on the left =&gt; transposition
+<span class="lineNum">     188 </span>            : template&lt;int StorageOrder, bool BlasCompatible&gt;
+<span class="lineNum">     189 </span>            : struct gemv_dense_selector&lt;OnTheLeft,StorageOrder,BlasCompatible&gt;
+<span class="lineNum">     190 </span>            : {
+<span class="lineNum">     191 </span>            :   template&lt;typename Lhs, typename Rhs, typename Dest&gt;
+<span class="lineNum">     192 </span>            :   static void run(const Lhs &amp;lhs, const Rhs &amp;rhs, Dest&amp; dest, const typename Dest::Scalar&amp; alpha)
+<span class="lineNum">     193 </span>            :   {
+<span class="lineNum">     194 </span>            :     Transpose&lt;Dest&gt; destT(dest);
+<span class="lineNum">     195 </span>            :     enum { OtherStorageOrder = StorageOrder == RowMajor ? ColMajor : RowMajor };
+<span class="lineNum">     196 </span>            :     gemv_dense_selector&lt;OnTheRight,OtherStorageOrder,BlasCompatible&gt;
+<span class="lineNum">     197 </span>            :       ::run(rhs.transpose(), lhs.transpose(), destT, alpha);
+<span class="lineNum">     198 </span>            :   }
+<span class="lineNum">     199 </span>            : };
+<span class="lineNum">     200 </span>            : 
+<span class="lineNum">     201 </span>            : template&lt;&gt; struct gemv_dense_selector&lt;OnTheRight,ColMajor,true&gt;
+<a name="202"><span class="lineNum">     202 </span>            : {</a>
+<span class="lineNum">     203 </span>            :   template&lt;typename Lhs, typename Rhs, typename Dest&gt;
+<span class="lineNum">     204 </span><span class="lineCov">      31835 :   static inline void run(const Lhs &amp;lhs, const Rhs &amp;rhs, Dest&amp; dest, const typename Dest::Scalar&amp; alpha)</span>
+<span class="lineNum">     205 </span>            :   {
+<span class="lineNum">     206 </span>            :     typedef typename Lhs::Scalar   LhsScalar;
+<span class="lineNum">     207 </span>            :     typedef typename Rhs::Scalar   RhsScalar;
+<span class="lineNum">     208 </span>            :     typedef typename Dest::Scalar  ResScalar;
+<span class="lineNum">     209 </span>            :     typedef typename Dest::RealScalar  RealScalar;
+<span class="lineNum">     210 </span>            :     
+<span class="lineNum">     211 </span>            :     typedef internal::blas_traits&lt;Lhs&gt; LhsBlasTraits;
+<span class="lineNum">     212 </span>            :     typedef typename LhsBlasTraits::DirectLinearAccessType ActualLhsType;
+<span class="lineNum">     213 </span>            :     typedef internal::blas_traits&lt;Rhs&gt; RhsBlasTraits;
+<span class="lineNum">     214 </span>            :     typedef typename RhsBlasTraits::DirectLinearAccessType ActualRhsType;
+<span class="lineNum">     215 </span>            :   
+<span class="lineNum">     216 </span>            :     typedef Map&lt;Matrix&lt;ResScalar,Dynamic,1&gt;, EIGEN_PLAIN_ENUM_MIN(AlignedMax,internal::packet_traits&lt;ResScalar&gt;::size)&gt; MappedDest;
+<span class="lineNum">     217 </span>            : 
+<span class="lineNum">     218 </span><span class="lineCov">      31835 :     ActualLhsType actualLhs = LhsBlasTraits::extract(lhs);</span>
+<span class="lineNum">     219 </span><span class="lineCov">      31835 :     ActualRhsType actualRhs = RhsBlasTraits::extract(rhs);</span>
+<span class="lineNum">     220 </span>            : 
+<span class="lineNum">     221 </span><span class="lineCov">      31835 :     ResScalar actualAlpha = alpha * LhsBlasTraits::extractScalarFactor(lhs)</span>
+<span class="lineNum">     222 </span><span class="lineCov">      63670 :                                   * RhsBlasTraits::extractScalarFactor(rhs);</span>
+<span class="lineNum">     223 </span>            : 
+<span class="lineNum">     224 </span>            :     // make sure Dest is a compile-time vector type (bug 1166)
+<span class="lineNum">     225 </span>            :     typedef typename conditional&lt;Dest::IsVectorAtCompileTime, Dest, typename Dest::ColXpr&gt;::type ActualDest;
+<span class="lineNum">     226 </span>            : 
+<span class="lineNum">     227 </span>            :     enum {
+<span class="lineNum">     228 </span>            :       // FIXME find a way to allow an inner stride on the result if packet_traits&lt;Scalar&gt;::size==1
+<span class="lineNum">     229 </span>            :       // on, the other hand it is good for the cache to pack the vector anyways...
+<span class="lineNum">     230 </span>            :       EvalToDestAtCompileTime = (ActualDest::InnerStrideAtCompileTime==1),
+<span class="lineNum">     231 </span>            :       ComplexByReal = (NumTraits&lt;LhsScalar&gt;::IsComplex) &amp;&amp; (!NumTraits&lt;RhsScalar&gt;::IsComplex),
+<span class="lineNum">     232 </span>            :       MightCannotUseDest = (!EvalToDestAtCompileTime) || ComplexByReal
+<span class="lineNum">     233 </span>            :     };
+<span class="lineNum">     234 </span>            : 
+<span class="lineNum">     235 </span>            :     typedef const_blas_data_mapper&lt;LhsScalar,Index,ColMajor&gt; LhsMapper;
+<span class="lineNum">     236 </span>            :     typedef const_blas_data_mapper&lt;RhsScalar,Index,RowMajor&gt; RhsMapper;
+<span class="lineNum">     237 </span><span class="lineCov">      31835 :     RhsScalar compatibleAlpha = get_factor&lt;ResScalar,RhsScalar&gt;::run(actualAlpha);</span>
+<span class="lineNum">     238 </span>            : 
+<span class="lineNum">     239 </span>            :     if(!MightCannotUseDest)
+<span class="lineNum">     240 </span>            :     {
+<span class="lineNum">     241 </span>            :       // shortcut if we are sure to be able to use dest directly,
+<span class="lineNum">     242 </span>            :       // this ease the compiler to generate cleaner and more optimzized code for most common cases
+<span class="lineNum">     243 </span><span class="lineCov">      31835 :       general_matrix_vector_product</span>
+<span class="lineNum">     244 </span><span class="lineCov">     127340 :           &lt;Index,LhsScalar,LhsMapper,ColMajor,LhsBlasTraits::NeedToConjugate,RhsScalar,RhsMapper,RhsBlasTraits::NeedToConjugate&gt;::run(</span>
+<span class="lineNum">     245 </span>            :           actualLhs.rows(), actualLhs.cols(),
+<span class="lineNum">     246 </span>            :           LhsMapper(actualLhs.data(), actualLhs.outerStride()),
+<span class="lineNum">     247 </span>            :           RhsMapper(actualRhs.data(), actualRhs.innerStride()),
+<span class="lineNum">     248 </span>            :           dest.data(), 1,
+<span class="lineNum">     249 </span>            :           compatibleAlpha);
+<span class="lineNum">     250 </span>            :     }
+<span class="lineNum">     251 </span>            :     else
+<span class="lineNum">     252 </span>            :     {
+<span class="lineNum">     253 </span>            :       gemv_static_vector_if&lt;ResScalar,ActualDest::SizeAtCompileTime,ActualDest::MaxSizeAtCompileTime,MightCannotUseDest&gt; static_dest;
+<span class="lineNum">     254 </span>            : 
+<span class="lineNum">     255 </span>            :       const bool alphaIsCompatible = (!ComplexByReal) || (numext::imag(actualAlpha)==RealScalar(0));
+<span class="lineNum">     256 </span>            :       const bool evalToDest = EvalToDestAtCompileTime &amp;&amp; alphaIsCompatible;
+<span class="lineNum">     257 </span>            : 
+<span class="lineNum">     258 </span>            :       ei_declare_aligned_stack_constructed_variable(ResScalar,actualDestPtr,dest.size(),
+<span class="lineNum">     259 </span>            :                                                     evalToDest ? dest.data() : static_dest.data());
+<span class="lineNum">     260 </span>            : 
+<span class="lineNum">     261 </span>            :       if(!evalToDest)
+<span class="lineNum">     262 </span>            :       {
+<span class="lineNum">     263 </span>            :         #ifdef EIGEN_DENSE_STORAGE_CTOR_PLUGIN
+<span class="lineNum">     264 </span>            :         Index size = dest.size();
+<span class="lineNum">     265 </span>            :         EIGEN_DENSE_STORAGE_CTOR_PLUGIN
+<span class="lineNum">     266 </span>            :         #endif
+<span class="lineNum">     267 </span>            :         if(!alphaIsCompatible)
+<span class="lineNum">     268 </span>            :         {
+<span class="lineNum">     269 </span>            :           MappedDest(actualDestPtr, dest.size()).setZero();
+<span class="lineNum">     270 </span>            :           compatibleAlpha = RhsScalar(1);
+<span class="lineNum">     271 </span>            :         }
+<span class="lineNum">     272 </span>            :         else
+<span class="lineNum">     273 </span>            :           MappedDest(actualDestPtr, dest.size()) = dest;
+<span class="lineNum">     274 </span>            :       }
+<span class="lineNum">     275 </span>            : 
+<span class="lineNum">     276 </span>            :       general_matrix_vector_product
+<span class="lineNum">     277 </span>            :           &lt;Index,LhsScalar,LhsMapper,ColMajor,LhsBlasTraits::NeedToConjugate,RhsScalar,RhsMapper,RhsBlasTraits::NeedToConjugate&gt;::run(
+<span class="lineNum">     278 </span>            :           actualLhs.rows(), actualLhs.cols(),
+<span class="lineNum">     279 </span>            :           LhsMapper(actualLhs.data(), actualLhs.outerStride()),
+<span class="lineNum">     280 </span>            :           RhsMapper(actualRhs.data(), actualRhs.innerStride()),
+<span class="lineNum">     281 </span>            :           actualDestPtr, 1,
+<span class="lineNum">     282 </span>            :           compatibleAlpha);
+<span class="lineNum">     283 </span>            : 
+<span class="lineNum">     284 </span>            :       if (!evalToDest)
+<span class="lineNum">     285 </span>            :       {
+<span class="lineNum">     286 </span>            :         if(!alphaIsCompatible)
+<span class="lineNum">     287 </span>            :           dest.matrix() += actualAlpha * MappedDest(actualDestPtr, dest.size());
+<span class="lineNum">     288 </span>            :         else
+<span class="lineNum">     289 </span>            :           dest = MappedDest(actualDestPtr, dest.size());
+<span class="lineNum">     290 </span>            :       }
+<span class="lineNum">     291 </span>            :     }
+<span class="lineNum">     292 </span><span class="lineCov">      31835 :   }</span>
+<span class="lineNum">     293 </span>            : };
+<span class="lineNum">     294 </span>            : 
+<span class="lineNum">     295 </span>            : template&lt;&gt; struct gemv_dense_selector&lt;OnTheRight,RowMajor,true&gt;
+<span class="lineNum">     296 </span>            : {
+<span class="lineNum">     297 </span>            :   template&lt;typename Lhs, typename Rhs, typename Dest&gt;
+<span class="lineNum">     298 </span>            :   static void run(const Lhs &amp;lhs, const Rhs &amp;rhs, Dest&amp; dest, const typename Dest::Scalar&amp; alpha)
+<span class="lineNum">     299 </span>            :   {
+<span class="lineNum">     300 </span>            :     typedef typename Lhs::Scalar   LhsScalar;
+<span class="lineNum">     301 </span>            :     typedef typename Rhs::Scalar   RhsScalar;
+<span class="lineNum">     302 </span>            :     typedef typename Dest::Scalar  ResScalar;
+<span class="lineNum">     303 </span>            :     
+<span class="lineNum">     304 </span>            :     typedef internal::blas_traits&lt;Lhs&gt; LhsBlasTraits;
+<span class="lineNum">     305 </span>            :     typedef typename LhsBlasTraits::DirectLinearAccessType ActualLhsType;
+<span class="lineNum">     306 </span>            :     typedef internal::blas_traits&lt;Rhs&gt; RhsBlasTraits;
+<span class="lineNum">     307 </span>            :     typedef typename RhsBlasTraits::DirectLinearAccessType ActualRhsType;
+<span class="lineNum">     308 </span>            :     typedef typename internal::remove_all&lt;ActualRhsType&gt;::type ActualRhsTypeCleaned;
+<span class="lineNum">     309 </span>            : 
+<span class="lineNum">     310 </span>            :     typename add_const&lt;ActualLhsType&gt;::type actualLhs = LhsBlasTraits::extract(lhs);
+<span class="lineNum">     311 </span>            :     typename add_const&lt;ActualRhsType&gt;::type actualRhs = RhsBlasTraits::extract(rhs);
+<span class="lineNum">     312 </span>            : 
+<span class="lineNum">     313 </span>            :     ResScalar actualAlpha = alpha * LhsBlasTraits::extractScalarFactor(lhs)
+<span class="lineNum">     314 </span>            :                                   * RhsBlasTraits::extractScalarFactor(rhs);
+<span class="lineNum">     315 </span>            : 
+<span class="lineNum">     316 </span>            :     enum {
+<span class="lineNum">     317 </span>            :       // FIXME find a way to allow an inner stride on the result if packet_traits&lt;Scalar&gt;::size==1
+<span class="lineNum">     318 </span>            :       // on, the other hand it is good for the cache to pack the vector anyways...
+<span class="lineNum">     319 </span>            :       DirectlyUseRhs = ActualRhsTypeCleaned::InnerStrideAtCompileTime==1
+<span class="lineNum">     320 </span>            :     };
+<span class="lineNum">     321 </span>            : 
+<span class="lineNum">     322 </span>            :     gemv_static_vector_if&lt;RhsScalar,ActualRhsTypeCleaned::SizeAtCompileTime,ActualRhsTypeCleaned::MaxSizeAtCompileTime,!DirectlyUseRhs&gt; static_rhs;
+<span class="lineNum">     323 </span>            : 
+<span class="lineNum">     324 </span>            :     ei_declare_aligned_stack_constructed_variable(RhsScalar,actualRhsPtr,actualRhs.size(),
+<span class="lineNum">     325 </span>            :         DirectlyUseRhs ? const_cast&lt;RhsScalar*&gt;(actualRhs.data()) : static_rhs.data());
+<span class="lineNum">     326 </span>            : 
+<span class="lineNum">     327 </span>            :     if(!DirectlyUseRhs)
+<span class="lineNum">     328 </span>            :     {
+<span class="lineNum">     329 </span>            :       #ifdef EIGEN_DENSE_STORAGE_CTOR_PLUGIN
+<span class="lineNum">     330 </span>            :       Index size = actualRhs.size();
+<span class="lineNum">     331 </span>            :       EIGEN_DENSE_STORAGE_CTOR_PLUGIN
+<span class="lineNum">     332 </span>            :       #endif
+<span class="lineNum">     333 </span>            :       Map&lt;typename ActualRhsTypeCleaned::PlainObject&gt;(actualRhsPtr, actualRhs.size()) = actualRhs;
+<span class="lineNum">     334 </span>            :     }
+<span class="lineNum">     335 </span>            : 
+<span class="lineNum">     336 </span>            :     typedef const_blas_data_mapper&lt;LhsScalar,Index,RowMajor&gt; LhsMapper;
+<span class="lineNum">     337 </span>            :     typedef const_blas_data_mapper&lt;RhsScalar,Index,ColMajor&gt; RhsMapper;
+<span class="lineNum">     338 </span>            :     general_matrix_vector_product
+<span class="lineNum">     339 </span>            :         &lt;Index,LhsScalar,LhsMapper,RowMajor,LhsBlasTraits::NeedToConjugate,RhsScalar,RhsMapper,RhsBlasTraits::NeedToConjugate&gt;::run(
+<span class="lineNum">     340 </span>            :         actualLhs.rows(), actualLhs.cols(),
+<span class="lineNum">     341 </span>            :         LhsMapper(actualLhs.data(), actualLhs.outerStride()),
+<span class="lineNum">     342 </span>            :         RhsMapper(actualRhsPtr, 1),
+<span class="lineNum">     343 </span>            :         dest.data(), dest.col(0).innerStride(), //NOTE  if dest is not a vector at compile-time, then dest.innerStride() might be wrong. (bug 1166)
+<span class="lineNum">     344 </span>            :         actualAlpha);
+<span class="lineNum">     345 </span>            :   }
+<span class="lineNum">     346 </span>            : };
+<span class="lineNum">     347 </span>            : 
+<span class="lineNum">     348 </span>            : template&lt;&gt; struct gemv_dense_selector&lt;OnTheRight,ColMajor,false&gt;
+<span class="lineNum">     349 </span>            : {
+<span class="lineNum">     350 </span>            :   template&lt;typename Lhs, typename Rhs, typename Dest&gt;
+<span class="lineNum">     351 </span>            :   static void run(const Lhs &amp;lhs, const Rhs &amp;rhs, Dest&amp; dest, const typename Dest::Scalar&amp; alpha)
+<span class="lineNum">     352 </span>            :   {
+<span class="lineNum">     353 </span>            :     EIGEN_STATIC_ASSERT((!nested_eval&lt;Lhs,1&gt;::Evaluate),EIGEN_INTERNAL_COMPILATION_ERROR_OR_YOU_MADE_A_PROGRAMMING_MISTAKE);
+<span class="lineNum">     354 </span>            :     // TODO if rhs is large enough it might be beneficial to make sure that dest is sequentially stored in memory, otherwise use a temp
+<span class="lineNum">     355 </span>            :     typename nested_eval&lt;Rhs,1&gt;::type actual_rhs(rhs);
+<span class="lineNum">     356 </span>            :     const Index size = rhs.rows();
+<span class="lineNum">     357 </span>            :     for(Index k=0; k&lt;size; ++k)
+<span class="lineNum">     358 </span>            :       dest += (alpha*actual_rhs.coeff(k)) * lhs.col(k);
+<span class="lineNum">     359 </span>            :   }
+<span class="lineNum">     360 </span>            : };
+<span class="lineNum">     361 </span>            : 
+<span class="lineNum">     362 </span>            : template&lt;&gt; struct gemv_dense_selector&lt;OnTheRight,RowMajor,false&gt;
+<span class="lineNum">     363 </span>            : {
+<span class="lineNum">     364 </span>            :   template&lt;typename Lhs, typename Rhs, typename Dest&gt;
+<span class="lineNum">     365 </span>            :   static void run(const Lhs &amp;lhs, const Rhs &amp;rhs, Dest&amp; dest, const typename Dest::Scalar&amp; alpha)
+<span class="lineNum">     366 </span>            :   {
+<span class="lineNum">     367 </span>            :     EIGEN_STATIC_ASSERT((!nested_eval&lt;Lhs,1&gt;::Evaluate),EIGEN_INTERNAL_COMPILATION_ERROR_OR_YOU_MADE_A_PROGRAMMING_MISTAKE);
+<span class="lineNum">     368 </span>            :     typename nested_eval&lt;Rhs,Lhs::RowsAtCompileTime&gt;::type actual_rhs(rhs);
+<span class="lineNum">     369 </span>            :     const Index rows = dest.rows();
+<span class="lineNum">     370 </span>            :     for(Index i=0; i&lt;rows; ++i)
+<span class="lineNum">     371 </span>            :       dest.coeffRef(i) += alpha * (lhs.row(i).cwiseProduct(actual_rhs.transpose())).sum();
+<span class="lineNum">     372 </span>            :   }
+<span class="lineNum">     373 </span>            : };
+<span class="lineNum">     374 </span>            : 
+<span class="lineNum">     375 </span>            : } // end namespace internal
+<span class="lineNum">     376 </span>            : 
+<span class="lineNum">     377 </span>            : /***************************************************************************
+<span class="lineNum">     378 </span>            : * Implementation of matrix base methods
+<span class="lineNum">     379 </span>            : ***************************************************************************/
+<span class="lineNum">     380 </span>            : 
+<span class="lineNum">     381 </span>            : /** \returns the matrix product of \c *this and \a other.
+<span class="lineNum">     382 </span>            :   *
+<span class="lineNum">     383 </span>            :   * \note If instead of the matrix product you want the coefficient-wise product, see Cwise::operator*().
+<span class="lineNum">     384 </span>            :   *
+<span class="lineNum">     385 </span>            :   * \sa lazyProduct(), operator*=(const MatrixBase&amp;), Cwise::operator*()
+<span class="lineNum">     386 </span>            :   */
+<span class="lineNum">     387 </span>            : template&lt;typename Derived&gt;
+<a name="388"><span class="lineNum">     388 </span>            : template&lt;typename OtherDerived&gt;</a>
+<span class="lineNum">     389 </span>            : inline const Product&lt;Derived, OtherDerived&gt;
+<span class="lineNum">     390 </span><span class="lineCov">     448817 : MatrixBase&lt;Derived&gt;::operator*(const MatrixBase&lt;OtherDerived&gt; &amp;other) const</span>
+<span class="lineNum">     391 </span>            : {
+<span class="lineNum">     392 </span>            :   // A note regarding the function declaration: In MSVC, this function will sometimes
+<span class="lineNum">     393 </span>            :   // not be inlined since DenseStorage is an unwindable object for dynamic
+<span class="lineNum">     394 </span>            :   // matrices and product types are holding a member to store the result.
+<span class="lineNum">     395 </span>            :   // Thus it does not help tagging this function with EIGEN_STRONG_INLINE.
+<span class="lineNum">     396 </span>            :   enum {
+<span class="lineNum">     397 </span>            :     ProductIsValid =  Derived::ColsAtCompileTime==Dynamic
+<span class="lineNum">     398 </span>            :                    || OtherDerived::RowsAtCompileTime==Dynamic
+<span class="lineNum">     399 </span>            :                    || int(Derived::ColsAtCompileTime)==int(OtherDerived::RowsAtCompileTime),
+<span class="lineNum">     400 </span>            :     AreVectors = Derived::IsVectorAtCompileTime &amp;&amp; OtherDerived::IsVectorAtCompileTime,
+<span class="lineNum">     401 </span>            :     SameSizes = EIGEN_PREDICATE_SAME_MATRIX_SIZE(Derived,OtherDerived)
+<span class="lineNum">     402 </span>            :   };
+<span class="lineNum">     403 </span>            :   // note to the lost user:
+<span class="lineNum">     404 </span>            :   //    * for a dot product use: v1.dot(v2)
+<span class="lineNum">     405 </span>            :   //    * for a coeff-wise product use: v1.cwiseProduct(v2)
+<span class="lineNum">     406 </span>            :   EIGEN_STATIC_ASSERT(ProductIsValid || !(AreVectors &amp;&amp; SameSizes),
+<span class="lineNum">     407 </span>            :     INVALID_VECTOR_VECTOR_PRODUCT__IF_YOU_WANTED_A_DOT_OR_COEFF_WISE_PRODUCT_YOU_MUST_USE_THE_EXPLICIT_FUNCTIONS)
+<span class="lineNum">     408 </span>            :   EIGEN_STATIC_ASSERT(ProductIsValid || !(SameSizes &amp;&amp; !AreVectors),
+<span class="lineNum">     409 </span>            :     INVALID_MATRIX_PRODUCT__IF_YOU_WANTED_A_COEFF_WISE_PRODUCT_YOU_MUST_USE_THE_EXPLICIT_FUNCTION)
+<span class="lineNum">     410 </span>            :   EIGEN_STATIC_ASSERT(ProductIsValid || SameSizes, INVALID_MATRIX_PRODUCT)
+<span class="lineNum">     411 </span>            : #ifdef EIGEN_DEBUG_PRODUCT
+<span class="lineNum">     412 </span>            :   internal::product_type&lt;Derived,OtherDerived&gt;::debug();
+<span class="lineNum">     413 </span>            : #endif
+<span class="lineNum">     414 </span>            : 
+<span class="lineNum">     415 </span><span class="lineCov">     448817 :   return Product&lt;Derived, OtherDerived&gt;(derived(), other.derived());</span>
+<span class="lineNum">     416 </span>            : }
+<span class="lineNum">     417 </span>            : 
+<span class="lineNum">     418 </span>            : /** \returns an expression of the matrix product of \c *this and \a other without implicit evaluation.
+<span class="lineNum">     419 </span>            :   *
+<span class="lineNum">     420 </span>            :   * The returned product will behave like any other expressions: the coefficients of the product will be
+<span class="lineNum">     421 </span>            :   * computed once at a time as requested. This might be useful in some extremely rare cases when only
+<span class="lineNum">     422 </span>            :   * a small and no coherent fraction of the result's coefficients have to be computed.
+<span class="lineNum">     423 </span>            :   *
+<span class="lineNum">     424 </span>            :   * \warning This version of the matrix product can be much much slower. So use it only if you know
+<span class="lineNum">     425 </span>            :   * what you are doing and that you measured a true speed improvement.
+<span class="lineNum">     426 </span>            :   *
+<span class="lineNum">     427 </span>            :   * \sa operator*(const MatrixBase&amp;)
+<span class="lineNum">     428 </span>            :   */
+<span class="lineNum">     429 </span>            : template&lt;typename Derived&gt;
+<a name="430"><span class="lineNum">     430 </span>            : template&lt;typename OtherDerived&gt;</a>
+<span class="lineNum">     431 </span>            : const Product&lt;Derived,OtherDerived,LazyProduct&gt;
+<span class="lineNum">     432 </span><span class="lineCov">     396772 : MatrixBase&lt;Derived&gt;::lazyProduct(const MatrixBase&lt;OtherDerived&gt; &amp;other) const</span>
+<span class="lineNum">     433 </span>            : {
+<span class="lineNum">     434 </span>            :   enum {
+<span class="lineNum">     435 </span>            :     ProductIsValid =  Derived::ColsAtCompileTime==Dynamic
+<span class="lineNum">     436 </span>            :                    || OtherDerived::RowsAtCompileTime==Dynamic
+<span class="lineNum">     437 </span>            :                    || int(Derived::ColsAtCompileTime)==int(OtherDerived::RowsAtCompileTime),
+<span class="lineNum">     438 </span>            :     AreVectors = Derived::IsVectorAtCompileTime &amp;&amp; OtherDerived::IsVectorAtCompileTime,
+<span class="lineNum">     439 </span>            :     SameSizes = EIGEN_PREDICATE_SAME_MATRIX_SIZE(Derived,OtherDerived)
+<span class="lineNum">     440 </span>            :   };
+<span class="lineNum">     441 </span>            :   // note to the lost user:
+<span class="lineNum">     442 </span>            :   //    * for a dot product use: v1.dot(v2)
+<span class="lineNum">     443 </span>            :   //    * for a coeff-wise product use: v1.cwiseProduct(v2)
+<span class="lineNum">     444 </span>            :   EIGEN_STATIC_ASSERT(ProductIsValid || !(AreVectors &amp;&amp; SameSizes),
+<span class="lineNum">     445 </span>            :     INVALID_VECTOR_VECTOR_PRODUCT__IF_YOU_WANTED_A_DOT_OR_COEFF_WISE_PRODUCT_YOU_MUST_USE_THE_EXPLICIT_FUNCTIONS)
+<span class="lineNum">     446 </span>            :   EIGEN_STATIC_ASSERT(ProductIsValid || !(SameSizes &amp;&amp; !AreVectors),
+<span class="lineNum">     447 </span>            :     INVALID_MATRIX_PRODUCT__IF_YOU_WANTED_A_COEFF_WISE_PRODUCT_YOU_MUST_USE_THE_EXPLICIT_FUNCTION)
+<span class="lineNum">     448 </span>            :   EIGEN_STATIC_ASSERT(ProductIsValid || SameSizes, INVALID_MATRIX_PRODUCT)
+<span class="lineNum">     449 </span>            : 
+<span class="lineNum">     450 </span><span class="lineCov">     396772 :   return Product&lt;Derived,OtherDerived,LazyProduct&gt;(derived(), other.derived());</span>
+<span class="lineNum">     451 </span>            : }
+<span class="lineNum">     452 </span>            : 
+<span class="lineNum">     453 </span>            : } // end namespace Eigen
+<span class="lineNum">     454 </span>            : 
+<span class="lineNum">     455 </span>            : #endif // EIGEN_PRODUCT_H
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

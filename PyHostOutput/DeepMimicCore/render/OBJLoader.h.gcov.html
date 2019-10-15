@@ -1,0 +1,447 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - PyHost Code Analysis - DeepMimicCore/render/OBJLoader.h</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">DeepMimicCore/render</a> - OBJLoader.h<span style="font-size: 80%;"> (source / <a href="OBJLoader.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">PyHost Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">135</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 17:04:23</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /* A template to write this code was found http://weblog.benjaminsommer.com/blog/2012/02/12/a-tiny-wavefront-object-loader-part1/</a>
+<span class="lineNum">       2 </span>            :  * Free to implement and use as you want
+<span class="lineNum">       3 </span>            :  *
+<span class="lineNum">       4 </span>            :  * Copyright (c) Russell Gillette
+<span class="lineNum">       5 </span>            :  * December 2013
+<span class="lineNum">       6 </span>            :  *
+<span class="lineNum">       7 </span>            :  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+<span class="lineNum">       8 </span>            :  * documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation
+<span class="lineNum">       9 </span>            :  * the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
+<span class="lineNum">      10 </span>            :  * to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+<span class="lineNum">      11 </span>            :  *
+<span class="lineNum">      12 </span>            :  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+<span class="lineNum">      13 </span>            :  *
+<span class="lineNum">      14 </span>            :  * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+<span class="lineNum">      15 </span>            :  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+<span class="lineNum">      16 </span>            :  * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF
+<span class="lineNum">      17 </span>            :  * OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<span class="lineNum">      18 </span>            :  */
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span>            : #ifndef OBJLOADER_H
+<span class="lineNum">      21 </span>            : #define OBJLOADER_H
+<span class="lineNum">      22 </span>            : 
+<span class="lineNum">      23 </span>            : #include &lt;vector&gt;
+<span class="lineNum">      24 </span>            : #include &lt;sstream&gt;
+<span class="lineNum">      25 </span>            : #include &lt;fstream&gt;
+<span class="lineNum">      26 </span>            : #include &lt;string&gt;
+<span class="lineNum">      27 </span>            : 
+<span class="lineNum">      28 </span>            : using namespace std;
+<span class="lineNum">      29 </span>            : 
+<span class="lineNum">      30 </span>            : #define NUM_COMP_POSITION 3
+<span class="lineNum">      31 </span>            : #define NUM_COMP_NORMALS  3
+<span class="lineNum">      32 </span>            : #define NUM_COMP_TEXCOORD 2
+<span class="lineNum">      33 </span>            : 
+<span class="lineNum">      34 </span>            : struct FaceVertexIndex
+<span class="lineNum">      35 </span>            : {
+<span class="lineNum">      36 </span>            :     int vertex;
+<span class="lineNum">      37 </span>            :     int texcoord;
+<span class="lineNum">      38 </span>            :     int normal;
+<span class="lineNum">      39 </span>            : };
+<span class="lineNum">      40 </span>            : 
+<span class="lineNum">      41 </span>            : struct FaceVertexIndices
+<span class="lineNum">      42 </span>            : {
+<span class="lineNum">      43 </span>            :     FaceVertexIndex   *indices;
+<span class="lineNum">      44 </span>            :     unsigned short     nodeCount;
+<span class="lineNum">      45 </span>            : };
+<span class="lineNum">      46 </span>            : 
+<span class="lineNum">      47 </span>            : struct obj_attrib_info
+<span class="lineNum">      48 </span>            : {
+<span class="lineNum">      49 </span>            :     unsigned int attrib_number;  // which attribute within the mesh this info is for
+<span class="lineNum">      50 </span>            :     unsigned int attrib_size;    // total size in bytes of one attribute
+<span class="lineNum">      51 </span>            :     unsigned int num_comp;       // the number of components each of these atributes holds
+<span class="lineNum">      52 </span>            :     unsigned int data_offset;    // the number of bytes from the start of the array to the first instance of this attribute
+<span class="lineNum">      53 </span>            :     unsigned int data_stride;    // the number of bytes between instances of this attribute
+<span class="lineNum">      54 </span>            : };
+<span class="lineNum">      55 </span>            : 
+<span class="lineNum">      56 </span>            : class cObjLoader
+<span class="lineNum">      57 </span>            : {
+<span class="lineNum">      58 </span>            : public:
+<span class="lineNum">      59 </span>            :     std::vector&lt;float&gt;              vertices;
+<span class="lineNum">      60 </span>            :     std::vector&lt;float&gt;              normals;
+<span class="lineNum">      61 </span>            :     std::vector&lt;float&gt;              texcoords;
+<span class="lineNum">      62 </span>            :     std::vector&lt;FaceVertexIndices&gt;  faces;
+<span class="lineNum">      63 </span>            :     unsigned short                  faceValence;
+<span class="lineNum">      64 </span>            : 
+<span class="lineNum">      65 </span>            :     unsigned int m_num_attrib;
+<span class="lineNum">      66 </span>            :     obj_attrib_info *out_attrib_info;
+<span class="lineNum">      67 </span>            : 
+<span class="lineNum">      68 </span>            :     unsigned int m_data_size;
+<span class="lineNum">      69 </span>            :     unsigned char *out_data;
+<span class="lineNum">      70 </span>            : 
+<span class="lineNum">      71 </span>            :     unsigned int m_num_indices;
+<a name="72"><span class="lineNum">      72 </span>            :     int         *out_indices;</a>
+<span class="lineNum">      73 </span>            : 
+<span class="lineNum">      74 </span><span class="lineNoCov">          0 :         cObjLoader(string filename)</span>
+<span class="lineNum">      75 </span>            :         : out_data(NULL), out_indices(NULL), out_attrib_info(NULL),
+<span class="lineNum">      76 </span><span class="lineNoCov">          0 :         m_num_attrib(0), m_num_indices(0), m_data_size(0), faceValence(0)</span>
+<span class="lineNum">      77 </span>            :     {
+<span class="lineNum">      78 </span>            :         //&lt;Temporary variables&gt;
+<span class="lineNum">      79 </span><span class="lineNoCov">          0 :         string key;</span>
+<span class="lineNum">      80 </span>            :         int a, b, c;
+<span class="lineNum">      81 </span><span class="lineNoCov">          0 :         string line;</span>
+<span class="lineNum">      82 </span><span class="lineNoCov">          0 :         vector&lt;FaceVertexIndex&gt; indices = vector&lt;FaceVertexIndex&gt;(4);</span>
+<span class="lineNum">      83 </span>            : 
+<span class="lineNum">      84 </span><span class="lineNoCov">          0 :         ifstream ifs(filename.c_str(), ifstream::in);</span>
+<span class="lineNum">      85 </span><span class="lineNoCov">          0 :         while (ifs.good() &amp;&amp; !ifs.eof() &amp;&amp; std::getline(ifs, line))</span>
+<span class="lineNum">      86 </span>            :         {       
+<span class="lineNum">      87 </span><span class="lineNoCov">          0 :             key = &quot;&quot;;</span>
+<span class="lineNum">      88 </span>            :             float x, y, z;
+<span class="lineNum">      89 </span>            : 
+<span class="lineNum">      90 </span><span class="lineNoCov">          0 :             stringstream str(line);</span>
+<span class="lineNum">      91 </span><span class="lineNoCov">          0 :             str &gt;&gt; key &gt;&gt; ws;</span>
+<span class="lineNum">      92 </span>            : 
+<span class="lineNum">      93 </span><span class="lineNoCov">          0 :                 if (key == &quot;v&quot;)</span>
+<span class="lineNum">      94 </span>            :             {
+<span class="lineNum">      95 </span><span class="lineNoCov">          0 :                         str &gt;&gt; x &gt;&gt; ws &gt;&gt; y &gt;&gt; ws &gt;&gt; z;</span>
+<span class="lineNum">      96 </span><span class="lineNoCov">          0 :                 vertices.push_back(x);</span>
+<span class="lineNum">      97 </span><span class="lineNoCov">          0 :                 vertices.push_back(y);</span>
+<span class="lineNum">      98 </span><span class="lineNoCov">          0 :                 vertices.push_back(z);</span>
+<span class="lineNum">      99 </span>            :                 }
+<span class="lineNum">     100 </span><span class="lineNoCov">          0 :             else if (key == &quot;vn&quot;)</span>
+<span class="lineNum">     101 </span>            :             {
+<span class="lineNum">     102 </span><span class="lineNoCov">          0 :                 str &gt;&gt; x &gt;&gt; ws &gt;&gt; y &gt;&gt; ws &gt;&gt; z;</span>
+<span class="lineNum">     103 </span><span class="lineNoCov">          0 :                 normals.push_back(x);</span>
+<span class="lineNum">     104 </span><span class="lineNoCov">          0 :                 normals.push_back(y);</span>
+<span class="lineNum">     105 </span><span class="lineNoCov">          0 :                 normals.push_back(z);</span>
+<span class="lineNum">     106 </span>            :                 }
+<span class="lineNum">     107 </span><span class="lineNoCov">          0 :             else if (key == &quot;vt&quot;)</span>
+<span class="lineNum">     108 </span>            :             {
+<span class="lineNum">     109 </span><span class="lineNoCov">          0 :                         str &gt;&gt; x &gt;&gt; ws &gt;&gt; y;</span>
+<span class="lineNum">     110 </span><span class="lineNoCov">          0 :                 texcoords.push_back(x);</span>
+<span class="lineNum">     111 </span><span class="lineNoCov">          0 :                 texcoords.push_back(y);</span>
+<span class="lineNum">     112 </span>            :                 }
+<span class="lineNum">     113 </span><span class="lineNoCov">          0 :             else if (key == &quot;f&quot;)</span>
+<span class="lineNum">     114 </span>            :             {
+<span class="lineNum">     115 </span><span class="lineNoCov">          0 :                         unsigned int i = 0;</span>
+<span class="lineNum">     116 </span><span class="lineNoCov">          0 :                 while (!str.eof())</span>
+<span class="lineNum">     117 </span>            :                 {
+<span class="lineNum">     118 </span><span class="lineNoCov">          0 :                     a = b = c = 0;</span>
+<span class="lineNum">     119 </span><span class="lineNoCov">          0 :                     str &gt;&gt; a;</span>
+<span class="lineNum">     120 </span>            : 
+<span class="lineNum">     121 </span>            :                     // guard against trailing white space
+<span class="lineNum">     122 </span><span class="lineNoCov">          0 :                     if (str.fail())</span>
+<span class="lineNum">     123 </span><span class="lineNoCov">          0 :                         break;</span>
+<span class="lineNum">     124 </span>            : 
+<span class="lineNum">     125 </span><span class="lineNoCov">          0 :                     if (str.get() == '/')</span>
+<span class="lineNum">     126 </span>            :                     {
+<span class="lineNum">     127 </span><span class="lineNoCov">          0 :                         if (str.peek() != '/')</span>
+<span class="lineNum">     128 </span>            :                         {
+<span class="lineNum">     129 </span><span class="lineNoCov">          0 :                             str &gt;&gt; b;</span>
+<span class="lineNum">     130 </span><span class="lineNoCov">          0 :                             b--;</span>
+<span class="lineNum">     131 </span>            :                         }
+<span class="lineNum">     132 </span><span class="lineNoCov">          0 :                         if (str.get() == '/')</span>
+<span class="lineNum">     133 </span>            :                         {
+<span class="lineNum">     134 </span><span class="lineNoCov">          0 :                             str &gt;&gt; c;</span>
+<span class="lineNum">     135 </span><span class="lineNoCov">          0 :                             c--;</span>
+<span class="lineNum">     136 </span>            :                         }
+<span class="lineNum">     137 </span>            :                     }
+<span class="lineNum">     138 </span>            : 
+<span class="lineNum">     139 </span><span class="lineNoCov">          0 :                     if (i &gt;= indices.size())</span>
+<span class="lineNum">     140 </span><span class="lineNoCov">          0 :                         indices.resize(i+2);</span>
+<span class="lineNum">     141 </span><span class="lineNoCov">          0 :                     indices[i].vertex   = (a-1) * NUM_COMP_POSITION;</span>
+<span class="lineNum">     142 </span><span class="lineNoCov">          0 :                     indices[i].texcoord = b     * NUM_COMP_TEXCOORD;</span>
+<span class="lineNum">     143 </span><span class="lineNoCov">          0 :                     indices[i].normal   = c     * NUM_COMP_NORMALS;</span>
+<span class="lineNum">     144 </span>            : 
+<span class="lineNum">     145 </span><span class="lineNoCov">          0 :                     i++;</span>
+<span class="lineNum">     146 </span>            :                 }
+<span class="lineNum">     147 </span>            : 
+<span class="lineNum">     148 </span>            :                 FaceVertexIndices fi;
+<span class="lineNum">     149 </span><span class="lineNoCov">          0 :                 fi.nodeCount = i;</span>
+<span class="lineNum">     150 </span><span class="lineNoCov">          0 :                 fi.indices = new FaceVertexIndex[i];</span>
+<span class="lineNum">     151 </span><span class="lineNoCov">          0 :                 for (unsigned int j=0; j &lt; i ; ++j)</span>
+<span class="lineNum">     152 </span><span class="lineNoCov">          0 :                     fi.indices[j] = indices[j];</span>
+<span class="lineNum">     153 </span><span class="lineNoCov">          0 :                 faces.push_back(fi);</span>
+<span class="lineNum">     154 </span><span class="lineNoCov">          0 :                 faceValence = (faceValence == i || faceValence == 0) ? i : -1;</span>
+<span class="lineNum">     155 </span>            :                 }
+<span class="lineNum">     156 </span>            :         }
+<a name="157"><span class="lineNum">     157 </span><span class="lineNoCov">          0 :     }</span></a>
+<span class="lineNum">     158 </span>            : 
+<span class="lineNum">     159 </span><span class="lineNoCov">          0 :     ~cObjLoader()</span>
+<span class="lineNum">     160 </span><span class="lineNoCov">          0 :     {</span>
+<span class="lineNum">     161 </span><span class="lineNoCov">          0 :         for (size_t i = 0; i &lt; faces.size(); i++)</span>
+<span class="lineNum">     162 </span>            :         {
+<span class="lineNum">     163 </span><span class="lineNoCov">          0 :             delete [] faces[i].indices;</span>
+<span class="lineNum">     164 </span>            :         }
+<span class="lineNum">     165 </span><span class="lineNoCov">          0 :         if (out_data)</span>
+<span class="lineNum">     166 </span><span class="lineNoCov">          0 :             delete [] out_data;</span>
+<span class="lineNum">     167 </span><span class="lineNoCov">          0 :         if (out_indices)</span>
+<span class="lineNum">     168 </span><span class="lineNoCov">          0 :             delete [] out_indices;</span>
+<span class="lineNum">     169 </span><span class="lineNoCov">          0 :         if (out_attrib_info)</span>
+<span class="lineNum">     170 </span><span class="lineNoCov">          0 :             delete [] out_attrib_info;</span>
+<span class="lineNum">     171 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">     172 </span>            : 
+<a name="173"><span class="lineNum">     173 </span>            :     /* Export the data in a format easily read by opengl</a>
+<span class="lineNum">     174 </span>            :      * All memory is assumed to have been allocated by the caller (having called query Obj) */
+<span class="lineNum">     175 </span><span class="lineNoCov">          0 :     void objExportGLSeparate(int &amp;data_size, unsigned char *&amp;data, int &amp;num_indices, int *&amp;indices, int &amp;num_attrib, obj_attrib_info *&amp;attr_info)</span>
+<span class="lineNum">     176 </span>            :     {
+<span class="lineNum">     177 </span><span class="lineNoCov">          0 :         int v_size = vertices.size() * sizeof(vertices[0]);</span>
+<span class="lineNum">     178 </span><span class="lineNoCov">          0 :         int n_size = normals.size() * sizeof(normals[0]);</span>
+<span class="lineNum">     179 </span><span class="lineNoCov">          0 :         int t_size = texcoords.size() * sizeof(texcoords[0]);</span>
+<span class="lineNum">     180 </span>            : 
+<span class="lineNum">     181 </span><span class="lineNoCov">          0 :         m_data_size = v_size + n_size + t_size;</span>
+<span class="lineNum">     182 </span><span class="lineNoCov">          0 :         m_num_attrib = 0;</span>
+<span class="lineNum">     183 </span>            :         
+<span class="lineNum">     184 </span><span class="lineNoCov">          0 :         if (out_data)</span>
+<span class="lineNum">     185 </span><span class="lineNoCov">          0 :             delete [] out_data;</span>
+<span class="lineNum">     186 </span><span class="lineNoCov">          0 :         out_data = new unsigned char[m_data_size];</span>
+<span class="lineNum">     187 </span>            : 
+<span class="lineNum">     188 </span><span class="lineNoCov">          0 :         if (v_size)</span>
+<span class="lineNum">     189 </span>            :         {
+<span class="lineNum">     190 </span>            :             // populate our array from the internal vectors
+<span class="lineNum">     191 </span><span class="lineNoCov">          0 :             memcpy(out_data, &amp;vertices[0], v_size);</span>
+<span class="lineNum">     192 </span><span class="lineNoCov">          0 :             m_num_attrib++;</span>
+<span class="lineNum">     193 </span>            :         }
+<span class="lineNum">     194 </span><span class="lineNoCov">          0 :         if (n_size)</span>
+<span class="lineNum">     195 </span>            :         {
+<span class="lineNum">     196 </span>            :             // populate our array from the internal vectors
+<span class="lineNum">     197 </span><span class="lineNoCov">          0 :             memcpy(&amp;out_data[v_size], &amp;normals[0], n_size);</span>
+<span class="lineNum">     198 </span><span class="lineNoCov">          0 :             m_num_attrib++;</span>
+<span class="lineNum">     199 </span>            :         }
+<span class="lineNum">     200 </span><span class="lineNoCov">          0 :         if (t_size)</span>
+<span class="lineNum">     201 </span>            :         {
+<span class="lineNum">     202 </span>            :             // populate our array from the internal vectors
+<span class="lineNum">     203 </span><span class="lineNoCov">          0 :             memcpy(&amp;out_data[v_size + n_size], &amp;texcoords[0], t_size);</span>
+<span class="lineNum">     204 </span><span class="lineNoCov">          0 :             m_num_attrib++;</span>
+<span class="lineNum">     205 </span>            :         }
+<span class="lineNum">     206 </span>            : 
+<span class="lineNum">     207 </span><span class="lineNoCov">          0 :         populateAttribDataSeparate();</span>
+<span class="lineNum">     208 </span><span class="lineNoCov">          0 :         indicesTriangles();</span>
+<span class="lineNum">     209 </span>            : 
+<span class="lineNum">     210 </span><span class="lineNoCov">          0 :         data_size   = m_data_size;</span>
+<span class="lineNum">     211 </span><span class="lineNoCov">          0 :         num_indices = m_num_indices;</span>
+<span class="lineNum">     212 </span><span class="lineNoCov">          0 :         num_attrib  = m_num_attrib;</span>
+<span class="lineNum">     213 </span>            : 
+<span class="lineNum">     214 </span><span class="lineNoCov">          0 :         data = out_data;</span>
+<span class="lineNum">     215 </span><span class="lineNoCov">          0 :         indices = out_indices;</span>
+<span class="lineNum">     216 </span><span class="lineNoCov">          0 :         attr_info = out_attrib_info;</span>
+<span class="lineNum">     217 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">     218 </span>            : 
+<span class="lineNum">     219 </span>            :     // generate the normals for a mesh that does not have them
+<span class="lineNum">     220 </span>            :     // will calculate face normals
+<span class="lineNum">     221 </span>            :         static const int pos_dim = 3;
+<span class="lineNum">     222 </span>            :     void generateNormals()
+<span class="lineNum">     223 </span>            :     {
+<span class="lineNum">     224 </span>            :         // normals already exist (this function has already been
+<span class="lineNum">     225 </span>            :         // called or they were in the obj file)
+<span class="lineNum">     226 </span>            :         if (!normals.empty())
+<span class="lineNum">     227 </span>            :             return;
+<span class="lineNum">     228 </span>            : 
+<span class="lineNum">     229 </span>            :         // the array of normals should be the same size as the array of verices
+<span class="lineNum">     230 </span>            :         normals.resize(vertices.size());
+<span class="lineNum">     231 </span>            : 
+<span class="lineNum">     232 </span>            :         // iterate though faces
+<span class="lineNum">     233 </span>            :         for (size_t i = 0; i &lt; faces.size(); ++i)
+<span class="lineNum">     234 </span>            :         {
+<span class="lineNum">     235 </span>            :             int num_verts = faces[i].nodeCount;
+<span class="lineNum">     236 </span>            :             int normalIndices[4];
+<span class="lineNum">     237 </span>            :             float v[4 * pos_dim];
+<span class="lineNum">     238 </span>            :             float n[pos_dim];
+<span class="lineNum">     239 </span>            : 
+<span class="lineNum">     240 </span>            :             // iterate through vertices in faces
+<span class="lineNum">     241 </span>            :             for (int j = 0; j &lt; num_verts; ++j)
+<span class="lineNum">     242 </span>            :             {
+<span class="lineNum">     243 </span>            :                 int v_index = faces[i].indices[j].vertex;
+<span class="lineNum">     244 </span>            :                 // in openGL these two values must be proportional (according to the number of components)
+<span class="lineNum">     245 </span>            :                 normalIndices[j] = v_index * NUM_COMP_NORMALS / NUM_COMP_POSITION;
+<span class="lineNum">     246 </span>            :                 faces[i].indices[j].normal = normalIndices[j];
+<span class="lineNum">     247 </span>            : 
+<span class="lineNum">     248 </span>            :                 // TODO: don't assume quad faces to be planar
+<span class="lineNum">     249 </span>            :                 // memory funniness to get vec3 from float array
+<span class="lineNum">     250 </span>            :                                 v[j * pos_dim] = vertices[v_index];
+<span class="lineNum">     251 </span>            :                                 v[j * pos_dim + 1] = vertices[v_index + 1];
+<span class="lineNum">     252 </span>            :                                 v[j * pos_dim + 2] = vertices[v_index + 2];
+<span class="lineNum">     253 </span>            :             }
+<span class="lineNum">     254 </span>            : 
+<span class="lineNum">     255 </span>            :                         float d0[] = { v[2 * pos_dim] - v[0], 
+<span class="lineNum">     256 </span>            :                                                         v[2 * pos_dim + 1] - v[1], 
+<span class="lineNum">     257 </span>            :                                                         v[2 * pos_dim + 2] - v[2] };
+<span class="lineNum">     258 </span>            :                         float d1[] = { v[pos_dim] - v[0], 
+<span class="lineNum">     259 </span>            :                                                         v[pos_dim + 1] - v[1], 
+<span class="lineNum">     260 </span>            :                                                         v[pos_dim + 2] - v[2] };
+<span class="lineNum">     261 </span>            : 
+<span class="lineNum">     262 </span>            :             n[0] = d0[1] * d1[2] - d0[2]  * d1[1];
+<span class="lineNum">     263 </span>            :                         n[1] = d0[2] * d1[0] - d0[0] * d1[2];
+<span class="lineNum">     264 </span>            :                         n[2] = d0[0] * d1[1] - d0[1] * d1[0];
+<span class="lineNum">     265 </span>            :                         double len = std::sqrt(n[0] * n[0] + n[1] * n[1] + n[2] * n[2]);
+<span class="lineNum">     266 </span>            :                         n[0] /= len;
+<span class="lineNum">     267 </span>            :                         n[1] /= len;
+<span class="lineNum">     268 </span>            :                         n[2] /= len;
+<span class="lineNum">     269 </span>            : 
+<span class="lineNum">     270 </span>            :             for (int j = 0; j &lt; num_verts; j++)
+<span class="lineNum">     271 </span>            :             {
+<span class="lineNum">     272 </span>            :                                 normals[normalIndices[j]] = n[0];
+<span class="lineNum">     273 </span>            :                                 normals[normalIndices[j] + 1] = n[1];
+<span class="lineNum">     274 </span>            :                                 normals[normalIndices[j] + 2] = n[2];
+<span class="lineNum">     275 </span>            :             }
+<span class="lineNum">     276 </span>            :         }
+<span class="lineNum">     277 </span>            :     }
+<a name="278"><span class="lineNum">     278 </span>            : </a>
+<span class="lineNum">     279 </span>            : private:
+<span class="lineNum">     280 </span><span class="lineNoCov">          0 :     void indicesTriangles()</span>
+<span class="lineNum">     281 </span>            :     {
+<span class="lineNum">     282 </span><span class="lineNoCov">          0 :         int i_size   = faces.size();</span>
+<span class="lineNum">     283 </span><span class="lineNoCov">          0 :         int num_comp = NUM_COMP_POSITION; // TODO: this needs to be dynamic (needed to normalize indices)</span>
+<span class="lineNum">     284 </span>            : 
+<span class="lineNum">     285 </span>            :         // NOTE: Opengl does not allow position normal and texcoord to have different indices from vertices
+<span class="lineNum">     286 </span>            :         // TODO: this is terribly inefficient
+<span class="lineNum">     287 </span><span class="lineNoCov">          0 :         if (!i_size)</span>
+<span class="lineNum">     288 </span><span class="lineNoCov">          0 :             return;</span>
+<span class="lineNum">     289 </span>            : 
+<span class="lineNum">     290 </span>            :         // allocate enough memory to duplicate inner vertices
+<span class="lineNum">     291 </span>            :         // so that the faces can be in a gl representable structure.
+<span class="lineNum">     292 </span><span class="lineNoCov">          0 :         if (faces[0].nodeCount &gt; 3)</span>
+<span class="lineNum">     293 </span><span class="lineNoCov">          0 :             i_size *= (faces[0].nodeCount - 3) * 3 + 3;</span>
+<span class="lineNum">     294 </span>            :         else
+<span class="lineNum">     295 </span><span class="lineNoCov">          0 :             i_size *= faces[0].nodeCount;</span>
+<span class="lineNum">     296 </span>            : 
+<span class="lineNum">     297 </span><span class="lineNoCov">          0 :         m_num_indices = i_size;</span>
+<span class="lineNum">     298 </span>            : 
+<span class="lineNum">     299 </span><span class="lineNoCov">          0 :         if (out_indices)</span>
+<span class="lineNum">     300 </span><span class="lineNoCov">          0 :             delete [] out_indices;</span>
+<span class="lineNum">     301 </span>            : 
+<span class="lineNum">     302 </span><span class="lineNoCov">          0 :         out_indices = new int[m_num_indices];</span>
+<span class="lineNum">     303 </span>            : 
+<span class="lineNum">     304 </span><span class="lineNoCov">          0 :         for (size_t i = 0, j = 0; i &lt; faces.size(); ++i)</span>
+<span class="lineNum">     305 </span>            :         {
+<span class="lineNum">     306 </span><span class="lineNoCov">          0 :             for (int k = 0; k &lt; faces[i].nodeCount; k++, j++)</span>
+<span class="lineNum">     307 </span>            :             {
+<span class="lineNum">     308 </span><span class="lineNoCov">          0 :                 if (k &gt; 2)</span>
+<span class="lineNum">     309 </span>            :                 {
+<span class="lineNum">     310 </span>            :                     // if there are four+ vertices in a face we are going to
+<span class="lineNum">     311 </span>            :                     // convert to a consistant (GL_TRIANGLES) by duplicating the diagonal
+<span class="lineNum">     312 </span>            :                     // two indices
+<span class="lineNum">     313 </span><span class="lineNoCov">          0 :                     out_indices[j] = faces[i].indices[k - 3].vertex / num_comp;</span>
+<span class="lineNum">     314 </span><span class="lineNoCov">          0 :                     out_indices[++j] = faces[i].indices[k - 1].vertex / num_comp;</span>
+<span class="lineNum">     315 </span><span class="lineNoCov">          0 :                     ++j;</span>
+<span class="lineNum">     316 </span>            :                 }
+<span class="lineNum">     317 </span><span class="lineNoCov">          0 :                 out_indices[j] = faces[i].indices[k].vertex / num_comp;</span>
+<span class="lineNum">     318 </span>            :             }
+<span class="lineNum">     319 </span>            :         }
+<a name="320"><span class="lineNum">     320 </span>            :     }</a>
+<span class="lineNum">     321 </span>            : 
+<span class="lineNum">     322 </span><span class="lineNoCov">          0 :     void populateAttribDataSeparate()</span>
+<span class="lineNum">     323 </span>            :     {
+<span class="lineNum">     324 </span><span class="lineNoCov">          0 :         if (!m_num_attrib)</span>
+<span class="lineNum">     325 </span><span class="lineNoCov">          0 :             return;</span>
+<span class="lineNum">     326 </span><span class="lineNoCov">          0 :         if (out_attrib_info)</span>
+<span class="lineNum">     327 </span><span class="lineNoCov">          0 :             delete [] out_attrib_info;</span>
+<span class="lineNum">     328 </span>            : 
+<span class="lineNum">     329 </span><span class="lineNoCov">          0 :         out_attrib_info = new obj_attrib_info[m_num_attrib];</span>
+<span class="lineNum">     330 </span>            : 
+<span class="lineNum">     331 </span><span class="lineNoCov">          0 :         int i = 0;</span>
+<span class="lineNum">     332 </span><span class="lineNoCov">          0 :         if (!vertices.empty())</span>
+<span class="lineNum">     333 </span>            :         {
+<span class="lineNum">     334 </span><span class="lineNoCov">          0 :             out_attrib_info[i].attrib_number = i;</span>
+<span class="lineNum">     335 </span><span class="lineNoCov">          0 :             out_attrib_info[i].attrib_size   = NUM_COMP_POSITION * sizeof(vertices[0]);</span>
+<span class="lineNum">     336 </span><span class="lineNoCov">          0 :             out_attrib_info[i].num_comp      = NUM_COMP_POSITION;</span>
+<span class="lineNum">     337 </span><span class="lineNoCov">          0 :             out_attrib_info[i].data_offset   = 0;</span>
+<span class="lineNum">     338 </span><span class="lineNoCov">          0 :             out_attrib_info[i].data_stride   = 0;</span>
+<span class="lineNum">     339 </span>            : 
+<span class="lineNum">     340 </span><span class="lineNoCov">          0 :             ++i;</span>
+<span class="lineNum">     341 </span>            :         }
+<span class="lineNum">     342 </span><span class="lineNoCov">          0 :         if (!normals.empty())</span>
+<span class="lineNum">     343 </span>            :         {
+<span class="lineNum">     344 </span><span class="lineNoCov">          0 :             out_attrib_info[i].attrib_number = i;</span>
+<span class="lineNum">     345 </span><span class="lineNoCov">          0 :             out_attrib_info[i].attrib_size   = NUM_COMP_NORMALS * sizeof(normals[0]);</span>
+<span class="lineNum">     346 </span><span class="lineNoCov">          0 :             out_attrib_info[i].num_comp      = NUM_COMP_NORMALS;</span>
+<span class="lineNum">     347 </span><span class="lineNoCov">          0 :             out_attrib_info[i].data_offset   = vertices.size() * sizeof(vertices[0]);</span>
+<span class="lineNum">     348 </span><span class="lineNoCov">          0 :             out_attrib_info[i].data_stride   = 0;</span>
+<span class="lineNum">     349 </span>            : 
+<span class="lineNum">     350 </span><span class="lineNoCov">          0 :             ++i;</span>
+<span class="lineNum">     351 </span>            :         }
+<span class="lineNum">     352 </span><span class="lineNoCov">          0 :         if (!texcoords.empty())</span>
+<span class="lineNum">     353 </span>            :         {
+<span class="lineNum">     354 </span><span class="lineNoCov">          0 :             out_attrib_info[i].attrib_number = i;</span>
+<span class="lineNum">     355 </span><span class="lineNoCov">          0 :             out_attrib_info[i].attrib_size   = NUM_COMP_TEXCOORD * sizeof(texcoords[0]);</span>
+<span class="lineNum">     356 </span><span class="lineNoCov">          0 :             out_attrib_info[i].num_comp      = NUM_COMP_TEXCOORD;</span>
+<span class="lineNum">     357 </span><span class="lineNoCov">          0 :             out_attrib_info[i].data_offset   = normals.size() * sizeof(normals[0]) + vertices.size() * sizeof(vertices[0]);</span>
+<span class="lineNum">     358 </span><span class="lineNoCov">          0 :             out_attrib_info[i].data_stride   = 0;</span>
+<span class="lineNum">     359 </span>            :         }
+<span class="lineNum">     360 </span>            :     }
+<span class="lineNum">     361 </span>            : };
+<span class="lineNum">     362 </span>            : 
+<span class="lineNum">     363 </span>            : #endif // OBJLOADER_H
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

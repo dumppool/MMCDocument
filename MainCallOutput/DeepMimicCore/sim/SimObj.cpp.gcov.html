@@ -1,0 +1,330 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Main Call Code Analysis - DeepMimicCore/sim/SimObj.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">DeepMimicCore/sim</a> - SimObj.cpp<span style="font-size: 80%;"> (source / <a href="SimObj.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Main Call Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">71</td>
+            <td class="headerCovTableEntry">146</td>
+            <td class="headerCovTableEntryLo">48.6 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 16:51:56</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">16</td>
+            <td class="headerCovTableEntry">33</td>
+            <td class="headerCovTableEntryLo">48.5 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : #include &quot;SimObj.h&quot;</a>
+<span class="lineNum">       2 </span>            : 
+<span class="lineNum">       3 </span><span class="lineCov">         17 : cSimObj::cSimObj()</span>
+<span class="lineNum">       4 </span><span class="lineCov">         17 :         : mWorld(nullptr)</span>
+<span class="lineNum">       5 </span>            : {
+<span class="lineNum">       6 </span><span class="lineCov">         17 :         mType = eTypeDynamic;</span>
+<span class="lineNum">       7 </span><span class="lineCov">         17 :         mColGroup = cContactManager::gFlagAll;</span>
+<span class="lineNum">       8 </span><span class="lineCov">         17 :         mColMask = cContactManager::gFlagAll;</span>
+<a name="9"><span class="lineNum">       9 </span><span class="lineCov">         17 : }</span></a>
+<span class="lineNum">      10 </span>            : 
+<span class="lineNum">      11 </span><span class="lineNoCov">          0 : cSimObj::~cSimObj()</span>
+<span class="lineNum">      12 </span>            : {
+<a name="13"><span class="lineNum">      13 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      14 </span>            : 
+<span class="lineNum">      15 </span><span class="lineCov">       2971 : tVector cSimObj::GetPos() const</span>
+<span class="lineNum">      16 </span>            : {
+<span class="lineNum">      17 </span><span class="lineCov">       2971 :         const btCollisionObject* col_obj = GetCollisionObject();</span>
+<span class="lineNum">      18 </span><span class="lineCov">       2971 :         btTransform trans = col_obj-&gt;getWorldTransform();</span>
+<span class="lineNum">      19 </span><span class="lineCov">       2971 :         btVector3 origin = trans.getOrigin();</span>
+<span class="lineNum">      20 </span><span class="lineCov">       2971 :         tVector pos = tVector(origin[0], origin[1], origin[2], 0);</span>
+<span class="lineNum">      21 </span><span class="lineCov">       2971 :         pos /= mWorld-&gt;GetScale();</span>
+<span class="lineNum">      22 </span><span class="lineCov">       2971 :         return pos;</span>
+<a name="23"><span class="lineNum">      23 </span>            : }</a>
+<span class="lineNum">      24 </span>            : 
+<span class="lineNum">      25 </span><span class="lineNoCov">          0 : void cSimObj::SetPos(const tVector&amp; pos)</span>
+<span class="lineNum">      26 </span>            : {
+<span class="lineNum">      27 </span><span class="lineNoCov">          0 :         btCollisionObject* col_obj = GetCollisionObject();</span>
+<span class="lineNum">      28 </span><span class="lineNoCov">          0 :         btTransform trans = col_obj-&gt;getWorldTransform();</span>
+<span class="lineNum">      29 </span>            : 
+<span class="lineNum">      30 </span><span class="lineNoCov">          0 :         btScalar scale = static_cast&lt;btScalar&gt;(mWorld-&gt;GetScale());</span>
+<span class="lineNum">      31 </span><span class="lineNoCov">          0 :         trans.setOrigin(scale * btVector3(static_cast&lt;btScalar&gt;(pos[0]),</span>
+<span class="lineNum">      32 </span><span class="lineNoCov">          0 :                 static_cast&lt;btScalar&gt;(pos[1]),</span>
+<span class="lineNum">      33 </span><span class="lineNoCov">          0 :                 static_cast&lt;btScalar&gt;(pos[2])));</span>
+<span class="lineNum">      34 </span>            : 
+<span class="lineNum">      35 </span><span class="lineNoCov">          0 :         col_obj-&gt;setWorldTransform(trans);</span>
+<a name="36"><span class="lineNum">      36 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      37 </span>            : 
+<span class="lineNum">      38 </span><span class="lineNoCov">          0 : void cSimObj::GetRotation(tVector&amp; out_axis, double&amp; out_theta) const</span>
+<span class="lineNum">      39 </span>            : {
+<span class="lineNum">      40 </span><span class="lineNoCov">          0 :         const btCollisionObject* col_obj = GetCollisionObject();</span>
+<span class="lineNum">      41 </span><span class="lineNoCov">          0 :         btTransform trans = col_obj-&gt;getWorldTransform();</span>
+<span class="lineNum">      42 </span><span class="lineNoCov">          0 :         btQuaternion bt_q = trans.getRotation();</span>
+<span class="lineNum">      43 </span><span class="lineNoCov">          0 :         btVector3 axis = bt_q.getAxis();</span>
+<span class="lineNum">      44 </span>            : 
+<span class="lineNum">      45 </span><span class="lineNoCov">          0 :         out_theta = bt_q.getAngle();</span>
+<span class="lineNum">      46 </span><span class="lineNoCov">          0 :         out_axis[0] = axis[0];</span>
+<span class="lineNum">      47 </span><span class="lineNoCov">          0 :         out_axis[1] = axis[1];</span>
+<span class="lineNum">      48 </span><span class="lineNoCov">          0 :         out_axis[2] = axis[2];</span>
+<span class="lineNum">      49 </span><span class="lineNoCov">          0 :         out_axis[3] = 0;</span>
+<a name="50"><span class="lineNum">      50 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      51 </span>            : 
+<span class="lineNum">      52 </span><span class="lineCov">       2990 : tQuaternion cSimObj::GetRotation() const</span>
+<span class="lineNum">      53 </span>            : {
+<span class="lineNum">      54 </span><span class="lineCov">       2990 :         const btCollisionObject* col_obj = GetCollisionObject();</span>
+<span class="lineNum">      55 </span><span class="lineCov">       2990 :         btTransform trans = col_obj-&gt;getWorldTransform();</span>
+<span class="lineNum">      56 </span><span class="lineCov">       2990 :         btQuaternion bt_q = trans.getRotation();</span>
+<span class="lineNum">      57 </span><span class="lineCov">       2990 :         tQuaternion q = tQuaternion(bt_q.w(), bt_q.x(), bt_q.y(), bt_q.z());</span>
+<span class="lineNum">      58 </span><span class="lineCov">       2990 :         return q;</span>
+<a name="59"><span class="lineNum">      59 </span>            : }</a>
+<span class="lineNum">      60 </span>            : 
+<span class="lineNum">      61 </span><span class="lineNoCov">          0 : void cSimObj::SetRotation(const tVector&amp; axis, double theta)</span>
+<span class="lineNum">      62 </span>            : {
+<span class="lineNum">      63 </span><span class="lineNoCov">          0 :         tQuaternion q = cMathUtil::AxisAngleToQuaternion(axis, theta);</span>
+<span class="lineNum">      64 </span><span class="lineNoCov">          0 :         SetRotation(q);</span>
+<a name="65"><span class="lineNum">      65 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      66 </span>            : 
+<span class="lineNum">      67 </span><span class="lineNoCov">          0 : void cSimObj::SetRotation(const tQuaternion&amp; q)</span>
+<span class="lineNum">      68 </span>            : {
+<span class="lineNum">      69 </span><span class="lineNoCov">          0 :         btCollisionObject* col_obj = GetCollisionObject();</span>
+<span class="lineNum">      70 </span><span class="lineNoCov">          0 :         btTransform trans = col_obj-&gt;getWorldTransform();</span>
+<span class="lineNum">      71 </span><span class="lineNoCov">          0 :         btQuaternion bt_q = btQuaternion(static_cast&lt;btScalar&gt;(q.x()),</span>
+<span class="lineNum">      72 </span><span class="lineNoCov">          0 :                 static_cast&lt;btScalar&gt;(q.y()),</span>
+<span class="lineNum">      73 </span><span class="lineNoCov">          0 :                 static_cast&lt;btScalar&gt;(q.z()),</span>
+<span class="lineNum">      74 </span><span class="lineNoCov">          0 :                 static_cast&lt;btScalar&gt;(q.w()));</span>
+<span class="lineNum">      75 </span><span class="lineNoCov">          0 :         trans.setRotation(bt_q);</span>
+<span class="lineNum">      76 </span><span class="lineNoCov">          0 :         col_obj-&gt;setWorldTransform(trans);</span>
+<a name="77"><span class="lineNum">      77 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      78 </span>            : 
+<span class="lineNum">      79 </span><span class="lineCov">       1793 : tMatrix cSimObj::GetWorldTransform() const</span>
+<span class="lineNum">      80 </span>            : {
+<span class="lineNum">      81 </span><span class="lineCov">       1793 :         const btCollisionObject* col_obj = GetCollisionObject();</span>
+<span class="lineNum">      82 </span><span class="lineCov">       1793 :         const btTransform&amp; bt_trans = col_obj-&gt;getWorldTransform();</span>
+<span class="lineNum">      83 </span><span class="lineCov">       1793 :         const btMatrix3x3&amp; basis = bt_trans.getBasis();</span>
+<span class="lineNum">      84 </span><span class="lineCov">       1793 :         const btVector3&amp; origin = bt_trans.getOrigin();</span>
+<span class="lineNum">      85 </span><span class="lineCov">       1793 :         double scale = mWorld-&gt;GetScale();</span>
+<span class="lineNum">      86 </span>            : 
+<span class="lineNum">      87 </span><span class="lineCov">       1793 :         tMatrix trans = tMatrix::Identity();</span>
+<span class="lineNum">      88 </span><span class="lineCov">       7172 :         for (int i = 0; i &lt; 3; ++i)</span>
+<span class="lineNum">      89 </span>            :         {
+<span class="lineNum">      90 </span><span class="lineCov">       5379 :                 auto curr_row = trans.row(i);</span>
+<span class="lineNum">      91 </span><span class="lineCov">       5379 :                 auto bt_row = basis.getRow(i);</span>
+<span class="lineNum">      92 </span><span class="lineCov">      21516 :                 for (int j = 0; j &lt; 3; ++j)</span>
+<span class="lineNum">      93 </span>            :                 {
+<span class="lineNum">      94 </span><span class="lineCov">      16137 :                         curr_row[j] = bt_row[j];</span>
+<span class="lineNum">      95 </span>            :                 }
+<span class="lineNum">      96 </span><span class="lineCov">       5379 :                 curr_row[3] = origin[i] / scale;</span>
+<span class="lineNum">      97 </span>            :         }
+<span class="lineNum">      98 </span><span class="lineCov">       1793 :         return trans;</span>
+<a name="99"><span class="lineNum">      99 </span>            : }</a>
+<span class="lineNum">     100 </span>            : 
+<span class="lineNum">     101 </span><span class="lineNoCov">          0 : tMatrix cSimObj::GetLocalTransform() const</span>
+<span class="lineNum">     102 </span>            : {
+<span class="lineNum">     103 </span><span class="lineNoCov">          0 :         tMatrix trans = GetWorldTransform();</span>
+<span class="lineNum">     104 </span><span class="lineNoCov">          0 :         trans = cMathUtil::InvRigidMat(trans);</span>
+<span class="lineNum">     105 </span><span class="lineNoCov">          0 :         return trans;</span>
+<a name="106"><span class="lineNum">     106 </span>            : }</a>
+<span class="lineNum">     107 </span>            : 
+<span class="lineNum">     108 </span><span class="lineNoCov">          0 : tVector cSimObj::WorldToLocalPos(const tVector&amp; world_pos) const</span>
+<span class="lineNum">     109 </span>            : {
+<span class="lineNum">     110 </span><span class="lineNoCov">          0 :         tMatrix world_to_local = GetLocalTransform();</span>
+<span class="lineNum">     111 </span><span class="lineNoCov">          0 :         tVector local_pt = world_pos;</span>
+<span class="lineNum">     112 </span>            : 
+<span class="lineNum">     113 </span><span class="lineNoCov">          0 :         local_pt[3] = 1;</span>
+<span class="lineNum">     114 </span><span class="lineNoCov">          0 :         local_pt = world_to_local * local_pt;</span>
+<span class="lineNum">     115 </span><span class="lineNoCov">          0 :         local_pt[3] = 0;</span>
+<span class="lineNum">     116 </span>            : 
+<span class="lineNum">     117 </span><span class="lineNoCov">          0 :         return local_pt;</span>
+<a name="118"><span class="lineNum">     118 </span>            : }</a>
+<span class="lineNum">     119 </span>            : 
+<span class="lineNum">     120 </span><span class="lineNoCov">          0 : tVector cSimObj::LocalToWorldPos(const tVector&amp; local_pos) const</span>
+<span class="lineNum">     121 </span>            : {
+<span class="lineNum">     122 </span><span class="lineNoCov">          0 :         tMatrix local_to_world = GetWorldTransform();</span>
+<span class="lineNum">     123 </span><span class="lineNoCov">          0 :         tVector world_pos = local_pos;</span>
+<span class="lineNum">     124 </span>            : 
+<span class="lineNum">     125 </span><span class="lineNoCov">          0 :         world_pos[3] = 1;</span>
+<span class="lineNum">     126 </span><span class="lineNoCov">          0 :         world_pos = local_to_world * world_pos;</span>
+<span class="lineNum">     127 </span><span class="lineNoCov">          0 :         world_pos[3] = 0;</span>
+<span class="lineNum">     128 </span>            : 
+<span class="lineNum">     129 </span><span class="lineNoCov">          0 :         return world_pos;</span>
+<a name="130"><span class="lineNum">     130 </span>            : }</a>
+<span class="lineNum">     131 </span>            : 
+<span class="lineNum">     132 </span><span class="lineNoCov">          0 : tMatrix3 cSimObj::GetLocalToWorldRotMat() const</span>
+<span class="lineNum">     133 </span>            : {
+<span class="lineNum">     134 </span><span class="lineNoCov">          0 :         tMatrix local_to_world = GetWorldTransform();</span>
+<span class="lineNum">     135 </span><span class="lineNoCov">          0 :         tMatrix3 mat = local_to_world.block(0, 0, 3, 3);</span>
+<span class="lineNum">     136 </span><span class="lineNoCov">          0 :         return mat;</span>
+<a name="137"><span class="lineNum">     137 </span>            : }</a>
+<span class="lineNum">     138 </span>            : 
+<span class="lineNum">     139 </span><span class="lineNoCov">          0 : tVector cSimObj::CalcCOM() const</span>
+<span class="lineNum">     140 </span>            : {
+<span class="lineNum">     141 </span><span class="lineNoCov">          0 :         return GetPos();</span>
+<a name="142"><span class="lineNum">     142 </span>            : }</a>
+<span class="lineNum">     143 </span>            : 
+<span class="lineNum">     144 </span><span class="lineNoCov">          0 : tVector cSimObj::CalcCOMVel() const</span>
+<span class="lineNum">     145 </span>            : {
+<span class="lineNum">     146 </span><span class="lineNoCov">          0 :         return GetLinearVelocity();</span>
+<a name="147"><span class="lineNum">     147 </span>            : }</a>
+<span class="lineNum">     148 </span>            : 
+<span class="lineNum">     149 </span><span class="lineNoCov">          0 : void cSimObj::RegisterContact()</span>
+<span class="lineNum">     150 </span>            : {
+<span class="lineNum">     151 </span><span class="lineNoCov">          0 :         RegisterContact(cContactManager::gFlagAll, cContactManager::gFlagAll);</span>
+<a name="152"><span class="lineNum">     152 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     153 </span>            : 
+<span class="lineNum">     154 </span><span class="lineCov">         15 : void cSimObj::RegisterContact(int contact_flags, int filter_flags)</span>
+<span class="lineNum">     155 </span>            : {
+<span class="lineNum">     156 </span><span class="lineCov">         15 :         if (!mContactHandle.IsValid())</span>
+<span class="lineNum">     157 </span>            :         {
+<span class="lineNum">     158 </span><span class="lineCov">         15 :                 mContactHandle = mWorld-&gt;RegisterContact(contact_flags, filter_flags);</span>
+<span class="lineNum">     159 </span><span class="lineCov">         15 :                 assert(mContactHandle.IsValid());</span>
+<span class="lineNum">     160 </span>            :         }
+<span class="lineNum">     161 </span>            :         else
+<span class="lineNum">     162 </span>            :         {
+<span class="lineNum">     163 </span><span class="lineNoCov">          0 :                 assert(false); // already registered contact</span>
+<span class="lineNum">     164 </span>            :         }
+<a name="165"><span class="lineNum">     165 </span><span class="lineCov">         15 : }</span></a>
+<span class="lineNum">     166 </span>            : 
+<span class="lineNum">     167 </span><span class="lineCov">          1 : void cSimObj::UpdateContact(int contact_flags, int filter_flags)</span>
+<span class="lineNum">     168 </span>            : {
+<span class="lineNum">     169 </span><span class="lineCov">          1 :         mContactHandle.mFlags = contact_flags;</span>
+<span class="lineNum">     170 </span><span class="lineCov">          1 :         mContactHandle.mFilterFlags = filter_flags;</span>
+<span class="lineNum">     171 </span>            : 
+<span class="lineNum">     172 </span><span class="lineCov">          1 :         if (mContactHandle.IsValid())</span>
+<span class="lineNum">     173 </span>            :         {
+<span class="lineNum">     174 </span><span class="lineNoCov">          0 :                 mWorld-&gt;UpdateContact(mContactHandle);</span>
+<span class="lineNum">     175 </span>            :         }
+<a name="176"><span class="lineNum">     176 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     177 </span>            : 
+<span class="lineNum">     178 </span><span class="lineCov">       1380 : const cContactManager::tContactHandle&amp; cSimObj::GetContactHandle() const</span>
+<span class="lineNum">     179 </span>            : {
+<span class="lineNum">     180 </span><span class="lineCov">       1380 :         return mContactHandle;</span>
+<a name="181"><span class="lineNum">     181 </span>            : }</a>
+<span class="lineNum">     182 </span>            : 
+<span class="lineNum">     183 </span><span class="lineCov">       2327 : bool cSimObj::IsInContact() const</span>
+<span class="lineNum">     184 </span>            : {
+<span class="lineNum">     185 </span><span class="lineCov">       2327 :         bool in_contact = mWorld-&gt;IsInContact(mContactHandle);</span>
+<span class="lineNum">     186 </span><span class="lineCov">       2327 :         return in_contact;</span>
+<a name="187"><span class="lineNum">     187 </span>            : }</a>
+<span class="lineNum">     188 </span>            : 
+<span class="lineNum">     189 </span><span class="lineNoCov">          0 : const tEigenArr&lt;cContactManager::tContactPt&gt;&amp; cSimObj::GetContactPts() const</span>
+<span class="lineNum">     190 </span>            : {
+<span class="lineNum">     191 </span><span class="lineNoCov">          0 :         return mWorld-&gt;GetContactPts(mContactHandle);</span>
+<a name="192"><span class="lineNum">     192 </span>            : }</a>
+<span class="lineNum">     193 </span>            : 
+<span class="lineNum">     194 </span><span class="lineCov">          1 : short cSimObj::GetColGroup() const</span>
+<span class="lineNum">     195 </span>            : {
+<span class="lineNum">     196 </span><span class="lineCov">          1 :         return mColGroup;</span>
+<a name="197"><span class="lineNum">     197 </span>            : }</a>
+<span class="lineNum">     198 </span>            : 
+<span class="lineNum">     199 </span><span class="lineCov">         15 : void cSimObj::SetColGroup(short col_group)</span>
+<span class="lineNum">     200 </span>            : {
+<span class="lineNum">     201 </span><span class="lineCov">         15 :         mColGroup = col_group;</span>
+<a name="202"><span class="lineNum">     202 </span><span class="lineCov">         15 : }</span></a>
+<span class="lineNum">     203 </span>            : 
+<span class="lineNum">     204 </span><span class="lineCov">          1 : short cSimObj::GetColMask() const</span>
+<span class="lineNum">     205 </span>            : {
+<span class="lineNum">     206 </span><span class="lineCov">          1 :         return mColMask;</span>
+<a name="207"><span class="lineNum">     207 </span>            : }</a>
+<span class="lineNum">     208 </span>            : 
+<span class="lineNum">     209 </span><span class="lineCov">         15 : void cSimObj::SetColMask(short col_mask)</span>
+<span class="lineNum">     210 </span>            : {
+<span class="lineNum">     211 </span><span class="lineCov">         15 :         mColMask = col_mask;</span>
+<a name="212"><span class="lineNum">     212 </span><span class="lineCov">         15 : }</span></a>
+<span class="lineNum">     213 </span>            : 
+<span class="lineNum">     214 </span><span class="lineNoCov">          0 : cSimObj::eType cSimObj::GetType() const</span>
+<span class="lineNum">     215 </span>            : {
+<span class="lineNum">     216 </span><span class="lineNoCov">          0 :         return mType;</span>
+<a name="217"><span class="lineNum">     217 </span>            : }</a>
+<span class="lineNum">     218 </span>            : 
+<span class="lineNum">     219 </span><span class="lineNoCov">          0 : cShape::eShape cSimObj::GetShape() const</span>
+<span class="lineNum">     220 </span>            : {
+<span class="lineNum">     221 </span><span class="lineNoCov">          0 :         return cShape::eShapeNull;</span>
+<a name="222"><span class="lineNum">     222 </span>            : }</a>
+<span class="lineNum">     223 </span>            : 
+<span class="lineNum">     224 </span><span class="lineCov">         15 : void cSimObj::CalcAABB(tVector&amp; out_min, tVector&amp; out_max) const</span>
+<span class="lineNum">     225 </span>            : {
+<span class="lineNum">     226 </span><span class="lineCov">         15 :         const auto* obj = GetCollisionObject();</span>
+<span class="lineNum">     227 </span><span class="lineCov">         15 :         const auto* shape = GetCollisionShape();</span>
+<span class="lineNum">     228 </span>            : 
+<span class="lineNum">     229 </span><span class="lineCov">         15 :         btVector3 bt_min;</span>
+<span class="lineNum">     230 </span><span class="lineCov">         15 :         btVector3 bt_max;</span>
+<span class="lineNum">     231 </span><span class="lineCov">         15 :         shape-&gt;getAabb(obj-&gt;getWorldTransform(), bt_min, bt_max);</span>
+<span class="lineNum">     232 </span><span class="lineCov">         15 :         double scale = mWorld-&gt;GetScale();</span>
+<span class="lineNum">     233 </span>            : 
+<span class="lineNum">     234 </span><span class="lineCov">         15 :         out_min = tVector(bt_min[0], bt_min[1], bt_min[2], 0) / scale;</span>
+<span class="lineNum">     235 </span><span class="lineCov">         15 :         out_max = tVector(bt_max[0], bt_max[1], bt_max[2], 0) / scale;</span>
+<a name="236"><span class="lineNum">     236 </span><span class="lineCov">         15 : }</span></a>
+<span class="lineNum">     237 </span>            : 
+<span class="lineNum">     238 </span><span class="lineCov">         30 : const btCollisionShape* cSimObj::GetCollisionShape() const</span>
+<span class="lineNum">     239 </span>            : {
+<span class="lineNum">     240 </span><span class="lineCov">         30 :         return mColShape.get();</span>
+<a name="241"><span class="lineNum">     241 </span>            : }</a>
+<span class="lineNum">     242 </span>            : 
+<span class="lineNum">     243 </span><span class="lineNoCov">          0 : const std::shared_ptr&lt;cWorld&gt;&amp; cSimObj::GetWorld() const</span>
+<a name="244"><span class="lineNum">     244 </span>            : {</a>
+<span class="lineNum">     245 </span><span class="lineNoCov">          0 :         return mWorld;</span>
+<span class="lineNum">     246 </span><span class="lineCov">          3 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

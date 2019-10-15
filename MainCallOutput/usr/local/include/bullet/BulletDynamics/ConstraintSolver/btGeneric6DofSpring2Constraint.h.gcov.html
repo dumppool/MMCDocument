@@ -1,0 +1,763 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Main Call Code Analysis - /usr/local/include/bullet/BulletDynamics/ConstraintSolver/btGeneric6DofSpring2Constraint.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../index.html">top level</a> - <a href="index.html">usr/local/include/bullet/BulletDynamics/ConstraintSolver</a> - btGeneric6DofSpring2Constraint.h<span style="font-size: 80%;"> (source / <a href="btGeneric6DofSpring2Constraint.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Main Call Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">12</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 16:51:56</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">7</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /*</a>
+<span class="lineNum">       2 </span>            : Bullet Continuous Collision Detection and Physics Library
+<span class="lineNum">       3 </span>            : Copyright (c) 2003-2006 Erwin Coumans  http://continuousphysics.com/Bullet/
+<span class="lineNum">       4 </span>            : 
+<span class="lineNum">       5 </span>            : This software is provided 'as-is', without any express or implied warranty.
+<span class="lineNum">       6 </span>            : In no event will the authors be held liable for any damages arising from the use of this software.
+<span class="lineNum">       7 </span>            : Permission is granted to anyone to use this software for any purpose,
+<span class="lineNum">       8 </span>            : including commercial applications, and to alter it and redistribute it freely,
+<span class="lineNum">       9 </span>            : subject to the following restrictions:
+<span class="lineNum">      10 </span>            : 
+<span class="lineNum">      11 </span>            : 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
+<span class="lineNum">      12 </span>            : 2. Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.
+<span class="lineNum">      13 </span>            : 3. This notice may not be removed or altered from any source distribution.
+<span class="lineNum">      14 </span>            : */
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span>            : /*
+<span class="lineNum">      17 </span>            : 2014 May: btGeneric6DofSpring2Constraint is created from the original (2.82.2712) btGeneric6DofConstraint by Gabor Puhr and Tamas Umenhoffer
+<span class="lineNum">      18 </span>            : Pros:
+<span class="lineNum">      19 </span>            : - Much more accurate and stable in a lot of situation. (Especially when a sleeping chain of RBs connected with 6dof2 is pulled)
+<span class="lineNum">      20 </span>            : - Stable and accurate spring with minimal energy loss that works with all of the solvers. (latter is not true for the original 6dof spring)
+<span class="lineNum">      21 </span>            : - Servo motor functionality
+<span class="lineNum">      22 </span>            : - Much more accurate bouncing. 0 really means zero bouncing (not true for the original 6odf) and there is only a minimal energy loss when the value is 1 (because of the solvers' precision)
+<span class="lineNum">      23 </span>            : - Rotation order for the Euler system can be set. (One axis' freedom is still limited to pi/2)
+<span class="lineNum">      24 </span>            : 
+<span class="lineNum">      25 </span>            : Cons:
+<span class="lineNum">      26 </span>            : - It is slower than the original 6dof. There is no exact ratio, but half speed is a good estimation.
+<span class="lineNum">      27 </span>            : - At bouncing the correct velocity is calculated, but not the correct position. (it is because of the solver can correct position or velocity, but not both.)
+<span class="lineNum">      28 </span>            : */
+<span class="lineNum">      29 </span>            : 
+<span class="lineNum">      30 </span>            : /// 2009 March: btGeneric6DofConstraint refactored by Roman Ponomarev
+<span class="lineNum">      31 </span>            : /// Added support for generic constraint solver through getInfo1/getInfo2 methods
+<span class="lineNum">      32 </span>            : 
+<span class="lineNum">      33 </span>            : /*
+<span class="lineNum">      34 </span>            : 2007-09-09
+<span class="lineNum">      35 </span>            : btGeneric6DofConstraint Refactored by Francisco Le?n
+<span class="lineNum">      36 </span>            : email: projectileman@yahoo.com
+<span class="lineNum">      37 </span>            : http://gimpact.sf.net
+<span class="lineNum">      38 </span>            : */
+<span class="lineNum">      39 </span>            : 
+<span class="lineNum">      40 </span>            : 
+<span class="lineNum">      41 </span>            : #ifndef BT_GENERIC_6DOF_CONSTRAINT2_H
+<span class="lineNum">      42 </span>            : #define BT_GENERIC_6DOF_CONSTRAINT2_H
+<span class="lineNum">      43 </span>            : 
+<span class="lineNum">      44 </span>            : #include &quot;LinearMath/btVector3.h&quot;
+<span class="lineNum">      45 </span>            : #include &quot;btJacobianEntry.h&quot;
+<span class="lineNum">      46 </span>            : #include &quot;btTypedConstraint.h&quot;
+<span class="lineNum">      47 </span>            : 
+<span class="lineNum">      48 </span>            : class btRigidBody;
+<span class="lineNum">      49 </span>            : 
+<span class="lineNum">      50 </span>            : 
+<span class="lineNum">      51 </span>            : #ifdef BT_USE_DOUBLE_PRECISION
+<span class="lineNum">      52 </span>            : #define btGeneric6DofSpring2ConstraintData2             btGeneric6DofSpring2ConstraintDoubleData2
+<span class="lineNum">      53 </span>            : #define btGeneric6DofSpring2ConstraintDataName  &quot;btGeneric6DofSpring2ConstraintDoubleData2&quot;
+<span class="lineNum">      54 </span>            : #else
+<span class="lineNum">      55 </span>            : #define btGeneric6DofSpring2ConstraintData2             btGeneric6DofSpring2ConstraintData
+<span class="lineNum">      56 </span>            : #define btGeneric6DofSpring2ConstraintDataName  &quot;btGeneric6DofSpring2ConstraintData&quot;
+<span class="lineNum">      57 </span>            : #endif //BT_USE_DOUBLE_PRECISION
+<span class="lineNum">      58 </span>            : 
+<span class="lineNum">      59 </span>            : enum RotateOrder
+<span class="lineNum">      60 </span>            : {
+<span class="lineNum">      61 </span>            :         RO_XYZ=0,
+<span class="lineNum">      62 </span>            :         RO_XZY,
+<span class="lineNum">      63 </span>            :         RO_YXZ,
+<span class="lineNum">      64 </span>            :         RO_YZX,
+<span class="lineNum">      65 </span>            :         RO_ZXY,
+<span class="lineNum">      66 </span>            :         RO_ZYX
+<span class="lineNum">      67 </span>            : };
+<span class="lineNum">      68 </span>            : 
+<span class="lineNum">      69 </span>            : class btRotationalLimitMotor2
+<span class="lineNum">      70 </span>            : {
+<span class="lineNum">      71 </span>            : public:
+<span class="lineNum">      72 </span>            : // upper &lt; lower means free
+<span class="lineNum">      73 </span>            : // upper == lower means locked
+<span class="lineNum">      74 </span>            : // upper &gt; lower means limited
+<span class="lineNum">      75 </span>            :         btScalar m_loLimit;
+<span class="lineNum">      76 </span>            :         btScalar m_hiLimit;
+<span class="lineNum">      77 </span>            :         btScalar m_bounce;
+<span class="lineNum">      78 </span>            :         btScalar m_stopERP;
+<span class="lineNum">      79 </span>            :         btScalar m_stopCFM;
+<span class="lineNum">      80 </span>            :         btScalar m_motorERP;
+<span class="lineNum">      81 </span>            :         btScalar m_motorCFM;
+<span class="lineNum">      82 </span>            :         bool     m_enableMotor;
+<span class="lineNum">      83 </span>            :         btScalar m_targetVelocity;
+<span class="lineNum">      84 </span>            :         btScalar m_maxMotorForce;
+<span class="lineNum">      85 </span>            :         bool     m_servoMotor;
+<span class="lineNum">      86 </span>            :         btScalar m_servoTarget;
+<span class="lineNum">      87 </span>            :         bool     m_enableSpring;
+<span class="lineNum">      88 </span>            :         btScalar m_springStiffness;
+<span class="lineNum">      89 </span>            :         bool     m_springStiffnessLimited;
+<span class="lineNum">      90 </span>            :         btScalar m_springDamping;
+<span class="lineNum">      91 </span>            :         bool     m_springDampingLimited;
+<span class="lineNum">      92 </span>            :         btScalar m_equilibriumPoint;
+<span class="lineNum">      93 </span>            : 
+<span class="lineNum">      94 </span>            :         btScalar m_currentLimitError;
+<span class="lineNum">      95 </span>            :         btScalar m_currentLimitErrorHi;
+<span class="lineNum">      96 </span>            :         btScalar m_currentPosition;
+<span class="lineNum">      97 </span>            :         int      m_currentLimit;
+<span class="lineNum">      98 </span>            : 
+<span class="lineNum">      99 </span>            :         btRotationalLimitMotor2()
+<span class="lineNum">     100 </span>            :         {
+<span class="lineNum">     101 </span>            :                 m_loLimit                = 1.0f;
+<span class="lineNum">     102 </span>            :                 m_hiLimit                = -1.0f;
+<span class="lineNum">     103 </span>            :                 m_bounce                 = 0.0f;
+<span class="lineNum">     104 </span>            :                 m_stopERP                = 0.2f;
+<span class="lineNum">     105 </span>            :                 m_stopCFM                = 0.f;
+<span class="lineNum">     106 </span>            :                 m_motorERP               = 0.9f;
+<span class="lineNum">     107 </span>            :                 m_motorCFM               = 0.f;
+<span class="lineNum">     108 </span>            :                 m_enableMotor            = false;
+<span class="lineNum">     109 </span>            :                 m_targetVelocity         = 0;
+<span class="lineNum">     110 </span>            :                 m_maxMotorForce          = 0.1f;
+<span class="lineNum">     111 </span>            :                 m_servoMotor             = false;
+<span class="lineNum">     112 </span>            :                 m_servoTarget            = 0;
+<span class="lineNum">     113 </span>            :                 m_enableSpring           = false;
+<span class="lineNum">     114 </span>            :                 m_springStiffness        = 0;
+<span class="lineNum">     115 </span>            :                 m_springStiffnessLimited = false;
+<span class="lineNum">     116 </span>            :                 m_springDamping          = 0;
+<span class="lineNum">     117 </span>            :                 m_springDampingLimited   = false;
+<span class="lineNum">     118 </span>            :                 m_equilibriumPoint       = 0;
+<span class="lineNum">     119 </span>            : 
+<span class="lineNum">     120 </span>            :                 m_currentLimitError   = 0;
+<span class="lineNum">     121 </span>            :                 m_currentLimitErrorHi = 0;
+<span class="lineNum">     122 </span>            :                 m_currentPosition     = 0;
+<span class="lineNum">     123 </span>            :                 m_currentLimit        = 0;
+<span class="lineNum">     124 </span>            :         }
+<span class="lineNum">     125 </span>            : 
+<span class="lineNum">     126 </span>            :         btRotationalLimitMotor2(const btRotationalLimitMotor2 &amp; limot)
+<span class="lineNum">     127 </span>            :         {
+<span class="lineNum">     128 </span>            :                 m_loLimit                = limot.m_loLimit;
+<span class="lineNum">     129 </span>            :                 m_hiLimit                = limot.m_hiLimit;
+<span class="lineNum">     130 </span>            :                 m_bounce                 = limot.m_bounce;
+<span class="lineNum">     131 </span>            :                 m_stopERP                = limot.m_stopERP;
+<span class="lineNum">     132 </span>            :                 m_stopCFM                = limot.m_stopCFM;
+<span class="lineNum">     133 </span>            :                 m_motorERP               = limot.m_motorERP;
+<span class="lineNum">     134 </span>            :                 m_motorCFM               = limot.m_motorCFM;
+<span class="lineNum">     135 </span>            :                 m_enableMotor            = limot.m_enableMotor;
+<span class="lineNum">     136 </span>            :                 m_targetVelocity         = limot.m_targetVelocity;
+<span class="lineNum">     137 </span>            :                 m_maxMotorForce          = limot.m_maxMotorForce;
+<span class="lineNum">     138 </span>            :                 m_servoMotor             = limot.m_servoMotor;
+<span class="lineNum">     139 </span>            :                 m_servoTarget            = limot.m_servoTarget;
+<span class="lineNum">     140 </span>            :                 m_enableSpring           = limot.m_enableSpring;
+<span class="lineNum">     141 </span>            :                 m_springStiffness        = limot.m_springStiffness;
+<span class="lineNum">     142 </span>            :                 m_springStiffnessLimited = limot.m_springStiffnessLimited;
+<span class="lineNum">     143 </span>            :                 m_springDamping          = limot.m_springDamping;
+<span class="lineNum">     144 </span>            :                 m_springDampingLimited   = limot.m_springDampingLimited;
+<span class="lineNum">     145 </span>            :                 m_equilibriumPoint       = limot.m_equilibriumPoint;
+<span class="lineNum">     146 </span>            : 
+<span class="lineNum">     147 </span>            :                 m_currentLimitError   = limot.m_currentLimitError;
+<span class="lineNum">     148 </span>            :                 m_currentLimitErrorHi = limot.m_currentLimitErrorHi;
+<span class="lineNum">     149 </span>            :                 m_currentPosition     = limot.m_currentPosition;
+<span class="lineNum">     150 </span>            :                 m_currentLimit        = limot.m_currentLimit;
+<span class="lineNum">     151 </span>            :         }
+<span class="lineNum">     152 </span>            : 
+<span class="lineNum">     153 </span>            : 
+<span class="lineNum">     154 </span>            :         bool isLimited()
+<span class="lineNum">     155 </span>            :         {
+<span class="lineNum">     156 </span>            :                 if(m_loLimit &gt; m_hiLimit) return false;
+<span class="lineNum">     157 </span>            :                 return true;
+<span class="lineNum">     158 </span>            :         }
+<span class="lineNum">     159 </span>            : 
+<span class="lineNum">     160 </span>            :         void testLimitValue(btScalar test_value);
+<span class="lineNum">     161 </span>            : };
+<span class="lineNum">     162 </span>            : 
+<span class="lineNum">     163 </span>            : 
+<span class="lineNum">     164 </span>            : 
+<span class="lineNum">     165 </span>            : class btTranslationalLimitMotor2
+<span class="lineNum">     166 </span>            : {
+<span class="lineNum">     167 </span>            : public:
+<span class="lineNum">     168 </span>            : // upper &lt; lower means free
+<span class="lineNum">     169 </span>            : // upper == lower means locked
+<span class="lineNum">     170 </span>            : // upper &gt; lower means limited
+<span class="lineNum">     171 </span>            :         btVector3 m_lowerLimit;
+<span class="lineNum">     172 </span>            :         btVector3 m_upperLimit;
+<span class="lineNum">     173 </span>            :         btVector3 m_bounce;
+<span class="lineNum">     174 </span>            :         btVector3 m_stopERP;
+<span class="lineNum">     175 </span>            :         btVector3 m_stopCFM;
+<span class="lineNum">     176 </span>            :         btVector3 m_motorERP;
+<span class="lineNum">     177 </span>            :         btVector3 m_motorCFM;
+<span class="lineNum">     178 </span>            :         bool      m_enableMotor[3];
+<span class="lineNum">     179 </span>            :         bool      m_servoMotor[3];
+<span class="lineNum">     180 </span>            :         bool      m_enableSpring[3];
+<span class="lineNum">     181 </span>            :         btVector3 m_servoTarget;
+<span class="lineNum">     182 </span>            :         btVector3 m_springStiffness;
+<span class="lineNum">     183 </span>            :         bool      m_springStiffnessLimited[3];
+<span class="lineNum">     184 </span>            :         btVector3 m_springDamping;
+<span class="lineNum">     185 </span>            :         bool      m_springDampingLimited[3];
+<span class="lineNum">     186 </span>            :         btVector3 m_equilibriumPoint;
+<span class="lineNum">     187 </span>            :         btVector3 m_targetVelocity;
+<span class="lineNum">     188 </span>            :         btVector3 m_maxMotorForce;
+<span class="lineNum">     189 </span>            : 
+<span class="lineNum">     190 </span>            :         btVector3 m_currentLimitError;
+<span class="lineNum">     191 </span>            :         btVector3 m_currentLimitErrorHi;
+<span class="lineNum">     192 </span>            :         btVector3 m_currentLinearDiff;
+<span class="lineNum">     193 </span>            :         int       m_currentLimit[3];
+<span class="lineNum">     194 </span>            : 
+<span class="lineNum">     195 </span>            :         btTranslationalLimitMotor2()
+<span class="lineNum">     196 </span>            :         {
+<span class="lineNum">     197 </span>            :                 m_lowerLimit         .setValue(0.f , 0.f , 0.f );
+<span class="lineNum">     198 </span>            :                 m_upperLimit         .setValue(0.f , 0.f , 0.f );
+<span class="lineNum">     199 </span>            :                 m_bounce             .setValue(0.f , 0.f , 0.f );
+<span class="lineNum">     200 </span>            :                 m_stopERP            .setValue(0.2f, 0.2f, 0.2f);
+<span class="lineNum">     201 </span>            :                 m_stopCFM            .setValue(0.f , 0.f , 0.f );
+<span class="lineNum">     202 </span>            :                 m_motorERP           .setValue(0.9f, 0.9f, 0.9f);
+<span class="lineNum">     203 </span>            :                 m_motorCFM           .setValue(0.f , 0.f , 0.f );
+<span class="lineNum">     204 </span>            : 
+<span class="lineNum">     205 </span>            :                 m_currentLimitError  .setValue(0.f , 0.f , 0.f );
+<span class="lineNum">     206 </span>            :                 m_currentLimitErrorHi.setValue(0.f , 0.f , 0.f );
+<span class="lineNum">     207 </span>            :                 m_currentLinearDiff  .setValue(0.f , 0.f , 0.f );
+<span class="lineNum">     208 </span>            : 
+<span class="lineNum">     209 </span>            :                 for(int i=0; i &lt; 3; i++) 
+<span class="lineNum">     210 </span>            :                 {
+<span class="lineNum">     211 </span>            :                         m_enableMotor[i]            = false;
+<span class="lineNum">     212 </span>            :                         m_servoMotor[i]             = false;
+<span class="lineNum">     213 </span>            :                         m_enableSpring[i]           = false;
+<span class="lineNum">     214 </span>            :                         m_servoTarget[i]            = btScalar(0.f);
+<span class="lineNum">     215 </span>            :                         m_springStiffness[i]        = btScalar(0.f);
+<span class="lineNum">     216 </span>            :                         m_springStiffnessLimited[i] = false;
+<span class="lineNum">     217 </span>            :                         m_springDamping[i]          = btScalar(0.f);
+<span class="lineNum">     218 </span>            :                         m_springDampingLimited[i]   = false;
+<span class="lineNum">     219 </span>            :                         m_equilibriumPoint[i]       = btScalar(0.f);
+<span class="lineNum">     220 </span>            :                         m_targetVelocity[i]         = btScalar(0.f);
+<span class="lineNum">     221 </span>            :                         m_maxMotorForce[i]          = btScalar(0.f);
+<span class="lineNum">     222 </span>            :                         
+<span class="lineNum">     223 </span>            :                         m_currentLimit[i]     = 0;
+<span class="lineNum">     224 </span>            :                 }
+<span class="lineNum">     225 </span>            :         }
+<span class="lineNum">     226 </span>            : 
+<span class="lineNum">     227 </span>            :         btTranslationalLimitMotor2(const btTranslationalLimitMotor2 &amp; other )
+<span class="lineNum">     228 </span>            :         {
+<span class="lineNum">     229 </span>            :                 m_lowerLimit          = other.m_lowerLimit;
+<span class="lineNum">     230 </span>            :                 m_upperLimit          = other.m_upperLimit;
+<span class="lineNum">     231 </span>            :                 m_bounce              = other.m_bounce;
+<span class="lineNum">     232 </span>            :                 m_stopERP             = other.m_stopERP;
+<span class="lineNum">     233 </span>            :                 m_stopCFM             = other.m_stopCFM;
+<span class="lineNum">     234 </span>            :                 m_motorERP            = other.m_motorERP;
+<span class="lineNum">     235 </span>            :                 m_motorCFM            = other.m_motorCFM;
+<span class="lineNum">     236 </span>            :                 
+<span class="lineNum">     237 </span>            :                 m_currentLimitError   = other.m_currentLimitError;
+<span class="lineNum">     238 </span>            :                 m_currentLimitErrorHi = other.m_currentLimitErrorHi;
+<span class="lineNum">     239 </span>            :                 m_currentLinearDiff   = other.m_currentLinearDiff;
+<span class="lineNum">     240 </span>            : 
+<span class="lineNum">     241 </span>            :                 for(int i=0; i &lt; 3; i++) 
+<span class="lineNum">     242 </span>            :                 {
+<span class="lineNum">     243 </span>            :                         m_enableMotor[i]            = other.m_enableMotor[i];
+<span class="lineNum">     244 </span>            :                         m_servoMotor[i]             = other.m_servoMotor[i];
+<span class="lineNum">     245 </span>            :                         m_enableSpring[i]           = other.m_enableSpring[i];
+<span class="lineNum">     246 </span>            :                         m_servoTarget[i]            = other.m_servoTarget[i];
+<span class="lineNum">     247 </span>            :                         m_springStiffness[i]        = other.m_springStiffness[i];
+<span class="lineNum">     248 </span>            :                         m_springStiffnessLimited[i] = other.m_springStiffnessLimited[i];
+<span class="lineNum">     249 </span>            :                         m_springDamping[i]          = other.m_springDamping[i];
+<span class="lineNum">     250 </span>            :                         m_springDampingLimited[i]   = other.m_springDampingLimited[i];
+<span class="lineNum">     251 </span>            :                         m_equilibriumPoint[i]       = other.m_equilibriumPoint[i];
+<span class="lineNum">     252 </span>            :                         m_targetVelocity[i]         = other.m_targetVelocity[i];
+<span class="lineNum">     253 </span>            :                         m_maxMotorForce[i]          = other.m_maxMotorForce[i];
+<span class="lineNum">     254 </span>            : 
+<span class="lineNum">     255 </span>            :                         m_currentLimit[i]     = other.m_currentLimit[i];
+<span class="lineNum">     256 </span>            :                 }
+<span class="lineNum">     257 </span>            :         }
+<span class="lineNum">     258 </span>            : 
+<span class="lineNum">     259 </span>            :         inline bool isLimited(int limitIndex)
+<span class="lineNum">     260 </span>            :         {
+<span class="lineNum">     261 </span>            :                 return (m_upperLimit[limitIndex] &gt;= m_lowerLimit[limitIndex]);
+<span class="lineNum">     262 </span>            :         }
+<span class="lineNum">     263 </span>            : 
+<span class="lineNum">     264 </span>            :         void testLimitValue(int limitIndex, btScalar test_value);
+<span class="lineNum">     265 </span>            : };
+<span class="lineNum">     266 </span>            : 
+<span class="lineNum">     267 </span>            : enum bt6DofFlags2
+<span class="lineNum">     268 </span>            : {
+<span class="lineNum">     269 </span>            :         BT_6DOF_FLAGS_CFM_STOP2 = 1,
+<span class="lineNum">     270 </span>            :         BT_6DOF_FLAGS_ERP_STOP2 = 2,
+<span class="lineNum">     271 </span>            :         BT_6DOF_FLAGS_CFM_MOTO2 = 4,
+<span class="lineNum">     272 </span>            :         BT_6DOF_FLAGS_ERP_MOTO2 = 8
+<span class="lineNum">     273 </span>            : };
+<span class="lineNum">     274 </span>            : #define BT_6DOF_FLAGS_AXIS_SHIFT2 4 // bits per axis
+<span class="lineNum">     275 </span>            : 
+<span class="lineNum">     276 </span>            : 
+<span class="lineNum">     277 </span>            : ATTRIBUTE_ALIGNED16(class) btGeneric6DofSpring2Constraint : public btTypedConstraint
+<span class="lineNum">     278 </span>            : {
+<span class="lineNum">     279 </span>            : protected:
+<span class="lineNum">     280 </span>            : 
+<span class="lineNum">     281 </span>            :         btTransform m_frameInA;
+<span class="lineNum">     282 </span>            :         btTransform m_frameInB;
+<span class="lineNum">     283 </span>            : 
+<span class="lineNum">     284 </span>            :         btJacobianEntry m_jacLinear[3];
+<span class="lineNum">     285 </span>            :         btJacobianEntry m_jacAng[3];
+<span class="lineNum">     286 </span>            : 
+<span class="lineNum">     287 </span>            :         btTranslationalLimitMotor2 m_linearLimits;
+<span class="lineNum">     288 </span>            :         btRotationalLimitMotor2 m_angularLimits[3];
+<span class="lineNum">     289 </span>            : 
+<span class="lineNum">     290 </span>            :         RotateOrder m_rotateOrder;
+<span class="lineNum">     291 </span>            : 
+<span class="lineNum">     292 </span>            : protected:
+<span class="lineNum">     293 </span>            : 
+<span class="lineNum">     294 </span>            :         btTransform  m_calculatedTransformA;
+<span class="lineNum">     295 </span>            :         btTransform  m_calculatedTransformB;
+<span class="lineNum">     296 </span>            :         btVector3    m_calculatedAxisAngleDiff;
+<span class="lineNum">     297 </span>            :         btVector3    m_calculatedAxis[3];
+<span class="lineNum">     298 </span>            :         btVector3    m_calculatedLinearDiff;
+<span class="lineNum">     299 </span>            :         btScalar     m_factA;
+<span class="lineNum">     300 </span>            :         btScalar     m_factB;
+<span class="lineNum">     301 </span>            :         bool         m_hasStaticBody;
+<span class="lineNum">     302 </span>            :         int          m_flags;
+<span class="lineNum">     303 </span>            : 
+<span class="lineNum">     304 </span>            :         btGeneric6DofSpring2Constraint&amp;     operator=(btGeneric6DofSpring2Constraint&amp;)
+<span class="lineNum">     305 </span>            :         {
+<span class="lineNum">     306 </span>            :                 btAssert(0);
+<span class="lineNum">     307 </span>            :                 return *this;
+<span class="lineNum">     308 </span>            :         }
+<span class="lineNum">     309 </span>            : 
+<span class="lineNum">     310 </span>            :         int setAngularLimits(btConstraintInfo2 *info, int row_offset,const btTransform&amp; transA,const btTransform&amp; transB,const btVector3&amp; linVelA,const btVector3&amp; linVelB,const btVector3&amp; angVelA,const btVector3&amp; angVelB);
+<span class="lineNum">     311 </span>            :         int setLinearLimits(btConstraintInfo2 *info, int row, const btTransform&amp; transA,const btTransform&amp; transB,const btVector3&amp; linVelA,const btVector3&amp; linVelB,const btVector3&amp; angVelA,const btVector3&amp; angVelB);
+<span class="lineNum">     312 </span>            : 
+<span class="lineNum">     313 </span>            :         void calculateLinearInfo();
+<span class="lineNum">     314 </span>            :         void calculateAngleInfo();
+<span class="lineNum">     315 </span>            :         void testAngularLimitMotor(int axis_index);
+<span class="lineNum">     316 </span>            : 
+<span class="lineNum">     317 </span>            :         void calculateJacobi(btRotationalLimitMotor2* limot, const btTransform&amp; transA,const btTransform&amp; transB, btConstraintInfo2* info, int srow, btVector3&amp; ax1, int rotational, int rotAllowed);
+<span class="lineNum">     318 </span>            :         int get_limit_motor_info2(btRotationalLimitMotor2* limot,
+<span class="lineNum">     319 </span>            :                 const btTransform&amp; transA,const btTransform&amp; transB,const btVector3&amp; linVelA,const btVector3&amp; linVelB,const btVector3&amp; angVelA,const btVector3&amp; angVelB,
+<span class="lineNum">     320 </span>            :                 btConstraintInfo2* info, int row, btVector3&amp; ax1, int rotational, int rotAllowed = false);
+<span class="lineNum">     321 </span>            : 
+<a name="322"><span class="lineNum">     322 </span>            : public:</a>
+<span class="lineNum">     323 </span>            : 
+<span class="lineNum">     324 </span><span class="lineNoCov">          0 :         BT_DECLARE_ALIGNED_ALLOCATOR();</span>
+<span class="lineNum">     325 </span>            : 
+<span class="lineNum">     326 </span>            :     btGeneric6DofSpring2Constraint(btRigidBody&amp; rbA, btRigidBody&amp; rbB, const btTransform&amp; frameInA, const btTransform&amp; frameInB, RotateOrder rotOrder = RO_XYZ);
+<span class="lineNum">     327 </span>            :     btGeneric6DofSpring2Constraint(btRigidBody&amp; rbB, const btTransform&amp; frameInB, RotateOrder rotOrder = RO_XYZ);
+<span class="lineNum">     328 </span>            : 
+<span class="lineNum">     329 </span>            :         virtual void buildJacobian() {}
+<span class="lineNum">     330 </span>            :         virtual void getInfo1 (btConstraintInfo1* info);
+<span class="lineNum">     331 </span>            :         virtual void getInfo2 (btConstraintInfo2* info);
+<span class="lineNum">     332 </span>            :         virtual int calculateSerializeBufferSize() const;
+<span class="lineNum">     333 </span>            :         virtual const char* serialize(void* dataBuffer, btSerializer* serializer) const;
+<span class="lineNum">     334 </span>            : 
+<span class="lineNum">     335 </span>            :         btRotationalLimitMotor2* getRotationalLimitMotor(int index) { return &amp;m_angularLimits[index]; }
+<span class="lineNum">     336 </span>            :         btTranslationalLimitMotor2* getTranslationalLimitMotor() { return &amp;m_linearLimits; }
+<span class="lineNum">     337 </span>            : 
+<span class="lineNum">     338 </span>            :         // Calculates the global transform for the joint offset for body A an B, and also calculates the angle differences between the bodies.
+<span class="lineNum">     339 </span>            :         void calculateTransforms(const btTransform&amp; transA,const btTransform&amp; transB);
+<span class="lineNum">     340 </span>            :         void calculateTransforms();
+<span class="lineNum">     341 </span>            : 
+<span class="lineNum">     342 </span>            :         // Gets the global transform of the offset for body A
+<span class="lineNum">     343 </span>            :         const btTransform &amp; getCalculatedTransformA() const { return m_calculatedTransformA; }
+<span class="lineNum">     344 </span>            :         // Gets the global transform of the offset for body B
+<span class="lineNum">     345 </span>            :         const btTransform &amp; getCalculatedTransformB() const { return m_calculatedTransformB; }
+<span class="lineNum">     346 </span>            : 
+<span class="lineNum">     347 </span>            :         const btTransform &amp; getFrameOffsetA() const { return m_frameInA; }
+<span class="lineNum">     348 </span>            :         const btTransform &amp; getFrameOffsetB() const { return m_frameInB; }
+<span class="lineNum">     349 </span>            : 
+<span class="lineNum">     350 </span>            :         btTransform &amp; getFrameOffsetA() { return m_frameInA; }
+<span class="lineNum">     351 </span>            :         btTransform &amp; getFrameOffsetB() { return m_frameInB; }
+<span class="lineNum">     352 </span>            : 
+<span class="lineNum">     353 </span>            :         // Get the rotation axis in global coordinates ( btGeneric6DofSpring2Constraint::calculateTransforms() must be called previously )
+<span class="lineNum">     354 </span>            :         btVector3 getAxis(int axis_index) const { return m_calculatedAxis[axis_index]; }
+<a name="355"><span class="lineNum">     355 </span>            : </a>
+<span class="lineNum">     356 </span>            :         // Get the relative Euler angle ( btGeneric6DofSpring2Constraint::calculateTransforms() must be called previously )
+<span class="lineNum">     357 </span><span class="lineNoCov">          0 :         btScalar getAngle(int axis_index) const { return m_calculatedAxisAngleDiff[axis_index]; }</span>
+<span class="lineNum">     358 </span>            : 
+<span class="lineNum">     359 </span>            :         // Get the relative position of the constraint pivot ( btGeneric6DofSpring2Constraint::calculateTransforms() must be called previously )
+<span class="lineNum">     360 </span>            :         btScalar getRelativePivotPosition(int axis_index) const { return m_calculatedLinearDiff[axis_index]; }
+<span class="lineNum">     361 </span>            : 
+<a name="362"><span class="lineNum">     362 </span>            :         void setFrames(const btTransform &amp; frameA, const btTransform &amp; frameB);</a>
+<span class="lineNum">     363 </span>            : 
+<a name="364"><span class="lineNum">     364 </span><span class="lineNoCov">          0 :         void setLinearLowerLimit(const btVector3&amp; linearLower) { m_linearLimits.m_lowerLimit = linearLower; }</span></a>
+<span class="lineNum">     365 </span>            :         void getLinearLowerLimit(btVector3&amp; linearLower) { linearLower = m_linearLimits.m_lowerLimit; }
+<span class="lineNum">     366 </span><span class="lineNoCov">          0 :         void setLinearUpperLimit(const btVector3&amp; linearUpper) { m_linearLimits.m_upperLimit = linearUpper; }</span>
+<a name="367"><span class="lineNum">     367 </span>            :         void getLinearUpperLimit(btVector3&amp; linearUpper) { linearUpper = m_linearLimits.m_upperLimit; }</a>
+<span class="lineNum">     368 </span>            : 
+<span class="lineNum">     369 </span><span class="lineNoCov">          0 :         void setAngularLowerLimit(const btVector3&amp; angularLower)</span>
+<span class="lineNum">     370 </span>            :         {
+<span class="lineNum">     371 </span><span class="lineNoCov">          0 :                 for(int i = 0; i &lt; 3; i++) </span>
+<span class="lineNum">     372 </span><span class="lineNoCov">          0 :                         m_angularLimits[i].m_loLimit = btNormalizeAngle(angularLower[i]);</span>
+<span class="lineNum">     373 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">     374 </span>            : 
+<span class="lineNum">     375 </span>            :         void setAngularLowerLimitReversed(const btVector3&amp; angularLower)
+<span class="lineNum">     376 </span>            :         {
+<span class="lineNum">     377 </span>            :                 for(int i = 0; i &lt; 3; i++) 
+<span class="lineNum">     378 </span>            :                         m_angularLimits[i].m_hiLimit = btNormalizeAngle(-angularLower[i]);
+<span class="lineNum">     379 </span>            :         }
+<span class="lineNum">     380 </span>            : 
+<span class="lineNum">     381 </span>            :         void getAngularLowerLimit(btVector3&amp; angularLower)
+<span class="lineNum">     382 </span>            :         {
+<span class="lineNum">     383 </span>            :                 for(int i = 0; i &lt; 3; i++) 
+<span class="lineNum">     384 </span>            :                         angularLower[i] = m_angularLimits[i].m_loLimit;
+<span class="lineNum">     385 </span>            :         }
+<span class="lineNum">     386 </span>            : 
+<span class="lineNum">     387 </span>            :         void getAngularLowerLimitReversed(btVector3&amp; angularLower)
+<span class="lineNum">     388 </span>            :         {
+<span class="lineNum">     389 </span>            :                 for(int i = 0; i &lt; 3; i++)
+<span class="lineNum">     390 </span>            :                         angularLower[i] = -m_angularLimits[i].m_hiLimit;
+<a name="391"><span class="lineNum">     391 </span>            :         }</a>
+<span class="lineNum">     392 </span>            : 
+<span class="lineNum">     393 </span><span class="lineNoCov">          0 :         void setAngularUpperLimit(const btVector3&amp; angularUpper)</span>
+<span class="lineNum">     394 </span>            :         {
+<span class="lineNum">     395 </span><span class="lineNoCov">          0 :                 for(int i = 0; i &lt; 3; i++)</span>
+<span class="lineNum">     396 </span><span class="lineNoCov">          0 :                         m_angularLimits[i].m_hiLimit = btNormalizeAngle(angularUpper[i]);</span>
+<span class="lineNum">     397 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">     398 </span>            : 
+<span class="lineNum">     399 </span>            :         void setAngularUpperLimitReversed(const btVector3&amp; angularUpper)
+<span class="lineNum">     400 </span>            :         {
+<span class="lineNum">     401 </span>            :                 for(int i = 0; i &lt; 3; i++)
+<span class="lineNum">     402 </span>            :                         m_angularLimits[i].m_loLimit = btNormalizeAngle(-angularUpper[i]);
+<span class="lineNum">     403 </span>            :         }
+<span class="lineNum">     404 </span>            : 
+<span class="lineNum">     405 </span>            :         void getAngularUpperLimit(btVector3&amp; angularUpper)
+<span class="lineNum">     406 </span>            :         {
+<span class="lineNum">     407 </span>            :                 for(int i = 0; i &lt; 3; i++)
+<span class="lineNum">     408 </span>            :                         angularUpper[i] = m_angularLimits[i].m_hiLimit;
+<span class="lineNum">     409 </span>            :         }
+<span class="lineNum">     410 </span>            : 
+<span class="lineNum">     411 </span>            :         void getAngularUpperLimitReversed(btVector3&amp; angularUpper)
+<span class="lineNum">     412 </span>            :         {
+<span class="lineNum">     413 </span>            :                 for(int i = 0; i &lt; 3; i++)
+<span class="lineNum">     414 </span>            :                         angularUpper[i] = -m_angularLimits[i].m_loLimit;
+<span class="lineNum">     415 </span>            :         }
+<span class="lineNum">     416 </span>            : 
+<span class="lineNum">     417 </span>            :         //first 3 are linear, next 3 are angular
+<span class="lineNum">     418 </span>            : 
+<span class="lineNum">     419 </span>            :         void setLimit(int axis, btScalar lo, btScalar hi)
+<span class="lineNum">     420 </span>            :         {
+<span class="lineNum">     421 </span>            :                 if(axis&lt;3)
+<span class="lineNum">     422 </span>            :                 {
+<span class="lineNum">     423 </span>            :                         m_linearLimits.m_lowerLimit[axis] = lo;
+<span class="lineNum">     424 </span>            :                         m_linearLimits.m_upperLimit[axis] = hi;
+<span class="lineNum">     425 </span>            :                 }
+<span class="lineNum">     426 </span>            :                 else
+<span class="lineNum">     427 </span>            :                 {
+<span class="lineNum">     428 </span>            :                         lo = btNormalizeAngle(lo);
+<span class="lineNum">     429 </span>            :                         hi = btNormalizeAngle(hi);
+<span class="lineNum">     430 </span>            :                         m_angularLimits[axis-3].m_loLimit = lo;
+<span class="lineNum">     431 </span>            :                         m_angularLimits[axis-3].m_hiLimit = hi;
+<span class="lineNum">     432 </span>            :                 }
+<span class="lineNum">     433 </span>            :         }
+<span class="lineNum">     434 </span>            : 
+<span class="lineNum">     435 </span>            :         void setLimitReversed(int axis, btScalar lo, btScalar hi)
+<span class="lineNum">     436 </span>            :         {
+<span class="lineNum">     437 </span>            :                 if(axis&lt;3)
+<span class="lineNum">     438 </span>            :                 {
+<span class="lineNum">     439 </span>            :                         m_linearLimits.m_lowerLimit[axis] = lo;
+<span class="lineNum">     440 </span>            :                         m_linearLimits.m_upperLimit[axis] = hi;
+<span class="lineNum">     441 </span>            :                 }
+<span class="lineNum">     442 </span>            :                 else
+<span class="lineNum">     443 </span>            :                 {
+<span class="lineNum">     444 </span>            :                         lo = btNormalizeAngle(lo);
+<span class="lineNum">     445 </span>            :                         hi = btNormalizeAngle(hi);
+<span class="lineNum">     446 </span>            :                         m_angularLimits[axis-3].m_hiLimit = -lo;
+<span class="lineNum">     447 </span>            :                         m_angularLimits[axis-3].m_loLimit = -hi;
+<span class="lineNum">     448 </span>            :                 }
+<span class="lineNum">     449 </span>            :         }
+<span class="lineNum">     450 </span>            : 
+<span class="lineNum">     451 </span>            :         bool isLimited(int limitIndex)
+<span class="lineNum">     452 </span>            :         {
+<span class="lineNum">     453 </span>            :                 if(limitIndex&lt;3)
+<span class="lineNum">     454 </span>            :                 {
+<span class="lineNum">     455 </span>            :                         return m_linearLimits.isLimited(limitIndex);
+<span class="lineNum">     456 </span>            :                 }
+<span class="lineNum">     457 </span>            :                 return m_angularLimits[limitIndex-3].isLimited();
+<span class="lineNum">     458 </span>            :         }
+<span class="lineNum">     459 </span>            : 
+<span class="lineNum">     460 </span>            :         void setRotationOrder(RotateOrder order) { m_rotateOrder = order; }
+<span class="lineNum">     461 </span>            :         RotateOrder getRotationOrder() { return m_rotateOrder; }
+<span class="lineNum">     462 </span>            : 
+<span class="lineNum">     463 </span>            :         void setAxis( const btVector3&amp; axis1, const btVector3&amp; axis2);
+<span class="lineNum">     464 </span>            : 
+<span class="lineNum">     465 </span>            :         void setBounce(int index, btScalar bounce);
+<span class="lineNum">     466 </span>            : 
+<span class="lineNum">     467 </span>            :         void enableMotor(int index, bool onOff);
+<span class="lineNum">     468 </span>            :         void setServo(int index, bool onOff); // set the type of the motor (servo or not) (the motor has to be turned on for servo also)
+<span class="lineNum">     469 </span>            :         void setTargetVelocity(int index, btScalar velocity);
+<span class="lineNum">     470 </span>            :         void setServoTarget(int index, btScalar target);
+<span class="lineNum">     471 </span>            :         void setMaxMotorForce(int index, btScalar force);
+<span class="lineNum">     472 </span>            : 
+<span class="lineNum">     473 </span>            :         void enableSpring(int index, bool onOff);
+<span class="lineNum">     474 </span>            :         void setStiffness(int index, btScalar stiffness, bool limitIfNeeded = true); // if limitIfNeeded is true the system will automatically limit the stiffness in necessary situations where otherwise the spring would move unrealistically too widely
+<span class="lineNum">     475 </span>            :         void setDamping(int index, btScalar damping, bool limitIfNeeded = true); // if limitIfNeeded is true the system will automatically limit the damping in necessary situations where otherwise the spring would blow up
+<span class="lineNum">     476 </span>            :         void setEquilibriumPoint(); // set the current constraint position/orientation as an equilibrium point for all DOF
+<span class="lineNum">     477 </span>            :         void setEquilibriumPoint(int index);  // set the current constraint position/orientation as an equilibrium point for given DOF
+<span class="lineNum">     478 </span>            :         void setEquilibriumPoint(int index, btScalar val);
+<span class="lineNum">     479 </span>            : 
+<span class="lineNum">     480 </span>            :         //override the default global value of a parameter (such as ERP or CFM), optionally provide the axis (0..5). 
+<span class="lineNum">     481 </span>            :         //If no axis is provided, it uses the default axis for this constraint.
+<span class="lineNum">     482 </span>            :         virtual void setParam(int num, btScalar value, int axis = -1);
+<span class="lineNum">     483 </span>            :         virtual btScalar getParam(int num, int axis = -1) const;
+<span class="lineNum">     484 </span>            :     
+<span class="lineNum">     485 </span>            :     static btScalar btGetMatrixElem(const btMatrix3x3&amp; mat, int index);
+<span class="lineNum">     486 </span>            :     static bool matrixToEulerXYZ(const btMatrix3x3&amp; mat,btVector3&amp; xyz);
+<span class="lineNum">     487 </span>            :     static bool matrixToEulerXZY(const btMatrix3x3&amp; mat,btVector3&amp; xyz);
+<span class="lineNum">     488 </span>            :     static bool matrixToEulerYXZ(const btMatrix3x3&amp; mat,btVector3&amp; xyz);
+<span class="lineNum">     489 </span>            :     static bool matrixToEulerYZX(const btMatrix3x3&amp; mat,btVector3&amp; xyz);
+<span class="lineNum">     490 </span>            :     static bool matrixToEulerZXY(const btMatrix3x3&amp; mat,btVector3&amp; xyz);
+<span class="lineNum">     491 </span>            :     static bool matrixToEulerZYX(const btMatrix3x3&amp; mat,btVector3&amp; xyz);
+<span class="lineNum">     492 </span>            : };
+<span class="lineNum">     493 </span>            : 
+<span class="lineNum">     494 </span>            : 
+<span class="lineNum">     495 </span>            : struct btGeneric6DofSpring2ConstraintData
+<span class="lineNum">     496 </span>            : {
+<span class="lineNum">     497 </span>            :         btTypedConstraintData m_typeConstraintData;
+<span class="lineNum">     498 </span>            :         btTransformFloatData m_rbAFrame;
+<span class="lineNum">     499 </span>            :         btTransformFloatData m_rbBFrame;
+<span class="lineNum">     500 </span>            : 
+<span class="lineNum">     501 </span>            :         btVector3FloatData m_linearUpperLimit;
+<span class="lineNum">     502 </span>            :         btVector3FloatData m_linearLowerLimit;
+<span class="lineNum">     503 </span>            :         btVector3FloatData m_linearBounce;
+<span class="lineNum">     504 </span>            :         btVector3FloatData m_linearStopERP;
+<span class="lineNum">     505 </span>            :         btVector3FloatData m_linearStopCFM;
+<span class="lineNum">     506 </span>            :         btVector3FloatData m_linearMotorERP;
+<span class="lineNum">     507 </span>            :         btVector3FloatData m_linearMotorCFM;
+<span class="lineNum">     508 </span>            :         btVector3FloatData m_linearTargetVelocity;
+<span class="lineNum">     509 </span>            :         btVector3FloatData m_linearMaxMotorForce;
+<span class="lineNum">     510 </span>            :         btVector3FloatData m_linearServoTarget;
+<span class="lineNum">     511 </span>            :         btVector3FloatData m_linearSpringStiffness;
+<span class="lineNum">     512 </span>            :         btVector3FloatData m_linearSpringDamping;
+<span class="lineNum">     513 </span>            :         btVector3FloatData m_linearEquilibriumPoint;
+<span class="lineNum">     514 </span>            :         char               m_linearEnableMotor[4];
+<span class="lineNum">     515 </span>            :         char               m_linearServoMotor[4];
+<span class="lineNum">     516 </span>            :         char               m_linearEnableSpring[4];
+<span class="lineNum">     517 </span>            :         char               m_linearSpringStiffnessLimited[4];
+<span class="lineNum">     518 </span>            :         char               m_linearSpringDampingLimited[4];
+<span class="lineNum">     519 </span>            :         char               m_padding1[4];
+<span class="lineNum">     520 </span>            : 
+<span class="lineNum">     521 </span>            :         btVector3FloatData m_angularUpperLimit;
+<span class="lineNum">     522 </span>            :         btVector3FloatData m_angularLowerLimit;
+<span class="lineNum">     523 </span>            :         btVector3FloatData m_angularBounce;
+<span class="lineNum">     524 </span>            :         btVector3FloatData m_angularStopERP;
+<span class="lineNum">     525 </span>            :         btVector3FloatData m_angularStopCFM;
+<span class="lineNum">     526 </span>            :         btVector3FloatData m_angularMotorERP;
+<span class="lineNum">     527 </span>            :         btVector3FloatData m_angularMotorCFM;
+<span class="lineNum">     528 </span>            :         btVector3FloatData m_angularTargetVelocity;
+<span class="lineNum">     529 </span>            :         btVector3FloatData m_angularMaxMotorForce;
+<span class="lineNum">     530 </span>            :         btVector3FloatData m_angularServoTarget;
+<span class="lineNum">     531 </span>            :         btVector3FloatData m_angularSpringStiffness;
+<span class="lineNum">     532 </span>            :         btVector3FloatData m_angularSpringDamping;
+<span class="lineNum">     533 </span>            :         btVector3FloatData m_angularEquilibriumPoint;
+<span class="lineNum">     534 </span>            :         char               m_angularEnableMotor[4];
+<span class="lineNum">     535 </span>            :         char               m_angularServoMotor[4];
+<span class="lineNum">     536 </span>            :         char               m_angularEnableSpring[4];
+<span class="lineNum">     537 </span>            :         char               m_angularSpringStiffnessLimited[4];
+<span class="lineNum">     538 </span>            :         char               m_angularSpringDampingLimited[4];
+<span class="lineNum">     539 </span>            : 
+<span class="lineNum">     540 </span>            :         int                m_rotateOrder;
+<span class="lineNum">     541 </span>            : };
+<span class="lineNum">     542 </span>            : 
+<span class="lineNum">     543 </span>            : struct btGeneric6DofSpring2ConstraintDoubleData2
+<span class="lineNum">     544 </span>            : {
+<span class="lineNum">     545 </span>            :         btTypedConstraintDoubleData m_typeConstraintData;
+<span class="lineNum">     546 </span>            :         btTransformDoubleData m_rbAFrame;
+<span class="lineNum">     547 </span>            :         btTransformDoubleData m_rbBFrame;
+<span class="lineNum">     548 </span>            : 
+<span class="lineNum">     549 </span>            :         btVector3DoubleData m_linearUpperLimit;
+<span class="lineNum">     550 </span>            :         btVector3DoubleData m_linearLowerLimit;
+<span class="lineNum">     551 </span>            :         btVector3DoubleData m_linearBounce;
+<span class="lineNum">     552 </span>            :         btVector3DoubleData m_linearStopERP;
+<span class="lineNum">     553 </span>            :         btVector3DoubleData m_linearStopCFM;
+<span class="lineNum">     554 </span>            :         btVector3DoubleData m_linearMotorERP;
+<span class="lineNum">     555 </span>            :         btVector3DoubleData m_linearMotorCFM;
+<span class="lineNum">     556 </span>            :         btVector3DoubleData m_linearTargetVelocity;
+<span class="lineNum">     557 </span>            :         btVector3DoubleData m_linearMaxMotorForce;
+<span class="lineNum">     558 </span>            :         btVector3DoubleData m_linearServoTarget;
+<span class="lineNum">     559 </span>            :         btVector3DoubleData m_linearSpringStiffness;
+<span class="lineNum">     560 </span>            :         btVector3DoubleData m_linearSpringDamping;
+<span class="lineNum">     561 </span>            :         btVector3DoubleData m_linearEquilibriumPoint;
+<span class="lineNum">     562 </span>            :         char                m_linearEnableMotor[4];
+<span class="lineNum">     563 </span>            :         char                m_linearServoMotor[4];
+<span class="lineNum">     564 </span>            :         char                m_linearEnableSpring[4];
+<span class="lineNum">     565 </span>            :         char                m_linearSpringStiffnessLimited[4];
+<span class="lineNum">     566 </span>            :         char                m_linearSpringDampingLimited[4];
+<span class="lineNum">     567 </span>            :         char                m_padding1[4];
+<span class="lineNum">     568 </span>            : 
+<span class="lineNum">     569 </span>            :         btVector3DoubleData m_angularUpperLimit;
+<span class="lineNum">     570 </span>            :         btVector3DoubleData m_angularLowerLimit;
+<span class="lineNum">     571 </span>            :         btVector3DoubleData m_angularBounce;
+<span class="lineNum">     572 </span>            :         btVector3DoubleData m_angularStopERP;
+<span class="lineNum">     573 </span>            :         btVector3DoubleData m_angularStopCFM;
+<span class="lineNum">     574 </span>            :         btVector3DoubleData m_angularMotorERP;
+<span class="lineNum">     575 </span>            :         btVector3DoubleData m_angularMotorCFM;
+<span class="lineNum">     576 </span>            :         btVector3DoubleData m_angularTargetVelocity;
+<span class="lineNum">     577 </span>            :         btVector3DoubleData m_angularMaxMotorForce;
+<span class="lineNum">     578 </span>            :         btVector3DoubleData m_angularServoTarget;
+<span class="lineNum">     579 </span>            :         btVector3DoubleData m_angularSpringStiffness;
+<span class="lineNum">     580 </span>            :         btVector3DoubleData m_angularSpringDamping;
+<span class="lineNum">     581 </span>            :         btVector3DoubleData m_angularEquilibriumPoint;
+<span class="lineNum">     582 </span>            :         char                m_angularEnableMotor[4];
+<span class="lineNum">     583 </span>            :         char                m_angularServoMotor[4];
+<span class="lineNum">     584 </span>            :         char                m_angularEnableSpring[4];
+<span class="lineNum">     585 </span>            :         char                m_angularSpringStiffnessLimited[4];
+<span class="lineNum">     586 </span>            :         char                m_angularSpringDampingLimited[4];
+<span class="lineNum">     587 </span>            : 
+<span class="lineNum">     588 </span>            :         int                 m_rotateOrder;
+<span class="lineNum">     589 </span>            : };
+<span class="lineNum">     590 </span>            : 
+<span class="lineNum">     591 </span>            : SIMD_FORCE_INLINE int btGeneric6DofSpring2Constraint::calculateSerializeBufferSize() const
+<span class="lineNum">     592 </span>            : {
+<span class="lineNum">     593 </span>            :         return sizeof(btGeneric6DofSpring2ConstraintData2);
+<span class="lineNum">     594 </span>            : }
+<span class="lineNum">     595 </span>            : 
+<span class="lineNum">     596 </span>            : SIMD_FORCE_INLINE const char* btGeneric6DofSpring2Constraint::serialize(void* dataBuffer, btSerializer* serializer) const
+<span class="lineNum">     597 </span>            : {
+<span class="lineNum">     598 </span>            :         btGeneric6DofSpring2ConstraintData2* dof = (btGeneric6DofSpring2ConstraintData2*)dataBuffer;
+<span class="lineNum">     599 </span>            :         btTypedConstraint::serialize(&amp;dof-&gt;m_typeConstraintData,serializer);
+<span class="lineNum">     600 </span>            : 
+<span class="lineNum">     601 </span>            :         m_frameInA.serialize(dof-&gt;m_rbAFrame);
+<span class="lineNum">     602 </span>            :         m_frameInB.serialize(dof-&gt;m_rbBFrame);
+<span class="lineNum">     603 </span>            : 
+<span class="lineNum">     604 </span>            :         int i;
+<span class="lineNum">     605 </span>            :         for (i=0;i&lt;3;i++)
+<span class="lineNum">     606 </span>            :         {
+<span class="lineNum">     607 </span>            :                 dof-&gt;m_angularLowerLimit.m_floats[i]       = m_angularLimits[i].m_loLimit;
+<span class="lineNum">     608 </span>            :                 dof-&gt;m_angularUpperLimit.m_floats[i]       = m_angularLimits[i].m_hiLimit;
+<span class="lineNum">     609 </span>            :                 dof-&gt;m_angularBounce.m_floats[i]           = m_angularLimits[i].m_bounce;
+<span class="lineNum">     610 </span>            :                 dof-&gt;m_angularStopERP.m_floats[i]          = m_angularLimits[i].m_stopERP;
+<span class="lineNum">     611 </span>            :                 dof-&gt;m_angularStopCFM.m_floats[i]          = m_angularLimits[i].m_stopCFM;
+<span class="lineNum">     612 </span>            :                 dof-&gt;m_angularMotorERP.m_floats[i]         = m_angularLimits[i].m_motorERP;
+<span class="lineNum">     613 </span>            :                 dof-&gt;m_angularMotorCFM.m_floats[i]         = m_angularLimits[i].m_motorCFM;
+<span class="lineNum">     614 </span>            :                 dof-&gt;m_angularTargetVelocity.m_floats[i]   = m_angularLimits[i].m_targetVelocity;
+<span class="lineNum">     615 </span>            :                 dof-&gt;m_angularMaxMotorForce.m_floats[i]    = m_angularLimits[i].m_maxMotorForce;
+<span class="lineNum">     616 </span>            :                 dof-&gt;m_angularServoTarget.m_floats[i]      = m_angularLimits[i].m_servoTarget;
+<span class="lineNum">     617 </span>            :                 dof-&gt;m_angularSpringStiffness.m_floats[i]  = m_angularLimits[i].m_springStiffness;
+<span class="lineNum">     618 </span>            :                 dof-&gt;m_angularSpringDamping.m_floats[i]    = m_angularLimits[i].m_springDamping;
+<span class="lineNum">     619 </span>            :                 dof-&gt;m_angularEquilibriumPoint.m_floats[i] = m_angularLimits[i].m_equilibriumPoint;
+<span class="lineNum">     620 </span>            :         }
+<span class="lineNum">     621 </span>            :         dof-&gt;m_angularLowerLimit.m_floats[3]       = 0;
+<span class="lineNum">     622 </span>            :         dof-&gt;m_angularUpperLimit.m_floats[3]       = 0;
+<span class="lineNum">     623 </span>            :         dof-&gt;m_angularBounce.m_floats[3]           = 0;
+<span class="lineNum">     624 </span>            :         dof-&gt;m_angularStopERP.m_floats[3]          = 0;
+<span class="lineNum">     625 </span>            :         dof-&gt;m_angularStopCFM.m_floats[3]          = 0;
+<span class="lineNum">     626 </span>            :         dof-&gt;m_angularMotorERP.m_floats[3]         = 0;
+<span class="lineNum">     627 </span>            :         dof-&gt;m_angularMotorCFM.m_floats[3]         = 0;
+<span class="lineNum">     628 </span>            :         dof-&gt;m_angularTargetVelocity.m_floats[3]   = 0;
+<span class="lineNum">     629 </span>            :         dof-&gt;m_angularMaxMotorForce.m_floats[3]    = 0;
+<span class="lineNum">     630 </span>            :         dof-&gt;m_angularServoTarget.m_floats[3]      = 0;
+<span class="lineNum">     631 </span>            :         dof-&gt;m_angularSpringStiffness.m_floats[3]  = 0;
+<span class="lineNum">     632 </span>            :         dof-&gt;m_angularSpringDamping.m_floats[3]    = 0;
+<span class="lineNum">     633 </span>            :         dof-&gt;m_angularEquilibriumPoint.m_floats[3] = 0;
+<span class="lineNum">     634 </span>            :         for (i=0;i&lt;4;i++)
+<span class="lineNum">     635 </span>            :         {
+<span class="lineNum">     636 </span>            :                 dof-&gt;m_angularEnableMotor[i]            = i &lt; 3 ? ( m_angularLimits[i].m_enableMotor ? 1 : 0 ) : 0;
+<span class="lineNum">     637 </span>            :                 dof-&gt;m_angularServoMotor[i]             = i &lt; 3 ? ( m_angularLimits[i].m_servoMotor ? 1 : 0 ) : 0;
+<span class="lineNum">     638 </span>            :                 dof-&gt;m_angularEnableSpring[i]           = i &lt; 3 ? ( m_angularLimits[i].m_enableSpring ? 1 : 0 ) : 0;
+<span class="lineNum">     639 </span>            :                 dof-&gt;m_angularSpringStiffnessLimited[i] = i &lt; 3 ? ( m_angularLimits[i].m_springStiffnessLimited ? 1 : 0 ) : 0;
+<span class="lineNum">     640 </span>            :                 dof-&gt;m_angularSpringDampingLimited[i]   = i &lt; 3 ? ( m_angularLimits[i].m_springDampingLimited ? 1 : 0 ) : 0;
+<span class="lineNum">     641 </span>            :         }
+<span class="lineNum">     642 </span>            : 
+<span class="lineNum">     643 </span>            :         m_linearLimits.m_lowerLimit.serialize( dof-&gt;m_linearLowerLimit );
+<span class="lineNum">     644 </span>            :         m_linearLimits.m_upperLimit.serialize( dof-&gt;m_linearUpperLimit );
+<span class="lineNum">     645 </span>            :         m_linearLimits.m_bounce.serialize( dof-&gt;m_linearBounce );
+<span class="lineNum">     646 </span>            :         m_linearLimits.m_stopERP.serialize( dof-&gt;m_linearStopERP );
+<span class="lineNum">     647 </span>            :         m_linearLimits.m_stopCFM.serialize( dof-&gt;m_linearStopCFM );
+<span class="lineNum">     648 </span>            :         m_linearLimits.m_motorERP.serialize( dof-&gt;m_linearMotorERP );
+<span class="lineNum">     649 </span>            :         m_linearLimits.m_motorCFM.serialize( dof-&gt;m_linearMotorCFM );
+<span class="lineNum">     650 </span>            :         m_linearLimits.m_targetVelocity.serialize( dof-&gt;m_linearTargetVelocity );
+<span class="lineNum">     651 </span>            :         m_linearLimits.m_maxMotorForce.serialize( dof-&gt;m_linearMaxMotorForce );
+<span class="lineNum">     652 </span>            :         m_linearLimits.m_servoTarget.serialize( dof-&gt;m_linearServoTarget );
+<span class="lineNum">     653 </span>            :         m_linearLimits.m_springStiffness.serialize( dof-&gt;m_linearSpringStiffness );
+<span class="lineNum">     654 </span>            :         m_linearLimits.m_springDamping.serialize( dof-&gt;m_linearSpringDamping );
+<span class="lineNum">     655 </span>            :         m_linearLimits.m_equilibriumPoint.serialize( dof-&gt;m_linearEquilibriumPoint );
+<span class="lineNum">     656 </span>            :         for (i=0;i&lt;4;i++)
+<span class="lineNum">     657 </span>            :         {
+<span class="lineNum">     658 </span>            :                 dof-&gt;m_linearEnableMotor[i]            = i &lt; 3 ? ( m_linearLimits.m_enableMotor[i] ? 1 : 0 ) : 0;
+<span class="lineNum">     659 </span>            :                 dof-&gt;m_linearServoMotor[i]             = i &lt; 3 ? ( m_linearLimits.m_servoMotor[i] ? 1 : 0 ) : 0;
+<span class="lineNum">     660 </span>            :                 dof-&gt;m_linearEnableSpring[i]           = i &lt; 3 ? ( m_linearLimits.m_enableSpring[i] ? 1 : 0 ) : 0;
+<span class="lineNum">     661 </span>            :                 dof-&gt;m_linearSpringStiffnessLimited[i] = i &lt; 3 ? ( m_linearLimits.m_springStiffnessLimited[i] ? 1 : 0 ) : 0;
+<span class="lineNum">     662 </span>            :                 dof-&gt;m_linearSpringDampingLimited[i]   = i &lt; 3 ? ( m_linearLimits.m_springDampingLimited[i] ? 1 : 0 ) : 0;
+<span class="lineNum">     663 </span>            :         }
+<span class="lineNum">     664 </span>            : 
+<span class="lineNum">     665 </span>            :         dof-&gt;m_rotateOrder = m_rotateOrder;
+<span class="lineNum">     666 </span>            : 
+<span class="lineNum">     667 </span>            :         dof-&gt;m_padding1[0] = 0;
+<span class="lineNum">     668 </span>            :         dof-&gt;m_padding1[1] = 0;
+<span class="lineNum">     669 </span>            :         dof-&gt;m_padding1[2] = 0;
+<span class="lineNum">     670 </span>            :         dof-&gt;m_padding1[3] = 0;
+<span class="lineNum">     671 </span>            : 
+<span class="lineNum">     672 </span>            :         return btGeneric6DofSpring2ConstraintDataName;
+<span class="lineNum">     673 </span>            : }
+<span class="lineNum">     674 </span>            : 
+<span class="lineNum">     675 </span>            : 
+<span class="lineNum">     676 </span>            : 
+<span class="lineNum">     677 </span>            : 
+<span class="lineNum">     678 </span>            : 
+<span class="lineNum">     679 </span>            : #endif //BT_GENERIC_6DOF_CONSTRAINT_H
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

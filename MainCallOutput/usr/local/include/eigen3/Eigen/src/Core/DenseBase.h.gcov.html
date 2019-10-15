@@ -1,0 +1,695 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Main Call Code Analysis - /usr/local/include/eigen3/Eigen/src/Core/DenseBase.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../../index.html">top level</a> - <a href="index.html">usr/local/include/eigen3/Eigen/src/Core</a> - DenseBase.h<span style="font-size: 80%;"> (source / <a href="DenseBase.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Main Call Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">18</td>
+            <td class="headerCovTableEntry">23</td>
+            <td class="headerCovTableEntryMed">78.3 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 16:51:56</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">275</td>
+            <td class="headerCovTableEntry">612</td>
+            <td class="headerCovTableEntryLo">44.9 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // This file is part of Eigen, a lightweight C++ template library</a>
+<span class="lineNum">       2 </span>            : // for linear algebra.
+<span class="lineNum">       3 </span>            : //
+<span class="lineNum">       4 </span>            : // Copyright (C) 2007-2010 Benoit Jacob &lt;jacob.benoit.1@gmail.com&gt;
+<span class="lineNum">       5 </span>            : // Copyright (C) 2008-2010 Gael Guennebaud &lt;gael.guennebaud@inria.fr&gt;
+<span class="lineNum">       6 </span>            : //
+<span class="lineNum">       7 </span>            : // This Source Code Form is subject to the terms of the Mozilla
+<span class="lineNum">       8 </span>            : // Public License v. 2.0. If a copy of the MPL was not distributed
+<span class="lineNum">       9 </span>            : // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+<span class="lineNum">      10 </span>            : 
+<span class="lineNum">      11 </span>            : #ifndef EIGEN_DENSEBASE_H
+<span class="lineNum">      12 </span>            : #define EIGEN_DENSEBASE_H
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span>            : namespace Eigen {
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span>            : namespace internal {
+<span class="lineNum">      17 </span>            :   
+<span class="lineNum">      18 </span>            : // The index type defined by EIGEN_DEFAULT_DENSE_INDEX_TYPE must be a signed type.
+<span class="lineNum">      19 </span>            : // This dummy function simply aims at checking that at compile time.
+<span class="lineNum">      20 </span>            : static inline void check_DenseIndex_is_signed() {
+<span class="lineNum">      21 </span>            :   EIGEN_STATIC_ASSERT(NumTraits&lt;DenseIndex&gt;::IsSigned,THE_INDEX_TYPE_MUST_BE_A_SIGNED_TYPE); 
+<span class="lineNum">      22 </span>            : }
+<span class="lineNum">      23 </span>            : 
+<span class="lineNum">      24 </span>            : } // end namespace internal
+<span class="lineNum">      25 </span>            :   
+<span class="lineNum">      26 </span>            : /** \class DenseBase
+<span class="lineNum">      27 </span>            :   * \ingroup Core_Module
+<span class="lineNum">      28 </span>            :   *
+<span class="lineNum">      29 </span>            :   * \brief Base class for all dense matrices, vectors, and arrays
+<span class="lineNum">      30 </span>            :   *
+<span class="lineNum">      31 </span>            :   * This class is the base that is inherited by all dense objects (matrix, vector, arrays,
+<span class="lineNum">      32 </span>            :   * and related expression types). The common Eigen API for dense objects is contained in this class.
+<span class="lineNum">      33 </span>            :   *
+<span class="lineNum">      34 </span>            :   * \tparam Derived is the derived type, e.g., a matrix type or an expression.
+<span class="lineNum">      35 </span>            :   *
+<span class="lineNum">      36 </span>            :   * This class can be extended with the help of the plugin mechanism described on the page
+<span class="lineNum">      37 </span>            :   * \ref TopicCustomizing_Plugins by defining the preprocessor symbol \c EIGEN_DENSEBASE_PLUGIN.
+<span class="lineNum">      38 </span>            :   *
+<span class="lineNum">      39 </span>            :   * \sa \blank \ref TopicClassHierarchy
+<span class="lineNum">      40 </span>            :   */
+<span class="lineNum">      41 </span>            : template&lt;typename Derived&gt; class DenseBase
+<span class="lineNum">      42 </span>            : #ifndef EIGEN_PARSED_BY_DOXYGEN
+<span class="lineNum">      43 </span>            :   : public DenseCoeffsBase&lt;Derived&gt;
+<span class="lineNum">      44 </span>            : #else
+<span class="lineNum">      45 </span>            :   : public DenseCoeffsBase&lt;Derived,DirectWriteAccessors&gt;
+<span class="lineNum">      46 </span>            : #endif // not EIGEN_PARSED_BY_DOXYGEN
+<span class="lineNum">      47 </span>            : {
+<span class="lineNum">      48 </span>            :   public:
+<span class="lineNum">      49 </span>            : 
+<span class="lineNum">      50 </span>            :     /** Inner iterator type to iterate over the coefficients of a row or column.
+<span class="lineNum">      51 </span>            :       * \sa class InnerIterator
+<span class="lineNum">      52 </span>            :       */
+<span class="lineNum">      53 </span>            :     typedef Eigen::InnerIterator&lt;Derived&gt; InnerIterator;
+<span class="lineNum">      54 </span>            : 
+<span class="lineNum">      55 </span>            :     typedef typename internal::traits&lt;Derived&gt;::StorageKind StorageKind;
+<span class="lineNum">      56 </span>            : 
+<span class="lineNum">      57 </span>            :     /**
+<span class="lineNum">      58 </span>            :       * \brief The type used to store indices
+<span class="lineNum">      59 </span>            :       * \details This typedef is relevant for types that store multiple indices such as
+<span class="lineNum">      60 </span>            :       *          PermutationMatrix or Transpositions, otherwise it defaults to Eigen::Index
+<span class="lineNum">      61 </span>            :       * \sa \blank \ref TopicPreprocessorDirectives, Eigen::Index, SparseMatrixBase.
+<span class="lineNum">      62 </span>            :      */
+<span class="lineNum">      63 </span>            :     typedef typename internal::traits&lt;Derived&gt;::StorageIndex StorageIndex;
+<span class="lineNum">      64 </span>            : 
+<span class="lineNum">      65 </span>            :     /** The numeric type of the expression' coefficients, e.g. float, double, int or std::complex&lt;float&gt;, etc. */
+<span class="lineNum">      66 </span>            :     typedef typename internal::traits&lt;Derived&gt;::Scalar Scalar;
+<span class="lineNum">      67 </span>            :     
+<span class="lineNum">      68 </span>            :     /** The numeric type of the expression' coefficients, e.g. float, double, int or std::complex&lt;float&gt;, etc.
+<span class="lineNum">      69 </span>            :       *
+<span class="lineNum">      70 </span>            :       * It is an alias for the Scalar type */
+<span class="lineNum">      71 </span>            :     typedef Scalar value_type;
+<span class="lineNum">      72 </span>            :     
+<span class="lineNum">      73 </span>            :     typedef typename NumTraits&lt;Scalar&gt;::Real RealScalar;
+<span class="lineNum">      74 </span>            :     typedef DenseCoeffsBase&lt;Derived&gt; Base;
+<span class="lineNum">      75 </span>            : 
+<span class="lineNum">      76 </span>            :     using Base::derived;
+<span class="lineNum">      77 </span>            :     using Base::const_cast_derived;
+<span class="lineNum">      78 </span>            :     using Base::rows;
+<span class="lineNum">      79 </span>            :     using Base::cols;
+<span class="lineNum">      80 </span>            :     using Base::size;
+<span class="lineNum">      81 </span>            :     using Base::rowIndexByOuterInner;
+<span class="lineNum">      82 </span>            :     using Base::colIndexByOuterInner;
+<span class="lineNum">      83 </span>            :     using Base::coeff;
+<span class="lineNum">      84 </span>            :     using Base::coeffByOuterInner;
+<span class="lineNum">      85 </span>            :     using Base::operator();
+<span class="lineNum">      86 </span>            :     using Base::operator[];
+<span class="lineNum">      87 </span>            :     using Base::x;
+<span class="lineNum">      88 </span>            :     using Base::y;
+<span class="lineNum">      89 </span>            :     using Base::z;
+<span class="lineNum">      90 </span>            :     using Base::w;
+<span class="lineNum">      91 </span>            :     using Base::stride;
+<span class="lineNum">      92 </span>            :     using Base::innerStride;
+<span class="lineNum">      93 </span>            :     using Base::outerStride;
+<span class="lineNum">      94 </span>            :     using Base::rowStride;
+<span class="lineNum">      95 </span>            :     using Base::colStride;
+<span class="lineNum">      96 </span>            :     typedef typename Base::CoeffReturnType CoeffReturnType;
+<span class="lineNum">      97 </span>            : 
+<span class="lineNum">      98 </span>            :     enum {
+<span class="lineNum">      99 </span>            : 
+<span class="lineNum">     100 </span>            :       RowsAtCompileTime = internal::traits&lt;Derived&gt;::RowsAtCompileTime,
+<span class="lineNum">     101 </span>            :         /**&lt; The number of rows at compile-time. This is just a copy of the value provided
+<span class="lineNum">     102 </span>            :           * by the \a Derived type. If a value is not known at compile-time,
+<span class="lineNum">     103 </span>            :           * it is set to the \a Dynamic constant.
+<span class="lineNum">     104 </span>            :           * \sa MatrixBase::rows(), MatrixBase::cols(), ColsAtCompileTime, SizeAtCompileTime */
+<span class="lineNum">     105 </span>            : 
+<span class="lineNum">     106 </span>            :       ColsAtCompileTime = internal::traits&lt;Derived&gt;::ColsAtCompileTime,
+<span class="lineNum">     107 </span>            :         /**&lt; The number of columns at compile-time. This is just a copy of the value provided
+<span class="lineNum">     108 </span>            :           * by the \a Derived type. If a value is not known at compile-time,
+<span class="lineNum">     109 </span>            :           * it is set to the \a Dynamic constant.
+<span class="lineNum">     110 </span>            :           * \sa MatrixBase::rows(), MatrixBase::cols(), RowsAtCompileTime, SizeAtCompileTime */
+<span class="lineNum">     111 </span>            : 
+<span class="lineNum">     112 </span>            : 
+<span class="lineNum">     113 </span>            :       SizeAtCompileTime = (internal::size_at_compile_time&lt;internal::traits&lt;Derived&gt;::RowsAtCompileTime,
+<span class="lineNum">     114 </span>            :                                                    internal::traits&lt;Derived&gt;::ColsAtCompileTime&gt;::ret),
+<span class="lineNum">     115 </span>            :         /**&lt; This is equal to the number of coefficients, i.e. the number of
+<span class="lineNum">     116 </span>            :           * rows times the number of columns, or to \a Dynamic if this is not
+<span class="lineNum">     117 </span>            :           * known at compile-time. \sa RowsAtCompileTime, ColsAtCompileTime */
+<span class="lineNum">     118 </span>            : 
+<span class="lineNum">     119 </span>            :       MaxRowsAtCompileTime = internal::traits&lt;Derived&gt;::MaxRowsAtCompileTime,
+<span class="lineNum">     120 </span>            :         /**&lt; This value is equal to the maximum possible number of rows that this expression
+<span class="lineNum">     121 </span>            :           * might have. If this expression might have an arbitrarily high number of rows,
+<span class="lineNum">     122 </span>            :           * this value is set to \a Dynamic.
+<span class="lineNum">     123 </span>            :           *
+<span class="lineNum">     124 </span>            :           * This value is useful to know when evaluating an expression, in order to determine
+<span class="lineNum">     125 </span>            :           * whether it is possible to avoid doing a dynamic memory allocation.
+<span class="lineNum">     126 </span>            :           *
+<span class="lineNum">     127 </span>            :           * \sa RowsAtCompileTime, MaxColsAtCompileTime, MaxSizeAtCompileTime
+<span class="lineNum">     128 </span>            :           */
+<span class="lineNum">     129 </span>            : 
+<span class="lineNum">     130 </span>            :       MaxColsAtCompileTime = internal::traits&lt;Derived&gt;::MaxColsAtCompileTime,
+<span class="lineNum">     131 </span>            :         /**&lt; This value is equal to the maximum possible number of columns that this expression
+<span class="lineNum">     132 </span>            :           * might have. If this expression might have an arbitrarily high number of columns,
+<span class="lineNum">     133 </span>            :           * this value is set to \a Dynamic.
+<span class="lineNum">     134 </span>            :           *
+<span class="lineNum">     135 </span>            :           * This value is useful to know when evaluating an expression, in order to determine
+<span class="lineNum">     136 </span>            :           * whether it is possible to avoid doing a dynamic memory allocation.
+<span class="lineNum">     137 </span>            :           *
+<span class="lineNum">     138 </span>            :           * \sa ColsAtCompileTime, MaxRowsAtCompileTime, MaxSizeAtCompileTime
+<span class="lineNum">     139 </span>            :           */
+<span class="lineNum">     140 </span>            : 
+<span class="lineNum">     141 </span>            :       MaxSizeAtCompileTime = (internal::size_at_compile_time&lt;internal::traits&lt;Derived&gt;::MaxRowsAtCompileTime,
+<span class="lineNum">     142 </span>            :                                                       internal::traits&lt;Derived&gt;::MaxColsAtCompileTime&gt;::ret),
+<span class="lineNum">     143 </span>            :         /**&lt; This value is equal to the maximum possible number of coefficients that this expression
+<span class="lineNum">     144 </span>            :           * might have. If this expression might have an arbitrarily high number of coefficients,
+<span class="lineNum">     145 </span>            :           * this value is set to \a Dynamic.
+<span class="lineNum">     146 </span>            :           *
+<span class="lineNum">     147 </span>            :           * This value is useful to know when evaluating an expression, in order to determine
+<span class="lineNum">     148 </span>            :           * whether it is possible to avoid doing a dynamic memory allocation.
+<span class="lineNum">     149 </span>            :           *
+<span class="lineNum">     150 </span>            :           * \sa SizeAtCompileTime, MaxRowsAtCompileTime, MaxColsAtCompileTime
+<span class="lineNum">     151 </span>            :           */
+<span class="lineNum">     152 </span>            : 
+<span class="lineNum">     153 </span>            :       IsVectorAtCompileTime = internal::traits&lt;Derived&gt;::MaxRowsAtCompileTime == 1
+<span class="lineNum">     154 </span>            :                            || internal::traits&lt;Derived&gt;::MaxColsAtCompileTime == 1,
+<span class="lineNum">     155 </span>            :         /**&lt; This is set to true if either the number of rows or the number of
+<span class="lineNum">     156 </span>            :           * columns is known at compile-time to be equal to 1. Indeed, in that case,
+<span class="lineNum">     157 </span>            :           * we are dealing with a column-vector (if there is only one column) or with
+<span class="lineNum">     158 </span>            :           * a row-vector (if there is only one row). */
+<span class="lineNum">     159 </span>            : 
+<span class="lineNum">     160 </span>            :       Flags = internal::traits&lt;Derived&gt;::Flags,
+<span class="lineNum">     161 </span>            :         /**&lt; This stores expression \ref flags flags which may or may not be inherited by new expressions
+<span class="lineNum">     162 </span>            :           * constructed from this one. See the \ref flags &quot;list of flags&quot;.
+<span class="lineNum">     163 </span>            :           */
+<span class="lineNum">     164 </span>            : 
+<span class="lineNum">     165 </span>            :       IsRowMajor = int(Flags) &amp; RowMajorBit, /**&lt; True if this expression has row-major storage order. */
+<span class="lineNum">     166 </span>            : 
+<span class="lineNum">     167 </span>            :       InnerSizeAtCompileTime = int(IsVectorAtCompileTime) ? int(SizeAtCompileTime)
+<span class="lineNum">     168 </span>            :                              : int(IsRowMajor) ? int(ColsAtCompileTime) : int(RowsAtCompileTime),
+<span class="lineNum">     169 </span>            : 
+<span class="lineNum">     170 </span>            :       InnerStrideAtCompileTime = internal::inner_stride_at_compile_time&lt;Derived&gt;::ret,
+<span class="lineNum">     171 </span>            :       OuterStrideAtCompileTime = internal::outer_stride_at_compile_time&lt;Derived&gt;::ret
+<span class="lineNum">     172 </span>            :     };
+<span class="lineNum">     173 </span>            :     
+<span class="lineNum">     174 </span>            :     typedef typename internal::find_best_packet&lt;Scalar,SizeAtCompileTime&gt;::type PacketScalar;
+<span class="lineNum">     175 </span>            : 
+<span class="lineNum">     176 </span>            :     enum { IsPlainObjectBase = 0 };
+<span class="lineNum">     177 </span>            :     
+<span class="lineNum">     178 </span>            :     /** The plain matrix type corresponding to this expression.
+<span class="lineNum">     179 </span>            :       * \sa PlainObject */
+<span class="lineNum">     180 </span>            :     typedef Matrix&lt;typename internal::traits&lt;Derived&gt;::Scalar,
+<span class="lineNum">     181 </span>            :                 internal::traits&lt;Derived&gt;::RowsAtCompileTime,
+<span class="lineNum">     182 </span>            :                 internal::traits&lt;Derived&gt;::ColsAtCompileTime,
+<span class="lineNum">     183 </span>            :                 AutoAlign | (internal::traits&lt;Derived&gt;::Flags&amp;RowMajorBit ? RowMajor : ColMajor),
+<span class="lineNum">     184 </span>            :                 internal::traits&lt;Derived&gt;::MaxRowsAtCompileTime,
+<span class="lineNum">     185 </span>            :                 internal::traits&lt;Derived&gt;::MaxColsAtCompileTime
+<span class="lineNum">     186 </span>            :           &gt; PlainMatrix;
+<span class="lineNum">     187 </span>            :     
+<span class="lineNum">     188 </span>            :     /** The plain array type corresponding to this expression.
+<span class="lineNum">     189 </span>            :       * \sa PlainObject */
+<span class="lineNum">     190 </span>            :     typedef Array&lt;typename internal::traits&lt;Derived&gt;::Scalar,
+<span class="lineNum">     191 </span>            :                 internal::traits&lt;Derived&gt;::RowsAtCompileTime,
+<span class="lineNum">     192 </span>            :                 internal::traits&lt;Derived&gt;::ColsAtCompileTime,
+<span class="lineNum">     193 </span>            :                 AutoAlign | (internal::traits&lt;Derived&gt;::Flags&amp;RowMajorBit ? RowMajor : ColMajor),
+<span class="lineNum">     194 </span>            :                 internal::traits&lt;Derived&gt;::MaxRowsAtCompileTime,
+<span class="lineNum">     195 </span>            :                 internal::traits&lt;Derived&gt;::MaxColsAtCompileTime
+<span class="lineNum">     196 </span>            :           &gt; PlainArray;
+<span class="lineNum">     197 </span>            : 
+<span class="lineNum">     198 </span>            :     /** \brief The plain matrix or array type corresponding to this expression.
+<span class="lineNum">     199 </span>            :       *
+<span class="lineNum">     200 </span>            :       * This is not necessarily exactly the return type of eval(). In the case of plain matrices,
+<span class="lineNum">     201 </span>            :       * the return type of eval() is a const reference to a matrix, not a matrix! It is however guaranteed
+<span class="lineNum">     202 </span>            :       * that the return type of eval() is either PlainObject or const PlainObject&amp;.
+<span class="lineNum">     203 </span>            :       */
+<span class="lineNum">     204 </span>            :     typedef typename internal::conditional&lt;internal::is_same&lt;typename internal::traits&lt;Derived&gt;::XprKind,MatrixXpr &gt;::value,
+<span class="lineNum">     205 </span>            :                                  PlainMatrix, PlainArray&gt;::type PlainObject;
+<span class="lineNum">     206 </span>            : 
+<span class="lineNum">     207 </span>            :     /** \returns the number of nonzero coefficients which is in practice the number
+<span class="lineNum">     208 </span>            :       * of stored coefficients. */
+<span class="lineNum">     209 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     210 </span>            :     inline Index nonZeros() const { return size(); }
+<span class="lineNum">     211 </span>            : 
+<span class="lineNum">     212 </span>            :     /** \returns the outer size.
+<span class="lineNum">     213 </span>            :       *
+<span class="lineNum">     214 </span>            :       * \note For a vector, this returns just 1. For a matrix (non-vector), this is the major dimension
+<span class="lineNum">     215 </span>            :       * with respect to the \ref TopicStorageOrders &quot;storage order&quot;, i.e., the number of columns for a
+<a name="216"><span class="lineNum">     216 </span>            :       * column-major matrix, and the number of rows for a row-major matrix. */</a>
+<span class="lineNum">     217 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     218 </span><span class="lineCov">     507607 :     Index outerSize() const</span>
+<span class="lineNum">     219 </span>            :     {
+<span class="lineNum">     220 </span>            :       return IsVectorAtCompileTime ? 1
+<span class="lineNum">     221 </span><span class="lineCov">     507607 :            : int(IsRowMajor) ? this-&gt;rows() : this-&gt;cols();</span>
+<span class="lineNum">     222 </span>            :     }
+<span class="lineNum">     223 </span>            : 
+<span class="lineNum">     224 </span>            :     /** \returns the inner size.
+<span class="lineNum">     225 </span>            :       *
+<span class="lineNum">     226 </span>            :       * \note For a vector, this is just the size. For a matrix (non-vector), this is the minor dimension
+<span class="lineNum">     227 </span>            :       * with respect to the \ref TopicStorageOrders &quot;storage order&quot;, i.e., the number of rows for a 
+<a name="228"><span class="lineNum">     228 </span>            :       * column-major matrix, and the number of columns for a row-major matrix. */</a>
+<span class="lineNum">     229 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     230 </span><span class="lineCov">    4753877 :     Index innerSize() const</span>
+<span class="lineNum">     231 </span>            :     {
+<span class="lineNum">     232 </span>            :       return IsVectorAtCompileTime ? this-&gt;size()
+<span class="lineNum">     233 </span><span class="lineCov">    4753877 :            : int(IsRowMajor) ? this-&gt;cols() : this-&gt;rows();</span>
+<span class="lineNum">     234 </span>            :     }
+<span class="lineNum">     235 </span>            : 
+<span class="lineNum">     236 </span>            :     /** Only plain matrices/arrays, not expressions, may be resized; therefore the only useful resize methods are
+<span class="lineNum">     237 </span>            :       * Matrix::resize() and Array::resize(). The present method only asserts that the new size equals the old size, and does
+<span class="lineNum">     238 </span>            :       * nothing else.
+<span class="lineNum">     239 </span>            :       */
+<span class="lineNum">     240 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     241 </span>            :     void resize(Index newSize)
+<span class="lineNum">     242 </span>            :     {
+<span class="lineNum">     243 </span>            :       EIGEN_ONLY_USED_FOR_DEBUG(newSize);
+<span class="lineNum">     244 </span>            :       eigen_assert(newSize == this-&gt;size()
+<span class="lineNum">     245 </span>            :                 &amp;&amp; &quot;DenseBase::resize() does not actually allow to resize.&quot;);
+<span class="lineNum">     246 </span>            :     }
+<span class="lineNum">     247 </span>            :     /** Only plain matrices/arrays, not expressions, may be resized; therefore the only useful resize methods are
+<span class="lineNum">     248 </span>            :       * Matrix::resize() and Array::resize(). The present method only asserts that the new size equals the old size, and does
+<span class="lineNum">     249 </span>            :       * nothing else.
+<a name="250"><span class="lineNum">     250 </span>            :       */</a>
+<span class="lineNum">     251 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     252 </span><span class="lineNoCov">          0 :     void resize(Index rows, Index cols)</span>
+<span class="lineNum">     253 </span>            :     {
+<span class="lineNum">     254 </span>            :       EIGEN_ONLY_USED_FOR_DEBUG(rows);
+<span class="lineNum">     255 </span>            :       EIGEN_ONLY_USED_FOR_DEBUG(cols);
+<span class="lineNum">     256 </span><span class="lineNoCov">          0 :       eigen_assert(rows == this-&gt;rows() &amp;&amp; cols == this-&gt;cols()</span>
+<span class="lineNum">     257 </span>            :                 &amp;&amp; &quot;DenseBase::resize() does not actually allow to resize.&quot;);
+<span class="lineNum">     258 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">     259 </span>            : 
+<span class="lineNum">     260 </span>            : #ifndef EIGEN_PARSED_BY_DOXYGEN
+<span class="lineNum">     261 </span>            :     /** \internal Represents a matrix with all coefficients equal to one another*/
+<span class="lineNum">     262 </span>            :     typedef CwiseNullaryOp&lt;internal::scalar_constant_op&lt;Scalar&gt;,PlainObject&gt; ConstantReturnType;
+<span class="lineNum">     263 </span>            :     /** \internal \deprecated Represents a vector with linearly spaced coefficients that allows sequential access only. */
+<span class="lineNum">     264 </span>            :     typedef CwiseNullaryOp&lt;internal::linspaced_op&lt;Scalar,PacketScalar&gt;,PlainObject&gt; SequentialLinSpacedReturnType;
+<span class="lineNum">     265 </span>            :     /** \internal Represents a vector with linearly spaced coefficients that allows random access. */
+<span class="lineNum">     266 </span>            :     typedef CwiseNullaryOp&lt;internal::linspaced_op&lt;Scalar,PacketScalar&gt;,PlainObject&gt; RandomAccessLinSpacedReturnType;
+<span class="lineNum">     267 </span>            :     /** \internal the return type of MatrixBase::eigenvalues() */
+<span class="lineNum">     268 </span>            :     typedef Matrix&lt;typename NumTraits&lt;typename internal::traits&lt;Derived&gt;::Scalar&gt;::Real, internal::traits&lt;Derived&gt;::ColsAtCompileTime, 1&gt; EigenvaluesReturnType;
+<span class="lineNum">     269 </span>            : 
+<span class="lineNum">     270 </span>            : #endif // not EIGEN_PARSED_BY_DOXYGEN
+<span class="lineNum">     271 </span>            : 
+<span class="lineNum">     272 </span>            :     /** Copies \a other into *this. \returns a reference to *this. */
+<span class="lineNum">     273 </span>            :     template&lt;typename OtherDerived&gt;
+<span class="lineNum">     274 </span>            :     EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     275 </span>            :     Derived&amp; operator=(const DenseBase&lt;OtherDerived&gt;&amp; other);
+<span class="lineNum">     276 </span>            : 
+<span class="lineNum">     277 </span>            :     /** Special case of the template operator=, in order to prevent the compiler
+<span class="lineNum">     278 </span>            :       * from generating a default operator= (issue hit with g++ 4.1)
+<span class="lineNum">     279 </span>            :       */
+<span class="lineNum">     280 </span>            :     EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     281 </span>            :     Derived&amp; operator=(const DenseBase&amp; other);
+<span class="lineNum">     282 </span>            : 
+<span class="lineNum">     283 </span>            :     template&lt;typename OtherDerived&gt;
+<span class="lineNum">     284 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     285 </span>            :     Derived&amp; operator=(const EigenBase&lt;OtherDerived&gt; &amp;other);
+<span class="lineNum">     286 </span>            : 
+<span class="lineNum">     287 </span>            :     template&lt;typename OtherDerived&gt;
+<span class="lineNum">     288 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     289 </span>            :     Derived&amp; operator+=(const EigenBase&lt;OtherDerived&gt; &amp;other);
+<span class="lineNum">     290 </span>            : 
+<span class="lineNum">     291 </span>            :     template&lt;typename OtherDerived&gt;
+<span class="lineNum">     292 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     293 </span>            :     Derived&amp; operator-=(const EigenBase&lt;OtherDerived&gt; &amp;other);
+<span class="lineNum">     294 </span>            : 
+<span class="lineNum">     295 </span>            :     template&lt;typename OtherDerived&gt;
+<span class="lineNum">     296 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     297 </span>            :     Derived&amp; operator=(const ReturnByValue&lt;OtherDerived&gt;&amp; func);
+<span class="lineNum">     298 </span>            : 
+<span class="lineNum">     299 </span>            :     /** \internal
+<span class="lineNum">     300 </span>            :       * Copies \a other into *this without evaluating other. \returns a reference to *this.
+<span class="lineNum">     301 </span>            :       * \deprecated */
+<span class="lineNum">     302 </span>            :     template&lt;typename OtherDerived&gt;
+<span class="lineNum">     303 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     304 </span>            :     Derived&amp; lazyAssign(const DenseBase&lt;OtherDerived&gt;&amp; other);
+<span class="lineNum">     305 </span>            : 
+<span class="lineNum">     306 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     307 </span>            :     CommaInitializer&lt;Derived&gt; operator&lt;&lt; (const Scalar&amp; s);
+<span class="lineNum">     308 </span>            : 
+<span class="lineNum">     309 </span>            :     /** \deprecated it now returns \c *this */
+<span class="lineNum">     310 </span>            :     template&lt;unsigned int Added,unsigned int Removed&gt;
+<span class="lineNum">     311 </span>            :     EIGEN_DEPRECATED
+<span class="lineNum">     312 </span>            :     const Derived&amp; flagged() const
+<span class="lineNum">     313 </span>            :     { return derived(); }
+<span class="lineNum">     314 </span>            : 
+<span class="lineNum">     315 </span>            :     template&lt;typename OtherDerived&gt;
+<span class="lineNum">     316 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     317 </span>            :     CommaInitializer&lt;Derived&gt; operator&lt;&lt; (const DenseBase&lt;OtherDerived&gt;&amp; other);
+<span class="lineNum">     318 </span>            : 
+<span class="lineNum">     319 </span>            :     typedef Transpose&lt;Derived&gt; TransposeReturnType;
+<span class="lineNum">     320 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     321 </span>            :     TransposeReturnType transpose();
+<span class="lineNum">     322 </span>            :     typedef typename internal::add_const&lt;Transpose&lt;const Derived&gt; &gt;::type ConstTransposeReturnType;
+<span class="lineNum">     323 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     324 </span>            :     ConstTransposeReturnType transpose() const;
+<span class="lineNum">     325 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     326 </span>            :     void transposeInPlace();
+<span class="lineNum">     327 </span>            : 
+<span class="lineNum">     328 </span>            :     EIGEN_DEVICE_FUNC static const ConstantReturnType
+<span class="lineNum">     329 </span>            :     Constant(Index rows, Index cols, const Scalar&amp; value);
+<span class="lineNum">     330 </span>            :     EIGEN_DEVICE_FUNC static const ConstantReturnType
+<span class="lineNum">     331 </span>            :     Constant(Index size, const Scalar&amp; value);
+<span class="lineNum">     332 </span>            :     EIGEN_DEVICE_FUNC static const ConstantReturnType
+<span class="lineNum">     333 </span>            :     Constant(const Scalar&amp; value);
+<span class="lineNum">     334 </span>            : 
+<span class="lineNum">     335 </span>            :     EIGEN_DEVICE_FUNC static const SequentialLinSpacedReturnType
+<span class="lineNum">     336 </span>            :     LinSpaced(Sequential_t, Index size, const Scalar&amp; low, const Scalar&amp; high);
+<span class="lineNum">     337 </span>            :     EIGEN_DEVICE_FUNC static const RandomAccessLinSpacedReturnType
+<span class="lineNum">     338 </span>            :     LinSpaced(Index size, const Scalar&amp; low, const Scalar&amp; high);
+<span class="lineNum">     339 </span>            :     EIGEN_DEVICE_FUNC static const SequentialLinSpacedReturnType
+<span class="lineNum">     340 </span>            :     LinSpaced(Sequential_t, const Scalar&amp; low, const Scalar&amp; high);
+<span class="lineNum">     341 </span>            :     EIGEN_DEVICE_FUNC static const RandomAccessLinSpacedReturnType
+<span class="lineNum">     342 </span>            :     LinSpaced(const Scalar&amp; low, const Scalar&amp; high);
+<span class="lineNum">     343 </span>            : 
+<span class="lineNum">     344 </span>            :     template&lt;typename CustomNullaryOp&gt; EIGEN_DEVICE_FUNC
+<span class="lineNum">     345 </span>            :     static const CwiseNullaryOp&lt;CustomNullaryOp, PlainObject&gt;
+<span class="lineNum">     346 </span>            :     NullaryExpr(Index rows, Index cols, const CustomNullaryOp&amp; func);
+<span class="lineNum">     347 </span>            :     template&lt;typename CustomNullaryOp&gt; EIGEN_DEVICE_FUNC
+<span class="lineNum">     348 </span>            :     static const CwiseNullaryOp&lt;CustomNullaryOp, PlainObject&gt;
+<span class="lineNum">     349 </span>            :     NullaryExpr(Index size, const CustomNullaryOp&amp; func);
+<span class="lineNum">     350 </span>            :     template&lt;typename CustomNullaryOp&gt; EIGEN_DEVICE_FUNC
+<span class="lineNum">     351 </span>            :     static const CwiseNullaryOp&lt;CustomNullaryOp, PlainObject&gt;
+<span class="lineNum">     352 </span>            :     NullaryExpr(const CustomNullaryOp&amp; func);
+<span class="lineNum">     353 </span>            : 
+<span class="lineNum">     354 </span>            :     EIGEN_DEVICE_FUNC static const ConstantReturnType Zero(Index rows, Index cols);
+<span class="lineNum">     355 </span>            :     EIGEN_DEVICE_FUNC static const ConstantReturnType Zero(Index size);
+<span class="lineNum">     356 </span>            :     EIGEN_DEVICE_FUNC static const ConstantReturnType Zero();
+<span class="lineNum">     357 </span>            :     EIGEN_DEVICE_FUNC static const ConstantReturnType Ones(Index rows, Index cols);
+<span class="lineNum">     358 </span>            :     EIGEN_DEVICE_FUNC static const ConstantReturnType Ones(Index size);
+<span class="lineNum">     359 </span>            :     EIGEN_DEVICE_FUNC static const ConstantReturnType Ones();
+<span class="lineNum">     360 </span>            : 
+<span class="lineNum">     361 </span>            :     EIGEN_DEVICE_FUNC void fill(const Scalar&amp; value);
+<span class="lineNum">     362 </span>            :     EIGEN_DEVICE_FUNC Derived&amp; setConstant(const Scalar&amp; value);
+<span class="lineNum">     363 </span>            :     EIGEN_DEVICE_FUNC Derived&amp; setLinSpaced(Index size, const Scalar&amp; low, const Scalar&amp; high);
+<span class="lineNum">     364 </span>            :     EIGEN_DEVICE_FUNC Derived&amp; setLinSpaced(const Scalar&amp; low, const Scalar&amp; high);
+<span class="lineNum">     365 </span>            :     EIGEN_DEVICE_FUNC Derived&amp; setZero();
+<span class="lineNum">     366 </span>            :     EIGEN_DEVICE_FUNC Derived&amp; setOnes();
+<span class="lineNum">     367 </span>            :     EIGEN_DEVICE_FUNC Derived&amp; setRandom();
+<span class="lineNum">     368 </span>            : 
+<span class="lineNum">     369 </span>            :     template&lt;typename OtherDerived&gt; EIGEN_DEVICE_FUNC
+<span class="lineNum">     370 </span>            :     bool isApprox(const DenseBase&lt;OtherDerived&gt;&amp; other,
+<span class="lineNum">     371 </span>            :                   const RealScalar&amp; prec = NumTraits&lt;Scalar&gt;::dummy_precision()) const;
+<span class="lineNum">     372 </span>            :     EIGEN_DEVICE_FUNC 
+<span class="lineNum">     373 </span>            :     bool isMuchSmallerThan(const RealScalar&amp; other,
+<span class="lineNum">     374 </span>            :                            const RealScalar&amp; prec = NumTraits&lt;Scalar&gt;::dummy_precision()) const;
+<span class="lineNum">     375 </span>            :     template&lt;typename OtherDerived&gt; EIGEN_DEVICE_FUNC
+<span class="lineNum">     376 </span>            :     bool isMuchSmallerThan(const DenseBase&lt;OtherDerived&gt;&amp; other,
+<span class="lineNum">     377 </span>            :                            const RealScalar&amp; prec = NumTraits&lt;Scalar&gt;::dummy_precision()) const;
+<span class="lineNum">     378 </span>            : 
+<span class="lineNum">     379 </span>            :     EIGEN_DEVICE_FUNC bool isApproxToConstant(const Scalar&amp; value, const RealScalar&amp; prec = NumTraits&lt;Scalar&gt;::dummy_precision()) const;
+<span class="lineNum">     380 </span>            :     EIGEN_DEVICE_FUNC bool isConstant(const Scalar&amp; value, const RealScalar&amp; prec = NumTraits&lt;Scalar&gt;::dummy_precision()) const;
+<span class="lineNum">     381 </span>            :     EIGEN_DEVICE_FUNC bool isZero(const RealScalar&amp; prec = NumTraits&lt;Scalar&gt;::dummy_precision()) const;
+<span class="lineNum">     382 </span>            :     EIGEN_DEVICE_FUNC bool isOnes(const RealScalar&amp; prec = NumTraits&lt;Scalar&gt;::dummy_precision()) const;
+<span class="lineNum">     383 </span>            :     
+<span class="lineNum">     384 </span>            :     inline bool hasNaN() const;
+<span class="lineNum">     385 </span>            :     inline bool allFinite() const;
+<span class="lineNum">     386 </span>            : 
+<span class="lineNum">     387 </span>            :     EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     388 </span>            :     Derived&amp; operator*=(const Scalar&amp; other);
+<span class="lineNum">     389 </span>            :     EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     390 </span>            :     Derived&amp; operator/=(const Scalar&amp; other);
+<span class="lineNum">     391 </span>            : 
+<span class="lineNum">     392 </span>            :     typedef typename internal::add_const_on_value_type&lt;typename internal::eval&lt;Derived&gt;::type&gt;::type EvalReturnType;
+<span class="lineNum">     393 </span>            :     /** \returns the matrix or vector obtained by evaluating this expression.
+<span class="lineNum">     394 </span>            :       *
+<span class="lineNum">     395 </span>            :       * Notice that in the case of a plain matrix or vector (not an expression) this function just returns
+<span class="lineNum">     396 </span>            :       * a const reference, in order to avoid a useless copy.
+<span class="lineNum">     397 </span>            :       * 
+<span class="lineNum">     398 </span>            :       * \warning Be carefull with eval() and the auto C++ keyword, as detailed in this \link TopicPitfalls_auto_keyword page \endlink.
+<a name="399"><span class="lineNum">     399 </span>            :       */</a>
+<span class="lineNum">     400 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     401 </span><span class="lineNoCov">          0 :     EIGEN_STRONG_INLINE EvalReturnType eval() const</span>
+<span class="lineNum">     402 </span>            :     {
+<span class="lineNum">     403 </span>            :       // Even though MSVC does not honor strong inlining when the return type
+<span class="lineNum">     404 </span>            :       // is a dynamic matrix, we desperately need strong inlining for fixed
+<span class="lineNum">     405 </span>            :       // size types on MSVC.
+<span class="lineNum">     406 </span><span class="lineNoCov">          0 :       return typename internal::eval&lt;Derived&gt;::type(derived());</span>
+<span class="lineNum">     407 </span>            :     }
+<span class="lineNum">     408 </span>            :     
+<span class="lineNum">     409 </span>            :     /** swaps *this with the expression \a other.
+<span class="lineNum">     410 </span>            :       *
+<span class="lineNum">     411 </span>            :       */
+<a name="412"><span class="lineNum">     412 </span>            :     template&lt;typename OtherDerived&gt;</a>
+<span class="lineNum">     413 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     414 </span><span class="lineCov">      23852 :     void swap(const DenseBase&lt;OtherDerived&gt;&amp; other)</span>
+<span class="lineNum">     415 </span>            :     {
+<span class="lineNum">     416 </span>            :       EIGEN_STATIC_ASSERT(!OtherDerived::IsPlainObjectBase,THIS_EXPRESSION_IS_NOT_A_LVALUE__IT_IS_READ_ONLY);
+<span class="lineNum">     417 </span><span class="lineCov">      23852 :       eigen_assert(rows()==other.rows() &amp;&amp; cols()==other.cols());</span>
+<span class="lineNum">     418 </span><span class="lineCov">      23852 :       call_assignment(derived(), other.const_cast_derived(), internal::swap_assign_op&lt;Scalar&gt;());</span>
+<span class="lineNum">     419 </span><span class="lineCov">      23852 :     }</span>
+<span class="lineNum">     420 </span>            : 
+<span class="lineNum">     421 </span>            :     /** swaps *this with the matrix or array \a other.
+<span class="lineNum">     422 </span>            :       *
+<span class="lineNum">     423 </span>            :       */
+<a name="424"><span class="lineNum">     424 </span>            :     template&lt;typename OtherDerived&gt;</a>
+<span class="lineNum">     425 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     426 </span><span class="lineCov">      28283 :     void swap(PlainObjectBase&lt;OtherDerived&gt;&amp; other)</span>
+<span class="lineNum">     427 </span>            :     {
+<span class="lineNum">     428 </span><span class="lineCov">      28283 :       eigen_assert(rows()==other.rows() &amp;&amp; cols()==other.cols());</span>
+<span class="lineNum">     429 </span><span class="lineCov">      28283 :       call_assignment(derived(), other.derived(), internal::swap_assign_op&lt;Scalar&gt;());</span>
+<span class="lineNum">     430 </span><span class="lineCov">      28283 :     }</span>
+<span class="lineNum">     431 </span>            : 
+<span class="lineNum">     432 </span>            :     EIGEN_DEVICE_FUNC inline const NestByValue&lt;Derived&gt; nestByValue() const;
+<span class="lineNum">     433 </span>            :     EIGEN_DEVICE_FUNC inline const ForceAlignedAccess&lt;Derived&gt; forceAlignedAccess() const;
+<span class="lineNum">     434 </span>            :     EIGEN_DEVICE_FUNC inline ForceAlignedAccess&lt;Derived&gt; forceAlignedAccess();
+<span class="lineNum">     435 </span>            :     template&lt;bool Enable&gt; EIGEN_DEVICE_FUNC
+<span class="lineNum">     436 </span>            :     inline const typename internal::conditional&lt;Enable,ForceAlignedAccess&lt;Derived&gt;,Derived&amp;&gt;::type forceAlignedAccessIf() const;
+<span class="lineNum">     437 </span>            :     template&lt;bool Enable&gt; EIGEN_DEVICE_FUNC
+<span class="lineNum">     438 </span>            :     inline typename internal::conditional&lt;Enable,ForceAlignedAccess&lt;Derived&gt;,Derived&amp;&gt;::type forceAlignedAccessIf();
+<span class="lineNum">     439 </span>            : 
+<span class="lineNum">     440 </span>            :     EIGEN_DEVICE_FUNC Scalar sum() const;
+<span class="lineNum">     441 </span>            :     EIGEN_DEVICE_FUNC Scalar mean() const;
+<span class="lineNum">     442 </span>            :     EIGEN_DEVICE_FUNC Scalar trace() const;
+<span class="lineNum">     443 </span>            : 
+<span class="lineNum">     444 </span>            :     EIGEN_DEVICE_FUNC Scalar prod() const;
+<span class="lineNum">     445 </span>            : 
+<span class="lineNum">     446 </span>            :     EIGEN_DEVICE_FUNC typename internal::traits&lt;Derived&gt;::Scalar minCoeff() const;
+<span class="lineNum">     447 </span>            :     EIGEN_DEVICE_FUNC typename internal::traits&lt;Derived&gt;::Scalar maxCoeff() const;
+<span class="lineNum">     448 </span>            : 
+<span class="lineNum">     449 </span>            :     template&lt;typename IndexType&gt; EIGEN_DEVICE_FUNC
+<span class="lineNum">     450 </span>            :     typename internal::traits&lt;Derived&gt;::Scalar minCoeff(IndexType* row, IndexType* col) const;
+<span class="lineNum">     451 </span>            :     template&lt;typename IndexType&gt; EIGEN_DEVICE_FUNC
+<span class="lineNum">     452 </span>            :     typename internal::traits&lt;Derived&gt;::Scalar maxCoeff(IndexType* row, IndexType* col) const;
+<span class="lineNum">     453 </span>            :     template&lt;typename IndexType&gt; EIGEN_DEVICE_FUNC
+<span class="lineNum">     454 </span>            :     typename internal::traits&lt;Derived&gt;::Scalar minCoeff(IndexType* index) const;
+<span class="lineNum">     455 </span>            :     template&lt;typename IndexType&gt; EIGEN_DEVICE_FUNC
+<span class="lineNum">     456 </span>            :     typename internal::traits&lt;Derived&gt;::Scalar maxCoeff(IndexType* index) const;
+<span class="lineNum">     457 </span>            : 
+<span class="lineNum">     458 </span>            :     template&lt;typename BinaryOp&gt;
+<span class="lineNum">     459 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     460 </span>            :     Scalar redux(const BinaryOp&amp; func) const;
+<span class="lineNum">     461 </span>            : 
+<span class="lineNum">     462 </span>            :     template&lt;typename Visitor&gt;
+<span class="lineNum">     463 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     464 </span>            :     void visit(Visitor&amp; func) const;
+<span class="lineNum">     465 </span>            : 
+<span class="lineNum">     466 </span>            :     /** \returns a WithFormat proxy object allowing to print a matrix the with given
+<span class="lineNum">     467 </span>            :       * format \a fmt.
+<span class="lineNum">     468 </span>            :       *
+<span class="lineNum">     469 </span>            :       * See class IOFormat for some examples.
+<span class="lineNum">     470 </span>            :       *
+<span class="lineNum">     471 </span>            :       * \sa class IOFormat, class WithFormat
+<span class="lineNum">     472 </span>            :       */
+<span class="lineNum">     473 </span>            :     inline const WithFormat&lt;Derived&gt; format(const IOFormat&amp; fmt) const
+<span class="lineNum">     474 </span>            :     {
+<span class="lineNum">     475 </span>            :       return WithFormat&lt;Derived&gt;(derived(), fmt);
+<span class="lineNum">     476 </span>            :     }
+<span class="lineNum">     477 </span>            : 
+<a name="478"><span class="lineNum">     478 </span>            :     /** \returns the unique coefficient of a 1x1 expression */</a>
+<span class="lineNum">     479 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     480 </span><span class="lineCov">       7140 :     CoeffReturnType value() const</span>
+<span class="lineNum">     481 </span>            :     {
+<span class="lineNum">     482 </span>            :       EIGEN_STATIC_ASSERT_SIZE_1x1(Derived)
+<span class="lineNum">     483 </span><span class="lineCov">       7140 :       eigen_assert(this-&gt;rows() == 1 &amp;&amp; this-&gt;cols() == 1);</span>
+<span class="lineNum">     484 </span><span class="lineCov">       7140 :       return derived().coeff(0,0);</span>
+<span class="lineNum">     485 </span>            :     }
+<span class="lineNum">     486 </span>            : 
+<span class="lineNum">     487 </span>            :     EIGEN_DEVICE_FUNC bool all() const;
+<span class="lineNum">     488 </span>            :     EIGEN_DEVICE_FUNC bool any() const;
+<span class="lineNum">     489 </span>            :     EIGEN_DEVICE_FUNC Index count() const;
+<span class="lineNum">     490 </span>            : 
+<span class="lineNum">     491 </span>            :     typedef VectorwiseOp&lt;Derived, Horizontal&gt; RowwiseReturnType;
+<span class="lineNum">     492 </span>            :     typedef const VectorwiseOp&lt;const Derived, Horizontal&gt; ConstRowwiseReturnType;
+<span class="lineNum">     493 </span>            :     typedef VectorwiseOp&lt;Derived, Vertical&gt; ColwiseReturnType;
+<span class="lineNum">     494 </span>            :     typedef const VectorwiseOp&lt;const Derived, Vertical&gt; ConstColwiseReturnType;
+<span class="lineNum">     495 </span>            : 
+<span class="lineNum">     496 </span>            :     /** \returns a VectorwiseOp wrapper of *this providing additional partial reduction operations
+<span class="lineNum">     497 </span>            :     *
+<span class="lineNum">     498 </span>            :     * Example: \include MatrixBase_rowwise.cpp
+<span class="lineNum">     499 </span>            :     * Output: \verbinclude MatrixBase_rowwise.out
+<span class="lineNum">     500 </span>            :     *
+<span class="lineNum">     501 </span>            :     * \sa colwise(), class VectorwiseOp, \ref TutorialReductionsVisitorsBroadcasting
+<span class="lineNum">     502 </span>            :     */
+<span class="lineNum">     503 </span>            :     //Code moved here due to a CUDA compiler bug
+<span class="lineNum">     504 </span>            :     EIGEN_DEVICE_FUNC inline ConstRowwiseReturnType rowwise() const {
+<span class="lineNum">     505 </span>            :       return ConstRowwiseReturnType(derived());
+<span class="lineNum">     506 </span>            :     }
+<span class="lineNum">     507 </span>            :     EIGEN_DEVICE_FUNC RowwiseReturnType rowwise();
+<span class="lineNum">     508 </span>            : 
+<span class="lineNum">     509 </span>            :     /** \returns a VectorwiseOp wrapper of *this providing additional partial reduction operations
+<span class="lineNum">     510 </span>            :     *
+<span class="lineNum">     511 </span>            :     * Example: \include MatrixBase_colwise.cpp
+<span class="lineNum">     512 </span>            :     * Output: \verbinclude MatrixBase_colwise.out
+<span class="lineNum">     513 </span>            :     *
+<span class="lineNum">     514 </span>            :     * \sa rowwise(), class VectorwiseOp, \ref TutorialReductionsVisitorsBroadcasting
+<span class="lineNum">     515 </span>            :     */
+<span class="lineNum">     516 </span>            :     EIGEN_DEVICE_FUNC inline ConstColwiseReturnType colwise() const {
+<span class="lineNum">     517 </span>            :       return ConstColwiseReturnType(derived());
+<span class="lineNum">     518 </span>            :     }
+<span class="lineNum">     519 </span>            :     EIGEN_DEVICE_FUNC ColwiseReturnType colwise();
+<span class="lineNum">     520 </span>            : 
+<span class="lineNum">     521 </span>            :     typedef CwiseNullaryOp&lt;internal::scalar_random_op&lt;Scalar&gt;,PlainObject&gt; RandomReturnType;
+<span class="lineNum">     522 </span>            :     static const RandomReturnType Random(Index rows, Index cols);
+<span class="lineNum">     523 </span>            :     static const RandomReturnType Random(Index size);
+<span class="lineNum">     524 </span>            :     static const RandomReturnType Random();
+<span class="lineNum">     525 </span>            : 
+<span class="lineNum">     526 </span>            :     template&lt;typename ThenDerived,typename ElseDerived&gt;
+<span class="lineNum">     527 </span>            :     const Select&lt;Derived,ThenDerived,ElseDerived&gt;
+<span class="lineNum">     528 </span>            :     select(const DenseBase&lt;ThenDerived&gt;&amp; thenMatrix,
+<span class="lineNum">     529 </span>            :            const DenseBase&lt;ElseDerived&gt;&amp; elseMatrix) const;
+<span class="lineNum">     530 </span>            : 
+<span class="lineNum">     531 </span>            :     template&lt;typename ThenDerived&gt;
+<span class="lineNum">     532 </span>            :     inline const Select&lt;Derived,ThenDerived, typename ThenDerived::ConstantReturnType&gt;
+<span class="lineNum">     533 </span>            :     select(const DenseBase&lt;ThenDerived&gt;&amp; thenMatrix, const typename ThenDerived::Scalar&amp; elseScalar) const;
+<span class="lineNum">     534 </span>            : 
+<span class="lineNum">     535 </span>            :     template&lt;typename ElseDerived&gt;
+<span class="lineNum">     536 </span>            :     inline const Select&lt;Derived, typename ElseDerived::ConstantReturnType, ElseDerived &gt;
+<span class="lineNum">     537 </span>            :     select(const typename ElseDerived::Scalar&amp; thenScalar, const DenseBase&lt;ElseDerived&gt;&amp; elseMatrix) const;
+<span class="lineNum">     538 </span>            : 
+<span class="lineNum">     539 </span>            :     template&lt;int p&gt; RealScalar lpNorm() const;
+<span class="lineNum">     540 </span>            : 
+<span class="lineNum">     541 </span>            :     template&lt;int RowFactor, int ColFactor&gt;
+<span class="lineNum">     542 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     543 </span>            :     const Replicate&lt;Derived,RowFactor,ColFactor&gt; replicate() const;
+<span class="lineNum">     544 </span>            :     /**
+<span class="lineNum">     545 </span>            :     * \return an expression of the replication of \c *this
+<span class="lineNum">     546 </span>            :     *
+<span class="lineNum">     547 </span>            :     * Example: \include MatrixBase_replicate_int_int.cpp
+<span class="lineNum">     548 </span>            :     * Output: \verbinclude MatrixBase_replicate_int_int.out
+<span class="lineNum">     549 </span>            :     *
+<span class="lineNum">     550 </span>            :     * \sa VectorwiseOp::replicate(), DenseBase::replicate&lt;int,int&gt;(), class Replicate
+<span class="lineNum">     551 </span>            :     */
+<span class="lineNum">     552 </span>            :     //Code moved here due to a CUDA compiler bug
+<span class="lineNum">     553 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     554 </span>            :     const Replicate&lt;Derived, Dynamic, Dynamic&gt; replicate(Index rowFactor, Index colFactor) const
+<span class="lineNum">     555 </span>            :     {
+<span class="lineNum">     556 </span>            :       return Replicate&lt;Derived, Dynamic, Dynamic&gt;(derived(), rowFactor, colFactor);
+<span class="lineNum">     557 </span>            :     }
+<span class="lineNum">     558 </span>            : 
+<span class="lineNum">     559 </span>            :     typedef Reverse&lt;Derived, BothDirections&gt; ReverseReturnType;
+<span class="lineNum">     560 </span>            :     typedef const Reverse&lt;const Derived, BothDirections&gt; ConstReverseReturnType;
+<span class="lineNum">     561 </span>            :     EIGEN_DEVICE_FUNC ReverseReturnType reverse();
+<span class="lineNum">     562 </span>            :     /** This is the const version of reverse(). */
+<span class="lineNum">     563 </span>            :     //Code moved here due to a CUDA compiler bug
+<span class="lineNum">     564 </span>            :     EIGEN_DEVICE_FUNC ConstReverseReturnType reverse() const
+<span class="lineNum">     565 </span>            :     {
+<span class="lineNum">     566 </span>            :       return ConstReverseReturnType(derived());
+<span class="lineNum">     567 </span>            :     }
+<span class="lineNum">     568 </span>            :     EIGEN_DEVICE_FUNC void reverseInPlace();
+<span class="lineNum">     569 </span>            : 
+<span class="lineNum">     570 </span>            : #define EIGEN_CURRENT_STORAGE_BASE_CLASS Eigen::DenseBase
+<span class="lineNum">     571 </span>            : #define EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+<span class="lineNum">     572 </span>            : #define EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(COND)
+<span class="lineNum">     573 </span>            : #   include &quot;../plugins/BlockMethods.h&quot;
+<span class="lineNum">     574 </span>            : #   ifdef EIGEN_DENSEBASE_PLUGIN
+<span class="lineNum">     575 </span>            : #     include EIGEN_DENSEBASE_PLUGIN
+<span class="lineNum">     576 </span>            : #   endif
+<span class="lineNum">     577 </span>            : #undef EIGEN_CURRENT_STORAGE_BASE_CLASS
+<span class="lineNum">     578 </span>            : #undef EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+<span class="lineNum">     579 </span>            : #undef EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF
+<span class="lineNum">     580 </span>            : 
+<span class="lineNum">     581 </span>            :     // disable the use of evalTo for dense objects with a nice compilation error
+<span class="lineNum">     582 </span>            :     template&lt;typename Dest&gt;
+<span class="lineNum">     583 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     584 </span>            :     inline void evalTo(Dest&amp; ) const
+<span class="lineNum">     585 </span>            :     {
+<span class="lineNum">     586 </span>            :       EIGEN_STATIC_ASSERT((internal::is_same&lt;Dest,void&gt;::value),THE_EVAL_EVALTO_FUNCTION_SHOULD_NEVER_BE_CALLED_FOR_DENSE_OBJECTS);
+<span class="lineNum">     587 </span>            :     }
+<span class="lineNum">     588 </span>            : 
+<a name="589"><span class="lineNum">     589 </span>            :   protected:</a>
+<span class="lineNum">     590 </span>            :     /** Default constructor. Do nothing. */
+<span class="lineNum">     591 </span><span class="lineCov">    3899143 :     EIGEN_DEVICE_FUNC DenseBase()</span>
+<span class="lineNum">     592 </span><span class="lineCov">    3899143 :     {</span>
+<span class="lineNum">     593 </span>            :       /* Just checks for self-consistency of the flags.
+<span class="lineNum">     594 </span>            :        * Only do it when debugging Eigen, as this borders on paranoiac and could slow compilation down
+<span class="lineNum">     595 </span>            :        */
+<span class="lineNum">     596 </span>            : #ifdef EIGEN_INTERNAL_DEBUGGING
+<span class="lineNum">     597 </span>            :       EIGEN_STATIC_ASSERT((EIGEN_IMPLIES(MaxRowsAtCompileTime==1 &amp;&amp; MaxColsAtCompileTime!=1, int(IsRowMajor))
+<span class="lineNum">     598 </span>            :                         &amp;&amp; EIGEN_IMPLIES(MaxColsAtCompileTime==1 &amp;&amp; MaxRowsAtCompileTime!=1, int(!IsRowMajor))),
+<span class="lineNum">     599 </span>            :                           INVALID_STORAGE_ORDER_FOR_THIS_VECTOR_EXPRESSION)
+<span class="lineNum">     600 </span>            : #endif
+<span class="lineNum">     601 </span><span class="lineCov">    3899143 :     }</span>
+<span class="lineNum">     602 </span>            : 
+<span class="lineNum">     603 </span>            :   private:
+<span class="lineNum">     604 </span>            :     EIGEN_DEVICE_FUNC explicit DenseBase(int);
+<span class="lineNum">     605 </span>            :     EIGEN_DEVICE_FUNC DenseBase(int,int);
+<span class="lineNum">     606 </span>            :     template&lt;typename OtherDerived&gt; EIGEN_DEVICE_FUNC explicit DenseBase(const DenseBase&lt;OtherDerived&gt;&amp;);
+<span class="lineNum">     607 </span>            : };
+<span class="lineNum">     608 </span>            : 
+<span class="lineNum">     609 </span>            : } // end namespace Eigen
+<span class="lineNum">     610 </span>            : 
+<span class="lineNum">     611 </span>            : #endif // EIGEN_DENSEBASE_H
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

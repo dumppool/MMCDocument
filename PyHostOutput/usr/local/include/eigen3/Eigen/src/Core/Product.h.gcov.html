@@ -1,0 +1,270 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - PyHost Code Analysis - /usr/local/include/eigen3/Eigen/src/Core/Product.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../../index.html">top level</a> - <a href="index.html">usr/local/include/eigen3/Eigen/src/Core</a> - Product.h<span style="font-size: 80%;"> (source / <a href="Product.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">PyHost Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">14</td>
+            <td class="headerCovTableEntry">14</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 17:04:23</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">348</td>
+            <td class="headerCovTableEntry">551</td>
+            <td class="headerCovTableEntryLo">63.2 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // This file is part of Eigen, a lightweight C++ template library</a>
+<span class="lineNum">       2 </span>            : // for linear algebra.
+<span class="lineNum">       3 </span>            : //
+<span class="lineNum">       4 </span>            : // Copyright (C) 2008-2011 Gael Guennebaud &lt;gael.guennebaud@inria.fr&gt;
+<span class="lineNum">       5 </span>            : //
+<span class="lineNum">       6 </span>            : // This Source Code Form is subject to the terms of the Mozilla
+<span class="lineNum">       7 </span>            : // Public License v. 2.0. If a copy of the MPL was not distributed
+<span class="lineNum">       8 </span>            : // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+<span class="lineNum">       9 </span>            : 
+<span class="lineNum">      10 </span>            : #ifndef EIGEN_PRODUCT_H
+<span class="lineNum">      11 </span>            : #define EIGEN_PRODUCT_H
+<span class="lineNum">      12 </span>            : 
+<span class="lineNum">      13 </span>            : namespace Eigen {
+<span class="lineNum">      14 </span>            : 
+<span class="lineNum">      15 </span>            : template&lt;typename Lhs, typename Rhs, int Option, typename StorageKind&gt; class ProductImpl;
+<span class="lineNum">      16 </span>            : 
+<span class="lineNum">      17 </span>            : namespace internal {
+<span class="lineNum">      18 </span>            : 
+<span class="lineNum">      19 </span>            : template&lt;typename Lhs, typename Rhs, int Option&gt;
+<span class="lineNum">      20 </span>            : struct traits&lt;Product&lt;Lhs, Rhs, Option&gt; &gt;
+<span class="lineNum">      21 </span>            : {
+<span class="lineNum">      22 </span>            :   typedef typename remove_all&lt;Lhs&gt;::type LhsCleaned;
+<span class="lineNum">      23 </span>            :   typedef typename remove_all&lt;Rhs&gt;::type RhsCleaned;
+<span class="lineNum">      24 </span>            :   typedef traits&lt;LhsCleaned&gt; LhsTraits;
+<span class="lineNum">      25 </span>            :   typedef traits&lt;RhsCleaned&gt; RhsTraits;
+<span class="lineNum">      26 </span>            :   
+<span class="lineNum">      27 </span>            :   typedef MatrixXpr XprKind;
+<span class="lineNum">      28 </span>            :   
+<span class="lineNum">      29 </span>            :   typedef typename ScalarBinaryOpTraits&lt;typename traits&lt;LhsCleaned&gt;::Scalar, typename traits&lt;RhsCleaned&gt;::Scalar&gt;::ReturnType Scalar;
+<span class="lineNum">      30 </span>            :   typedef typename product_promote_storage_type&lt;typename LhsTraits::StorageKind,
+<span class="lineNum">      31 </span>            :                                                 typename RhsTraits::StorageKind,
+<span class="lineNum">      32 </span>            :                                                 internal::product_type&lt;Lhs,Rhs&gt;::ret&gt;::ret StorageKind;
+<span class="lineNum">      33 </span>            :   typedef typename promote_index_type&lt;typename LhsTraits::StorageIndex,
+<span class="lineNum">      34 </span>            :                                       typename RhsTraits::StorageIndex&gt;::type StorageIndex;
+<span class="lineNum">      35 </span>            :   
+<span class="lineNum">      36 </span>            :   enum {
+<span class="lineNum">      37 </span>            :     RowsAtCompileTime    = LhsTraits::RowsAtCompileTime,
+<span class="lineNum">      38 </span>            :     ColsAtCompileTime    = RhsTraits::ColsAtCompileTime,
+<span class="lineNum">      39 </span>            :     MaxRowsAtCompileTime = LhsTraits::MaxRowsAtCompileTime,
+<span class="lineNum">      40 </span>            :     MaxColsAtCompileTime = RhsTraits::MaxColsAtCompileTime,
+<span class="lineNum">      41 </span>            :     
+<span class="lineNum">      42 </span>            :     // FIXME: only needed by GeneralMatrixMatrixTriangular
+<span class="lineNum">      43 </span>            :     InnerSize = EIGEN_SIZE_MIN_PREFER_FIXED(LhsTraits::ColsAtCompileTime, RhsTraits::RowsAtCompileTime),
+<span class="lineNum">      44 </span>            :     
+<span class="lineNum">      45 </span>            :     // The storage order is somewhat arbitrary here. The correct one will be determined through the evaluator.
+<span class="lineNum">      46 </span>            :     Flags = (MaxRowsAtCompileTime==1 &amp;&amp; MaxColsAtCompileTime!=1) ? RowMajorBit
+<span class="lineNum">      47 </span>            :           : (MaxColsAtCompileTime==1 &amp;&amp; MaxRowsAtCompileTime!=1) ? 0
+<span class="lineNum">      48 </span>            :           : (   ((LhsTraits::Flags&amp;NoPreferredStorageOrderBit) &amp;&amp; (RhsTraits::Flags&amp;RowMajorBit))
+<span class="lineNum">      49 </span>            :              || ((RhsTraits::Flags&amp;NoPreferredStorageOrderBit) &amp;&amp; (LhsTraits::Flags&amp;RowMajorBit)) ) ? RowMajorBit
+<span class="lineNum">      50 </span>            :           : NoPreferredStorageOrderBit
+<span class="lineNum">      51 </span>            :   };
+<span class="lineNum">      52 </span>            : };
+<span class="lineNum">      53 </span>            : 
+<span class="lineNum">      54 </span>            : } // end namespace internal
+<span class="lineNum">      55 </span>            : 
+<span class="lineNum">      56 </span>            : /** \class Product
+<span class="lineNum">      57 </span>            :   * \ingroup Core_Module
+<span class="lineNum">      58 </span>            :   *
+<span class="lineNum">      59 </span>            :   * \brief Expression of the product of two arbitrary matrices or vectors
+<span class="lineNum">      60 </span>            :   *
+<span class="lineNum">      61 </span>            :   * \tparam _Lhs the type of the left-hand side expression
+<span class="lineNum">      62 </span>            :   * \tparam _Rhs the type of the right-hand side expression
+<span class="lineNum">      63 </span>            :   *
+<span class="lineNum">      64 </span>            :   * This class represents an expression of the product of two arbitrary matrices.
+<span class="lineNum">      65 </span>            :   *
+<span class="lineNum">      66 </span>            :   * The other template parameters are:
+<span class="lineNum">      67 </span>            :   * \tparam Option     can be DefaultProduct, AliasFreeProduct, or LazyProduct
+<span class="lineNum">      68 </span>            :   *
+<a name="69"><span class="lineNum">      69 </span>            :   */</a>
+<span class="lineNum">      70 </span>            : template&lt;typename _Lhs, typename _Rhs, int Option&gt;
+<span class="lineNum">      71 </span><span class="lineCov">       7520 : class Product : public ProductImpl&lt;_Lhs,_Rhs,Option,</span>
+<span class="lineNum">      72 </span>            :                                    typename internal::product_promote_storage_type&lt;typename internal::traits&lt;_Lhs&gt;::StorageKind,
+<span class="lineNum">      73 </span>            :                                                                                    typename internal::traits&lt;_Rhs&gt;::StorageKind,
+<span class="lineNum">      74 </span>            :                                                                                    internal::product_type&lt;_Lhs,_Rhs&gt;::ret&gt;::ret&gt;
+<span class="lineNum">      75 </span>            : {
+<span class="lineNum">      76 </span>            :   public:
+<span class="lineNum">      77 </span>            :     
+<span class="lineNum">      78 </span>            :     typedef _Lhs Lhs;
+<span class="lineNum">      79 </span>            :     typedef _Rhs Rhs;
+<span class="lineNum">      80 </span>            :     
+<span class="lineNum">      81 </span>            :     typedef typename ProductImpl&lt;
+<span class="lineNum">      82 </span>            :         Lhs, Rhs, Option,
+<span class="lineNum">      83 </span>            :         typename internal::product_promote_storage_type&lt;typename internal::traits&lt;Lhs&gt;::StorageKind,
+<span class="lineNum">      84 </span>            :                                                         typename internal::traits&lt;Rhs&gt;::StorageKind,
+<span class="lineNum">      85 </span>            :                                                         internal::product_type&lt;Lhs,Rhs&gt;::ret&gt;::ret&gt;::Base Base;
+<span class="lineNum">      86 </span>            :     EIGEN_GENERIC_PUBLIC_INTERFACE(Product)
+<span class="lineNum">      87 </span>            : 
+<span class="lineNum">      88 </span>            :     typedef typename internal::ref_selector&lt;Lhs&gt;::type LhsNested;
+<span class="lineNum">      89 </span>            :     typedef typename internal::ref_selector&lt;Rhs&gt;::type RhsNested;
+<span class="lineNum">      90 </span>            :     typedef typename internal::remove_all&lt;LhsNested&gt;::type LhsNestedCleaned;
+<a name="91"><span class="lineNum">      91 </span>            :     typedef typename internal::remove_all&lt;RhsNested&gt;::type RhsNestedCleaned;</a>
+<span class="lineNum">      92 </span>            : 
+<span class="lineNum">      93 </span><span class="lineCov">     868149 :     EIGEN_DEVICE_FUNC Product(const Lhs&amp; lhs, const Rhs&amp; rhs) : m_lhs(lhs), m_rhs(rhs)</span>
+<span class="lineNum">      94 </span>            :     {
+<span class="lineNum">      95 </span><span class="lineCov">     868149 :       eigen_assert(lhs.cols() == rhs.rows()</span>
+<span class="lineNum">      96 </span>            :         &amp;&amp; &quot;invalid matrix product&quot;
+<span class="lineNum">      97 </span>            :         &amp;&amp; &quot;if you wanted a coeff-wise or a dot product use the respective explicit functions&quot;);
+<a name="98"><span class="lineNum">      98 </span><span class="lineCov">     868149 :     }</span></a>
+<a name="99"><span class="lineNum">      99 </span>            : </a>
+<span class="lineNum">     100 </span><span class="lineCov">    1738192 :     EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Index rows() const { return m_lhs.rows(); }</span>
+<a name="101"><span class="lineNum">     101 </span><span class="lineCov">    1713972 :     EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Index cols() const { return m_rhs.cols(); }</span></a>
+<a name="102"><span class="lineNum">     102 </span>            : </a>
+<span class="lineNum">     103 </span><span class="lineCov">    1264921 :     EIGEN_DEVICE_FUNC const LhsNestedCleaned&amp; lhs() const { return m_lhs; }</span>
+<span class="lineNum">     104 </span><span class="lineCov">     868149 :     EIGEN_DEVICE_FUNC const RhsNestedCleaned&amp; rhs() const { return m_rhs; }</span>
+<span class="lineNum">     105 </span>            : 
+<span class="lineNum">     106 </span>            :   protected:
+<span class="lineNum">     107 </span>            : 
+<span class="lineNum">     108 </span>            :     LhsNested m_lhs;
+<span class="lineNum">     109 </span>            :     RhsNested m_rhs;
+<span class="lineNum">     110 </span>            : };
+<span class="lineNum">     111 </span>            : 
+<span class="lineNum">     112 </span>            : namespace internal {
+<a name="113"><span class="lineNum">     113 </span>            :   </a>
+<span class="lineNum">     114 </span>            : template&lt;typename Lhs, typename Rhs, int Option, int ProductTag = internal::product_type&lt;Lhs,Rhs&gt;::ret&gt;
+<span class="lineNum">     115 </span><span class="lineCov">     848409 : class dense_product_base</span>
+<span class="lineNum">     116 </span>            :  : public internal::dense_xpr_base&lt;Product&lt;Lhs,Rhs,Option&gt; &gt;::type
+<span class="lineNum">     117 </span>            : {};
+<span class="lineNum">     118 </span>            : 
+<a name="119"><span class="lineNum">     119 </span>            : /** Convertion to scalar for inner-products */</a>
+<span class="lineNum">     120 </span>            : template&lt;typename Lhs, typename Rhs, int Option&gt;
+<span class="lineNum">     121 </span><span class="lineCov">      19740 : class dense_product_base&lt;Lhs, Rhs, Option, InnerProduct&gt;</span>
+<span class="lineNum">     122 </span>            :  : public internal::dense_xpr_base&lt;Product&lt;Lhs,Rhs,Option&gt; &gt;::type
+<span class="lineNum">     123 </span>            : {
+<span class="lineNum">     124 </span>            :   typedef Product&lt;Lhs,Rhs,Option&gt; ProductXpr;
+<span class="lineNum">     125 </span>            :   typedef typename internal::dense_xpr_base&lt;ProductXpr&gt;::type Base;
+<span class="lineNum">     126 </span>            : public:
+<span class="lineNum">     127 </span>            :   using Base::derived;
+<span class="lineNum">     128 </span>            :   typedef typename Base::Scalar Scalar;
+<span class="lineNum">     129 </span>            :   
+<span class="lineNum">     130 </span>            :   EIGEN_STRONG_INLINE operator const Scalar() const
+<span class="lineNum">     131 </span>            :   {
+<span class="lineNum">     132 </span>            :     return internal::evaluator&lt;ProductXpr&gt;(derived()).coeff(0,0);
+<span class="lineNum">     133 </span>            :   }
+<span class="lineNum">     134 </span>            : };
+<span class="lineNum">     135 </span>            : 
+<span class="lineNum">     136 </span>            : } // namespace internal
+<span class="lineNum">     137 </span>            : 
+<span class="lineNum">     138 </span>            : // Generic API dispatcher
+<span class="lineNum">     139 </span>            : template&lt;typename Lhs, typename Rhs, int Option, typename StorageKind&gt;
+<span class="lineNum">     140 </span>            : class ProductImpl : public internal::generic_xpr_base&lt;Product&lt;Lhs,Rhs,Option&gt;, MatrixXpr, StorageKind&gt;::type
+<span class="lineNum">     141 </span>            : {
+<span class="lineNum">     142 </span>            :   public:
+<span class="lineNum">     143 </span>            :     typedef typename internal::generic_xpr_base&lt;Product&lt;Lhs,Rhs,Option&gt;, MatrixXpr, StorageKind&gt;::type Base;
+<span class="lineNum">     144 </span>            : };
+<a name="145"><span class="lineNum">     145 </span>            : </a>
+<span class="lineNum">     146 </span>            : template&lt;typename Lhs, typename Rhs, int Option&gt;
+<span class="lineNum">     147 </span><span class="lineCov">     868149 : class ProductImpl&lt;Lhs,Rhs,Option,Dense&gt;</span>
+<span class="lineNum">     148 </span>            :   : public internal::dense_product_base&lt;Lhs,Rhs,Option&gt;
+<span class="lineNum">     149 </span>            : {
+<span class="lineNum">     150 </span>            :     typedef Product&lt;Lhs, Rhs, Option&gt; Derived;
+<span class="lineNum">     151 </span>            :     
+<span class="lineNum">     152 </span>            :   public:
+<span class="lineNum">     153 </span>            :     
+<span class="lineNum">     154 </span>            :     typedef typename internal::dense_product_base&lt;Lhs, Rhs, Option&gt; Base;
+<span class="lineNum">     155 </span>            :     EIGEN_DENSE_PUBLIC_INTERFACE(Derived)
+<span class="lineNum">     156 </span>            :   protected:
+<span class="lineNum">     157 </span>            :     enum {
+<span class="lineNum">     158 </span>            :       IsOneByOne = (RowsAtCompileTime == 1 || RowsAtCompileTime == Dynamic) &amp;&amp; 
+<span class="lineNum">     159 </span>            :                    (ColsAtCompileTime == 1 || ColsAtCompileTime == Dynamic),
+<span class="lineNum">     160 </span>            :       EnableCoeff = IsOneByOne || Option==LazyProduct
+<span class="lineNum">     161 </span>            :     };
+<span class="lineNum">     162 </span>            :     
+<a name="163"><span class="lineNum">     163 </span>            :   public:</a>
+<span class="lineNum">     164 </span>            :   
+<span class="lineNum">     165 </span><span class="lineCov">      19740 :     EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar coeff(Index row, Index col) const</span>
+<span class="lineNum">     166 </span>            :     {
+<span class="lineNum">     167 </span>            :       EIGEN_STATIC_ASSERT(EnableCoeff, THIS_METHOD_IS_ONLY_FOR_INNER_OR_LAZY_PRODUCTS);
+<span class="lineNum">     168 </span><span class="lineCov">      19740 :       eigen_assert( (Option==LazyProduct) || (this-&gt;rows() == 1 &amp;&amp; this-&gt;cols() == 1) );</span>
+<span class="lineNum">     169 </span>            :       
+<span class="lineNum">     170 </span><span class="lineCov">      19740 :       return internal::evaluator&lt;Derived&gt;(derived()).coeff(row,col);</span>
+<span class="lineNum">     171 </span>            :     }
+<span class="lineNum">     172 </span>            : 
+<span class="lineNum">     173 </span>            :     EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar coeff(Index i) const
+<span class="lineNum">     174 </span>            :     {
+<span class="lineNum">     175 </span>            :       EIGEN_STATIC_ASSERT(EnableCoeff, THIS_METHOD_IS_ONLY_FOR_INNER_OR_LAZY_PRODUCTS);
+<span class="lineNum">     176 </span>            :       eigen_assert( (Option==LazyProduct) || (this-&gt;rows() == 1 &amp;&amp; this-&gt;cols() == 1) );
+<span class="lineNum">     177 </span>            :       
+<span class="lineNum">     178 </span>            :       return internal::evaluator&lt;Derived&gt;(derived()).coeff(i);
+<span class="lineNum">     179 </span>            :     }
+<span class="lineNum">     180 </span>            :     
+<span class="lineNum">     181 </span>            :   
+<span class="lineNum">     182 </span>            : };
+<span class="lineNum">     183 </span>            : 
+<span class="lineNum">     184 </span>            : } // end namespace Eigen
+<span class="lineNum">     185 </span>            : 
+<span class="lineNum">     186 </span>            : #endif // EIGEN_PRODUCT_H
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

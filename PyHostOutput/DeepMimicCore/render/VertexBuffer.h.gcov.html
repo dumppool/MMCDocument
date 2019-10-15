@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - PyHost Code Analysis - DeepMimicCore/render/VertexBuffer.h</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">DeepMimicCore/render</a> - VertexBuffer.h<span style="font-size: 80%;"> (source / <a href="VertexBuffer.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">PyHost Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">24</td>
+            <td class="headerCovTableEntry">24</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 17:04:23</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : #pragma once</a>
+<span class="lineNum">       2 </span>            : 
+<span class="lineNum">       3 </span>            : #include &lt;GL/glew.h&gt;
+<span class="lineNum">       4 </span>            : #include &quot;render/RenderState.h&quot;
+<span class="lineNum">       5 </span>            : #include &lt;string.h&gt;
+<span class="lineNum">       6 </span>            : 
+<span class="lineNum">       7 </span>            : #define MAX_NUM_ATTRIB 4
+<span class="lineNum">       8 </span>            : 
+<span class="lineNum">       9 </span>            : /**
+<span class="lineNum">      10 </span>            :  * CPU side storage of the data to be stored in one VBO on the GPU. This object can handle
+<span class="lineNum">      11 </span>            :  * many different vertex attribute layouts.
+<span class="lineNum">      12 </span>            :  */
+<span class="lineNum">      13 </span>            : class cVertexBuffer
+<span class="lineNum">      14 </span>            : {
+<span class="lineNum">      15 </span>            : public:
+<span class="lineNum">      16 </span>            :     // we dont want the vbuffer owning the gl buffer id, beause then multiple
+<span class="lineNum">      17 </span>            :     // animations would ech require a different id (or deleting one would
+<a name="18"><span class="lineNum">      18 </span>            :     // inherently delete the gl id its working with)</a>
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span><span class="lineCov">         14 :         cVertexBuffer():mRenderID(0), mRenderState(NULL), mLocalData(NULL),</span>
+<a name="21"><span class="lineNum">      21 </span><span class="lineCov">         14 :               mAttrInfo(NULL), mNumAttr(0), mSize(0)</span></a>
+<span class="lineNum">      22 </span><span class="lineCov">         14 :     {}</span>
+<span class="lineNum">      23 </span><span class="lineCov">         28 :         cVertexBuffer(GLuint bufferID, cRenderState &amp;r_state):mRenderID(bufferID), mRenderState(&amp;r_state), mLocalData(NULL),</span>
+<a name="24"><span class="lineNum">      24 </span><span class="lineCov">         28 :                                        mAttrInfo(NULL), mNumAttr(0), mSize(0)</span></a>
+<span class="lineNum">      25 </span><span class="lineCov">         28 :     {}</span>
+<span class="lineNum">      26 </span><span class="lineCov">        280 :         cVertexBuffer(const cVertexBuffer &amp;old): mRenderID(old.mRenderID), mRenderState(old.mRenderState), mNumAttr(old.mNumAttr),</span>
+<span class="lineNum">      27 </span><span class="lineCov">        280 :                            mSize(old.mSize) {</span>
+<span class="lineNum">      28 </span><span class="lineCov">         70 :         mLocalData = (float*) new char[mSize];</span>
+<span class="lineNum">      29 </span><span class="lineCov">         70 :         memcpy(mLocalData, old.mLocalData, mSize);</span>
+<span class="lineNum">      30 </span>            : 
+<span class="lineNum">      31 </span><span class="lineCov">         70 :         mAttrInfo = new tAttribInfo[mNumAttr];</span>
+<span class="lineNum">      32 </span><span class="lineCov">         70 :         memcpy(mAttrInfo, old.mAttrInfo, sizeof(tAttribInfo)*mNumAttr);</span>
+<a name="33"><span class="lineNum">      33 </span><span class="lineCov">         70 :     }</span></a>
+<span class="lineNum">      34 </span>            : 
+<span class="lineNum">      35 </span><span class="lineCov">        112 :     ~cVertexBuffer()</span>
+<span class="lineNum">      36 </span><span class="lineCov">        112 :     {</span>
+<span class="lineNum">      37 </span><span class="lineCov">        112 :         if (mLocalData)</span>
+<span class="lineNum">      38 </span><span class="lineCov">         84 :             delete [] mLocalData;</span>
+<span class="lineNum">      39 </span><span class="lineCov">        112 :         if (mAttrInfo)</span>
+<span class="lineNum">      40 </span><span class="lineCov">         84 :             delete [] mAttrInfo;</span>
+<a name="41"><span class="lineNum">      41 </span><span class="lineCov">        112 :     }</span></a>
+<span class="lineNum">      42 </span>            : 
+<span class="lineNum">      43 </span><span class="lineCov">         15 :     void SetRender(GLuint buffID, cRenderState &amp;r_state)</span>
+<span class="lineNum">      44 </span>            :     {
+<span class="lineNum">      45 </span><span class="lineCov">         15 :         mRenderID = buffID;</span>
+<span class="lineNum">      46 </span><span class="lineCov">         15 :         mRenderState = &amp;r_state;</span>
+<span class="lineNum">      47 </span><span class="lineCov">         15 :     }</span>
+<span class="lineNum">      48 </span>            : 
+<span class="lineNum">      49 </span>            :     void ResizeBuffer(int size);
+<span class="lineNum">      50 </span>            :     // IMPORTANT: you must load the correct VAO prior to calling this function. Since the
+<span class="lineNum">      51 </span>            :     // buffer object has no notion of VAO it is just setting its parameters on whatever
+<span class="lineNum">      52 </span>            :     // VAO is currently bound
+<span class="lineNum">      53 </span>            :     void LoadBuffer(int data_size, GLubyte *data, int data_offset, int num_attr, tAttribInfo *attr_info);
+<span class="lineNum">      54 </span>            :     void SyncBuffer();
+<span class="lineNum">      55 </span>            :     void SyncBuffer(GLuint buffer);
+<span class="lineNum">      56 </span>            :     void SyncBuffer(GLuint buffer, GLuint *size);
+<span class="lineNum">      57 </span>            : 
+<span class="lineNum">      58 </span>            :     int          mSize;           // the size in BYTEs of our local data store
+<span class="lineNum">      59 </span>            :     int          mNumAttr;       // the number of attributes per vertex
+<span class="lineNum">      60 </span>            :         tAttribInfo *mAttrInfo;
+<span class="lineNum">      61 </span>            : 
+<span class="lineNum">      62 </span>            :     float       *mLocalData;     // our local copy of the mesh data that we can modify and copy to the gpu
+<span class="lineNum">      63 </span>            : 
+<span class="lineNum">      64 </span>            :     GLuint       mRenderID;
+<span class="lineNum">      65 </span>            :     cRenderState *mRenderState;
+<span class="lineNum">      66 </span>            : };
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

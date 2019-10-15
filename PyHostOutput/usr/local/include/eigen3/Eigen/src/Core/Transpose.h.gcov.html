@@ -1,0 +1,487 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - PyHost Code Analysis - /usr/local/include/eigen3/Eigen/src/Core/Transpose.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../../index.html">top level</a> - <a href="index.html">usr/local/include/eigen3/Eigen/src/Core</a> - Transpose.h<span style="font-size: 80%;"> (source / <a href="Transpose.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">PyHost Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">32</td>
+            <td class="headerCovTableEntry">35</td>
+            <td class="headerCovTableEntryHi">91.4 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 17:04:23</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">453</td>
+            <td class="headerCovTableEntry">898</td>
+            <td class="headerCovTableEntryLo">50.4 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // This file is part of Eigen, a lightweight C++ template library</a>
+<span class="lineNum">       2 </span>            : // for linear algebra.
+<span class="lineNum">       3 </span>            : //
+<span class="lineNum">       4 </span>            : // Copyright (C) 2006-2008 Benoit Jacob &lt;jacob.benoit.1@gmail.com&gt;
+<span class="lineNum">       5 </span>            : // Copyright (C) 2009-2014 Gael Guennebaud &lt;gael.guennebaud@inria.fr&gt;
+<span class="lineNum">       6 </span>            : //
+<span class="lineNum">       7 </span>            : // This Source Code Form is subject to the terms of the Mozilla
+<span class="lineNum">       8 </span>            : // Public License v. 2.0. If a copy of the MPL was not distributed
+<span class="lineNum">       9 </span>            : // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+<span class="lineNum">      10 </span>            : 
+<span class="lineNum">      11 </span>            : #ifndef EIGEN_TRANSPOSE_H
+<span class="lineNum">      12 </span>            : #define EIGEN_TRANSPOSE_H
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span>            : namespace Eigen { 
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span>            : namespace internal {
+<span class="lineNum">      17 </span>            : template&lt;typename MatrixType&gt;
+<span class="lineNum">      18 </span>            : struct traits&lt;Transpose&lt;MatrixType&gt; &gt; : public traits&lt;MatrixType&gt;
+<span class="lineNum">      19 </span>            : {
+<span class="lineNum">      20 </span>            :   typedef typename ref_selector&lt;MatrixType&gt;::type MatrixTypeNested;
+<span class="lineNum">      21 </span>            :   typedef typename remove_reference&lt;MatrixTypeNested&gt;::type MatrixTypeNestedPlain;
+<span class="lineNum">      22 </span>            :   enum {
+<span class="lineNum">      23 </span>            :     RowsAtCompileTime = MatrixType::ColsAtCompileTime,
+<span class="lineNum">      24 </span>            :     ColsAtCompileTime = MatrixType::RowsAtCompileTime,
+<span class="lineNum">      25 </span>            :     MaxRowsAtCompileTime = MatrixType::MaxColsAtCompileTime,
+<span class="lineNum">      26 </span>            :     MaxColsAtCompileTime = MatrixType::MaxRowsAtCompileTime,
+<span class="lineNum">      27 </span>            :     FlagsLvalueBit = is_lvalue&lt;MatrixType&gt;::value ? LvalueBit : 0,
+<span class="lineNum">      28 </span>            :     Flags0 = traits&lt;MatrixTypeNestedPlain&gt;::Flags &amp; ~(LvalueBit | NestByRefBit),
+<span class="lineNum">      29 </span>            :     Flags1 = Flags0 | FlagsLvalueBit,
+<span class="lineNum">      30 </span>            :     Flags = Flags1 ^ RowMajorBit,
+<span class="lineNum">      31 </span>            :     InnerStrideAtCompileTime = inner_stride_at_compile_time&lt;MatrixType&gt;::ret,
+<span class="lineNum">      32 </span>            :     OuterStrideAtCompileTime = outer_stride_at_compile_time&lt;MatrixType&gt;::ret
+<span class="lineNum">      33 </span>            :   };
+<span class="lineNum">      34 </span>            : };
+<span class="lineNum">      35 </span>            : }
+<span class="lineNum">      36 </span>            : 
+<span class="lineNum">      37 </span>            : template&lt;typename MatrixType, typename StorageKind&gt; class TransposeImpl;
+<span class="lineNum">      38 </span>            : 
+<span class="lineNum">      39 </span>            : /** \class Transpose
+<span class="lineNum">      40 </span>            :   * \ingroup Core_Module
+<span class="lineNum">      41 </span>            :   *
+<span class="lineNum">      42 </span>            :   * \brief Expression of the transpose of a matrix
+<span class="lineNum">      43 </span>            :   *
+<span class="lineNum">      44 </span>            :   * \tparam MatrixType the type of the object of which we are taking the transpose
+<span class="lineNum">      45 </span>            :   *
+<span class="lineNum">      46 </span>            :   * This class represents an expression of the transpose of a matrix.
+<span class="lineNum">      47 </span>            :   * It is the return type of MatrixBase::transpose() and MatrixBase::adjoint()
+<span class="lineNum">      48 </span>            :   * and most of the time this is the only way it is used.
+<span class="lineNum">      49 </span>            :   *
+<a name="50"><span class="lineNum">      50 </span>            :   * \sa MatrixBase::transpose(), MatrixBase::adjoint()</a>
+<span class="lineNum">      51 </span>            :   */
+<span class="lineNum">      52 </span><span class="lineCov">     740541 : template&lt;typename MatrixType&gt; class Transpose</span>
+<span class="lineNum">      53 </span>            :   : public TransposeImpl&lt;MatrixType,typename internal::traits&lt;MatrixType&gt;::StorageKind&gt;
+<span class="lineNum">      54 </span>            : {
+<span class="lineNum">      55 </span>            :   public:
+<span class="lineNum">      56 </span>            : 
+<span class="lineNum">      57 </span>            :     typedef typename internal::ref_selector&lt;MatrixType&gt;::non_const_type MatrixTypeNested;
+<span class="lineNum">      58 </span>            : 
+<span class="lineNum">      59 </span>            :     typedef typename TransposeImpl&lt;MatrixType,typename internal::traits&lt;MatrixType&gt;::StorageKind&gt;::Base Base;
+<span class="lineNum">      60 </span>            :     EIGEN_GENERIC_PUBLIC_INTERFACE(Transpose)
+<span class="lineNum">      61 </span>            :     typedef typename internal::remove_all&lt;MatrixType&gt;::type NestedExpression;
+<a name="62"><span class="lineNum">      62 </span>            : </a>
+<span class="lineNum">      63 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">      64 </span><span class="lineCov">    1068646 :     explicit inline Transpose(MatrixType&amp; matrix) : m_matrix(matrix) {}</span>
+<span class="lineNum">      65 </span>            : 
+<a name="66"><span class="lineNum">      66 </span>            :     EIGEN_INHERIT_ASSIGNMENT_OPERATORS(Transpose)</a>
+<a name="67"><span class="lineNum">      67 </span>            : </a>
+<span class="lineNum">      68 </span><span class="lineCov">    2862969 :     EIGEN_DEVICE_FUNC inline Index rows() const { return m_matrix.cols(); }</span>
+<span class="lineNum">      69 </span><span class="lineCov">    4269162 :     EIGEN_DEVICE_FUNC inline Index cols() const { return m_matrix.rows(); }</span>
+<span class="lineNum">      70 </span>            : 
+<span class="lineNum">      71 </span>            :     /** \returns the nested expression */
+<a name="72"><span class="lineNum">      72 </span>            :     EIGEN_DEVICE_FUNC</a>
+<span class="lineNum">      73 </span>            :     const typename internal::remove_all&lt;MatrixTypeNested&gt;::type&amp;
+<span class="lineNum">      74 </span><span class="lineCov">    3123506 :     nestedExpression() const { return m_matrix; }</span>
+<span class="lineNum">      75 </span>            : 
+<span class="lineNum">      76 </span>            :     /** \returns the nested expression */
+<a name="77"><span class="lineNum">      77 </span>            :     EIGEN_DEVICE_FUNC</a>
+<span class="lineNum">      78 </span>            :     typename internal::remove_reference&lt;MatrixTypeNested&gt;::type&amp;
+<span class="lineNum">      79 </span><span class="lineCov">     100276 :     nestedExpression() { return m_matrix; }</span>
+<a name="80"><span class="lineNum">      80 </span>            : </a>
+<span class="lineNum">      81 </span>            :     /** \internal */
+<span class="lineNum">      82 </span><span class="lineNoCov">          0 :     void resize(Index nrows, Index ncols) {</span>
+<span class="lineNum">      83 </span><span class="lineNoCov">          0 :       m_matrix.resize(ncols,nrows);</span>
+<span class="lineNum">      84 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">      85 </span>            : 
+<span class="lineNum">      86 </span>            :   protected:
+<span class="lineNum">      87 </span>            :     typename internal::ref_selector&lt;MatrixType&gt;::non_const_type m_matrix;
+<span class="lineNum">      88 </span>            : };
+<span class="lineNum">      89 </span>            : 
+<span class="lineNum">      90 </span>            : namespace internal {
+<span class="lineNum">      91 </span>            : 
+<span class="lineNum">      92 </span>            : template&lt;typename MatrixType, bool HasDirectAccess = has_direct_access&lt;MatrixType&gt;::ret&gt;
+<span class="lineNum">      93 </span>            : struct TransposeImpl_base
+<span class="lineNum">      94 </span>            : {
+<span class="lineNum">      95 </span>            :   typedef typename dense_xpr_base&lt;Transpose&lt;MatrixType&gt; &gt;::type type;
+<span class="lineNum">      96 </span>            : };
+<span class="lineNum">      97 </span>            : 
+<span class="lineNum">      98 </span>            : template&lt;typename MatrixType&gt;
+<span class="lineNum">      99 </span>            : struct TransposeImpl_base&lt;MatrixType, false&gt;
+<span class="lineNum">     100 </span>            : {
+<span class="lineNum">     101 </span>            :   typedef typename dense_xpr_base&lt;Transpose&lt;MatrixType&gt; &gt;::type type;
+<span class="lineNum">     102 </span>            : };
+<span class="lineNum">     103 </span>            : 
+<span class="lineNum">     104 </span>            : } // end namespace internal
+<span class="lineNum">     105 </span>            : 
+<span class="lineNum">     106 </span>            : // Generic API dispatcher
+<span class="lineNum">     107 </span>            : template&lt;typename XprType, typename StorageKind&gt;
+<span class="lineNum">     108 </span>            : class TransposeImpl
+<span class="lineNum">     109 </span>            :   : public internal::generic_xpr_base&lt;Transpose&lt;XprType&gt; &gt;::type
+<span class="lineNum">     110 </span>            : {
+<span class="lineNum">     111 </span>            : public:
+<span class="lineNum">     112 </span>            :   typedef typename internal::generic_xpr_base&lt;Transpose&lt;XprType&gt; &gt;::type Base;
+<a name="113"><span class="lineNum">     113 </span>            : };</a>
+<span class="lineNum">     114 </span>            : 
+<span class="lineNum">     115 </span><span class="lineCov">    1068646 : template&lt;typename MatrixType&gt; class TransposeImpl&lt;MatrixType,Dense&gt;</span>
+<span class="lineNum">     116 </span>            :   : public internal::TransposeImpl_base&lt;MatrixType&gt;::type
+<span class="lineNum">     117 </span>            : {
+<span class="lineNum">     118 </span>            :   public:
+<span class="lineNum">     119 </span>            : 
+<span class="lineNum">     120 </span>            :     typedef typename internal::TransposeImpl_base&lt;MatrixType&gt;::type Base;
+<span class="lineNum">     121 </span>            :     using Base::coeffRef;
+<span class="lineNum">     122 </span>            :     EIGEN_DENSE_PUBLIC_INTERFACE(Transpose&lt;MatrixType&gt;)
+<a name="123"><span class="lineNum">     123 </span>            :     EIGEN_INHERIT_ASSIGNMENT_OPERATORS(TransposeImpl)</a>
+<a name="124"><span class="lineNum">     124 </span>            : </a>
+<span class="lineNum">     125 </span><span class="lineCov">     463966 :     EIGEN_DEVICE_FUNC inline Index innerStride() const { return derived().nestedExpression().innerStride(); }</span>
+<span class="lineNum">     126 </span><span class="lineCov">     928872 :     EIGEN_DEVICE_FUNC inline Index outerStride() const { return derived().nestedExpression().outerStride(); }</span>
+<span class="lineNum">     127 </span>            : 
+<span class="lineNum">     128 </span>            :     typedef typename internal::conditional&lt;
+<span class="lineNum">     129 </span>            :                        internal::is_lvalue&lt;MatrixType&gt;::value,
+<span class="lineNum">     130 </span>            :                        Scalar,
+<span class="lineNum">     131 </span>            :                        const Scalar
+<a name="132"><span class="lineNum">     132 </span>            :                      &gt;::type ScalarWithConstIfNotLvalue;</a>
+<a name="133"><span class="lineNum">     133 </span>            : </a>
+<span class="lineNum">     134 </span><span class="lineCov">     100276 :     EIGEN_DEVICE_FUNC inline ScalarWithConstIfNotLvalue* data() { return derived().nestedExpression().data(); }</span>
+<span class="lineNum">     135 </span><span class="lineCov">     463966 :     EIGEN_DEVICE_FUNC inline const Scalar* data() const { return derived().nestedExpression().data(); }</span>
+<span class="lineNum">     136 </span>            : 
+<a name="137"><span class="lineNum">     137 </span>            :     // FIXME: shall we keep the const version of coeffRef?</a>
+<span class="lineNum">     138 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     139 </span><span class="lineCov">        470 :     inline const Scalar&amp; coeffRef(Index rowId, Index colId) const</span>
+<span class="lineNum">     140 </span>            :     {
+<span class="lineNum">     141 </span><span class="lineCov">        470 :       return derived().nestedExpression().coeffRef(colId, rowId);</span>
+<span class="lineNum">     142 </span>            :     }
+<span class="lineNum">     143 </span>            : 
+<span class="lineNum">     144 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     145 </span>            :     inline const Scalar&amp; coeffRef(Index index) const
+<span class="lineNum">     146 </span>            :     {
+<span class="lineNum">     147 </span>            :       return derived().nestedExpression().coeffRef(index);
+<span class="lineNum">     148 </span>            :     }
+<span class="lineNum">     149 </span>            : };
+<span class="lineNum">     150 </span>            : 
+<span class="lineNum">     151 </span>            : /** \returns an expression of the transpose of *this.
+<span class="lineNum">     152 </span>            :   *
+<span class="lineNum">     153 </span>            :   * Example: \include MatrixBase_transpose.cpp
+<span class="lineNum">     154 </span>            :   * Output: \verbinclude MatrixBase_transpose.out
+<span class="lineNum">     155 </span>            :   *
+<span class="lineNum">     156 </span>            :   * \warning If you want to replace a matrix by its own transpose, do \b NOT do this:
+<span class="lineNum">     157 </span>            :   * \code
+<span class="lineNum">     158 </span>            :   * m = m.transpose(); // bug!!! caused by aliasing effect
+<span class="lineNum">     159 </span>            :   * \endcode
+<span class="lineNum">     160 </span>            :   * Instead, use the transposeInPlace() method:
+<span class="lineNum">     161 </span>            :   * \code
+<span class="lineNum">     162 </span>            :   * m.transposeInPlace();
+<span class="lineNum">     163 </span>            :   * \endcode
+<span class="lineNum">     164 </span>            :   * which gives Eigen good opportunities for optimization, or alternatively you can also do:
+<span class="lineNum">     165 </span>            :   * \code
+<span class="lineNum">     166 </span>            :   * m = m.transpose().eval();
+<span class="lineNum">     167 </span>            :   * \endcode
+<span class="lineNum">     168 </span>            :   *
+<span class="lineNum">     169 </span>            :   * \sa transposeInPlace(), adjoint() */
+<a name="170"><span class="lineNum">     170 </span>            : template&lt;typename Derived&gt;</a>
+<span class="lineNum">     171 </span>            : inline Transpose&lt;Derived&gt;
+<span class="lineNum">     172 </span><span class="lineCov">     149559 : DenseBase&lt;Derived&gt;::transpose()</span>
+<span class="lineNum">     173 </span>            : {
+<span class="lineNum">     174 </span><span class="lineCov">     149559 :   return TransposeReturnType(derived());</span>
+<span class="lineNum">     175 </span>            : }
+<span class="lineNum">     176 </span>            : 
+<span class="lineNum">     177 </span>            : /** This is the const version of transpose().
+<span class="lineNum">     178 </span>            :   *
+<span class="lineNum">     179 </span>            :   * Make sure you read the warning for transpose() !
+<span class="lineNum">     180 </span>            :   *
+<span class="lineNum">     181 </span>            :   * \sa transposeInPlace(), adjoint() */
+<a name="182"><span class="lineNum">     182 </span>            : template&lt;typename Derived&gt;</a>
+<span class="lineNum">     183 </span>            : inline typename DenseBase&lt;Derived&gt;::ConstTransposeReturnType
+<span class="lineNum">     184 </span><span class="lineCov">     768492 : DenseBase&lt;Derived&gt;::transpose() const</span>
+<span class="lineNum">     185 </span>            : {
+<span class="lineNum">     186 </span><span class="lineCov">     768492 :   return ConstTransposeReturnType(derived());</span>
+<span class="lineNum">     187 </span>            : }
+<span class="lineNum">     188 </span>            : 
+<span class="lineNum">     189 </span>            : /** \returns an expression of the adjoint (i.e. conjugate transpose) of *this.
+<span class="lineNum">     190 </span>            :   *
+<span class="lineNum">     191 </span>            :   * Example: \include MatrixBase_adjoint.cpp
+<span class="lineNum">     192 </span>            :   * Output: \verbinclude MatrixBase_adjoint.out
+<span class="lineNum">     193 </span>            :   *
+<span class="lineNum">     194 </span>            :   * \warning If you want to replace a matrix by its own adjoint, do \b NOT do this:
+<span class="lineNum">     195 </span>            :   * \code
+<span class="lineNum">     196 </span>            :   * m = m.adjoint(); // bug!!! caused by aliasing effect
+<span class="lineNum">     197 </span>            :   * \endcode
+<span class="lineNum">     198 </span>            :   * Instead, use the adjointInPlace() method:
+<span class="lineNum">     199 </span>            :   * \code
+<span class="lineNum">     200 </span>            :   * m.adjointInPlace();
+<span class="lineNum">     201 </span>            :   * \endcode
+<span class="lineNum">     202 </span>            :   * which gives Eigen good opportunities for optimization, or alternatively you can also do:
+<span class="lineNum">     203 </span>            :   * \code
+<span class="lineNum">     204 </span>            :   * m = m.adjoint().eval();
+<span class="lineNum">     205 </span>            :   * \endcode
+<span class="lineNum">     206 </span>            :   *
+<span class="lineNum">     207 </span>            :   * \sa adjointInPlace(), transpose(), conjugate(), class Transpose, class internal::scalar_conjugate_op */
+<a name="208"><span class="lineNum">     208 </span>            : template&lt;typename Derived&gt;</a>
+<span class="lineNum">     209 </span>            : inline const typename MatrixBase&lt;Derived&gt;::AdjointReturnType
+<span class="lineNum">     210 </span><span class="lineCov">      20210 : MatrixBase&lt;Derived&gt;::adjoint() const</span>
+<span class="lineNum">     211 </span>            : {
+<span class="lineNum">     212 </span><span class="lineCov">      20210 :   return AdjointReturnType(this-&gt;transpose());</span>
+<span class="lineNum">     213 </span>            : }
+<span class="lineNum">     214 </span>            : 
+<span class="lineNum">     215 </span>            : /***************************************************************************
+<span class="lineNum">     216 </span>            : * &quot;in place&quot; transpose implementation
+<span class="lineNum">     217 </span>            : ***************************************************************************/
+<span class="lineNum">     218 </span>            : 
+<span class="lineNum">     219 </span>            : namespace internal {
+<span class="lineNum">     220 </span>            : 
+<span class="lineNum">     221 </span>            : template&lt;typename MatrixType,
+<span class="lineNum">     222 </span>            :   bool IsSquare = (MatrixType::RowsAtCompileTime == MatrixType::ColsAtCompileTime) &amp;&amp; MatrixType::RowsAtCompileTime!=Dynamic,
+<span class="lineNum">     223 </span>            :   bool MatchPacketSize =
+<span class="lineNum">     224 </span>            :         (int(MatrixType::RowsAtCompileTime) == int(internal::packet_traits&lt;typename MatrixType::Scalar&gt;::size))
+<span class="lineNum">     225 </span>            :     &amp;&amp;  (internal::evaluator&lt;MatrixType&gt;::Flags&amp;PacketAccessBit) &gt;
+<span class="lineNum">     226 </span>            : struct inplace_transpose_selector;
+<span class="lineNum">     227 </span>            : 
+<span class="lineNum">     228 </span>            : template&lt;typename MatrixType&gt;
+<span class="lineNum">     229 </span>            : struct inplace_transpose_selector&lt;MatrixType,true,false&gt; { // square matrix
+<span class="lineNum">     230 </span>            :   static void run(MatrixType&amp; m) {
+<span class="lineNum">     231 </span>            :     m.matrix().template triangularView&lt;StrictlyUpper&gt;().swap(m.matrix().transpose());
+<span class="lineNum">     232 </span>            :   }
+<span class="lineNum">     233 </span>            : };
+<span class="lineNum">     234 </span>            : 
+<span class="lineNum">     235 </span>            : // TODO: vectorized path is currently limited to LargestPacketSize x LargestPacketSize cases only.
+<span class="lineNum">     236 </span>            : template&lt;typename MatrixType&gt;
+<span class="lineNum">     237 </span>            : struct inplace_transpose_selector&lt;MatrixType,true,true&gt; { // PacketSize x PacketSize
+<span class="lineNum">     238 </span>            :   static void run(MatrixType&amp; m) {
+<span class="lineNum">     239 </span>            :     typedef typename MatrixType::Scalar Scalar;
+<span class="lineNum">     240 </span>            :     typedef typename internal::packet_traits&lt;typename MatrixType::Scalar&gt;::type Packet;
+<span class="lineNum">     241 </span>            :     const Index PacketSize = internal::packet_traits&lt;Scalar&gt;::size;
+<span class="lineNum">     242 </span>            :     const Index Alignment = internal::evaluator&lt;MatrixType&gt;::Alignment;
+<span class="lineNum">     243 </span>            :     PacketBlock&lt;Packet&gt; A;
+<span class="lineNum">     244 </span>            :     for (Index i=0; i&lt;PacketSize; ++i)
+<span class="lineNum">     245 </span>            :       A.packet[i] = m.template packetByOuterInner&lt;Alignment&gt;(i,0);
+<span class="lineNum">     246 </span>            :     internal::ptranspose(A);
+<span class="lineNum">     247 </span>            :     for (Index i=0; i&lt;PacketSize; ++i)
+<span class="lineNum">     248 </span>            :       m.template writePacket&lt;Alignment&gt;(m.rowIndexByOuterInner(i,0), m.colIndexByOuterInner(i,0), A.packet[i]);
+<span class="lineNum">     249 </span>            :   }
+<span class="lineNum">     250 </span>            : };
+<span class="lineNum">     251 </span>            : 
+<span class="lineNum">     252 </span>            : template&lt;typename MatrixType,bool MatchPacketSize&gt;
+<span class="lineNum">     253 </span>            : struct inplace_transpose_selector&lt;MatrixType,false,MatchPacketSize&gt; { // non square matrix
+<span class="lineNum">     254 </span>            :   static void run(MatrixType&amp; m) {
+<span class="lineNum">     255 </span>            :     if (m.rows()==m.cols())
+<span class="lineNum">     256 </span>            :       m.matrix().template triangularView&lt;StrictlyUpper&gt;().swap(m.matrix().transpose());
+<span class="lineNum">     257 </span>            :     else
+<span class="lineNum">     258 </span>            :       m = m.transpose().eval();
+<span class="lineNum">     259 </span>            :   }
+<span class="lineNum">     260 </span>            : };
+<span class="lineNum">     261 </span>            : 
+<span class="lineNum">     262 </span>            : } // end namespace internal
+<span class="lineNum">     263 </span>            : 
+<span class="lineNum">     264 </span>            : /** This is the &quot;in place&quot; version of transpose(): it replaces \c *this by its own transpose.
+<span class="lineNum">     265 </span>            :   * Thus, doing
+<span class="lineNum">     266 </span>            :   * \code
+<span class="lineNum">     267 </span>            :   * m.transposeInPlace();
+<span class="lineNum">     268 </span>            :   * \endcode
+<span class="lineNum">     269 </span>            :   * has the same effect on m as doing
+<span class="lineNum">     270 </span>            :   * \code
+<span class="lineNum">     271 </span>            :   * m = m.transpose().eval();
+<span class="lineNum">     272 </span>            :   * \endcode
+<span class="lineNum">     273 </span>            :   * and is faster and also safer because in the latter line of code, forgetting the eval() results
+<span class="lineNum">     274 </span>            :   * in a bug caused by \ref TopicAliasing &quot;aliasing&quot;.
+<span class="lineNum">     275 </span>            :   *
+<span class="lineNum">     276 </span>            :   * Notice however that this method is only useful if you want to replace a matrix by its own transpose.
+<span class="lineNum">     277 </span>            :   * If you just need the transpose of a matrix, use transpose().
+<span class="lineNum">     278 </span>            :   *
+<span class="lineNum">     279 </span>            :   * \note if the matrix is not square, then \c *this must be a resizable matrix. 
+<span class="lineNum">     280 </span>            :   * This excludes (non-square) fixed-size matrices, block-expressions and maps.
+<span class="lineNum">     281 </span>            :   *
+<span class="lineNum">     282 </span>            :   * \sa transpose(), adjoint(), adjointInPlace() */
+<span class="lineNum">     283 </span>            : template&lt;typename Derived&gt;
+<span class="lineNum">     284 </span>            : inline void DenseBase&lt;Derived&gt;::transposeInPlace()
+<span class="lineNum">     285 </span>            : {
+<span class="lineNum">     286 </span>            :   eigen_assert((rows() == cols() || (RowsAtCompileTime == Dynamic &amp;&amp; ColsAtCompileTime == Dynamic))
+<span class="lineNum">     287 </span>            :                &amp;&amp; &quot;transposeInPlace() called on a non-square non-resizable matrix&quot;);
+<span class="lineNum">     288 </span>            :   internal::inplace_transpose_selector&lt;Derived&gt;::run(derived());
+<span class="lineNum">     289 </span>            : }
+<span class="lineNum">     290 </span>            : 
+<span class="lineNum">     291 </span>            : /***************************************************************************
+<span class="lineNum">     292 </span>            : * &quot;in place&quot; adjoint implementation
+<span class="lineNum">     293 </span>            : ***************************************************************************/
+<span class="lineNum">     294 </span>            : 
+<span class="lineNum">     295 </span>            : /** This is the &quot;in place&quot; version of adjoint(): it replaces \c *this by its own transpose.
+<span class="lineNum">     296 </span>            :   * Thus, doing
+<span class="lineNum">     297 </span>            :   * \code
+<span class="lineNum">     298 </span>            :   * m.adjointInPlace();
+<span class="lineNum">     299 </span>            :   * \endcode
+<span class="lineNum">     300 </span>            :   * has the same effect on m as doing
+<span class="lineNum">     301 </span>            :   * \code
+<span class="lineNum">     302 </span>            :   * m = m.adjoint().eval();
+<span class="lineNum">     303 </span>            :   * \endcode
+<span class="lineNum">     304 </span>            :   * and is faster and also safer because in the latter line of code, forgetting the eval() results
+<span class="lineNum">     305 </span>            :   * in a bug caused by aliasing.
+<span class="lineNum">     306 </span>            :   *
+<span class="lineNum">     307 </span>            :   * Notice however that this method is only useful if you want to replace a matrix by its own adjoint.
+<span class="lineNum">     308 </span>            :   * If you just need the adjoint of a matrix, use adjoint().
+<span class="lineNum">     309 </span>            :   *
+<span class="lineNum">     310 </span>            :   * \note if the matrix is not square, then \c *this must be a resizable matrix.
+<span class="lineNum">     311 </span>            :   * This excludes (non-square) fixed-size matrices, block-expressions and maps.
+<span class="lineNum">     312 </span>            :   *
+<span class="lineNum">     313 </span>            :   * \sa transpose(), adjoint(), transposeInPlace() */
+<span class="lineNum">     314 </span>            : template&lt;typename Derived&gt;
+<span class="lineNum">     315 </span>            : inline void MatrixBase&lt;Derived&gt;::adjointInPlace()
+<span class="lineNum">     316 </span>            : {
+<span class="lineNum">     317 </span>            :   derived() = adjoint().eval();
+<span class="lineNum">     318 </span>            : }
+<span class="lineNum">     319 </span>            : 
+<span class="lineNum">     320 </span>            : #ifndef EIGEN_NO_DEBUG
+<span class="lineNum">     321 </span>            : 
+<span class="lineNum">     322 </span>            : // The following is to detect aliasing problems in most common cases.
+<span class="lineNum">     323 </span>            : 
+<span class="lineNum">     324 </span>            : namespace internal {
+<span class="lineNum">     325 </span>            : 
+<span class="lineNum">     326 </span>            : template&lt;bool DestIsTransposed, typename OtherDerived&gt;
+<span class="lineNum">     327 </span>            : struct check_transpose_aliasing_compile_time_selector
+<span class="lineNum">     328 </span>            : {
+<span class="lineNum">     329 </span>            :   enum { ret = bool(blas_traits&lt;OtherDerived&gt;::IsTransposed) != DestIsTransposed };
+<span class="lineNum">     330 </span>            : };
+<span class="lineNum">     331 </span>            : 
+<span class="lineNum">     332 </span>            : template&lt;bool DestIsTransposed, typename BinOp, typename DerivedA, typename DerivedB&gt;
+<span class="lineNum">     333 </span>            : struct check_transpose_aliasing_compile_time_selector&lt;DestIsTransposed,CwiseBinaryOp&lt;BinOp,DerivedA,DerivedB&gt; &gt;
+<span class="lineNum">     334 </span>            : {
+<span class="lineNum">     335 </span>            :   enum { ret =    bool(blas_traits&lt;DerivedA&gt;::IsTransposed) != DestIsTransposed
+<span class="lineNum">     336 </span>            :                || bool(blas_traits&lt;DerivedB&gt;::IsTransposed) != DestIsTransposed
+<span class="lineNum">     337 </span>            :   };
+<span class="lineNum">     338 </span>            : };
+<span class="lineNum">     339 </span>            : 
+<span class="lineNum">     340 </span>            : template&lt;typename Scalar, bool DestIsTransposed, typename OtherDerived&gt;
+<a name="341"><span class="lineNum">     341 </span>            : struct check_transpose_aliasing_run_time_selector</a>
+<span class="lineNum">     342 </span>            : {
+<span class="lineNum">     343 </span><span class="lineCov">      99335 :   static bool run(const Scalar* dest, const OtherDerived&amp; src)</span>
+<span class="lineNum">     344 </span>            :   {
+<span class="lineNum">     345 </span><span class="lineCov">      99335 :     return (bool(blas_traits&lt;OtherDerived&gt;::IsTransposed) != DestIsTransposed) &amp;&amp; (dest!=0 &amp;&amp; dest==(const Scalar*)extract_data(src));</span>
+<span class="lineNum">     346 </span>            :   }
+<span class="lineNum">     347 </span>            : };
+<span class="lineNum">     348 </span>            : 
+<span class="lineNum">     349 </span>            : template&lt;typename Scalar, bool DestIsTransposed, typename BinOp, typename DerivedA, typename DerivedB&gt;
+<a name="350"><span class="lineNum">     350 </span>            : struct check_transpose_aliasing_run_time_selector&lt;Scalar,DestIsTransposed,CwiseBinaryOp&lt;BinOp,DerivedA,DerivedB&gt; &gt;</a>
+<span class="lineNum">     351 </span>            : {
+<span class="lineNum">     352 </span><span class="lineCov">        471 :   static bool run(const Scalar* dest, const CwiseBinaryOp&lt;BinOp,DerivedA,DerivedB&gt;&amp; src)</span>
+<span class="lineNum">     353 </span>            :   {
+<span class="lineNum">     354 </span><span class="lineCov">        471 :     return ((blas_traits&lt;DerivedA&gt;::IsTransposed != DestIsTransposed) &amp;&amp; (dest!=0 &amp;&amp; dest==(const Scalar*)extract_data(src.lhs())))</span>
+<span class="lineNum">     355 </span><span class="lineCov">        942 :         || ((blas_traits&lt;DerivedB&gt;::IsTransposed != DestIsTransposed) &amp;&amp; (dest!=0 &amp;&amp; dest==(const Scalar*)extract_data(src.rhs())));</span>
+<span class="lineNum">     356 </span>            :   }
+<span class="lineNum">     357 </span>            : };
+<span class="lineNum">     358 </span>            : 
+<span class="lineNum">     359 </span>            : // the following selector, checkTransposeAliasing_impl, based on MightHaveTransposeAliasing,
+<span class="lineNum">     360 </span>            : // is because when the condition controlling the assert is known at compile time, ICC emits a warning.
+<span class="lineNum">     361 </span>            : // This is actually a good warning: in expressions that don't have any transposing, the condition is
+<span class="lineNum">     362 </span>            : // known at compile time to be false, and using that, we can avoid generating the code of the assert again
+<span class="lineNum">     363 </span>            : // and again for all these expressions that don't need it.
+<span class="lineNum">     364 </span>            : 
+<span class="lineNum">     365 </span>            : template&lt;typename Derived, typename OtherDerived,
+<span class="lineNum">     366 </span>            :          bool MightHaveTransposeAliasing
+<span class="lineNum">     367 </span>            :                  = check_transpose_aliasing_compile_time_selector
+<span class="lineNum">     368 </span>            :                      &lt;blas_traits&lt;Derived&gt;::IsTransposed,OtherDerived&gt;::ret
+<span class="lineNum">     369 </span>            :         &gt;
+<a name="370"><span class="lineNum">     370 </span>            : struct checkTransposeAliasing_impl</a>
+<span class="lineNum">     371 </span>            : {
+<span class="lineNum">     372 </span><span class="lineCov">      99806 :     static void run(const Derived&amp; dst, const OtherDerived&amp; other)</span>
+<span class="lineNum">     373 </span>            :     {
+<span class="lineNum">     374 </span><span class="lineCov">      99806 :         eigen_assert((!check_transpose_aliasing_run_time_selector</span>
+<span class="lineNum">     375 </span>            :                       &lt;typename Derived::Scalar,blas_traits&lt;Derived&gt;::IsTransposed,OtherDerived&gt;
+<span class="lineNum">     376 </span>            :                       ::run(extract_data(dst), other))
+<span class="lineNum">     377 </span>            :           &amp;&amp; &quot;aliasing detected during transposition, use transposeInPlace() &quot;
+<span class="lineNum">     378 </span>            :              &quot;or evaluate the rhs into a temporary using .eval()&quot;);
+<span class="lineNum">     379 </span>            : 
+<span class="lineNum">     380 </span><span class="lineCov">      99806 :     }</span>
+<span class="lineNum">     381 </span>            : };
+<span class="lineNum">     382 </span>            : 
+<span class="lineNum">     383 </span>            : template&lt;typename Derived, typename OtherDerived&gt;
+<a name="384"><span class="lineNum">     384 </span>            : struct checkTransposeAliasing_impl&lt;Derived, OtherDerived, false&gt;</a>
+<span class="lineNum">     385 </span>            : {
+<span class="lineNum">     386 </span><span class="lineCov">    2910787 :     static void run(const Derived&amp;, const OtherDerived&amp;)</span>
+<span class="lineNum">     387 </span>            :     {
+<span class="lineNum">     388 </span><span class="lineCov">    2910787 :     }</span>
+<span class="lineNum">     389 </span>            : };
+<a name="390"><span class="lineNum">     390 </span>            : </a>
+<span class="lineNum">     391 </span>            : template&lt;typename Dst, typename Src&gt;
+<span class="lineNum">     392 </span><span class="lineCov">    3010593 : void check_for_aliasing(const Dst &amp;dst, const Src &amp;src)</span>
+<span class="lineNum">     393 </span>            : {
+<span class="lineNum">     394 </span><span class="lineCov">    3010593 :   internal::checkTransposeAliasing_impl&lt;Dst, Src&gt;::run(dst, src);</span>
+<span class="lineNum">     395 </span><span class="lineCov">    3010593 : }</span>
+<span class="lineNum">     396 </span>            : 
+<span class="lineNum">     397 </span>            : } // end namespace internal
+<span class="lineNum">     398 </span>            : 
+<span class="lineNum">     399 </span>            : #endif // EIGEN_NO_DEBUG
+<span class="lineNum">     400 </span>            : 
+<span class="lineNum">     401 </span>            : } // end namespace Eigen
+<span class="lineNum">     402 </span>            : 
+<span class="lineNum">     403 </span>            : #endif // EIGEN_TRANSPOSE_H
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

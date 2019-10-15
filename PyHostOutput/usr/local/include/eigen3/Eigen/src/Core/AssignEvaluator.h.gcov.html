@@ -1,0 +1,1019 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - PyHost Code Analysis - /usr/local/include/eigen3/Eigen/src/Core/AssignEvaluator.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../../index.html">top level</a> - <a href="index.html">usr/local/include/eigen3/Eigen/src/Core</a> - AssignEvaluator.h<span style="font-size: 80%;"> (source / <a href="AssignEvaluator.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">PyHost Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">159</td>
+            <td class="headerCovTableEntry">168</td>
+            <td class="headerCovTableEntryHi">94.6 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 17:04:23</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">2287</td>
+            <td class="headerCovTableEntry">4180</td>
+            <td class="headerCovTableEntryLo">54.7 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // This file is part of Eigen, a lightweight C++ template library</a>
+<span class="lineNum">       2 </span>            : // for linear algebra.
+<span class="lineNum">       3 </span>            : //
+<span class="lineNum">       4 </span>            : // Copyright (C) 2011 Benoit Jacob &lt;jacob.benoit.1@gmail.com&gt;
+<span class="lineNum">       5 </span>            : // Copyright (C) 2011-2014 Gael Guennebaud &lt;gael.guennebaud@inria.fr&gt;
+<span class="lineNum">       6 </span>            : // Copyright (C) 2011-2012 Jitse Niesen &lt;jitse@maths.leeds.ac.uk&gt;
+<span class="lineNum">       7 </span>            : //
+<span class="lineNum">       8 </span>            : // This Source Code Form is subject to the terms of the Mozilla
+<span class="lineNum">       9 </span>            : // Public License v. 2.0. If a copy of the MPL was not distributed
+<span class="lineNum">      10 </span>            : // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+<span class="lineNum">      11 </span>            : 
+<span class="lineNum">      12 </span>            : #ifndef EIGEN_ASSIGN_EVALUATOR_H
+<span class="lineNum">      13 </span>            : #define EIGEN_ASSIGN_EVALUATOR_H
+<span class="lineNum">      14 </span>            : 
+<span class="lineNum">      15 </span>            : namespace Eigen {
+<span class="lineNum">      16 </span>            : 
+<span class="lineNum">      17 </span>            : // This implementation is based on Assign.h
+<span class="lineNum">      18 </span>            : 
+<span class="lineNum">      19 </span>            : namespace internal {
+<span class="lineNum">      20 </span>            :   
+<span class="lineNum">      21 </span>            : /***************************************************************************
+<span class="lineNum">      22 </span>            : * Part 1 : the logic deciding a strategy for traversal and unrolling       *
+<span class="lineNum">      23 </span>            : ***************************************************************************/
+<span class="lineNum">      24 </span>            : 
+<span class="lineNum">      25 </span>            : // copy_using_evaluator_traits is based on assign_traits
+<span class="lineNum">      26 </span>            : 
+<span class="lineNum">      27 </span>            : template &lt;typename DstEvaluator, typename SrcEvaluator, typename AssignFunc&gt;
+<span class="lineNum">      28 </span>            : struct copy_using_evaluator_traits
+<span class="lineNum">      29 </span>            : {
+<span class="lineNum">      30 </span>            :   typedef typename DstEvaluator::XprType Dst;
+<span class="lineNum">      31 </span>            :   typedef typename Dst::Scalar DstScalar;
+<span class="lineNum">      32 </span>            :   
+<span class="lineNum">      33 </span>            :   enum {
+<span class="lineNum">      34 </span>            :     DstFlags = DstEvaluator::Flags,
+<span class="lineNum">      35 </span>            :     SrcFlags = SrcEvaluator::Flags
+<span class="lineNum">      36 </span>            :   };
+<span class="lineNum">      37 </span>            :   
+<span class="lineNum">      38 </span>            : public:
+<span class="lineNum">      39 </span>            :   enum {
+<span class="lineNum">      40 </span>            :     DstAlignment = DstEvaluator::Alignment,
+<span class="lineNum">      41 </span>            :     SrcAlignment = SrcEvaluator::Alignment,
+<span class="lineNum">      42 </span>            :     DstHasDirectAccess = (DstFlags &amp; DirectAccessBit) == DirectAccessBit,
+<span class="lineNum">      43 </span>            :     JointAlignment = EIGEN_PLAIN_ENUM_MIN(DstAlignment,SrcAlignment)
+<span class="lineNum">      44 </span>            :   };
+<span class="lineNum">      45 </span>            : 
+<span class="lineNum">      46 </span>            : private:
+<span class="lineNum">      47 </span>            :   enum {
+<span class="lineNum">      48 </span>            :     InnerSize = int(Dst::IsVectorAtCompileTime) ? int(Dst::SizeAtCompileTime)
+<span class="lineNum">      49 </span>            :               : int(DstFlags)&amp;RowMajorBit ? int(Dst::ColsAtCompileTime)
+<span class="lineNum">      50 </span>            :               : int(Dst::RowsAtCompileTime),
+<span class="lineNum">      51 </span>            :     InnerMaxSize = int(Dst::IsVectorAtCompileTime) ? int(Dst::MaxSizeAtCompileTime)
+<span class="lineNum">      52 </span>            :               : int(DstFlags)&amp;RowMajorBit ? int(Dst::MaxColsAtCompileTime)
+<span class="lineNum">      53 </span>            :               : int(Dst::MaxRowsAtCompileTime),
+<span class="lineNum">      54 </span>            :     OuterStride = int(outer_stride_at_compile_time&lt;Dst&gt;::ret),
+<span class="lineNum">      55 </span>            :     MaxSizeAtCompileTime = Dst::SizeAtCompileTime
+<span class="lineNum">      56 </span>            :   };
+<span class="lineNum">      57 </span>            : 
+<span class="lineNum">      58 </span>            :   // TODO distinguish between linear traversal and inner-traversals
+<span class="lineNum">      59 </span>            :   typedef typename find_best_packet&lt;DstScalar,Dst::SizeAtCompileTime&gt;::type LinearPacketType;
+<span class="lineNum">      60 </span>            :   typedef typename find_best_packet&lt;DstScalar,InnerSize&gt;::type InnerPacketType;
+<span class="lineNum">      61 </span>            : 
+<span class="lineNum">      62 </span>            :   enum {
+<span class="lineNum">      63 </span>            :     LinearPacketSize = unpacket_traits&lt;LinearPacketType&gt;::size,
+<span class="lineNum">      64 </span>            :     InnerPacketSize = unpacket_traits&lt;InnerPacketType&gt;::size
+<span class="lineNum">      65 </span>            :   };
+<span class="lineNum">      66 </span>            : 
+<span class="lineNum">      67 </span>            : public:
+<span class="lineNum">      68 </span>            :   enum {
+<span class="lineNum">      69 </span>            :     LinearRequiredAlignment = unpacket_traits&lt;LinearPacketType&gt;::alignment,
+<span class="lineNum">      70 </span>            :     InnerRequiredAlignment = unpacket_traits&lt;InnerPacketType&gt;::alignment
+<span class="lineNum">      71 </span>            :   };
+<span class="lineNum">      72 </span>            : 
+<span class="lineNum">      73 </span>            : private:
+<span class="lineNum">      74 </span>            :   enum {
+<span class="lineNum">      75 </span>            :     DstIsRowMajor = DstFlags&amp;RowMajorBit,
+<span class="lineNum">      76 </span>            :     SrcIsRowMajor = SrcFlags&amp;RowMajorBit,
+<span class="lineNum">      77 </span>            :     StorageOrdersAgree = (int(DstIsRowMajor) == int(SrcIsRowMajor)),
+<span class="lineNum">      78 </span>            :     MightVectorize = bool(StorageOrdersAgree)
+<span class="lineNum">      79 </span>            :                   &amp;&amp; (int(DstFlags) &amp; int(SrcFlags) &amp; ActualPacketAccessBit)
+<span class="lineNum">      80 </span>            :                   &amp;&amp; bool(functor_traits&lt;AssignFunc&gt;::PacketAccess),
+<span class="lineNum">      81 </span>            :     MayInnerVectorize  = MightVectorize
+<span class="lineNum">      82 </span>            :                        &amp;&amp; int(InnerSize)!=Dynamic &amp;&amp; int(InnerSize)%int(InnerPacketSize)==0
+<span class="lineNum">      83 </span>            :                        &amp;&amp; int(OuterStride)!=Dynamic &amp;&amp; int(OuterStride)%int(InnerPacketSize)==0
+<span class="lineNum">      84 </span>            :                        &amp;&amp; (EIGEN_UNALIGNED_VECTORIZE  || int(JointAlignment)&gt;=int(InnerRequiredAlignment)),
+<span class="lineNum">      85 </span>            :     MayLinearize = bool(StorageOrdersAgree) &amp;&amp; (int(DstFlags) &amp; int(SrcFlags) &amp; LinearAccessBit),
+<span class="lineNum">      86 </span>            :     MayLinearVectorize = bool(MightVectorize) &amp;&amp; bool(MayLinearize) &amp;&amp; bool(DstHasDirectAccess)
+<span class="lineNum">      87 </span>            :                        &amp;&amp; (EIGEN_UNALIGNED_VECTORIZE || (int(DstAlignment)&gt;=int(LinearRequiredAlignment)) || MaxSizeAtCompileTime == Dynamic),
+<span class="lineNum">      88 </span>            :       /* If the destination isn't aligned, we have to do runtime checks and we don't unroll,
+<span class="lineNum">      89 </span>            :          so it's only good for large enough sizes. */
+<span class="lineNum">      90 </span>            :     MaySliceVectorize  = bool(MightVectorize) &amp;&amp; bool(DstHasDirectAccess)
+<span class="lineNum">      91 </span>            :                        &amp;&amp; (int(InnerMaxSize)==Dynamic || int(InnerMaxSize)&gt;=(EIGEN_UNALIGNED_VECTORIZE?InnerPacketSize:(3*InnerPacketSize)))
+<span class="lineNum">      92 </span>            :       /* slice vectorization can be slow, so we only want it if the slices are big, which is
+<span class="lineNum">      93 </span>            :          indicated by InnerMaxSize rather than InnerSize, think of the case of a dynamic block
+<span class="lineNum">      94 </span>            :          in a fixed-size matrix
+<span class="lineNum">      95 </span>            :          However, with EIGEN_UNALIGNED_VECTORIZE and unrolling, slice vectorization is still worth it */
+<span class="lineNum">      96 </span>            :   };
+<span class="lineNum">      97 </span>            : 
+<span class="lineNum">      98 </span>            : public:
+<span class="lineNum">      99 </span>            :   enum {
+<span class="lineNum">     100 </span>            :     Traversal = int(MayLinearVectorize) &amp;&amp; (LinearPacketSize&gt;InnerPacketSize) ? int(LinearVectorizedTraversal)
+<span class="lineNum">     101 </span>            :               : int(MayInnerVectorize)   ? int(InnerVectorizedTraversal)
+<span class="lineNum">     102 </span>            :               : int(MayLinearVectorize)  ? int(LinearVectorizedTraversal)
+<span class="lineNum">     103 </span>            :               : int(MaySliceVectorize)   ? int(SliceVectorizedTraversal)
+<span class="lineNum">     104 </span>            :               : int(MayLinearize)        ? int(LinearTraversal)
+<span class="lineNum">     105 </span>            :                                          : int(DefaultTraversal),
+<span class="lineNum">     106 </span>            :     Vectorized = int(Traversal) == InnerVectorizedTraversal
+<span class="lineNum">     107 </span>            :               || int(Traversal) == LinearVectorizedTraversal
+<span class="lineNum">     108 </span>            :               || int(Traversal) == SliceVectorizedTraversal
+<span class="lineNum">     109 </span>            :   };
+<span class="lineNum">     110 </span>            : 
+<span class="lineNum">     111 </span>            :   typedef typename conditional&lt;int(Traversal)==LinearVectorizedTraversal, LinearPacketType, InnerPacketType&gt;::type PacketType;
+<span class="lineNum">     112 </span>            : 
+<span class="lineNum">     113 </span>            : private:
+<span class="lineNum">     114 </span>            :   enum {
+<span class="lineNum">     115 </span>            :     ActualPacketSize    = int(Traversal)==LinearVectorizedTraversal ? LinearPacketSize
+<span class="lineNum">     116 </span>            :                         : Vectorized ? InnerPacketSize
+<span class="lineNum">     117 </span>            :                         : 1,
+<span class="lineNum">     118 </span>            :     UnrollingLimit      = EIGEN_UNROLLING_LIMIT * ActualPacketSize,
+<span class="lineNum">     119 </span>            :     MayUnrollCompletely = int(Dst::SizeAtCompileTime) != Dynamic
+<span class="lineNum">     120 </span>            :                        &amp;&amp; int(Dst::SizeAtCompileTime) * (int(DstEvaluator::CoeffReadCost)+int(SrcEvaluator::CoeffReadCost)) &lt;= int(UnrollingLimit),
+<span class="lineNum">     121 </span>            :     MayUnrollInner      = int(InnerSize) != Dynamic
+<span class="lineNum">     122 </span>            :                        &amp;&amp; int(InnerSize) * (int(DstEvaluator::CoeffReadCost)+int(SrcEvaluator::CoeffReadCost)) &lt;= int(UnrollingLimit)
+<span class="lineNum">     123 </span>            :   };
+<span class="lineNum">     124 </span>            : 
+<span class="lineNum">     125 </span>            : public:
+<span class="lineNum">     126 </span>            :   enum {
+<span class="lineNum">     127 </span>            :     Unrolling = (int(Traversal) == int(InnerVectorizedTraversal) || int(Traversal) == int(DefaultTraversal))
+<span class="lineNum">     128 </span>            :                 ? (
+<span class="lineNum">     129 </span>            :                     int(MayUnrollCompletely) ? int(CompleteUnrolling)
+<span class="lineNum">     130 </span>            :                   : int(MayUnrollInner)      ? int(InnerUnrolling)
+<span class="lineNum">     131 </span>            :                                              : int(NoUnrolling)
+<span class="lineNum">     132 </span>            :                   )
+<span class="lineNum">     133 </span>            :               : int(Traversal) == int(LinearVectorizedTraversal)
+<span class="lineNum">     134 </span>            :                 ? ( bool(MayUnrollCompletely) &amp;&amp; ( EIGEN_UNALIGNED_VECTORIZE || (int(DstAlignment)&gt;=int(LinearRequiredAlignment)))
+<span class="lineNum">     135 </span>            :                           ? int(CompleteUnrolling)
+<span class="lineNum">     136 </span>            :                           : int(NoUnrolling) )
+<span class="lineNum">     137 </span>            :               : int(Traversal) == int(LinearTraversal)
+<span class="lineNum">     138 </span>            :                 ? ( bool(MayUnrollCompletely) ? int(CompleteUnrolling) 
+<span class="lineNum">     139 </span>            :                                               : int(NoUnrolling) )
+<span class="lineNum">     140 </span>            : #if EIGEN_UNALIGNED_VECTORIZE
+<span class="lineNum">     141 </span>            :               : int(Traversal) == int(SliceVectorizedTraversal)
+<span class="lineNum">     142 </span>            :                 ? ( bool(MayUnrollInner) ? int(InnerUnrolling)
+<span class="lineNum">     143 </span>            :                                          : int(NoUnrolling) )
+<span class="lineNum">     144 </span>            : #endif
+<span class="lineNum">     145 </span>            :               : int(NoUnrolling)
+<span class="lineNum">     146 </span>            :   };
+<span class="lineNum">     147 </span>            : 
+<span class="lineNum">     148 </span>            : #ifdef EIGEN_DEBUG_ASSIGN
+<span class="lineNum">     149 </span>            :   static void debug()
+<span class="lineNum">     150 </span>            :   {
+<span class="lineNum">     151 </span>            :     std::cerr &lt;&lt; &quot;DstXpr: &quot; &lt;&lt; typeid(typename DstEvaluator::XprType).name() &lt;&lt; std::endl;
+<span class="lineNum">     152 </span>            :     std::cerr &lt;&lt; &quot;SrcXpr: &quot; &lt;&lt; typeid(typename SrcEvaluator::XprType).name() &lt;&lt; std::endl;
+<span class="lineNum">     153 </span>            :     std::cerr.setf(std::ios::hex, std::ios::basefield);
+<span class="lineNum">     154 </span>            :     std::cerr &lt;&lt; &quot;DstFlags&quot; &lt;&lt; &quot; = &quot; &lt;&lt; DstFlags &lt;&lt; &quot; (&quot; &lt;&lt; demangle_flags(DstFlags) &lt;&lt; &quot; )&quot; &lt;&lt; std::endl;
+<span class="lineNum">     155 </span>            :     std::cerr &lt;&lt; &quot;SrcFlags&quot; &lt;&lt; &quot; = &quot; &lt;&lt; SrcFlags &lt;&lt; &quot; (&quot; &lt;&lt; demangle_flags(SrcFlags) &lt;&lt; &quot; )&quot; &lt;&lt; std::endl;
+<span class="lineNum">     156 </span>            :     std::cerr.unsetf(std::ios::hex);
+<span class="lineNum">     157 </span>            :     EIGEN_DEBUG_VAR(DstAlignment)
+<span class="lineNum">     158 </span>            :     EIGEN_DEBUG_VAR(SrcAlignment)
+<span class="lineNum">     159 </span>            :     EIGEN_DEBUG_VAR(LinearRequiredAlignment)
+<span class="lineNum">     160 </span>            :     EIGEN_DEBUG_VAR(InnerRequiredAlignment)
+<span class="lineNum">     161 </span>            :     EIGEN_DEBUG_VAR(JointAlignment)
+<span class="lineNum">     162 </span>            :     EIGEN_DEBUG_VAR(InnerSize)
+<span class="lineNum">     163 </span>            :     EIGEN_DEBUG_VAR(InnerMaxSize)
+<span class="lineNum">     164 </span>            :     EIGEN_DEBUG_VAR(LinearPacketSize)
+<span class="lineNum">     165 </span>            :     EIGEN_DEBUG_VAR(InnerPacketSize)
+<span class="lineNum">     166 </span>            :     EIGEN_DEBUG_VAR(ActualPacketSize)
+<span class="lineNum">     167 </span>            :     EIGEN_DEBUG_VAR(StorageOrdersAgree)
+<span class="lineNum">     168 </span>            :     EIGEN_DEBUG_VAR(MightVectorize)
+<span class="lineNum">     169 </span>            :     EIGEN_DEBUG_VAR(MayLinearize)
+<span class="lineNum">     170 </span>            :     EIGEN_DEBUG_VAR(MayInnerVectorize)
+<span class="lineNum">     171 </span>            :     EIGEN_DEBUG_VAR(MayLinearVectorize)
+<span class="lineNum">     172 </span>            :     EIGEN_DEBUG_VAR(MaySliceVectorize)
+<span class="lineNum">     173 </span>            :     std::cerr &lt;&lt; &quot;Traversal&quot; &lt;&lt; &quot; = &quot; &lt;&lt; Traversal &lt;&lt; &quot; (&quot; &lt;&lt; demangle_traversal(Traversal) &lt;&lt; &quot;)&quot; &lt;&lt; std::endl;
+<span class="lineNum">     174 </span>            :     EIGEN_DEBUG_VAR(SrcEvaluator::CoeffReadCost)
+<span class="lineNum">     175 </span>            :     EIGEN_DEBUG_VAR(UnrollingLimit)
+<span class="lineNum">     176 </span>            :     EIGEN_DEBUG_VAR(MayUnrollCompletely)
+<span class="lineNum">     177 </span>            :     EIGEN_DEBUG_VAR(MayUnrollInner)
+<span class="lineNum">     178 </span>            :     std::cerr &lt;&lt; &quot;Unrolling&quot; &lt;&lt; &quot; = &quot; &lt;&lt; Unrolling &lt;&lt; &quot; (&quot; &lt;&lt; demangle_unrolling(Unrolling) &lt;&lt; &quot;)&quot; &lt;&lt; std::endl;
+<span class="lineNum">     179 </span>            :     std::cerr &lt;&lt; std::endl;
+<span class="lineNum">     180 </span>            :   }
+<span class="lineNum">     181 </span>            : #endif
+<span class="lineNum">     182 </span>            : };
+<span class="lineNum">     183 </span>            : 
+<span class="lineNum">     184 </span>            : /***************************************************************************
+<span class="lineNum">     185 </span>            : * Part 2 : meta-unrollers
+<span class="lineNum">     186 </span>            : ***************************************************************************/
+<span class="lineNum">     187 </span>            : 
+<span class="lineNum">     188 </span>            : /************************
+<span class="lineNum">     189 </span>            : *** Default traversal ***
+<span class="lineNum">     190 </span>            : ************************/
+<span class="lineNum">     191 </span>            : 
+<span class="lineNum">     192 </span>            : template&lt;typename Kernel, int Index, int Stop&gt;
+<span class="lineNum">     193 </span>            : struct copy_using_evaluator_DefaultTraversal_CompleteUnrolling
+<span class="lineNum">     194 </span>            : {
+<span class="lineNum">     195 </span>            :   // FIXME: this is not very clean, perhaps this information should be provided by the kernel?
+<span class="lineNum">     196 </span>            :   typedef typename Kernel::DstEvaluatorType DstEvaluatorType;
+<span class="lineNum">     197 </span>            :   typedef typename DstEvaluatorType::XprType DstXprType;
+<span class="lineNum">     198 </span>            :   
+<span class="lineNum">     199 </span>            :   enum {
+<span class="lineNum">     200 </span>            :     outer = Index / DstXprType::InnerSizeAtCompileTime,
+<span class="lineNum">     201 </span>            :     inner = Index % DstXprType::InnerSizeAtCompileTime
+<a name="202"><span class="lineNum">     202 </span>            :   };</a>
+<span class="lineNum">     203 </span>            : 
+<span class="lineNum">     204 </span><span class="lineCov">    1679907 :   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &amp;kernel)</span>
+<span class="lineNum">     205 </span>            :   {
+<span class="lineNum">     206 </span><span class="lineCov">    1679907 :     kernel.assignCoeffByOuterInner(outer, inner);</span>
+<span class="lineNum">     207 </span><span class="lineCov">    1679907 :     copy_using_evaluator_DefaultTraversal_CompleteUnrolling&lt;Kernel, Index+1, Stop&gt;::run(kernel);</span>
+<span class="lineNum">     208 </span><span class="lineCov">    1679907 :   }</span>
+<span class="lineNum">     209 </span>            : };
+<span class="lineNum">     210 </span>            : 
+<span class="lineNum">     211 </span>            : template&lt;typename Kernel, int Stop&gt;
+<a name="212"><span class="lineNum">     212 </span>            : struct copy_using_evaluator_DefaultTraversal_CompleteUnrolling&lt;Kernel, Stop, Stop&gt;</a>
+<span class="lineNum">     213 </span>            : {
+<span class="lineNum">     214 </span><span class="lineCov">     227860 :   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel&amp;) { }</span>
+<span class="lineNum">     215 </span>            : };
+<span class="lineNum">     216 </span>            : 
+<span class="lineNum">     217 </span>            : template&lt;typename Kernel, int Index_, int Stop&gt;
+<a name="218"><span class="lineNum">     218 </span>            : struct copy_using_evaluator_DefaultTraversal_InnerUnrolling</a>
+<span class="lineNum">     219 </span>            : {
+<span class="lineNum">     220 </span><span class="lineCov">      54520 :   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &amp;kernel, Index outer)</span>
+<span class="lineNum">     221 </span>            :   {
+<span class="lineNum">     222 </span><span class="lineCov">      54520 :     kernel.assignCoeffByOuterInner(outer, Index_);</span>
+<span class="lineNum">     223 </span><span class="lineCov">      54520 :     copy_using_evaluator_DefaultTraversal_InnerUnrolling&lt;Kernel, Index_+1, Stop&gt;::run(kernel, outer);</span>
+<span class="lineNum">     224 </span><span class="lineCov">      54520 :   }</span>
+<span class="lineNum">     225 </span>            : };
+<span class="lineNum">     226 </span>            : 
+<span class="lineNum">     227 </span>            : template&lt;typename Kernel, int Stop&gt;
+<a name="228"><span class="lineNum">     228 </span>            : struct copy_using_evaluator_DefaultTraversal_InnerUnrolling&lt;Kernel, Stop, Stop&gt;</a>
+<span class="lineNum">     229 </span>            : {
+<span class="lineNum">     230 </span><span class="lineCov">      54520 :   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel&amp;, Index) { }</span>
+<span class="lineNum">     231 </span>            : };
+<span class="lineNum">     232 </span>            : 
+<span class="lineNum">     233 </span>            : /***********************
+<span class="lineNum">     234 </span>            : *** Linear traversal ***
+<span class="lineNum">     235 </span>            : ***********************/
+<span class="lineNum">     236 </span>            : 
+<span class="lineNum">     237 </span>            : template&lt;typename Kernel, int Index, int Stop&gt;
+<a name="238"><span class="lineNum">     238 </span>            : struct copy_using_evaluator_LinearTraversal_CompleteUnrolling</a>
+<span class="lineNum">     239 </span>            : {
+<span class="lineNum">     240 </span><span class="lineCov">    1067119 :   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel&amp; kernel)</span>
+<span class="lineNum">     241 </span>            :   {
+<span class="lineNum">     242 </span><span class="lineCov">    1067119 :     kernel.assignCoeff(Index);</span>
+<span class="lineNum">     243 </span><span class="lineCov">    1067119 :     copy_using_evaluator_LinearTraversal_CompleteUnrolling&lt;Kernel, Index+1, Stop&gt;::run(kernel);</span>
+<span class="lineNum">     244 </span><span class="lineCov">    1067119 :   }</span>
+<span class="lineNum">     245 </span>            : };
+<span class="lineNum">     246 </span>            : 
+<span class="lineNum">     247 </span>            : template&lt;typename Kernel, int Stop&gt;
+<a name="248"><span class="lineNum">     248 </span>            : struct copy_using_evaluator_LinearTraversal_CompleteUnrolling&lt;Kernel, Stop, Stop&gt;</a>
+<span class="lineNum">     249 </span>            : {
+<span class="lineNum">     250 </span><span class="lineCov">     154144 :   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel&amp;) { }</span>
+<span class="lineNum">     251 </span>            : };
+<span class="lineNum">     252 </span>            : 
+<span class="lineNum">     253 </span>            : /**************************
+<span class="lineNum">     254 </span>            : *** Inner vectorization ***
+<span class="lineNum">     255 </span>            : **************************/
+<span class="lineNum">     256 </span>            : 
+<span class="lineNum">     257 </span>            : template&lt;typename Kernel, int Index, int Stop&gt;
+<span class="lineNum">     258 </span>            : struct copy_using_evaluator_innervec_CompleteUnrolling
+<span class="lineNum">     259 </span>            : {
+<span class="lineNum">     260 </span>            :   // FIXME: this is not very clean, perhaps this information should be provided by the kernel?
+<span class="lineNum">     261 </span>            :   typedef typename Kernel::DstEvaluatorType DstEvaluatorType;
+<span class="lineNum">     262 </span>            :   typedef typename DstEvaluatorType::XprType DstXprType;
+<span class="lineNum">     263 </span>            :   typedef typename Kernel::PacketType PacketType;
+<span class="lineNum">     264 </span>            :   
+<span class="lineNum">     265 </span>            :   enum {
+<span class="lineNum">     266 </span>            :     outer = Index / DstXprType::InnerSizeAtCompileTime,
+<span class="lineNum">     267 </span>            :     inner = Index % DstXprType::InnerSizeAtCompileTime,
+<span class="lineNum">     268 </span>            :     SrcAlignment = Kernel::AssignmentTraits::SrcAlignment,
+<span class="lineNum">     269 </span>            :     DstAlignment = Kernel::AssignmentTraits::DstAlignment
+<a name="270"><span class="lineNum">     270 </span>            :   };</a>
+<span class="lineNum">     271 </span>            : 
+<span class="lineNum">     272 </span><span class="lineCov">    5522055 :   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &amp;kernel)</span>
+<span class="lineNum">     273 </span>            :   {
+<span class="lineNum">     274 </span><span class="lineCov">    5522055 :     kernel.template assignPacketByOuterInner&lt;DstAlignment, SrcAlignment, PacketType&gt;(outer, inner);</span>
+<span class="lineNum">     275 </span>            :     enum { NextIndex = Index + unpacket_traits&lt;PacketType&gt;::size };
+<span class="lineNum">     276 </span><span class="lineCov">    5522055 :     copy_using_evaluator_innervec_CompleteUnrolling&lt;Kernel, NextIndex, Stop&gt;::run(kernel);</span>
+<span class="lineNum">     277 </span><span class="lineCov">    5522055 :   }</span>
+<span class="lineNum">     278 </span>            : };
+<span class="lineNum">     279 </span>            : 
+<span class="lineNum">     280 </span>            : template&lt;typename Kernel, int Stop&gt;
+<a name="281"><span class="lineNum">     281 </span>            : struct copy_using_evaluator_innervec_CompleteUnrolling&lt;Kernel, Stop, Stop&gt;</a>
+<span class="lineNum">     282 </span>            : {
+<span class="lineNum">     283 </span><span class="lineCov">    1342747 :   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel&amp;) { }</span>
+<span class="lineNum">     284 </span>            : };
+<span class="lineNum">     285 </span>            : 
+<span class="lineNum">     286 </span>            : template&lt;typename Kernel, int Index_, int Stop, int SrcAlignment, int DstAlignment&gt;
+<span class="lineNum">     287 </span>            : struct copy_using_evaluator_innervec_InnerUnrolling
+<a name="288"><span class="lineNum">     288 </span>            : {</a>
+<span class="lineNum">     289 </span>            :   typedef typename Kernel::PacketType PacketType;
+<span class="lineNum">     290 </span><span class="lineCov">    1612124 :   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &amp;kernel, Index outer)</span>
+<span class="lineNum">     291 </span>            :   {
+<span class="lineNum">     292 </span><span class="lineCov">    1612124 :     kernel.template assignPacketByOuterInner&lt;DstAlignment, SrcAlignment, PacketType&gt;(outer, Index_);</span>
+<span class="lineNum">     293 </span>            :     enum { NextIndex = Index_ + unpacket_traits&lt;PacketType&gt;::size };
+<span class="lineNum">     294 </span><span class="lineCov">    1612124 :     copy_using_evaluator_innervec_InnerUnrolling&lt;Kernel, NextIndex, Stop, SrcAlignment, DstAlignment&gt;::run(kernel, outer);</span>
+<span class="lineNum">     295 </span><span class="lineCov">    1612124 :   }</span>
+<span class="lineNum">     296 </span>            : };
+<span class="lineNum">     297 </span>            : 
+<span class="lineNum">     298 </span>            : template&lt;typename Kernel, int Stop, int SrcAlignment, int DstAlignment&gt;
+<a name="299"><span class="lineNum">     299 </span>            : struct copy_using_evaluator_innervec_InnerUnrolling&lt;Kernel, Stop, Stop, SrcAlignment, DstAlignment&gt;</a>
+<span class="lineNum">     300 </span>            : {
+<span class="lineNum">     301 </span><span class="lineCov">     692792 :   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &amp;, Index) { }</span>
+<span class="lineNum">     302 </span>            : };
+<span class="lineNum">     303 </span>            : 
+<span class="lineNum">     304 </span>            : /***************************************************************************
+<span class="lineNum">     305 </span>            : * Part 3 : implementation of all cases
+<span class="lineNum">     306 </span>            : ***************************************************************************/
+<span class="lineNum">     307 </span>            : 
+<span class="lineNum">     308 </span>            : // dense_assignment_loop is based on assign_impl
+<span class="lineNum">     309 </span>            : 
+<span class="lineNum">     310 </span>            : template&lt;typename Kernel,
+<span class="lineNum">     311 </span>            :          int Traversal = Kernel::AssignmentTraits::Traversal,
+<span class="lineNum">     312 </span>            :          int Unrolling = Kernel::AssignmentTraits::Unrolling&gt;
+<span class="lineNum">     313 </span>            : struct dense_assignment_loop;
+<span class="lineNum">     314 </span>            : 
+<span class="lineNum">     315 </span>            : /************************
+<span class="lineNum">     316 </span>            : *** Default traversal ***
+<span class="lineNum">     317 </span>            : ************************/
+<span class="lineNum">     318 </span>            : 
+<span class="lineNum">     319 </span>            : template&lt;typename Kernel&gt;
+<a name="320"><span class="lineNum">     320 </span>            : struct dense_assignment_loop&lt;Kernel, DefaultTraversal, NoUnrolling&gt;</a>
+<span class="lineNum">     321 </span>            : {
+<span class="lineNum">     322 </span><span class="lineCov">      45093 :   EIGEN_DEVICE_FUNC static void EIGEN_STRONG_INLINE run(Kernel &amp;kernel)</span>
+<span class="lineNum">     323 </span>            :   {
+<span class="lineNum">     324 </span><span class="lineCov">     203872 :     for(Index outer = 0; outer &lt; kernel.outerSize(); ++outer) {</span>
+<span class="lineNum">     325 </span><span class="lineCov">     706556 :       for(Index inner = 0; inner &lt; kernel.innerSize(); ++inner) {</span>
+<span class="lineNum">     326 </span><span class="lineCov">     547777 :         kernel.assignCoeffByOuterInner(outer, inner);</span>
+<span class="lineNum">     327 </span>            :       }
+<span class="lineNum">     328 </span>            :     }
+<span class="lineNum">     329 </span><span class="lineCov">      45093 :   }</span>
+<span class="lineNum">     330 </span>            : };
+<span class="lineNum">     331 </span>            : 
+<span class="lineNum">     332 </span>            : template&lt;typename Kernel&gt;
+<a name="333"><span class="lineNum">     333 </span>            : struct dense_assignment_loop&lt;Kernel, DefaultTraversal, CompleteUnrolling&gt;</a>
+<span class="lineNum">     334 </span>            : {
+<span class="lineNum">     335 </span><span class="lineCov">      97389 :   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &amp;kernel)</span>
+<span class="lineNum">     336 </span>            :   {
+<span class="lineNum">     337 </span>            :     typedef typename Kernel::DstEvaluatorType::XprType DstXprType;
+<span class="lineNum">     338 </span><span class="lineCov">      97389 :     copy_using_evaluator_DefaultTraversal_CompleteUnrolling&lt;Kernel, 0, DstXprType::SizeAtCompileTime&gt;::run(kernel);</span>
+<span class="lineNum">     339 </span><span class="lineCov">      97389 :   }</span>
+<span class="lineNum">     340 </span>            : };
+<span class="lineNum">     341 </span>            : 
+<span class="lineNum">     342 </span>            : template&lt;typename Kernel&gt;
+<span class="lineNum">     343 </span>            : struct dense_assignment_loop&lt;Kernel, DefaultTraversal, InnerUnrolling&gt;
+<span class="lineNum">     344 </span>            : {
+<span class="lineNum">     345 </span>            :   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &amp;kernel)
+<span class="lineNum">     346 </span>            :   {
+<span class="lineNum">     347 </span>            :     typedef typename Kernel::DstEvaluatorType::XprType DstXprType;
+<span class="lineNum">     348 </span>            : 
+<span class="lineNum">     349 </span>            :     const Index outerSize = kernel.outerSize();
+<span class="lineNum">     350 </span>            :     for(Index outer = 0; outer &lt; outerSize; ++outer)
+<span class="lineNum">     351 </span>            :       copy_using_evaluator_DefaultTraversal_InnerUnrolling&lt;Kernel, 0, DstXprType::InnerSizeAtCompileTime&gt;::run(kernel, outer);
+<span class="lineNum">     352 </span>            :   }
+<span class="lineNum">     353 </span>            : };
+<span class="lineNum">     354 </span>            : 
+<span class="lineNum">     355 </span>            : /***************************
+<span class="lineNum">     356 </span>            : *** Linear vectorization ***
+<span class="lineNum">     357 </span>            : ***************************/
+<span class="lineNum">     358 </span>            : 
+<span class="lineNum">     359 </span>            : 
+<span class="lineNum">     360 </span>            : // The goal of unaligned_dense_assignment_loop is simply to factorize the handling
+<span class="lineNum">     361 </span>            : // of the non vectorizable beginning and ending parts
+<span class="lineNum">     362 </span>            : 
+<span class="lineNum">     363 </span>            : template &lt;bool IsAligned = false&gt;
+<span class="lineNum">     364 </span>            : struct unaligned_dense_assignment_loop
+<span class="lineNum">     365 </span>            : {
+<a name="366"><span class="lineNum">     366 </span>            :   // if IsAligned = true, then do nothing</a>
+<span class="lineNum">     367 </span>            :   template &lt;typename Kernel&gt;
+<span class="lineNum">     368 </span><span class="lineCov">      67320 :   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel&amp;, Index, Index) {}</span>
+<span class="lineNum">     369 </span>            : };
+<span class="lineNum">     370 </span>            : 
+<span class="lineNum">     371 </span>            : template &lt;&gt;
+<span class="lineNum">     372 </span>            : struct unaligned_dense_assignment_loop&lt;false&gt;
+<span class="lineNum">     373 </span>            : {
+<span class="lineNum">     374 </span>            :   // MSVC must not inline this functions. If it does, it fails to optimize the
+<span class="lineNum">     375 </span>            :   // packet access path.
+<span class="lineNum">     376 </span>            :   // FIXME check which version exhibits this issue
+<span class="lineNum">     377 </span>            : #if EIGEN_COMP_MSVC
+<span class="lineNum">     378 </span>            :   template &lt;typename Kernel&gt;
+<span class="lineNum">     379 </span>            :   static EIGEN_DONT_INLINE void run(Kernel &amp;kernel,
+<span class="lineNum">     380 </span>            :                                     Index start,
+<span class="lineNum">     381 </span>            :                                     Index end)
+<a name="382"><span class="lineNum">     382 </span>            : #else</a>
+<span class="lineNum">     383 </span>            :   template &lt;typename Kernel&gt;
+<span class="lineNum">     384 </span><span class="lineCov">     387078 :   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &amp;kernel,</span>
+<span class="lineNum">     385 </span>            :                                       Index start,
+<span class="lineNum">     386 </span>            :                                       Index end)
+<span class="lineNum">     387 </span>            : #endif
+<span class="lineNum">     388 </span>            :   {
+<span class="lineNum">     389 </span><span class="lineCov">     550962 :     for (Index index = start; index &lt; end; ++index)</span>
+<span class="lineNum">     390 </span><span class="lineCov">     163884 :       kernel.assignCoeff(index);</span>
+<span class="lineNum">     391 </span><span class="lineCov">     387078 :   }</span>
+<span class="lineNum">     392 </span>            : };
+<span class="lineNum">     393 </span>            : 
+<span class="lineNum">     394 </span>            : template&lt;typename Kernel&gt;
+<a name="395"><span class="lineNum">     395 </span>            : struct dense_assignment_loop&lt;Kernel, LinearVectorizedTraversal, NoUnrolling&gt;</a>
+<span class="lineNum">     396 </span>            : {
+<span class="lineNum">     397 </span><span class="lineCov">     227199 :   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &amp;kernel)</span>
+<span class="lineNum">     398 </span>            :   {
+<span class="lineNum">     399 </span><span class="lineCov">     227199 :     const Index size = kernel.size();</span>
+<span class="lineNum">     400 </span>            :     typedef typename Kernel::Scalar Scalar;
+<span class="lineNum">     401 </span>            :     typedef typename Kernel::PacketType PacketType;
+<span class="lineNum">     402 </span>            :     enum {
+<span class="lineNum">     403 </span>            :       requestedAlignment = Kernel::AssignmentTraits::LinearRequiredAlignment,
+<span class="lineNum">     404 </span>            :       packetSize = unpacket_traits&lt;PacketType&gt;::size,
+<span class="lineNum">     405 </span>            :       dstIsAligned = int(Kernel::AssignmentTraits::DstAlignment)&gt;=int(requestedAlignment),
+<span class="lineNum">     406 </span>            :       dstAlignment = packet_traits&lt;Scalar&gt;::AlignedOnScalar ? int(requestedAlignment)
+<span class="lineNum">     407 </span>            :                                                             : int(Kernel::AssignmentTraits::DstAlignment),
+<span class="lineNum">     408 </span>            :       srcAlignment = Kernel::AssignmentTraits::JointAlignment
+<span class="lineNum">     409 </span>            :     };
+<span class="lineNum">     410 </span><span class="lineCov">     227199 :     const Index alignedStart = dstIsAligned ? 0 : internal::first_aligned&lt;requestedAlignment&gt;(kernel.dstDataPtr(), size);</span>
+<span class="lineNum">     411 </span><span class="lineCov">     227199 :     const Index alignedEnd = alignedStart + ((size-alignedStart)/packetSize)*packetSize;</span>
+<span class="lineNum">     412 </span>            : 
+<span class="lineNum">     413 </span><span class="lineCov">     227199 :     unaligned_dense_assignment_loop&lt;dstIsAligned!=0&gt;::run(kernel, 0, alignedStart);</span>
+<span class="lineNum">     414 </span>            : 
+<span class="lineNum">     415 </span><span class="lineCov">    2016377 :     for(Index index = alignedStart; index &lt; alignedEnd; index += packetSize)</span>
+<span class="lineNum">     416 </span><span class="lineCov">    1789178 :       kernel.template assignPacket&lt;dstAlignment, srcAlignment, PacketType&gt;(index);</span>
+<span class="lineNum">     417 </span>            : 
+<span class="lineNum">     418 </span><span class="lineCov">     227199 :     unaligned_dense_assignment_loop&lt;&gt;::run(kernel, alignedEnd, size);</span>
+<span class="lineNum">     419 </span><span class="lineCov">     227199 :   }</span>
+<span class="lineNum">     420 </span>            : };
+<span class="lineNum">     421 </span>            : 
+<span class="lineNum">     422 </span>            : template&lt;typename Kernel&gt;
+<a name="423"><span class="lineNum">     423 </span>            : struct dense_assignment_loop&lt;Kernel, LinearVectorizedTraversal, CompleteUnrolling&gt;</a>
+<span class="lineNum">     424 </span>            : {
+<span class="lineNum">     425 </span><span class="lineCov">     130471 :   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &amp;kernel)</span>
+<span class="lineNum">     426 </span>            :   {
+<span class="lineNum">     427 </span>            :     typedef typename Kernel::DstEvaluatorType::XprType DstXprType;
+<span class="lineNum">     428 </span>            :     typedef typename Kernel::PacketType PacketType;
+<span class="lineNum">     429 </span>            :     
+<span class="lineNum">     430 </span>            :     enum { size = DstXprType::SizeAtCompileTime,
+<span class="lineNum">     431 </span>            :            packetSize =unpacket_traits&lt;PacketType&gt;::size,
+<span class="lineNum">     432 </span>            :            alignedSize = (size/packetSize)*packetSize };
+<span class="lineNum">     433 </span>            : 
+<span class="lineNum">     434 </span><span class="lineCov">     130471 :     copy_using_evaluator_innervec_CompleteUnrolling&lt;Kernel, 0, alignedSize&gt;::run(kernel);</span>
+<span class="lineNum">     435 </span><span class="lineCov">     130471 :     copy_using_evaluator_DefaultTraversal_CompleteUnrolling&lt;Kernel, alignedSize, size&gt;::run(kernel);</span>
+<span class="lineNum">     436 </span><span class="lineCov">     130471 :   }</span>
+<span class="lineNum">     437 </span>            : };
+<span class="lineNum">     438 </span>            : 
+<span class="lineNum">     439 </span>            : /**************************
+<span class="lineNum">     440 </span>            : *** Inner vectorization ***
+<span class="lineNum">     441 </span>            : **************************/
+<span class="lineNum">     442 </span>            : 
+<span class="lineNum">     443 </span>            : template&lt;typename Kernel&gt;
+<span class="lineNum">     444 </span>            : struct dense_assignment_loop&lt;Kernel, InnerVectorizedTraversal, NoUnrolling&gt;
+<span class="lineNum">     445 </span>            : {
+<span class="lineNum">     446 </span>            :   typedef typename Kernel::PacketType PacketType;
+<span class="lineNum">     447 </span>            :   enum {
+<span class="lineNum">     448 </span>            :     SrcAlignment = Kernel::AssignmentTraits::SrcAlignment,
+<span class="lineNum">     449 </span>            :     DstAlignment = Kernel::AssignmentTraits::DstAlignment
+<span class="lineNum">     450 </span>            :   };
+<span class="lineNum">     451 </span>            :   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &amp;kernel)
+<span class="lineNum">     452 </span>            :   {
+<span class="lineNum">     453 </span>            :     const Index innerSize = kernel.innerSize();
+<span class="lineNum">     454 </span>            :     const Index outerSize = kernel.outerSize();
+<span class="lineNum">     455 </span>            :     const Index packetSize = unpacket_traits&lt;PacketType&gt;::size;
+<span class="lineNum">     456 </span>            :     for(Index outer = 0; outer &lt; outerSize; ++outer)
+<span class="lineNum">     457 </span>            :       for(Index inner = 0; inner &lt; innerSize; inner+=packetSize)
+<span class="lineNum">     458 </span>            :         kernel.template assignPacketByOuterInner&lt;DstAlignment, SrcAlignment, PacketType&gt;(outer, inner);
+<span class="lineNum">     459 </span>            :   }
+<span class="lineNum">     460 </span>            : };
+<span class="lineNum">     461 </span>            : 
+<span class="lineNum">     462 </span>            : template&lt;typename Kernel&gt;
+<a name="463"><span class="lineNum">     463 </span>            : struct dense_assignment_loop&lt;Kernel, InnerVectorizedTraversal, CompleteUnrolling&gt;</a>
+<span class="lineNum">     464 </span>            : {
+<span class="lineNum">     465 </span><span class="lineCov">    1212276 :   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &amp;kernel)</span>
+<span class="lineNum">     466 </span>            :   {
+<span class="lineNum">     467 </span>            :     typedef typename Kernel::DstEvaluatorType::XprType DstXprType;
+<span class="lineNum">     468 </span><span class="lineCov">    1212276 :     copy_using_evaluator_innervec_CompleteUnrolling&lt;Kernel, 0, DstXprType::SizeAtCompileTime&gt;::run(kernel);</span>
+<span class="lineNum">     469 </span><span class="lineCov">    1212276 :   }</span>
+<span class="lineNum">     470 </span>            : };
+<span class="lineNum">     471 </span>            : 
+<span class="lineNum">     472 </span>            : template&lt;typename Kernel&gt;
+<a name="473"><span class="lineNum">     473 </span>            : struct dense_assignment_loop&lt;Kernel, InnerVectorizedTraversal, InnerUnrolling&gt;</a>
+<span class="lineNum">     474 </span>            : {
+<span class="lineNum">     475 </span><span class="lineCov">     142413 :   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &amp;kernel)</span>
+<span class="lineNum">     476 </span>            :   {
+<span class="lineNum">     477 </span>            :     typedef typename Kernel::DstEvaluatorType::XprType DstXprType;
+<span class="lineNum">     478 </span>            :     typedef typename Kernel::AssignmentTraits Traits;
+<span class="lineNum">     479 </span><span class="lineCov">     142413 :     const Index outerSize = kernel.outerSize();</span>
+<span class="lineNum">     480 </span><span class="lineCov">     780685 :     for(Index outer = 0; outer &lt; outerSize; ++outer)</span>
+<span class="lineNum">     481 </span><span class="lineCov">     638272 :       copy_using_evaluator_innervec_InnerUnrolling&lt;Kernel, 0, DstXprType::InnerSizeAtCompileTime,</span>
+<span class="lineNum">     482 </span>            :                                                    Traits::SrcAlignment, Traits::DstAlignment&gt;::run(kernel, outer);
+<span class="lineNum">     483 </span><span class="lineCov">     142413 :   }</span>
+<span class="lineNum">     484 </span>            : };
+<span class="lineNum">     485 </span>            : 
+<span class="lineNum">     486 </span>            : /***********************
+<span class="lineNum">     487 </span>            : *** Linear traversal ***
+<span class="lineNum">     488 </span>            : ***********************/
+<span class="lineNum">     489 </span>            : 
+<span class="lineNum">     490 </span>            : template&lt;typename Kernel&gt;
+<a name="491"><span class="lineNum">     491 </span>            : struct dense_assignment_loop&lt;Kernel, LinearTraversal, NoUnrolling&gt;</a>
+<span class="lineNum">     492 </span>            : {
+<span class="lineNum">     493 </span><span class="lineCov">      73171 :   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &amp;kernel)</span>
+<span class="lineNum">     494 </span>            :   {
+<span class="lineNum">     495 </span><span class="lineCov">      73171 :     const Index size = kernel.size();</span>
+<span class="lineNum">     496 </span><span class="lineCov">    1124160 :     for(Index i = 0; i &lt; size; ++i)</span>
+<span class="lineNum">     497 </span><span class="lineCov">    1050989 :       kernel.assignCoeff(i);</span>
+<span class="lineNum">     498 </span><span class="lineCov">      73171 :   }</span>
+<span class="lineNum">     499 </span>            : };
+<span class="lineNum">     500 </span>            : 
+<span class="lineNum">     501 </span>            : template&lt;typename Kernel&gt;
+<a name="502"><span class="lineNum">     502 </span>            : struct dense_assignment_loop&lt;Kernel, LinearTraversal, CompleteUnrolling&gt;</a>
+<span class="lineNum">     503 </span>            : {
+<span class="lineNum">     504 </span><span class="lineCov">     154144 :   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &amp;kernel)</span>
+<span class="lineNum">     505 </span>            :   {
+<span class="lineNum">     506 </span>            :     typedef typename Kernel::DstEvaluatorType::XprType DstXprType;
+<span class="lineNum">     507 </span><span class="lineCov">     154144 :     copy_using_evaluator_LinearTraversal_CompleteUnrolling&lt;Kernel, 0, DstXprType::SizeAtCompileTime&gt;::run(kernel);</span>
+<span class="lineNum">     508 </span><span class="lineCov">     154144 :   }</span>
+<span class="lineNum">     509 </span>            : };
+<span class="lineNum">     510 </span>            : 
+<span class="lineNum">     511 </span>            : /**************************
+<span class="lineNum">     512 </span>            : *** Slice vectorization ***
+<span class="lineNum">     513 </span>            : ***************************/
+<span class="lineNum">     514 </span>            : 
+<span class="lineNum">     515 </span>            : template&lt;typename Kernel&gt;
+<a name="516"><span class="lineNum">     516 </span>            : struct dense_assignment_loop&lt;Kernel, SliceVectorizedTraversal, NoUnrolling&gt;</a>
+<span class="lineNum">     517 </span>            : {
+<span class="lineNum">     518 </span><span class="lineCov">     914807 :   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &amp;kernel)</span>
+<span class="lineNum">     519 </span>            :   {
+<span class="lineNum">     520 </span>            :     typedef typename Kernel::Scalar Scalar;
+<span class="lineNum">     521 </span>            :     typedef typename Kernel::PacketType PacketType;
+<span class="lineNum">     522 </span>            :     enum {
+<span class="lineNum">     523 </span>            :       packetSize = unpacket_traits&lt;PacketType&gt;::size,
+<span class="lineNum">     524 </span>            :       requestedAlignment = int(Kernel::AssignmentTraits::InnerRequiredAlignment),
+<span class="lineNum">     525 </span>            :       alignable = packet_traits&lt;Scalar&gt;::AlignedOnScalar || int(Kernel::AssignmentTraits::DstAlignment)&gt;=sizeof(Scalar),
+<span class="lineNum">     526 </span>            :       dstIsAligned = int(Kernel::AssignmentTraits::DstAlignment)&gt;=int(requestedAlignment),
+<span class="lineNum">     527 </span>            :       dstAlignment = alignable ? int(requestedAlignment)
+<span class="lineNum">     528 </span>            :                                : int(Kernel::AssignmentTraits::DstAlignment)
+<span class="lineNum">     529 </span>            :     };
+<span class="lineNum">     530 </span><span class="lineCov">     914807 :     const Scalar *dst_ptr = kernel.dstDataPtr();</span>
+<span class="lineNum">     531 </span><span class="lineCov">     885193 :     if((!bool(dstIsAligned)) &amp;&amp; (UIntPtr(dst_ptr) % sizeof(Scalar))&gt;0)</span>
+<span class="lineNum">     532 </span>            :     {
+<span class="lineNum">     533 </span>            :       // the pointer is not aligend-on scalar, so alignment is not possible
+<span class="lineNum">     534 </span><span class="lineNoCov">          0 :       return dense_assignment_loop&lt;Kernel,DefaultTraversal,NoUnrolling&gt;::run(kernel);</span>
+<span class="lineNum">     535 </span>            :     }
+<span class="lineNum">     536 </span><span class="lineCov">     914807 :     const Index packetAlignedMask = packetSize - 1;</span>
+<span class="lineNum">     537 </span><span class="lineCov">     914807 :     const Index innerSize = kernel.innerSize();</span>
+<span class="lineNum">     538 </span><span class="lineCov">     914807 :     const Index outerSize = kernel.outerSize();</span>
+<span class="lineNum">     539 </span><span class="lineCov">     914807 :     const Index alignedStep = alignable ? (packetSize - kernel.outerStride() % packetSize) &amp; packetAlignedMask : 0;</span>
+<span class="lineNum">     540 </span><span class="lineCov">     914807 :     Index alignedStart = ((!alignable) || bool(dstIsAligned)) ? 0 : internal::first_aligned&lt;requestedAlignment&gt;(dst_ptr, innerSize);</span>
+<span class="lineNum">     541 </span>            : 
+<span class="lineNum">     542 </span><span class="lineCov">    2785387 :     for(Index outer = 0; outer &lt; outerSize; ++outer)</span>
+<span class="lineNum">     543 </span>            :     {
+<span class="lineNum">     544 </span><span class="lineCov">    1870580 :       const Index alignedEnd = alignedStart + ((innerSize-alignedStart) &amp; ~packetAlignedMask);</span>
+<span class="lineNum">     545 </span>            :       // do the non-vectorizable part of the assignment
+<span class="lineNum">     546 </span><span class="lineCov">    2352997 :       for(Index inner = 0; inner&lt;alignedStart ; ++inner)</span>
+<span class="lineNum">     547 </span><span class="lineCov">     482417 :         kernel.assignCoeffByOuterInner(outer, inner);</span>
+<span class="lineNum">     548 </span>            : 
+<span class="lineNum">     549 </span>            :       // do the vectorizable part of the assignment
+<span class="lineNum">     550 </span><span class="lineCov">    4173676 :       for(Index inner = alignedStart; inner&lt;alignedEnd; inner+=packetSize)</span>
+<span class="lineNum">     551 </span><span class="lineCov">    2303096 :         kernel.template assignPacketByOuterInner&lt;dstAlignment, Unaligned, PacketType&gt;(outer, inner);</span>
+<span class="lineNum">     552 </span>            : 
+<span class="lineNum">     553 </span>            :       // do the non-vectorizable part of the assignment
+<span class="lineNum">     554 </span><span class="lineCov">    3024617 :       for(Index inner = alignedEnd; inner&lt;innerSize ; ++inner)</span>
+<span class="lineNum">     555 </span><span class="lineCov">    1154037 :         kernel.assignCoeffByOuterInner(outer, inner);</span>
+<span class="lineNum">     556 </span>            : 
+<span class="lineNum">     557 </span><span class="lineCov">    3741160 :       alignedStart = numext::mini((alignedStart+alignedStep)%packetSize, innerSize);</span>
+<span class="lineNum">     558 </span>            :     }
+<span class="lineNum">     559 </span>            :   }
+<span class="lineNum">     560 </span>            : };
+<span class="lineNum">     561 </span>            : 
+<span class="lineNum">     562 </span>            : #if EIGEN_UNALIGNED_VECTORIZE
+<span class="lineNum">     563 </span>            : template&lt;typename Kernel&gt;
+<a name="564"><span class="lineNum">     564 </span>            : struct dense_assignment_loop&lt;Kernel, SliceVectorizedTraversal, InnerUnrolling&gt;</a>
+<span class="lineNum">     565 </span>            : {
+<span class="lineNum">     566 </span><span class="lineCov">      13630 :   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &amp;kernel)</span>
+<span class="lineNum">     567 </span>            :   {
+<span class="lineNum">     568 </span>            :     typedef typename Kernel::DstEvaluatorType::XprType DstXprType;
+<span class="lineNum">     569 </span>            :     typedef typename Kernel::PacketType PacketType;
+<span class="lineNum">     570 </span>            : 
+<span class="lineNum">     571 </span>            :     enum { size = DstXprType::InnerSizeAtCompileTime,
+<span class="lineNum">     572 </span>            :            packetSize =unpacket_traits&lt;PacketType&gt;::size,
+<span class="lineNum">     573 </span>            :            vectorizableSize = (size/packetSize)*packetSize };
+<span class="lineNum">     574 </span>            : 
+<span class="lineNum">     575 </span><span class="lineCov">      68150 :     for(Index outer = 0; outer &lt; kernel.outerSize(); ++outer)</span>
+<span class="lineNum">     576 </span>            :     {
+<span class="lineNum">     577 </span><span class="lineCov">      54520 :       copy_using_evaluator_innervec_InnerUnrolling&lt;Kernel, 0, vectorizableSize, 0, 0&gt;::run(kernel, outer);</span>
+<span class="lineNum">     578 </span><span class="lineCov">      54520 :       copy_using_evaluator_DefaultTraversal_InnerUnrolling&lt;Kernel, vectorizableSize, size&gt;::run(kernel, outer);</span>
+<span class="lineNum">     579 </span>            :     }
+<span class="lineNum">     580 </span><span class="lineCov">      13630 :   }</span>
+<span class="lineNum">     581 </span>            : };
+<span class="lineNum">     582 </span>            : #endif
+<span class="lineNum">     583 </span>            : 
+<span class="lineNum">     584 </span>            : 
+<span class="lineNum">     585 </span>            : /***************************************************************************
+<span class="lineNum">     586 </span>            : * Part 4 : Generic dense assignment kernel
+<span class="lineNum">     587 </span>            : ***************************************************************************/
+<span class="lineNum">     588 </span>            : 
+<span class="lineNum">     589 </span>            : // This class generalize the assignment of a coefficient (or packet) from one dense evaluator
+<span class="lineNum">     590 </span>            : // to another dense writable evaluator.
+<span class="lineNum">     591 </span>            : // It is parametrized by the two evaluators, and the actual assignment functor.
+<span class="lineNum">     592 </span>            : // This abstraction level permits to keep the evaluation loops as simple and as generic as possible.
+<span class="lineNum">     593 </span>            : // One can customize the assignment using this generic dense_assignment_kernel with different
+<span class="lineNum">     594 </span>            : // functors, or by completely overloading it, by-passing a functor.
+<span class="lineNum">     595 </span>            : template&lt;typename DstEvaluatorTypeT, typename SrcEvaluatorTypeT, typename Functor, int Version = Specialized&gt;
+<span class="lineNum">     596 </span>            : class generic_dense_assignment_kernel
+<span class="lineNum">     597 </span>            : {
+<span class="lineNum">     598 </span>            : protected:
+<span class="lineNum">     599 </span>            :   typedef typename DstEvaluatorTypeT::XprType DstXprType;
+<span class="lineNum">     600 </span>            :   typedef typename SrcEvaluatorTypeT::XprType SrcXprType;
+<span class="lineNum">     601 </span>            : public:
+<span class="lineNum">     602 </span>            :   
+<span class="lineNum">     603 </span>            :   typedef DstEvaluatorTypeT DstEvaluatorType;
+<span class="lineNum">     604 </span>            :   typedef SrcEvaluatorTypeT SrcEvaluatorType;
+<span class="lineNum">     605 </span>            :   typedef typename DstEvaluatorType::Scalar Scalar;
+<span class="lineNum">     606 </span>            :   typedef copy_using_evaluator_traits&lt;DstEvaluatorTypeT, SrcEvaluatorTypeT, Functor&gt; AssignmentTraits;
+<span class="lineNum">     607 </span>            :   typedef typename AssignmentTraits::PacketType PacketType;
+<a name="608"><span class="lineNum">     608 </span>            :   </a>
+<span class="lineNum">     609 </span>            :   
+<span class="lineNum">     610 </span><span class="lineCov">    3010593 :   EIGEN_DEVICE_FUNC generic_dense_assignment_kernel(DstEvaluatorType &amp;dst, const SrcEvaluatorType &amp;src, const Functor &amp;func, DstXprType&amp; dstExpr)</span>
+<span class="lineNum">     611 </span><span class="lineCov">    3010593 :     : m_dst(dst), m_src(src), m_functor(func), m_dstExpr(dstExpr)</span>
+<span class="lineNum">     612 </span>            :   {
+<span class="lineNum">     613 </span>            :     #ifdef EIGEN_DEBUG_ASSIGN
+<span class="lineNum">     614 </span>            :     AssignmentTraits::debug();
+<span class="lineNum">     615 </span>            :     #endif
+<a name="616"><span class="lineNum">     616 </span><span class="lineCov">    3010593 :   }</span></a>
+<a name="617"><span class="lineNum">     617 </span>            :   </a>
+<a name="618"><span class="lineNum">     618 </span><span class="lineCov">     300370 :   EIGEN_DEVICE_FUNC Index size() const        { return m_dstExpr.size(); }</span></a>
+<span class="lineNum">     619 </span><span class="lineCov">    1621363 :   EIGEN_DEVICE_FUNC Index innerSize() const   { return m_dstExpr.innerSize(); }</span>
+<span class="lineNum">     620 </span><span class="lineCov">    1329242 :   EIGEN_DEVICE_FUNC Index outerSize() const   { return m_dstExpr.outerSize(); }</span>
+<a name="621"><span class="lineNum">     621 </span>            :   EIGEN_DEVICE_FUNC Index rows() const        { return m_dstExpr.rows(); }</a>
+<span class="lineNum">     622 </span>            :   EIGEN_DEVICE_FUNC Index cols() const        { return m_dstExpr.cols(); }
+<span class="lineNum">     623 </span><span class="lineCov">     914807 :   EIGEN_DEVICE_FUNC Index outerStride() const { return m_dstExpr.outerStride(); }</span>
+<span class="lineNum">     624 </span>            :   
+<span class="lineNum">     625 </span>            :   EIGEN_DEVICE_FUNC DstEvaluatorType&amp; dstEvaluator() { return m_dst; }
+<span class="lineNum">     626 </span>            :   EIGEN_DEVICE_FUNC const SrcEvaluatorType&amp; srcEvaluator() const { return m_src; }
+<a name="627"><span class="lineNum">     627 </span>            :   </a>
+<span class="lineNum">     628 </span>            :   /// Assign src(row,col) to dst(row,col) through the assignment functor.
+<span class="lineNum">     629 </span><span class="lineCov">    3918658 :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void assignCoeff(Index row, Index col)</span>
+<span class="lineNum">     630 </span>            :   {
+<span class="lineNum">     631 </span><span class="lineCov">    3918658 :     m_functor.assignCoeff(m_dst.coeffRef(row,col), m_src.coeff(row,col));</span>
+<span class="lineNum">     632 </span><span class="lineCov">    3918658 :   }</span>
+<a name="633"><span class="lineNum">     633 </span>            :   </a>
+<span class="lineNum">     634 </span>            :   /// \sa assignCoeff(Index,Index)
+<span class="lineNum">     635 </span><span class="lineCov">    2281992 :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void assignCoeff(Index index)</span>
+<span class="lineNum">     636 </span>            :   {
+<span class="lineNum">     637 </span><span class="lineCov">    2281992 :     m_functor.assignCoeff(m_dst.coeffRef(index), m_src.coeff(index));</span>
+<span class="lineNum">     638 </span><span class="lineCov">    2281992 :   }</span>
+<a name="639"><span class="lineNum">     639 </span>            :   </a>
+<span class="lineNum">     640 </span>            :   /// \sa assignCoeff(Index,Index)
+<span class="lineNum">     641 </span><span class="lineCov">    3918658 :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void assignCoeffByOuterInner(Index outer, Index inner)</span>
+<span class="lineNum">     642 </span>            :   {
+<span class="lineNum">     643 </span><span class="lineCov">    3918658 :     Index row = rowIndexByOuterInner(outer, inner); </span>
+<span class="lineNum">     644 </span><span class="lineCov">    3918658 :     Index col = colIndexByOuterInner(outer, inner); </span>
+<span class="lineNum">     645 </span><span class="lineCov">    3918658 :     assignCoeff(row, col);</span>
+<span class="lineNum">     646 </span><span class="lineCov">    3918658 :   }</span>
+<span class="lineNum">     647 </span>            :   
+<a name="648"><span class="lineNum">     648 </span>            :   </a>
+<span class="lineNum">     649 </span>            :   template&lt;int StoreMode, int LoadMode, typename PacketType&gt;
+<span class="lineNum">     650 </span><span class="lineCov">    8930404 :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void assignPacket(Index row, Index col)</span>
+<span class="lineNum">     651 </span>            :   {
+<span class="lineNum">     652 </span><span class="lineCov">    8930404 :     m_functor.template assignPacket&lt;StoreMode&gt;(&amp;m_dst.coeffRef(row,col), m_src.template packet&lt;LoadMode,PacketType&gt;(row,col));</span>
+<span class="lineNum">     653 </span><span class="lineCov">    8930404 :   }</span>
+<a name="654"><span class="lineNum">     654 </span>            :   </a>
+<span class="lineNum">     655 </span>            :   template&lt;int StoreMode, int LoadMode, typename PacketType&gt;
+<span class="lineNum">     656 </span><span class="lineCov">    1693453 :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void assignPacket(Index index)</span>
+<span class="lineNum">     657 </span>            :   {
+<span class="lineNum">     658 </span><span class="lineCov">    1693453 :     m_functor.template assignPacket&lt;StoreMode&gt;(&amp;m_dst.coeffRef(index), m_src.template packet&lt;LoadMode,PacketType&gt;(index));</span>
+<span class="lineNum">     659 </span><span class="lineCov">    1693453 :   }</span>
+<a name="660"><span class="lineNum">     660 </span>            :   </a>
+<span class="lineNum">     661 </span>            :   template&lt;int StoreMode, int LoadMode, typename PacketType&gt;
+<span class="lineNum">     662 </span><span class="lineCov">    8930404 :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void assignPacketByOuterInner(Index outer, Index inner)</span>
+<span class="lineNum">     663 </span>            :   {
+<span class="lineNum">     664 </span><span class="lineCov">    8930404 :     Index row = rowIndexByOuterInner(outer, inner); </span>
+<span class="lineNum">     665 </span><span class="lineCov">    8930404 :     Index col = colIndexByOuterInner(outer, inner);</span>
+<span class="lineNum">     666 </span><span class="lineCov">    8930404 :     assignPacket&lt;StoreMode,LoadMode,PacketType&gt;(row, col);</span>
+<a name="667"><span class="lineNum">     667 </span><span class="lineCov">    8930404 :   }</span></a>
+<span class="lineNum">     668 </span>            :   
+<span class="lineNum">     669 </span><span class="lineCov">   13355933 :   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE Index rowIndexByOuterInner(Index outer, Index inner)</span>
+<span class="lineNum">     670 </span>            :   {
+<span class="lineNum">     671 </span>            :     typedef typename DstEvaluatorType::ExpressionTraits Traits;
+<span class="lineNum">     672 </span>            :     return int(Traits::RowsAtCompileTime) == 1 ? 0
+<span class="lineNum">     673 </span>            :       : int(Traits::ColsAtCompileTime) == 1 ? inner
+<span class="lineNum">     674 </span>            :       : int(DstEvaluatorType::Flags)&amp;RowMajorBit ? outer
+<span class="lineNum">     675 </span><span class="lineCov">   13355933 :       : inner;</span>
+<a name="676"><span class="lineNum">     676 </span>            :   }</a>
+<span class="lineNum">     677 </span>            : 
+<span class="lineNum">     678 </span><span class="lineCov">   13355933 :   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE Index colIndexByOuterInner(Index outer, Index inner)</span>
+<span class="lineNum">     679 </span>            :   {
+<span class="lineNum">     680 </span>            :     typedef typename DstEvaluatorType::ExpressionTraits Traits;
+<span class="lineNum">     681 </span>            :     return int(Traits::ColsAtCompileTime) == 1 ? 0
+<span class="lineNum">     682 </span>            :       : int(Traits::RowsAtCompileTime) == 1 ? inner
+<span class="lineNum">     683 </span>            :       : int(DstEvaluatorType::Flags)&amp;RowMajorBit ? inner
+<span class="lineNum">     684 </span><span class="lineCov">   13355933 :       : outer;</span>
+<a name="685"><span class="lineNum">     685 </span>            :   }</a>
+<span class="lineNum">     686 </span>            : 
+<span class="lineNum">     687 </span><span class="lineCov">    1074686 :   EIGEN_DEVICE_FUNC const Scalar* dstDataPtr() const</span>
+<span class="lineNum">     688 </span>            :   {
+<span class="lineNum">     689 </span><span class="lineCov">    1074686 :     return m_dstExpr.data();</span>
+<span class="lineNum">     690 </span>            :   }
+<span class="lineNum">     691 </span>            :   
+<span class="lineNum">     692 </span>            : protected:
+<span class="lineNum">     693 </span>            :   DstEvaluatorType&amp; m_dst;
+<span class="lineNum">     694 </span>            :   const SrcEvaluatorType&amp; m_src;
+<span class="lineNum">     695 </span>            :   const Functor &amp;m_functor;
+<span class="lineNum">     696 </span>            :   // TODO find a way to avoid the needs of the original expression
+<span class="lineNum">     697 </span>            :   DstXprType&amp; m_dstExpr;
+<span class="lineNum">     698 </span>            : };
+<span class="lineNum">     699 </span>            : 
+<span class="lineNum">     700 </span>            : /***************************************************************************
+<span class="lineNum">     701 </span>            : * Part 5 : Entry point for dense rectangular assignment
+<span class="lineNum">     702 </span>            : ***************************************************************************/
+<span class="lineNum">     703 </span>            : 
+<a name="704"><span class="lineNum">     704 </span>            : template&lt;typename DstXprType,typename SrcXprType, typename Functor&gt;</a>
+<span class="lineNum">     705 </span>            : EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     706 </span><span class="lineCov">     312072 : void resize_if_allowed(DstXprType &amp;dst, const SrcXprType&amp; src, const Functor &amp;/*func*/)</span>
+<span class="lineNum">     707 </span>            : {
+<span class="lineNum">     708 </span>            :   EIGEN_ONLY_USED_FOR_DEBUG(dst);
+<span class="lineNum">     709 </span>            :   EIGEN_ONLY_USED_FOR_DEBUG(src);
+<span class="lineNum">     710 </span><span class="lineCov">     312072 :   eigen_assert(dst.rows() == src.rows() &amp;&amp; dst.cols() == src.cols());</span>
+<span class="lineNum">     711 </span><span class="lineCov">     312072 : }</span>
+<span class="lineNum">     712 </span>            : 
+<a name="713"><span class="lineNum">     713 </span>            : template&lt;typename DstXprType,typename SrcXprType, typename T1, typename T2&gt;</a>
+<span class="lineNum">     714 </span>            : EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     715 </span><span class="lineCov">    2698521 : void resize_if_allowed(DstXprType &amp;dst, const SrcXprType&amp; src, const internal::assign_op&lt;T1,T2&gt; &amp;/*func*/)</span>
+<span class="lineNum">     716 </span>            : {
+<span class="lineNum">     717 </span><span class="lineCov">    2698521 :   Index dstRows = src.rows();</span>
+<span class="lineNum">     718 </span><span class="lineCov">    2698521 :   Index dstCols = src.cols();</span>
+<span class="lineNum">     719 </span><span class="lineCov">    2698521 :   if(((dst.rows()!=dstRows) || (dst.cols()!=dstCols)))</span>
+<span class="lineNum">     720 </span><span class="lineCov">      36443 :     dst.resize(dstRows, dstCols);</span>
+<span class="lineNum">     721 </span><span class="lineCov">    2698521 :   eigen_assert(dst.rows() == dstRows &amp;&amp; dst.cols() == dstCols);</span>
+<span class="lineNum">     722 </span><span class="lineCov">    2698521 : }</span>
+<a name="723"><span class="lineNum">     723 </span>            : </a>
+<span class="lineNum">     724 </span>            : template&lt;typename DstXprType, typename SrcXprType, typename Functor&gt;
+<span class="lineNum">     725 </span><span class="lineCov">    3010593 : EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void call_dense_assignment_loop(DstXprType&amp; dst, const SrcXprType&amp; src, const Functor &amp;func)</span>
+<span class="lineNum">     726 </span>            : {
+<span class="lineNum">     727 </span>            :   typedef evaluator&lt;DstXprType&gt; DstEvaluatorType;
+<span class="lineNum">     728 </span>            :   typedef evaluator&lt;SrcXprType&gt; SrcEvaluatorType;
+<span class="lineNum">     729 </span>            : 
+<span class="lineNum">     730 </span><span class="lineCov">    6021186 :   SrcEvaluatorType srcEvaluator(src);</span>
+<span class="lineNum">     731 </span>            : 
+<span class="lineNum">     732 </span>            :   // NOTE To properly handle A = (A*A.transpose())/s with A rectangular,
+<span class="lineNum">     733 </span>            :   // we need to resize the destination after the source evaluator has been created.
+<span class="lineNum">     734 </span><span class="lineCov">    3010593 :   resize_if_allowed(dst, src, func);</span>
+<span class="lineNum">     735 </span>            : 
+<span class="lineNum">     736 </span><span class="lineCov">    6021186 :   DstEvaluatorType dstEvaluator(dst);</span>
+<span class="lineNum">     737 </span>            :     
+<span class="lineNum">     738 </span>            :   typedef generic_dense_assignment_kernel&lt;DstEvaluatorType,SrcEvaluatorType,Functor&gt; Kernel;
+<span class="lineNum">     739 </span><span class="lineCov">    3010593 :   Kernel kernel(dstEvaluator, srcEvaluator, func, dst.const_cast_derived());</span>
+<span class="lineNum">     740 </span>            : 
+<span class="lineNum">     741 </span><span class="lineCov">    3010593 :   dense_assignment_loop&lt;Kernel&gt;::run(kernel);</span>
+<span class="lineNum">     742 </span><span class="lineCov">    3010593 : }</span>
+<span class="lineNum">     743 </span>            : 
+<span class="lineNum">     744 </span>            : template&lt;typename DstXprType, typename SrcXprType&gt;
+<span class="lineNum">     745 </span>            : EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void call_dense_assignment_loop(DstXprType&amp; dst, const SrcXprType&amp; src)
+<span class="lineNum">     746 </span>            : {
+<span class="lineNum">     747 </span>            :   call_dense_assignment_loop(dst, src, internal::assign_op&lt;typename DstXprType::Scalar,typename SrcXprType::Scalar&gt;());
+<span class="lineNum">     748 </span>            : }
+<span class="lineNum">     749 </span>            : 
+<span class="lineNum">     750 </span>            : /***************************************************************************
+<span class="lineNum">     751 </span>            : * Part 6 : Generic assignment
+<span class="lineNum">     752 </span>            : ***************************************************************************/
+<span class="lineNum">     753 </span>            : 
+<span class="lineNum">     754 </span>            : // Based on the respective shapes of the destination and source,
+<span class="lineNum">     755 </span>            : // the class AssignmentKind determine the kind of assignment mechanism.
+<span class="lineNum">     756 </span>            : // AssignmentKind must define a Kind typedef.
+<span class="lineNum">     757 </span>            : template&lt;typename DstShape, typename SrcShape&gt; struct AssignmentKind;
+<span class="lineNum">     758 </span>            : 
+<span class="lineNum">     759 </span>            : // Assignement kind defined in this file:
+<span class="lineNum">     760 </span>            : struct Dense2Dense {};
+<span class="lineNum">     761 </span>            : struct EigenBase2EigenBase {};
+<span class="lineNum">     762 </span>            : 
+<span class="lineNum">     763 </span>            : template&lt;typename,typename&gt; struct AssignmentKind { typedef EigenBase2EigenBase Kind; };
+<span class="lineNum">     764 </span>            : template&lt;&gt; struct AssignmentKind&lt;DenseShape,DenseShape&gt; { typedef Dense2Dense Kind; };
+<span class="lineNum">     765 </span>            :     
+<span class="lineNum">     766 </span>            : // This is the main assignment class
+<span class="lineNum">     767 </span>            : template&lt; typename DstXprType, typename SrcXprType, typename Functor,
+<span class="lineNum">     768 </span>            :           typename Kind = typename AssignmentKind&lt; typename evaluator_traits&lt;DstXprType&gt;::Shape , typename evaluator_traits&lt;SrcXprType&gt;::Shape &gt;::Kind,
+<span class="lineNum">     769 </span>            :           typename EnableIf = void&gt;
+<span class="lineNum">     770 </span>            : struct Assignment;
+<span class="lineNum">     771 </span>            : 
+<span class="lineNum">     772 </span>            : 
+<span class="lineNum">     773 </span>            : // The only purpose of this call_assignment() function is to deal with noalias() / &quot;assume-aliasing&quot; and automatic transposition.
+<span class="lineNum">     774 </span>            : // Indeed, I (Gael) think that this concept of &quot;assume-aliasing&quot; was a mistake, and it makes thing quite complicated.
+<span class="lineNum">     775 </span>            : // So this intermediate function removes everything related to &quot;assume-aliasing&quot; such that Assignment
+<span class="lineNum">     776 </span>            : // does not has to bother about these annoying details.
+<span class="lineNum">     777 </span>            : 
+<a name="778"><span class="lineNum">     778 </span>            : template&lt;typename Dst, typename Src&gt;</a>
+<span class="lineNum">     779 </span>            : EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     780 </span><span class="lineCov">    1332045 : void call_assignment(Dst&amp; dst, const Src&amp; src)</span>
+<span class="lineNum">     781 </span>            : {
+<span class="lineNum">     782 </span><span class="lineCov">    1332045 :   call_assignment(dst, src, internal::assign_op&lt;typename Dst::Scalar,typename Src::Scalar&gt;());</span>
+<span class="lineNum">     783 </span><span class="lineCov">    1332045 : }</span>
+<span class="lineNum">     784 </span>            : template&lt;typename Dst, typename Src&gt;
+<span class="lineNum">     785 </span>            : EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     786 </span>            : void call_assignment(const Dst&amp; dst, const Src&amp; src)
+<span class="lineNum">     787 </span>            : {
+<span class="lineNum">     788 </span>            :   call_assignment(dst, src, internal::assign_op&lt;typename Dst::Scalar,typename Src::Scalar&gt;());
+<span class="lineNum">     789 </span>            : }
+<span class="lineNum">     790 </span>            :                      
+<span class="lineNum">     791 </span>            : // Deal with &quot;assume-aliasing&quot;
+<a name="792"><span class="lineNum">     792 </span>            : template&lt;typename Dst, typename Src, typename Func&gt;</a>
+<span class="lineNum">     793 </span>            : EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     794 </span><span class="lineCov">     135345 : void call_assignment(Dst&amp; dst, const Src&amp; src, const Func&amp; func, typename enable_if&lt; evaluator_assume_aliasing&lt;Src&gt;::value, void*&gt;::type = 0)</span>
+<span class="lineNum">     795 </span>            : {
+<span class="lineNum">     796 </span><span class="lineCov">     177175 :   typename plain_matrix_type&lt;Src&gt;::type tmp(src);</span>
+<span class="lineNum">     797 </span><span class="lineCov">     135345 :   call_assignment_no_alias(dst, tmp, func);</span>
+<span class="lineNum">     798 </span><span class="lineCov">     135345 : }</span>
+<span class="lineNum">     799 </span>            : 
+<a name="800"><span class="lineNum">     800 </span>            : template&lt;typename Dst, typename Src, typename Func&gt;</a>
+<span class="lineNum">     801 </span>            : EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     802 </span><span class="lineCov">    1500618 : void call_assignment(Dst&amp; dst, const Src&amp; src, const Func&amp; func, typename enable_if&lt;!evaluator_assume_aliasing&lt;Src&gt;::value, void*&gt;::type = 0)</span>
+<span class="lineNum">     803 </span>            : {
+<span class="lineNum">     804 </span><span class="lineCov">    1500618 :   call_assignment_no_alias(dst, src, func);</span>
+<span class="lineNum">     805 </span><span class="lineCov">    1500618 : }</span>
+<span class="lineNum">     806 </span>            : 
+<span class="lineNum">     807 </span>            : // by-pass &quot;assume-aliasing&quot;
+<span class="lineNum">     808 </span>            : // When there is no aliasing, we require that 'dst' has been properly resized
+<span class="lineNum">     809 </span>            : template&lt;typename Dst, template &lt;typename&gt; class StorageBase, typename Src, typename Func&gt;
+<span class="lineNum">     810 </span>            : EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     811 </span>            : void call_assignment(NoAlias&lt;Dst,StorageBase&gt;&amp; dst, const Src&amp; src, const Func&amp; func)
+<span class="lineNum">     812 </span>            : {
+<span class="lineNum">     813 </span>            :   call_assignment_no_alias(dst.expression(), src, func);
+<span class="lineNum">     814 </span>            : }
+<span class="lineNum">     815 </span>            : 
+<span class="lineNum">     816 </span>            : 
+<a name="817"><span class="lineNum">     817 </span>            : template&lt;typename Dst, typename Src, typename Func&gt;</a>
+<span class="lineNum">     818 </span>            : EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     819 </span><span class="lineCov">    3426879 : void call_assignment_no_alias(Dst&amp; dst, const Src&amp; src, const Func&amp; func)</span>
+<span class="lineNum">     820 </span>            : {
+<span class="lineNum">     821 </span>            :   enum {
+<span class="lineNum">     822 </span>            :     NeedToTranspose = (    (int(Dst::RowsAtCompileTime) == 1 &amp;&amp; int(Src::ColsAtCompileTime) == 1)
+<span class="lineNum">     823 </span>            :                         || (int(Dst::ColsAtCompileTime) == 1 &amp;&amp; int(Src::RowsAtCompileTime) == 1)
+<span class="lineNum">     824 </span>            :                       ) &amp;&amp; int(Dst::SizeAtCompileTime) != 1
+<span class="lineNum">     825 </span>            :   };
+<span class="lineNum">     826 </span>            : 
+<span class="lineNum">     827 </span>            :   typedef typename internal::conditional&lt;NeedToTranspose, Transpose&lt;Dst&gt;, Dst&gt;::type ActualDstTypeCleaned;
+<span class="lineNum">     828 </span>            :   typedef typename internal::conditional&lt;NeedToTranspose, Transpose&lt;Dst&gt;, Dst&amp;&gt;::type ActualDstType;
+<span class="lineNum">     829 </span><span class="lineCov">    3426879 :   ActualDstType actualDst(dst);</span>
+<span class="lineNum">     830 </span>            :   
+<span class="lineNum">     831 </span>            :   // TODO check whether this is the right place to perform these checks:
+<span class="lineNum">     832 </span>            :   EIGEN_STATIC_ASSERT_LVALUE(Dst)
+<span class="lineNum">     833 </span>            :   EIGEN_STATIC_ASSERT_SAME_MATRIX_SIZE(ActualDstTypeCleaned,Src)
+<span class="lineNum">     834 </span>            :   EIGEN_CHECK_BINARY_COMPATIBILIY(Func,typename ActualDstTypeCleaned::Scalar,typename Src::Scalar);
+<span class="lineNum">     835 </span>            :   
+<span class="lineNum">     836 </span><span class="lineCov">    3426879 :   Assignment&lt;ActualDstTypeCleaned,Src,Func&gt;::run(actualDst, src, func);</span>
+<span class="lineNum">     837 </span><span class="lineCov">    3426879 : }</span>
+<span class="lineNum">     838 </span>            : template&lt;typename Dst, typename Src&gt;
+<span class="lineNum">     839 </span>            : EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     840 </span>            : void call_assignment_no_alias(Dst&amp; dst, const Src&amp; src)
+<span class="lineNum">     841 </span>            : {
+<span class="lineNum">     842 </span>            :   call_assignment_no_alias(dst, src, internal::assign_op&lt;typename Dst::Scalar,typename Src::Scalar&gt;());
+<span class="lineNum">     843 </span>            : }
+<span class="lineNum">     844 </span>            : 
+<span class="lineNum">     845 </span>            : template&lt;typename Dst, typename Src, typename Func&gt;
+<span class="lineNum">     846 </span>            : EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     847 </span>            : void call_assignment_no_alias_no_transpose(Dst&amp; dst, const Src&amp; src, const Func&amp; func)
+<span class="lineNum">     848 </span>            : {
+<span class="lineNum">     849 </span>            :   // TODO check whether this is the right place to perform these checks:
+<span class="lineNum">     850 </span>            :   EIGEN_STATIC_ASSERT_LVALUE(Dst)
+<span class="lineNum">     851 </span>            :   EIGEN_STATIC_ASSERT_SAME_MATRIX_SIZE(Dst,Src)
+<span class="lineNum">     852 </span>            :   EIGEN_CHECK_BINARY_COMPATIBILIY(Func,typename Dst::Scalar,typename Src::Scalar);
+<span class="lineNum">     853 </span>            : 
+<span class="lineNum">     854 </span>            :   Assignment&lt;Dst,Src,Func&gt;::run(dst, src, func);
+<span class="lineNum">     855 </span>            : }
+<span class="lineNum">     856 </span>            : template&lt;typename Dst, typename Src&gt;
+<span class="lineNum">     857 </span>            : EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     858 </span>            : void call_assignment_no_alias_no_transpose(Dst&amp; dst, const Src&amp; src)
+<span class="lineNum">     859 </span>            : {
+<span class="lineNum">     860 </span>            :   call_assignment_no_alias_no_transpose(dst, src, internal::assign_op&lt;typename Dst::Scalar,typename Src::Scalar&gt;());
+<span class="lineNum">     861 </span>            : }
+<span class="lineNum">     862 </span>            : 
+<span class="lineNum">     863 </span>            : // forward declaration
+<span class="lineNum">     864 </span>            : template&lt;typename Dst, typename Src&gt; void check_for_aliasing(const Dst &amp;dst, const Src &amp;src);
+<span class="lineNum">     865 </span>            : 
+<span class="lineNum">     866 </span>            : // Generic Dense to Dense assignment
+<span class="lineNum">     867 </span>            : // Note that the last template argument &quot;Weak&quot; is needed to make it possible to perform
+<span class="lineNum">     868 </span>            : // both partial specialization+SFINAE without ambiguous specialization
+<span class="lineNum">     869 </span>            : template&lt; typename DstXprType, typename SrcXprType, typename Functor, typename Weak&gt;
+<span class="lineNum">     870 </span>            : struct Assignment&lt;DstXprType, SrcXprType, Functor, Dense2Dense, Weak&gt;
+<a name="871"><span class="lineNum">     871 </span>            : {</a>
+<span class="lineNum">     872 </span>            :   EIGEN_DEVICE_FUNC
+<span class="lineNum">     873 </span><span class="lineCov">    3010593 :   static EIGEN_STRONG_INLINE void run(DstXprType &amp;dst, const SrcXprType &amp;src, const Functor &amp;func)</span>
+<span class="lineNum">     874 </span>            :   {
+<span class="lineNum">     875 </span>            : #ifndef EIGEN_NO_DEBUG
+<span class="lineNum">     876 </span><span class="lineCov">    3010593 :     internal::check_for_aliasing(dst, src);</span>
+<span class="lineNum">     877 </span>            : #endif
+<span class="lineNum">     878 </span>            :     
+<span class="lineNum">     879 </span><span class="lineCov">    3010593 :     call_dense_assignment_loop(dst, src, func);</span>
+<span class="lineNum">     880 </span><span class="lineCov">    3010593 :   }</span>
+<span class="lineNum">     881 </span>            : };
+<span class="lineNum">     882 </span>            : 
+<span class="lineNum">     883 </span>            : // Generic assignment through evalTo.
+<span class="lineNum">     884 </span>            : // TODO: not sure we have to keep that one, but it helps porting current code to new evaluator mechanism.
+<span class="lineNum">     885 </span>            : // Note that the last template argument &quot;Weak&quot; is needed to make it possible to perform
+<span class="lineNum">     886 </span>            : // both partial specialization+SFINAE without ambiguous specialization
+<span class="lineNum">     887 </span>            : template&lt; typename DstXprType, typename SrcXprType, typename Functor, typename Weak&gt;
+<span class="lineNum">     888 </span>            : struct Assignment&lt;DstXprType, SrcXprType, Functor, EigenBase2EigenBase, Weak&gt;
+<a name="889"><span class="lineNum">     889 </span>            : {</a>
+<span class="lineNum">     890 </span>            :   EIGEN_DEVICE_FUNC
+<span class="lineNum">     891 </span><span class="lineNoCov">          0 :   static EIGEN_STRONG_INLINE void run(DstXprType &amp;dst, const SrcXprType &amp;src, const internal::assign_op&lt;typename DstXprType::Scalar,typename SrcXprType::Scalar&gt; &amp;/*func*/)</span>
+<span class="lineNum">     892 </span>            :   {
+<span class="lineNum">     893 </span><span class="lineNoCov">          0 :     Index dstRows = src.rows();</span>
+<span class="lineNum">     894 </span><span class="lineNoCov">          0 :     Index dstCols = src.cols();</span>
+<span class="lineNum">     895 </span><span class="lineNoCov">          0 :     if((dst.rows()!=dstRows) || (dst.cols()!=dstCols))</span>
+<span class="lineNum">     896 </span><span class="lineNoCov">          0 :       dst.resize(dstRows, dstCols);</span>
+<span class="lineNum">     897 </span>            : 
+<span class="lineNum">     898 </span><span class="lineNoCov">          0 :     eigen_assert(dst.rows() == src.rows() &amp;&amp; dst.cols() == src.cols());</span>
+<span class="lineNum">     899 </span><span class="lineNoCov">          0 :     src.evalTo(dst);</span>
+<span class="lineNum">     900 </span><span class="lineNoCov">          0 :   }</span>
+<span class="lineNum">     901 </span>            : 
+<span class="lineNum">     902 </span>            :   // NOTE The following two functions are templated to avoid their instanciation if not needed
+<span class="lineNum">     903 </span>            :   //      This is needed because some expressions supports evalTo only and/or have 'void' as scalar type.
+<span class="lineNum">     904 </span>            :   template&lt;typename SrcScalarType&gt;
+<span class="lineNum">     905 </span>            :   EIGEN_DEVICE_FUNC
+<span class="lineNum">     906 </span>            :   static EIGEN_STRONG_INLINE void run(DstXprType &amp;dst, const SrcXprType &amp;src, const internal::add_assign_op&lt;typename DstXprType::Scalar,SrcScalarType&gt; &amp;/*func*/)
+<span class="lineNum">     907 </span>            :   {
+<span class="lineNum">     908 </span>            :     Index dstRows = src.rows();
+<span class="lineNum">     909 </span>            :     Index dstCols = src.cols();
+<span class="lineNum">     910 </span>            :     if((dst.rows()!=dstRows) || (dst.cols()!=dstCols))
+<span class="lineNum">     911 </span>            :       dst.resize(dstRows, dstCols);
+<span class="lineNum">     912 </span>            : 
+<span class="lineNum">     913 </span>            :     eigen_assert(dst.rows() == src.rows() &amp;&amp; dst.cols() == src.cols());
+<span class="lineNum">     914 </span>            :     src.addTo(dst);
+<span class="lineNum">     915 </span>            :   }
+<span class="lineNum">     916 </span>            : 
+<span class="lineNum">     917 </span>            :   template&lt;typename SrcScalarType&gt;
+<span class="lineNum">     918 </span>            :   EIGEN_DEVICE_FUNC
+<span class="lineNum">     919 </span>            :   static EIGEN_STRONG_INLINE void run(DstXprType &amp;dst, const SrcXprType &amp;src, const internal::sub_assign_op&lt;typename DstXprType::Scalar,SrcScalarType&gt; &amp;/*func*/)
+<span class="lineNum">     920 </span>            :   {
+<span class="lineNum">     921 </span>            :     Index dstRows = src.rows();
+<span class="lineNum">     922 </span>            :     Index dstCols = src.cols();
+<span class="lineNum">     923 </span>            :     if((dst.rows()!=dstRows) || (dst.cols()!=dstCols))
+<span class="lineNum">     924 </span>            :       dst.resize(dstRows, dstCols);
+<span class="lineNum">     925 </span>            : 
+<span class="lineNum">     926 </span>            :     eigen_assert(dst.rows() == src.rows() &amp;&amp; dst.cols() == src.cols());
+<span class="lineNum">     927 </span>            :     src.subTo(dst);
+<span class="lineNum">     928 </span>            :   }
+<span class="lineNum">     929 </span>            : };
+<span class="lineNum">     930 </span>            : 
+<span class="lineNum">     931 </span>            : } // namespace internal
+<span class="lineNum">     932 </span>            : 
+<span class="lineNum">     933 </span>            : } // end namespace Eigen
+<span class="lineNum">     934 </span>            : 
+<span class="lineNum">     935 </span>            : #endif // EIGEN_ASSIGN_EVALUATOR_H
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

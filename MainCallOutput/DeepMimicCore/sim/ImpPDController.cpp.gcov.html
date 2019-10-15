@@ -1,0 +1,327 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Main Call Code Analysis - DeepMimicCore/sim/ImpPDController.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">DeepMimicCore/sim</a> - ImpPDController.cpp<span style="font-size: 80%;"> (source / <a href="ImpPDController.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Main Call Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">103</td>
+            <td class="headerCovTableEntry">121</td>
+            <td class="headerCovTableEntryMed">85.1 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 16:51:56</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">13</td>
+            <td class="headerCovTableEntry">17</td>
+            <td class="headerCovTableEntryMed">76.5 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : #include &quot;ImpPDController.h&quot;</a>
+<span class="lineNum">       2 </span>            : #include &lt;iostream&gt;
+<span class="lineNum">       3 </span>            : 
+<span class="lineNum">       4 </span>            : #include &quot;sim/SimCharacter.h&quot;
+<span class="lineNum">       5 </span>            : #include &quot;sim/RBDUtil.h&quot;
+<span class="lineNum">       6 </span>            : 
+<a name="7"><span class="lineNum">       7 </span>            : #include &quot;util/FileUtil.h&quot;</a>
+<span class="lineNum">       8 </span>            : 
+<span class="lineNum">       9 </span><span class="lineCov">          1 : cImpPDController::cImpPDController()</span>
+<span class="lineNum">      10 </span>            : {
+<span class="lineNum">      11 </span><span class="lineCov">          1 :         mExternRBDModel = true;</span>
+<span class="lineNum">      12 </span>            : 
+<span class="lineNum">      13 </span>            : #if defined(IMP_PD_CTRL_PROFILER)
+<span class="lineNum">      14 </span>            :         mPerfSolveTime = 0;
+<span class="lineNum">      15 </span>            :         mPerfTotalTime = 0;
+<span class="lineNum">      16 </span>            :         mPerfSolveCount = 0;
+<span class="lineNum">      17 </span>            :         mPerfTotalCount = 0;
+<span class="lineNum">      18 </span>            : #endif // IMP_PD_CTRL_PROFILER
+<a name="19"><span class="lineNum">      19 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">      20 </span>            : 
+<span class="lineNum">      21 </span><span class="lineNoCov">          0 : cImpPDController::~cImpPDController()</span>
+<span class="lineNum">      22 </span>            : {
+<a name="23"><span class="lineNum">      23 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      24 </span>            : 
+<span class="lineNum">      25 </span><span class="lineCov">          1 : void cImpPDController::Init(cSimCharacter* character, const Eigen::MatrixXd&amp; pd_params, const tVector&amp; gravity)</span>
+<span class="lineNum">      26 </span>            : {
+<span class="lineNum">      27 </span><span class="lineCov">          2 :         std::shared_ptr&lt;cRBDModel&gt; model = BuildRBDModel(*character, gravity);</span>
+<span class="lineNum">      28 </span><span class="lineCov">          1 :         Init(character, model, pd_params, gravity);</span>
+<span class="lineNum">      29 </span><span class="lineCov">          1 :         mExternRBDModel = false;</span>
+<a name="30"><span class="lineNum">      30 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">      31 </span>            : 
+<span class="lineNum">      32 </span><span class="lineCov">          1 : void cImpPDController::Init(cSimCharacter* character, const std::shared_ptr&lt;cRBDModel&gt;&amp; model, const Eigen::MatrixXd&amp; pd_params, const tVector&amp; gravity)</span>
+<span class="lineNum">      33 </span>            : {
+<span class="lineNum">      34 </span><span class="lineCov">          1 :         cExpPDController::Init(character, pd_params);</span>
+<span class="lineNum">      35 </span><span class="lineCov">          1 :         mGravity = gravity;</span>
+<span class="lineNum">      36 </span><span class="lineCov">          1 :         mRBDModel = model;</span>
+<span class="lineNum">      37 </span><span class="lineCov">          1 :         InitGains();</span>
+<a name="38"><span class="lineNum">      38 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">      39 </span>            : 
+<span class="lineNum">      40 </span><span class="lineCov">          2 : void cImpPDController::Clear()</span>
+<span class="lineNum">      41 </span>            : {
+<span class="lineNum">      42 </span><span class="lineCov">          2 :         cExpPDController::Clear();</span>
+<span class="lineNum">      43 </span><span class="lineCov">          2 :         mExternRBDModel = true;</span>
+<span class="lineNum">      44 </span><span class="lineCov">          2 :         mRBDModel.reset();</span>
+<a name="45"><span class="lineNum">      45 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">      46 </span>            : 
+<span class="lineNum">      47 </span><span class="lineCov">        170 : void cImpPDController::UpdateControlForce(double time_step, Eigen::VectorXd&amp; out_tau)</span>
+<span class="lineNum">      48 </span>            : {
+<span class="lineNum">      49 </span><span class="lineCov">        170 :         cController::Update(time_step);</span>
+<span class="lineNum">      50 </span>            : 
+<span class="lineNum">      51 </span>            : #if defined(IMP_PD_CTRL_PROFILER)
+<span class="lineNum">      52 </span>            :         TIMER_RECORD_BEG(Update_Ctrl_Force)
+<span class="lineNum">      53 </span>            : #endif
+<span class="lineNum">      54 </span>            : 
+<span class="lineNum">      55 </span><span class="lineCov">        170 :         if (time_step &gt; 0)</span>
+<span class="lineNum">      56 </span>            :         {
+<span class="lineNum">      57 </span><span class="lineCov">        170 :                 if (!mExternRBDModel)</span>
+<span class="lineNum">      58 </span>            :                 {
+<span class="lineNum">      59 </span><span class="lineCov">        170 :                         UpdateRBDModel();</span>
+<span class="lineNum">      60 </span>            :                 }
+<span class="lineNum">      61 </span>            : 
+<span class="lineNum">      62 </span><span class="lineCov">        170 :                 CalcControlForces(time_step, out_tau);</span>
+<span class="lineNum">      63 </span>            :         }
+<span class="lineNum">      64 </span>            : 
+<span class="lineNum">      65 </span>            : #if defined(IMP_PD_CTRL_PROFILER)
+<span class="lineNum">      66 </span>            :         TIMER_RECORD_END(Update_Ctrl_Force, mPerfTotalTime, mPerfTotalCount)
+<span class="lineNum">      67 </span>            : #endif
+<span class="lineNum">      68 </span>            : 
+<span class="lineNum">      69 </span>            : #if defined(IMP_PD_CTRL_PROFILER)
+<span class="lineNum">      70 </span>            :         printf(&quot;Solve Time: %.5f\n&quot;, mPerfSolveTime);
+<span class="lineNum">      71 </span>            :         printf(&quot;Total Time: %.5f\n&quot;, mPerfTotalTime);
+<span class="lineNum">      72 </span>            : #endif
+<a name="73"><span class="lineNum">      73 </span><span class="lineCov">        170 : }</span></a>
+<span class="lineNum">      74 </span>            : 
+<span class="lineNum">      75 </span><span class="lineNoCov">          0 : void cImpPDController::SetKp(int joint_id, double kp)</span>
+<span class="lineNum">      76 </span>            : {
+<span class="lineNum">      77 </span><span class="lineNoCov">          0 :         cExpPDController::SetKp(joint_id, kp);</span>
+<span class="lineNum">      78 </span>            : 
+<span class="lineNum">      79 </span><span class="lineNoCov">          0 :         int param_offset = mChar-&gt;GetParamOffset(joint_id);</span>
+<span class="lineNum">      80 </span><span class="lineNoCov">          0 :         int param_size = mChar-&gt;GetParamSize(joint_id);</span>
+<span class="lineNum">      81 </span>            : 
+<span class="lineNum">      82 </span><span class="lineNoCov">          0 :         auto curr_kp = mKp.segment(param_offset, param_size);</span>
+<span class="lineNum">      83 </span><span class="lineNoCov">          0 :         curr_kp.setOnes();</span>
+<span class="lineNum">      84 </span><span class="lineNoCov">          0 :         curr_kp *= kp;</span>
+<a name="85"><span class="lineNum">      85 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      86 </span>            : 
+<span class="lineNum">      87 </span><span class="lineNoCov">          0 : void cImpPDController::SetKd(int joint_id, double kd)</span>
+<span class="lineNum">      88 </span>            : {
+<span class="lineNum">      89 </span><span class="lineNoCov">          0 :         cExpPDController::SetKd(joint_id, kd);</span>
+<span class="lineNum">      90 </span>            : 
+<span class="lineNum">      91 </span><span class="lineNoCov">          0 :         int param_offset = mChar-&gt;GetParamOffset(joint_id);</span>
+<span class="lineNum">      92 </span><span class="lineNoCov">          0 :         int param_size = mChar-&gt;GetParamSize(joint_id);</span>
+<span class="lineNum">      93 </span>            : 
+<span class="lineNum">      94 </span><span class="lineNoCov">          0 :         auto curr_kd = mKd.segment(param_offset, param_size);</span>
+<span class="lineNum">      95 </span><span class="lineNoCov">          0 :         curr_kd.setOnes();</span>
+<span class="lineNum">      96 </span><span class="lineNoCov">          0 :         curr_kd *= kd;</span>
+<a name="97"><span class="lineNum">      97 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      98 </span>            : 
+<span class="lineNum">      99 </span><span class="lineCov">          1 : void cImpPDController::InitGains()</span>
+<span class="lineNum">     100 </span>            : {
+<span class="lineNum">     101 </span><span class="lineCov">          1 :         int num_dof = GetNumDof();</span>
+<span class="lineNum">     102 </span><span class="lineCov">          1 :         mKp = Eigen::VectorXd::Zero(num_dof);</span>
+<span class="lineNum">     103 </span><span class="lineCov">          1 :         mKd = Eigen::VectorXd::Zero(num_dof);</span>
+<span class="lineNum">     104 </span>            : 
+<span class="lineNum">     105 </span><span class="lineCov">         16 :         for (int j = 0; j &lt; GetNumJoints(); ++j)</span>
+<span class="lineNum">     106 </span>            :         {
+<span class="lineNum">     107 </span><span class="lineCov">         15 :                 const cPDController&amp; pd_ctrl = GetPDCtrl(j);</span>
+<span class="lineNum">     108 </span><span class="lineCov">         15 :                 if (pd_ctrl.IsValid())</span>
+<span class="lineNum">     109 </span>            :                 {
+<span class="lineNum">     110 </span><span class="lineCov">         14 :                         int param_offset = mChar-&gt;GetParamOffset(j);</span>
+<span class="lineNum">     111 </span><span class="lineCov">         14 :                         int param_size = mChar-&gt;GetParamSize(j);</span>
+<span class="lineNum">     112 </span>            : 
+<span class="lineNum">     113 </span><span class="lineCov">         14 :                         double kp = pd_ctrl.GetKp();</span>
+<span class="lineNum">     114 </span><span class="lineCov">         14 :                         double kd = pd_ctrl.GetKd();</span>
+<span class="lineNum">     115 </span>            : 
+<span class="lineNum">     116 </span><span class="lineCov">         14 :                         mKp.segment(param_offset, param_size) = Eigen::VectorXd::Ones(param_size) * kp;</span>
+<span class="lineNum">     117 </span><span class="lineCov">         14 :                         mKd.segment(param_offset, param_size) = Eigen::VectorXd::Ones(param_size) * kd;</span>
+<span class="lineNum">     118 </span>            :                 }
+<span class="lineNum">     119 </span>            :         }
+<a name="120"><span class="lineNum">     120 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     121 </span>            : 
+<span class="lineNum">     122 </span><span class="lineCov">          1 : std::shared_ptr&lt;cRBDModel&gt; cImpPDController::BuildRBDModel(const cSimCharacter&amp; character, const tVector&amp; gravity) const</span>
+<span class="lineNum">     123 </span>            : {
+<span class="lineNum">     124 </span><span class="lineCov">          1 :         std::shared_ptr&lt;cRBDModel&gt; model = std::shared_ptr&lt;cRBDModel&gt;(new cRBDModel());</span>
+<span class="lineNum">     125 </span><span class="lineCov">          1 :         model-&gt;Init(character.GetJointMat(), character.GetBodyDefs(), gravity);</span>
+<span class="lineNum">     126 </span><span class="lineCov">          1 :         return model;</span>
+<a name="127"><span class="lineNum">     127 </span>            : }</a>
+<span class="lineNum">     128 </span>            : 
+<span class="lineNum">     129 </span><span class="lineCov">        170 : void cImpPDController::UpdateRBDModel()</span>
+<span class="lineNum">     130 </span>            : {
+<span class="lineNum">     131 </span><span class="lineCov">        170 :         const Eigen::VectorXd&amp; pose = mChar-&gt;GetPose();</span>
+<span class="lineNum">     132 </span><span class="lineCov">        170 :         const Eigen::VectorXd&amp; vel = mChar-&gt;GetVel();</span>
+<span class="lineNum">     133 </span><span class="lineCov">        170 :         mRBDModel-&gt;Update(pose, vel);</span>
+<a name="134"><span class="lineNum">     134 </span><span class="lineCov">        170 : }</span></a>
+<span class="lineNum">     135 </span>            : 
+<span class="lineNum">     136 </span><span class="lineCov">        170 : void cImpPDController::CalcControlForces(double time_step, Eigen::VectorXd&amp; out_tau)</span>
+<span class="lineNum">     137 </span>            : {
+<span class="lineNum">     138 </span><span class="lineCov">        170 :         double t = time_step;</span>
+<span class="lineNum">     139 </span>            : 
+<span class="lineNum">     140 </span><span class="lineCov">        170 :         const Eigen::VectorXd&amp; pose = mChar-&gt;GetPose();</span>
+<span class="lineNum">     141 </span><span class="lineCov">        170 :         const Eigen::VectorXd&amp; vel = mChar-&gt;GetVel();</span>
+<span class="lineNum">     142 </span><span class="lineCov">        340 :         Eigen::VectorXd tar_pose;</span>
+<span class="lineNum">     143 </span><span class="lineCov">        340 :         Eigen::VectorXd tar_vel;</span>
+<span class="lineNum">     144 </span><span class="lineCov">        170 :         BuildTargetPose(tar_pose);</span>
+<span class="lineNum">     145 </span><span class="lineCov">        170 :         BuildTargetVel(tar_vel);</span>
+<span class="lineNum">     146 </span>            : 
+<span class="lineNum">     147 </span><span class="lineCov">        340 :         Eigen::DiagonalMatrix&lt;double, Eigen::Dynamic&gt; Kp_mat = mKp.asDiagonal();</span>
+<span class="lineNum">     148 </span><span class="lineCov">        340 :         Eigen::DiagonalMatrix&lt;double, Eigen::Dynamic&gt; Kd_mat = mKd.asDiagonal();</span>
+<span class="lineNum">     149 </span>            : 
+<span class="lineNum">     150 </span><span class="lineCov">       2720 :         for (int j = 0; j &lt; GetNumJoints(); ++j)</span>
+<span class="lineNum">     151 </span>            :         {
+<span class="lineNum">     152 </span><span class="lineCov">       2550 :                 const cPDController&amp; pd_ctrl = GetPDCtrl(j);</span>
+<span class="lineNum">     153 </span><span class="lineCov">       2550 :                 if (!pd_ctrl.IsValid() || !pd_ctrl.IsActive())</span>
+<span class="lineNum">     154 </span>            :                 {
+<span class="lineNum">     155 </span><span class="lineCov">        170 :                         int param_offset = mChar-&gt;GetParamOffset(j);</span>
+<span class="lineNum">     156 </span><span class="lineCov">        170 :                         int param_size = mChar-&gt;GetParamSize(j);</span>
+<span class="lineNum">     157 </span><span class="lineCov">        170 :                         Kp_mat.diagonal().segment(param_offset, param_size).setZero();</span>
+<span class="lineNum">     158 </span><span class="lineCov">        170 :                         Kd_mat.diagonal().segment(param_offset, param_size).setZero();</span>
+<span class="lineNum">     159 </span>            :                 }
+<span class="lineNum">     160 </span>            :         }
+<span class="lineNum">     161 </span>            : 
+<span class="lineNum">     162 </span><span class="lineCov">        340 :         Eigen::MatrixXd M = mRBDModel-&gt;GetMassMat();</span>
+<span class="lineNum">     163 </span><span class="lineCov">        170 :         const Eigen::VectorXd&amp; C = mRBDModel-&gt;GetBiasForce();</span>
+<span class="lineNum">     164 </span><span class="lineCov">        170 :         M.diagonal() += t * mKd;</span>
+<span class="lineNum">     165 </span>            : 
+<span class="lineNum">     166 </span><span class="lineCov">        340 :         Eigen::VectorXd pose_inc;</span>
+<span class="lineNum">     167 </span><span class="lineCov">        170 :         const Eigen::MatrixXd&amp; joint_mat = mChar-&gt;GetJointMat();</span>
+<span class="lineNum">     168 </span><span class="lineCov">        170 :         cKinTree::VelToPoseDiff(joint_mat, pose, vel, pose_inc);</span>
+<span class="lineNum">     169 </span>            : 
+<span class="lineNum">     170 </span><span class="lineCov">        170 :         pose_inc = pose + t * pose_inc;</span>
+<span class="lineNum">     171 </span><span class="lineCov">        170 :         cKinTree::PostProcessPose(joint_mat, pose_inc);</span>
+<span class="lineNum">     172 </span>            : 
+<span class="lineNum">     173 </span><span class="lineCov">        340 :         Eigen::VectorXd pose_err;</span>
+<span class="lineNum">     174 </span><span class="lineCov">        170 :         cKinTree::CalcVel(joint_mat, pose_inc, tar_pose, 1, pose_err);</span>
+<span class="lineNum">     175 </span><span class="lineCov">        340 :         Eigen::VectorXd vel_err = tar_vel - vel;</span>
+<span class="lineNum">     176 </span><span class="lineCov">        340 :         Eigen::VectorXd acc = Kp_mat * pose_err + Kd_mat * vel_err - C;</span>
+<span class="lineNum">     177 </span>            :         
+<span class="lineNum">     178 </span>            : #if defined(IMP_PD_CTRL_PROFILER)
+<span class="lineNum">     179 </span>            :         TIMER_RECORD_BEG(Solve)
+<span class="lineNum">     180 </span>            : #endif
+<span class="lineNum">     181 </span>            : 
+<span class="lineNum">     182 </span>            :         //int root_size = cKinTree::gRootDim;
+<span class="lineNum">     183 </span>            :         //int num_act_dofs = static_cast&lt;int&gt;(acc.size()) - root_size;
+<span class="lineNum">     184 </span>            :         //auto M_act = M.block(root_size, root_size, num_act_dofs, num_act_dofs);
+<span class="lineNum">     185 </span>            :         //auto acc_act = acc.segment(root_size, num_act_dofs);
+<span class="lineNum">     186 </span>            :         //acc_act = M_act.ldlt().solve(acc_act);
+<span class="lineNum">     187 </span>            :         
+<span class="lineNum">     188 </span><span class="lineCov">        170 :         acc = M.ldlt().solve(acc);</span>
+<span class="lineNum">     189 </span>            : 
+<span class="lineNum">     190 </span>            : #if defined(IMP_PD_CTRL_PROFILER)
+<span class="lineNum">     191 </span>            :         TIMER_RECORD_END(Solve, mPerfSolveTime, mPerfSolveCount)
+<span class="lineNum">     192 </span>            : #endif
+<span class="lineNum">     193 </span>            :         
+<span class="lineNum">     194 </span><span class="lineCov">        170 :         out_tau += Kp_mat * pose_err + Kd_mat * (vel_err - t * acc);</span>
+<a name="195"><span class="lineNum">     195 </span><span class="lineCov">        170 : }</span></a>
+<span class="lineNum">     196 </span>            : 
+<span class="lineNum">     197 </span><span class="lineCov">        170 : void cImpPDController::BuildTargetPose(Eigen::VectorXd&amp; out_pose) const</span>
+<span class="lineNum">     198 </span>            : {
+<span class="lineNum">     199 </span><span class="lineCov">        170 :         out_pose = Eigen::VectorXd::Zero(GetNumDof());</span>
+<span class="lineNum">     200 </span>            : 
+<span class="lineNum">     201 </span>            :         //const auto&amp; joint_mat = mChar-&gt;GetJointMat();
+<span class="lineNum">     202 </span>            :         //tVector root_pos = mChar-&gt;GetRootPos();
+<span class="lineNum">     203 </span>            :         //tQuaternion root_rot = mChar-&gt;GetRootRotation();
+<span class="lineNum">     204 </span>            :         //cKinTree::SetRootPos(joint_mat, root_pos, out_pose);
+<span class="lineNum">     205 </span>            :         //cKinTree::SetRootRot(joint_mat, root_rot, out_pose);
+<span class="lineNum">     206 </span>            : 
+<span class="lineNum">     207 </span><span class="lineCov">       2720 :         for (int j = 0; j &lt; GetNumJoints(); ++j)</span>
+<span class="lineNum">     208 </span>            :         {
+<span class="lineNum">     209 </span><span class="lineCov">       2550 :                 const cPDController&amp; pd_ctrl = GetPDCtrl(j);</span>
+<span class="lineNum">     210 </span><span class="lineCov">       2550 :                 if (pd_ctrl.IsValid())</span>
+<span class="lineNum">     211 </span>            :                 {
+<span class="lineNum">     212 </span><span class="lineCov">       4760 :                         Eigen::VectorXd curr_pose;</span>
+<span class="lineNum">     213 </span><span class="lineCov">       2380 :                         pd_ctrl.GetTargetTheta(curr_pose);</span>
+<span class="lineNum">     214 </span><span class="lineCov">       2380 :                         int param_offset = mChar-&gt;GetParamOffset(j);</span>
+<span class="lineNum">     215 </span><span class="lineCov">       2380 :                         int param_size = mChar-&gt;GetParamSize(j);</span>
+<span class="lineNum">     216 </span><span class="lineCov">       2380 :                         out_pose.segment(param_offset, param_size) = curr_pose;</span>
+<span class="lineNum">     217 </span>            :                 }
+<span class="lineNum">     218 </span>            :         }
+<a name="219"><span class="lineNum">     219 </span><span class="lineCov">        170 : }</span></a>
+<span class="lineNum">     220 </span>            : 
+<span class="lineNum">     221 </span><span class="lineCov">        170 : void cImpPDController::BuildTargetVel(Eigen::VectorXd&amp; out_vel) const</span>
+<span class="lineNum">     222 </span>            : {
+<span class="lineNum">     223 </span><span class="lineCov">        170 :         out_vel = Eigen::VectorXd::Zero(GetNumDof());</span>
+<span class="lineNum">     224 </span>            : 
+<span class="lineNum">     225 </span>            :         //const auto&amp; joint_mat = mChar-&gt;GetJointMat();
+<span class="lineNum">     226 </span>            :         //tVector root_vel = mChar-&gt;GetRootVel();
+<span class="lineNum">     227 </span>            :         //tVector root_ang_vel = mChar-&gt;GetRootAngVel();
+<span class="lineNum">     228 </span>            :         //cKinTree::SetRootVel(joint_mat, root_vel, out_vel);
+<span class="lineNum">     229 </span>            :         //cKinTree::SetRootAngVel(joint_mat, root_ang_vel, out_vel);
+<span class="lineNum">     230 </span>            :         
+<span class="lineNum">     231 </span><span class="lineCov">       2720 :         for (int j = 0; j &lt; GetNumJoints(); ++j)</span>
+<span class="lineNum">     232 </span>            :         {
+<span class="lineNum">     233 </span><span class="lineCov">       2550 :                 const cPDController&amp; pd_ctrl = GetPDCtrl(j);</span>
+<span class="lineNum">     234 </span><span class="lineCov">       2550 :                 if (pd_ctrl.IsValid())</span>
+<span class="lineNum">     235 </span>            :                 {
+<span class="lineNum">     236 </span><span class="lineCov">       4760 :                         Eigen::VectorXd curr_vel;</span>
+<span class="lineNum">     237 </span><span class="lineCov">       2380 :                         pd_ctrl.GetTargetVel(curr_vel);</span>
+<span class="lineNum">     238 </span><span class="lineCov">       2380 :                         int param_offset = mChar-&gt;GetParamOffset(j);</span>
+<span class="lineNum">     239 </span><span class="lineCov">       2380 :                         int param_size = mChar-&gt;GetParamSize(j);</span>
+<span class="lineNum">     240 </span><span class="lineCov">       2380 :                         out_vel.segment(param_offset, param_size) = curr_vel;</span>
+<a name="241"><span class="lineNum">     241 </span>            :                 }</a>
+<span class="lineNum">     242 </span>            :         }
+<span class="lineNum">     243 </span><span class="lineCov">        173 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

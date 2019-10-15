@@ -1,0 +1,396 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Main Call Code Analysis - DeepMimicCore/scenes/RLSceneSimChar.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">DeepMimicCore/scenes</a> - RLSceneSimChar.cpp<span style="font-size: 80%;"> (source / <a href="RLSceneSimChar.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Main Call Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">144</td>
+            <td class="headerCovTableEntry">180</td>
+            <td class="headerCovTableEntryMed">80.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 16:51:56</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">36</td>
+            <td class="headerCovTableEntry">47</td>
+            <td class="headerCovTableEntryMed">76.6 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : #include &quot;RLSceneSimChar.h&quot;</a>
+<span class="lineNum">       2 </span>            : 
+<span class="lineNum">       3 </span><span class="lineCov">          1 : cRLSceneSimChar::cRLSceneSimChar()</span>
+<span class="lineNum">       4 </span>            : {
+<span class="lineNum">       5 </span><span class="lineCov">          1 :         mEnableFallEnd = true;</span>
+<span class="lineNum">       6 </span><span class="lineCov">          1 :         mAnnealSamples = gInvalidIdx;</span>
+<a name="7"><span class="lineNum">       7 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">       8 </span>            : 
+<span class="lineNum">       9 </span><span class="lineNoCov">          0 : cRLSceneSimChar::~cRLSceneSimChar()</span>
+<span class="lineNum">      10 </span>            : {
+<a name="11"><span class="lineNum">      11 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      12 </span>            : 
+<span class="lineNum">      13 </span><span class="lineCov">          1 : void cRLSceneSimChar::ParseArgs(const std::shared_ptr&lt;cArgParser&gt;&amp; parser)</span>
+<span class="lineNum">      14 </span>            : {
+<span class="lineNum">      15 </span><span class="lineCov">          1 :         cRLScene::ParseArgs(parser);</span>
+<span class="lineNum">      16 </span><span class="lineCov">          1 :         cSceneSimChar::ParseArgs(parser);</span>
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span><span class="lineCov">          1 :         parser-&gt;ParseBool(&quot;enable_fall_end&quot;, mEnableFallEnd);</span>
+<span class="lineNum">      19 </span><span class="lineCov">          1 :         parser-&gt;ParseInt(&quot;anneal_samples&quot;, mAnnealSamples);</span>
+<span class="lineNum">      20 </span>            : 
+<span class="lineNum">      21 </span><span class="lineCov">          1 :         mTimerParamsEnd = mTimerParams;</span>
+<span class="lineNum">      22 </span><span class="lineCov">          1 :         mArgParser-&gt;ParseDouble(&quot;time_end_lim_min&quot;, mTimerParamsEnd.mTimeMin);</span>
+<span class="lineNum">      23 </span><span class="lineCov">          1 :         mArgParser-&gt;ParseDouble(&quot;time_end_lim_max&quot;, mTimerParamsEnd.mTimeMax);</span>
+<span class="lineNum">      24 </span><span class="lineCov">          1 :         mArgParser-&gt;ParseDouble(&quot;time_end_lim_exp&quot;, mTimerParamsEnd.mTimeExp);</span>
+<a name="25"><span class="lineNum">      25 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">      26 </span>            : 
+<span class="lineNum">      27 </span><span class="lineCov">          1 : void cRLSceneSimChar::Init()</span>
+<span class="lineNum">      28 </span>            : {
+<span class="lineNum">      29 </span><span class="lineCov">          1 :         cRLScene::Init();</span>
+<span class="lineNum">      30 </span><span class="lineCov">          1 :         cSceneSimChar::Init();</span>
+<span class="lineNum">      31 </span>            : 
+<span class="lineNum">      32 </span><span class="lineCov">          1 :         mAgentReg.Clear();</span>
+<span class="lineNum">      33 </span><span class="lineCov">          1 :         RegisterAgents();</span>
+<span class="lineNum">      34 </span><span class="lineCov">          1 :         mAgentReg.PrintInfo();</span>
+<span class="lineNum">      35 </span>            : 
+<span class="lineNum">      36 </span><span class="lineCov">          1 :         SetupTimerAnnealer(mTimerAnnealer);</span>
+<a name="37"><span class="lineNum">      37 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">      38 </span>            : 
+<span class="lineNum">      39 </span><span class="lineNoCov">          0 : void cRLSceneSimChar::Clear()</span>
+<span class="lineNum">      40 </span>            : {
+<span class="lineNum">      41 </span><span class="lineNoCov">          0 :         cRLScene::Clear();</span>
+<span class="lineNum">      42 </span><span class="lineNoCov">          0 :         cSceneSimChar::Clear(); </span>
+<span class="lineNum">      43 </span>            :         
+<span class="lineNum">      44 </span><span class="lineNoCov">          0 :         mAgentReg.Clear();</span>
+<a name="45"><span class="lineNum">      45 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      46 </span>            : 
+<span class="lineNum">      47 </span><span class="lineCov">       1021 : int cRLSceneSimChar::GetNumAgents() const</span>
+<span class="lineNum">      48 </span>            : {
+<span class="lineNum">      49 </span><span class="lineCov">       1021 :         return mAgentReg.GetNumAgents();</span>
+<a name="50"><span class="lineNum">      50 </span>            : }</a>
+<span class="lineNum">      51 </span>            : 
+<span class="lineNum">      52 </span><span class="lineCov">        170 : bool cRLSceneSimChar::NeedNewAction(int agent_id) const</span>
+<span class="lineNum">      53 </span>            : {
+<span class="lineNum">      54 </span><span class="lineCov">        170 :         const auto&amp; ctrl = GetController(agent_id);</span>
+<span class="lineNum">      55 </span><span class="lineCov">        170 :         return ctrl-&gt;NeedNewAction();</span>
+<a name="56"><span class="lineNum">      56 </span>            : }</a>
+<span class="lineNum">      57 </span>            : 
+<span class="lineNum">      58 </span><span class="lineCov">          9 : void cRLSceneSimChar::RecordState(int agent_id, Eigen::VectorXd&amp; out_state) const</span>
+<span class="lineNum">      59 </span>            : {
+<span class="lineNum">      60 </span><span class="lineCov">          9 :         const auto&amp; ctrl = GetController(agent_id);</span>
+<span class="lineNum">      61 </span><span class="lineCov">          9 :         ctrl-&gt;RecordState(out_state);</span>
+<a name="62"><span class="lineNum">      62 </span><span class="lineCov">          9 : }</span></a>
+<span class="lineNum">      63 </span>            : 
+<span class="lineNum">      64 </span><span class="lineCov">          9 : void cRLSceneSimChar::RecordGoal(int agent_id, Eigen::VectorXd&amp; out_goal) const</span>
+<span class="lineNum">      65 </span>            : {
+<span class="lineNum">      66 </span><span class="lineCov">          9 :         const auto&amp; ctrl = GetController(agent_id);</span>
+<span class="lineNum">      67 </span><span class="lineCov">          9 :         ctrl-&gt;RecordGoal(out_goal);</span>
+<a name="68"><span class="lineNum">      68 </span><span class="lineCov">          9 : }</span></a>
+<span class="lineNum">      69 </span>            : 
+<span class="lineNum">      70 </span><span class="lineCov">          9 : void cRLSceneSimChar::SetAction(int agent_id, const Eigen::VectorXd&amp; action)</span>
+<span class="lineNum">      71 </span>            : {
+<span class="lineNum">      72 </span><span class="lineCov">          9 :         const auto&amp; ctrl = GetController(agent_id);</span>
+<span class="lineNum">      73 </span><span class="lineCov">          9 :         ctrl-&gt;ApplyAction(action);</span>
+<a name="74"><span class="lineNum">      74 </span><span class="lineCov">          9 : }</span></a>
+<span class="lineNum">      75 </span>            : 
+<span class="lineNum">      76 </span><span class="lineCov">          1 : eActionSpace cRLSceneSimChar::GetActionSpace(int agent_id) const</span>
+<span class="lineNum">      77 </span>            : {
+<span class="lineNum">      78 </span><span class="lineCov">          1 :         const auto&amp; ctrl = GetController(agent_id);</span>
+<span class="lineNum">      79 </span><span class="lineCov">          1 :         return ctrl-&gt;GetActionSpace();</span>
+<a name="80"><span class="lineNum">      80 </span>            : }</a>
+<span class="lineNum">      81 </span>            : 
+<span class="lineNum">      82 </span><span class="lineCov">          1 : int cRLSceneSimChar::GetStateSize(int agent_id) const</span>
+<span class="lineNum">      83 </span>            : {
+<span class="lineNum">      84 </span><span class="lineCov">          1 :         const auto&amp; ctrl = GetController(agent_id);</span>
+<span class="lineNum">      85 </span><span class="lineCov">          1 :         return ctrl-&gt;GetStateSize();</span>
+<a name="86"><span class="lineNum">      86 </span>            : }</a>
+<span class="lineNum">      87 </span>            : 
+<span class="lineNum">      88 </span><span class="lineCov">          1 : int cRLSceneSimChar::GetGoalSize(int agent_id) const</span>
+<span class="lineNum">      89 </span>            : {
+<span class="lineNum">      90 </span><span class="lineCov">          1 :         const auto&amp; ctrl = GetController(agent_id);</span>
+<span class="lineNum">      91 </span><span class="lineCov">          1 :         return ctrl-&gt;GetGoalSize();</span>
+<a name="92"><span class="lineNum">      92 </span>            : }</a>
+<span class="lineNum">      93 </span>            : 
+<span class="lineNum">      94 </span><span class="lineCov">         10 : int cRLSceneSimChar::GetActionSize(int agent_id) const</span>
+<span class="lineNum">      95 </span>            : {
+<span class="lineNum">      96 </span><span class="lineCov">         10 :         const auto&amp; ctrl = GetController(agent_id);</span>
+<span class="lineNum">      97 </span><span class="lineCov">         10 :         return ctrl-&gt;GetActionSize();</span>
+<a name="98"><span class="lineNum">      98 </span>            : }</a>
+<span class="lineNum">      99 </span>            : 
+<span class="lineNum">     100 </span><span class="lineCov">          1 : int cRLSceneSimChar::GetNumActions(int agent_id) const</span>
+<span class="lineNum">     101 </span>            : {
+<span class="lineNum">     102 </span><span class="lineCov">          1 :         const auto&amp; ctrl = GetController(agent_id);</span>
+<span class="lineNum">     103 </span><span class="lineCov">          1 :         return ctrl-&gt;GetNumActions();</span>
+<a name="104"><span class="lineNum">     104 </span>            : }</a>
+<span class="lineNum">     105 </span>            : 
+<span class="lineNum">     106 </span><span class="lineCov">          2 : void cRLSceneSimChar::BuildStateOffsetScale(int agent_id, Eigen::VectorXd&amp; out_offset, Eigen::VectorXd&amp; out_scale) const</span>
+<span class="lineNum">     107 </span>            : {
+<span class="lineNum">     108 </span><span class="lineCov">          2 :         const auto&amp; ctrl = GetController(agent_id);</span>
+<span class="lineNum">     109 </span><span class="lineCov">          2 :         ctrl-&gt;BuildStateOffsetScale(out_offset, out_scale);</span>
+<a name="110"><span class="lineNum">     110 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     111 </span>            : 
+<span class="lineNum">     112 </span><span class="lineCov">          2 : void cRLSceneSimChar::BuildGoalOffsetScale(int agent_id, Eigen::VectorXd&amp; out_offset, Eigen::VectorXd&amp; out_scale) const</span>
+<span class="lineNum">     113 </span>            : {
+<span class="lineNum">     114 </span><span class="lineCov">          2 :         const auto&amp; ctrl = GetController(agent_id);</span>
+<span class="lineNum">     115 </span><span class="lineCov">          2 :         ctrl-&gt;BuildGoalOffsetScale(out_offset, out_scale);</span>
+<a name="116"><span class="lineNum">     116 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     117 </span>            : 
+<span class="lineNum">     118 </span><span class="lineCov">          2 : void cRLSceneSimChar::BuildActionOffsetScale(int agent_id, Eigen::VectorXd&amp; out_offset, Eigen::VectorXd&amp; out_scale) const</span>
+<span class="lineNum">     119 </span>            : {
+<span class="lineNum">     120 </span><span class="lineCov">          2 :         const auto&amp; ctrl = GetController(agent_id);</span>
+<span class="lineNum">     121 </span><span class="lineCov">          2 :         ctrl-&gt;BuildActionOffsetScale(out_offset, out_scale);</span>
+<a name="122"><span class="lineNum">     122 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     123 </span>            : 
+<span class="lineNum">     124 </span><span class="lineCov">          2 : void cRLSceneSimChar::BuildActionBounds(int agent_id, Eigen::VectorXd&amp; out_min, Eigen::VectorXd&amp; out_max) const</span>
+<span class="lineNum">     125 </span>            : {
+<span class="lineNum">     126 </span><span class="lineCov">          2 :         const auto&amp; ctrl = GetController(agent_id);</span>
+<span class="lineNum">     127 </span><span class="lineCov">          2 :         ctrl-&gt;BuildActionBounds(out_min, out_max);</span>
+<a name="128"><span class="lineNum">     128 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     129 </span>            : 
+<span class="lineNum">     130 </span><span class="lineCov">          1 : void cRLSceneSimChar::BuildStateNormGroups(int agent_id, Eigen::VectorXi&amp; out_groups) const</span>
+<span class="lineNum">     131 </span>            : {
+<span class="lineNum">     132 </span><span class="lineCov">          1 :         const auto&amp; ctrl = GetController(agent_id);</span>
+<span class="lineNum">     133 </span><span class="lineCov">          1 :         ctrl-&gt;BuildStateNormGroups(out_groups);</span>
+<a name="134"><span class="lineNum">     134 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     135 </span>            : 
+<span class="lineNum">     136 </span><span class="lineCov">          1 : void cRLSceneSimChar::BuildGoalNormGroups(int agent_id, Eigen::VectorXi&amp; out_groups) const</span>
+<span class="lineNum">     137 </span>            : {
+<span class="lineNum">     138 </span><span class="lineCov">          1 :         const auto&amp; ctrl = GetController(agent_id);</span>
+<span class="lineNum">     139 </span><span class="lineCov">          1 :         ctrl-&gt;BuildGoalNormGroups(out_groups);</span>
+<a name="140"><span class="lineNum">     140 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     141 </span>            : 
+<span class="lineNum">     142 </span><span class="lineCov">          2 : double cRLSceneSimChar::GetRewardMin(int agent_id) const</span>
+<span class="lineNum">     143 </span>            : {
+<span class="lineNum">     144 </span><span class="lineCov">          2 :         return mAgentReg.GetAgent(agent_id)-&gt;GetRewardMin();</span>
+<a name="145"><span class="lineNum">     145 </span>            : }</a>
+<span class="lineNum">     146 </span>            : 
+<span class="lineNum">     147 </span><span class="lineCov">          2 : double cRLSceneSimChar::GetRewardMax(int agent_id) const</span>
+<span class="lineNum">     148 </span>            : {
+<span class="lineNum">     149 </span><span class="lineCov">          2 :         return mAgentReg.GetAgent(agent_id)-&gt;GetRewardMax();</span>
+<a name="150"><span class="lineNum">     150 </span>            : }</a>
+<span class="lineNum">     151 </span>            : 
+<span class="lineNum">     152 </span><span class="lineCov">        170 : cRLSceneSimChar::eTerminate cRLSceneSimChar::CheckTerminate(int agent_id) const</span>
+<span class="lineNum">     153 </span>            : {
+<span class="lineNum">     154 </span><span class="lineCov">        170 :         bool fail = false;</span>
+<span class="lineNum">     155 </span><span class="lineCov">        170 :         if (EnableFallEnd())</span>
+<span class="lineNum">     156 </span>            :         {
+<span class="lineNum">     157 </span><span class="lineCov">        170 :                 const auto&amp; character = GetAgentChar(agent_id);</span>
+<span class="lineNum">     158 </span><span class="lineCov">        170 :                 fail |= HasFallen(*character);</span>
+<span class="lineNum">     159 </span>            :         }
+<span class="lineNum">     160 </span><span class="lineCov">        170 :         eTerminate terminated = (fail) ? eTerminateFail : eTerminateNull;</span>
+<span class="lineNum">     161 </span><span class="lineCov">        170 :         return terminated;</span>
+<a name="162"><span class="lineNum">     162 </span>            : }</a>
+<span class="lineNum">     163 </span>            : 
+<span class="lineNum">     164 </span><span class="lineCov">        170 : bool cRLSceneSimChar::CheckValidEpisode() const</span>
+<span class="lineNum">     165 </span>            : {
+<span class="lineNum">     166 </span><span class="lineCov">        340 :         for (int i = 0; i &lt; GetNumChars(); ++i)</span>
+<span class="lineNum">     167 </span>            :         {
+<span class="lineNum">     168 </span><span class="lineCov">        170 :                 const auto&amp; sim_char = GetCharacter(i);</span>
+<span class="lineNum">     169 </span><span class="lineCov">        170 :                 bool exp = sim_char-&gt;HasVelExploded();</span>
+<span class="lineNum">     170 </span><span class="lineCov">        170 :                 if (exp)</span>
+<span class="lineNum">     171 </span>            :                 {
+<span class="lineNum">     172 </span><span class="lineNoCov">          0 :                         return false;</span>
+<span class="lineNum">     173 </span>            :                 }
+<span class="lineNum">     174 </span>            :         }
+<span class="lineNum">     175 </span><span class="lineCov">        170 :         return true;</span>
+<a name="176"><span class="lineNum">     176 </span>            : }</a>
+<span class="lineNum">     177 </span>            : 
+<span class="lineNum">     178 </span><span class="lineNoCov">          0 : void cRLSceneSimChar::LogVal(int agent_id, double val)</span>
+<span class="lineNum">     179 </span>            : {
+<span class="lineNum">     180 </span><span class="lineNoCov">          0 :         const auto&amp; ctrl = GetController(agent_id);</span>
+<span class="lineNum">     181 </span><span class="lineNoCov">          0 :         cDeepMimicCharController* trl_ctrl = dynamic_cast&lt;cDeepMimicCharController*&gt;(ctrl.get());</span>
+<span class="lineNum">     182 </span><span class="lineNoCov">          0 :         if (trl_ctrl != nullptr)</span>
+<span class="lineNum">     183 </span>            :         {
+<span class="lineNum">     184 </span><span class="lineNoCov">          0 :                 trl_ctrl-&gt;LogVal(val);</span>
+<span class="lineNum">     185 </span>            :         }
+<a name="186"><span class="lineNum">     186 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     187 </span>            : 
+<span class="lineNum">     188 </span><span class="lineNoCov">          0 : void cRLSceneSimChar::SetSampleCount(int count)</span>
+<span class="lineNum">     189 </span>            : {
+<span class="lineNum">     190 </span><span class="lineNoCov">          0 :         cRLScene::SetSampleCount(count);</span>
+<span class="lineNum">     191 </span><span class="lineNoCov">          0 :         UpdateTimerParams();</span>
+<a name="192"><span class="lineNum">     192 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     193 </span>            : 
+<span class="lineNum">     194 </span><span class="lineNoCov">          0 : std::string cRLSceneSimChar::GetName() const</span>
+<span class="lineNum">     195 </span>            : {
+<span class="lineNum">     196 </span><span class="lineNoCov">          0 :         return &quot;RL Sim Character&quot;;</span>
+<a name="197"><span class="lineNum">     197 </span>            : }</a>
+<span class="lineNum">     198 </span>            : 
+<span class="lineNum">     199 </span><span class="lineCov">          2 : void cRLSceneSimChar::ResetParams()</span>
+<span class="lineNum">     200 </span>            : {
+<span class="lineNum">     201 </span><span class="lineCov">          2 :         cRLScene::ResetParams();</span>
+<span class="lineNum">     202 </span><span class="lineCov">          2 :         cSceneSimChar::ResetParams();</span>
+<a name="203"><span class="lineNum">     203 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     204 </span>            : 
+<span class="lineNum">     205 </span><span class="lineNoCov">          0 : void cRLSceneSimChar::ResetScene()</span>
+<span class="lineNum">     206 </span>            : {
+<span class="lineNum">     207 </span><span class="lineNoCov">          0 :         cRLScene::ResetScene();</span>
+<span class="lineNum">     208 </span><span class="lineNoCov">          0 :         cSceneSimChar::ResetScene();</span>
+<a name="209"><span class="lineNum">     209 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     210 </span>            : 
+<span class="lineNum">     211 </span><span class="lineNoCov">          0 : const std::shared_ptr&lt;cCharController&gt;&amp; cRLSceneSimChar::GetController() const</span>
+<span class="lineNum">     212 </span>            : {
+<span class="lineNum">     213 </span><span class="lineNoCov">          0 :         const auto&amp; character = GetCharacter();</span>
+<span class="lineNum">     214 </span><span class="lineNoCov">          0 :         return character-&gt;GetController();</span>
+<a name="215"><span class="lineNum">     215 </span>            : }</a>
+<span class="lineNum">     216 </span>            : 
+<span class="lineNum">     217 </span><span class="lineCov">        221 : const std::shared_ptr&lt;cCharController&gt;&amp; cRLSceneSimChar::GetController(int agent_id) const</span>
+<span class="lineNum">     218 </span>            : {
+<span class="lineNum">     219 </span><span class="lineCov">        221 :         return mAgentReg.GetAgent(agent_id);</span>
+<a name="220"><span class="lineNum">     220 </span>            : }</a>
+<span class="lineNum">     221 </span>            : 
+<span class="lineNum">     222 </span><span class="lineCov">        179 : const cSimCharacter* cRLSceneSimChar::GetAgentChar(int agent_id) const</span>
+<span class="lineNum">     223 </span>            : {
+<span class="lineNum">     224 </span><span class="lineCov">        179 :         return mAgentReg.GetChar(agent_id);</span>
+<a name="225"><span class="lineNum">     225 </span>            : }</a>
+<span class="lineNum">     226 </span>            : 
+<span class="lineNum">     227 </span><span class="lineCov">        170 : void cRLSceneSimChar::PreUpdate(double timestep)</span>
+<span class="lineNum">     228 </span>            : {
+<span class="lineNum">     229 </span><span class="lineCov">        170 :         cSceneSimChar::PreUpdate(timestep);</span>
+<span class="lineNum">     230 </span>            : 
+<span class="lineNum">     231 </span><span class="lineCov">        340 :         for (int a = 0; a &lt; GetNumAgents(); ++a)</span>
+<span class="lineNum">     232 </span>            :         {
+<span class="lineNum">     233 </span><span class="lineCov">        170 :                 const auto&amp; ctrl = mAgentReg.GetAgent(a);</span>
+<span class="lineNum">     234 </span><span class="lineCov">        170 :                 bool new_action = ctrl-&gt;NeedNewAction();</span>
+<span class="lineNum">     235 </span><span class="lineCov">        170 :                 if (new_action)</span>
+<span class="lineNum">     236 </span>            :                 {
+<span class="lineNum">     237 </span><span class="lineCov">          9 :                         NewActionUpdate(a);</span>
+<span class="lineNum">     238 </span>            :                 }
+<span class="lineNum">     239 </span>            :         }
+<a name="240"><span class="lineNum">     240 </span><span class="lineCov">        170 : }</span></a>
+<span class="lineNum">     241 </span>            : 
+<span class="lineNum">     242 </span><span class="lineCov">          4 : void cRLSceneSimChar::ResetTimers()</span>
+<span class="lineNum">     243 </span>            : {
+<span class="lineNum">     244 </span><span class="lineCov">          4 :         cSceneSimChar::ResetTimers();</span>
+<span class="lineNum">     245 </span><span class="lineCov">          4 :         if (mMode == eModeTest)</span>
+<span class="lineNum">     246 </span>            :         {
+<span class="lineNum">     247 </span><span class="lineNoCov">          0 :                 mTimer.SetMaxTime(mTimerParamsEnd.mTimeMax);</span>
+<span class="lineNum">     248 </span>            :         }
+<a name="249"><span class="lineNum">     249 </span><span class="lineCov">          4 : }</span></a>
+<span class="lineNum">     250 </span>            : 
+<span class="lineNum">     251 </span><span class="lineCov">          9 : void cRLSceneSimChar::NewActionUpdate(int agent_id)</span>
+<span class="lineNum">     252 </span>            : {
+<a name="253"><span class="lineNum">     253 </span><span class="lineCov">          9 : }</span></a>
+<span class="lineNum">     254 </span>            : 
+<span class="lineNum">     255 </span><span class="lineCov">        170 : bool cRLSceneSimChar::EnableFallEnd() const</span>
+<span class="lineNum">     256 </span>            : {
+<span class="lineNum">     257 </span><span class="lineCov">        170 :         return mEnableFallEnd;</span>
+<a name="258"><span class="lineNum">     258 </span>            : }</a>
+<span class="lineNum">     259 </span>            : 
+<span class="lineNum">     260 </span><span class="lineCov">          1 : void cRLSceneSimChar::RegisterAgents()</span>
+<span class="lineNum">     261 </span>            : {
+<span class="lineNum">     262 </span><span class="lineCov">          1 :         int num_chars = GetNumChars();</span>
+<span class="lineNum">     263 </span><span class="lineCov">          2 :         for (int i = 0; i &lt; num_chars; ++i)</span>
+<span class="lineNum">     264 </span>            :         {
+<span class="lineNum">     265 </span><span class="lineCov">          1 :                 const auto&amp; character = GetCharacter(i);</span>
+<span class="lineNum">     266 </span><span class="lineCov">          1 :                 const auto&amp; ctrl = character-&gt;GetController();</span>
+<span class="lineNum">     267 </span><span class="lineCov">          1 :                 RegisterAgent(ctrl, character);</span>
+<span class="lineNum">     268 </span>            :         }
+<a name="269"><span class="lineNum">     269 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     270 </span>            : 
+<span class="lineNum">     271 </span><span class="lineCov">          1 : void cRLSceneSimChar::RegisterAgent(const std::shared_ptr&lt;cCharController&gt;&amp; ctrl, const std::shared_ptr&lt;cSimCharacter&gt;&amp; character)</span>
+<span class="lineNum">     272 </span>            : {
+<span class="lineNum">     273 </span><span class="lineCov">          2 :         std::vector&lt;int&gt; ids;</span>
+<span class="lineNum">     274 </span><span class="lineCov">          1 :         RegisterAgent(ctrl, character, ids);</span>
+<a name="275"><span class="lineNum">     275 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     276 </span>            : 
+<span class="lineNum">     277 </span><span class="lineCov">          1 : void cRLSceneSimChar::RegisterAgent(const std::shared_ptr&lt;cCharController&gt;&amp; ctrl,</span>
+<span class="lineNum">     278 </span>            :                                                                         const std::shared_ptr&lt;cSimCharacter&gt;&amp; character,
+<span class="lineNum">     279 </span>            :                                                                         std::vector&lt;int&gt;&amp; out_ids)
+<span class="lineNum">     280 </span>            : {
+<span class="lineNum">     281 </span><span class="lineCov">          1 :         if (ctrl != nullptr)</span>
+<span class="lineNum">     282 </span>            :         {
+<span class="lineNum">     283 </span><span class="lineCov">          1 :                 int id = mAgentReg.AddAgent(ctrl, character.get());</span>
+<span class="lineNum">     284 </span><span class="lineCov">          1 :                 out_ids.push_back(id);</span>
+<span class="lineNum">     285 </span>            : 
+<span class="lineNum">     286 </span><span class="lineCov">          1 :                 int num_ctrls = ctrl-&gt;NumChildren();</span>
+<span class="lineNum">     287 </span><span class="lineCov">          1 :                 for (int i = 0; i &lt; num_ctrls; ++i)</span>
+<span class="lineNum">     288 </span>            :                 {
+<span class="lineNum">     289 </span><span class="lineNoCov">          0 :                         const auto&amp; child_ctrl = ctrl-&gt;GetChild(i);</span>
+<span class="lineNum">     290 </span><span class="lineNoCov">          0 :                         RegisterAgent(child_ctrl, character, out_ids);</span>
+<span class="lineNum">     291 </span>            :                 }
+<span class="lineNum">     292 </span>            :         }
+<a name="293"><span class="lineNum">     293 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     294 </span>            : 
+<span class="lineNum">     295 </span><span class="lineCov">          1 : void cRLSceneSimChar::SetupTimerAnnealer(cAnnealer&amp; out_annealer) const</span>
+<span class="lineNum">     296 </span>            : {
+<span class="lineNum">     297 </span><span class="lineCov">          1 :         cAnnealer::tParams params;</span>
+<span class="lineNum">     298 </span><span class="lineCov">          1 :         params.mType = cAnnealer::eTypePow;</span>
+<span class="lineNum">     299 </span><span class="lineCov">          1 :         params.mPow = 4.0;</span>
+<span class="lineNum">     300 </span><span class="lineCov">          1 :         out_annealer.Init(params);</span>
+<a name="301"><span class="lineNum">     301 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     302 </span>            : 
+<span class="lineNum">     303 </span><span class="lineNoCov">          0 : void cRLSceneSimChar::UpdateTimerParams()</span>
+<span class="lineNum">     304 </span>            : {
+<span class="lineNum">     305 </span><span class="lineNoCov">          0 :         if (mAnnealSamples &gt; 0)</span>
+<span class="lineNum">     306 </span>            :         {
+<span class="lineNum">     307 </span><span class="lineNoCov">          0 :                 double t = static_cast&lt;double&gt;(mSampleCount) / mAnnealSamples;</span>
+<span class="lineNum">     308 </span><span class="lineNoCov">          0 :                 double lerp = mTimerAnnealer.Eval(t);</span>
+<span class="lineNum">     309 </span><span class="lineNoCov">          0 :                 cTimer::tParams blend_params = mTimerParams.Blend(mTimerParamsEnd, lerp);</span>
+<a name="310"><span class="lineNum">     310 </span><span class="lineNoCov">          0 :                 mTimer.SetParams(blend_params);</span></a>
+<span class="lineNum">     311 </span>            :         }
+<span class="lineNum">     312 </span><span class="lineCov">          3 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

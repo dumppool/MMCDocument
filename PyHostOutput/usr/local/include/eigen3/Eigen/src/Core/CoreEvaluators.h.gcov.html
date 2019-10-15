@@ -1,0 +1,1772 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - PyHost Code Analysis - /usr/local/include/eigen3/Eigen/src/Core/CoreEvaluators.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../../index.html">top level</a> - <a href="index.html">usr/local/include/eigen3/Eigen/src/Core</a> - CoreEvaluators.h<span style="font-size: 80%;"> (source / <a href="CoreEvaluators.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">PyHost Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">148</td>
+            <td class="headerCovTableEntry">187</td>
+            <td class="headerCovTableEntryMed">79.1 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 17:04:23</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">1563</td>
+            <td class="headerCovTableEntry">3516</td>
+            <td class="headerCovTableEntryLo">44.5 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // This file is part of Eigen, a lightweight C++ template library</a>
+<span class="lineNum">       2 </span>            : // for linear algebra.
+<span class="lineNum">       3 </span>            : //
+<span class="lineNum">       4 </span>            : // Copyright (C) 2011 Benoit Jacob &lt;jacob.benoit.1@gmail.com&gt;
+<span class="lineNum">       5 </span>            : // Copyright (C) 2011-2014 Gael Guennebaud &lt;gael.guennebaud@inria.fr&gt;
+<span class="lineNum">       6 </span>            : // Copyright (C) 2011-2012 Jitse Niesen &lt;jitse@maths.leeds.ac.uk&gt;
+<span class="lineNum">       7 </span>            : //
+<span class="lineNum">       8 </span>            : // This Source Code Form is subject to the terms of the Mozilla
+<span class="lineNum">       9 </span>            : // Public License v. 2.0. If a copy of the MPL was not distributed
+<span class="lineNum">      10 </span>            : // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+<span class="lineNum">      11 </span>            : 
+<span class="lineNum">      12 </span>            : 
+<span class="lineNum">      13 </span>            : #ifndef EIGEN_COREEVALUATORS_H
+<span class="lineNum">      14 </span>            : #define EIGEN_COREEVALUATORS_H
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span>            : namespace Eigen {
+<span class="lineNum">      17 </span>            :   
+<span class="lineNum">      18 </span>            : namespace internal {
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span>            : // This class returns the evaluator kind from the expression storage kind.
+<span class="lineNum">      21 </span>            : // Default assumes index based accessors
+<span class="lineNum">      22 </span>            : template&lt;typename StorageKind&gt;
+<span class="lineNum">      23 </span>            : struct storage_kind_to_evaluator_kind {
+<span class="lineNum">      24 </span>            :   typedef IndexBased Kind;
+<span class="lineNum">      25 </span>            : };
+<span class="lineNum">      26 </span>            : 
+<span class="lineNum">      27 </span>            : // This class returns the evaluator shape from the expression storage kind.
+<span class="lineNum">      28 </span>            : // It can be Dense, Sparse, Triangular, Diagonal, SelfAdjoint, Band, etc.
+<span class="lineNum">      29 </span>            : template&lt;typename StorageKind&gt; struct storage_kind_to_shape;
+<span class="lineNum">      30 </span>            : 
+<span class="lineNum">      31 </span>            : template&lt;&gt; struct storage_kind_to_shape&lt;Dense&gt;                  { typedef DenseShape Shape;           };
+<span class="lineNum">      32 </span>            : template&lt;&gt; struct storage_kind_to_shape&lt;SolverStorage&gt;          { typedef SolverShape Shape;           };
+<span class="lineNum">      33 </span>            : template&lt;&gt; struct storage_kind_to_shape&lt;PermutationStorage&gt;     { typedef PermutationShape Shape;     };
+<span class="lineNum">      34 </span>            : template&lt;&gt; struct storage_kind_to_shape&lt;TranspositionsStorage&gt;  { typedef TranspositionsShape Shape;  };
+<span class="lineNum">      35 </span>            : 
+<span class="lineNum">      36 </span>            : // Evaluators have to be specialized with respect to various criteria such as:
+<span class="lineNum">      37 </span>            : //  - storage/structure/shape
+<span class="lineNum">      38 </span>            : //  - scalar type
+<span class="lineNum">      39 </span>            : //  - etc.
+<span class="lineNum">      40 </span>            : // Therefore, we need specialization of evaluator providing additional template arguments for each kind of evaluators.
+<span class="lineNum">      41 </span>            : // We currently distinguish the following kind of evaluators:
+<span class="lineNum">      42 </span>            : // - unary_evaluator    for expressions taking only one arguments (CwiseUnaryOp, CwiseUnaryView, Transpose, MatrixWrapper, ArrayWrapper, Reverse, Replicate)
+<span class="lineNum">      43 </span>            : // - binary_evaluator   for expression taking two arguments (CwiseBinaryOp)
+<span class="lineNum">      44 </span>            : // - ternary_evaluator   for expression taking three arguments (CwiseTernaryOp)
+<span class="lineNum">      45 </span>            : // - product_evaluator  for linear algebra products (Product); special case of binary_evaluator because it requires additional tags for dispatching.
+<span class="lineNum">      46 </span>            : // - mapbase_evaluator  for Map, Block, Ref
+<span class="lineNum">      47 </span>            : // - block_evaluator    for Block (special dispatching to a mapbase_evaluator or unary_evaluator)
+<span class="lineNum">      48 </span>            : 
+<span class="lineNum">      49 </span>            : template&lt; typename T,
+<span class="lineNum">      50 </span>            :           typename Arg1Kind   = typename evaluator_traits&lt;typename T::Arg1&gt;::Kind,
+<span class="lineNum">      51 </span>            :           typename Arg2Kind   = typename evaluator_traits&lt;typename T::Arg2&gt;::Kind,
+<span class="lineNum">      52 </span>            :           typename Arg3Kind   = typename evaluator_traits&lt;typename T::Arg3&gt;::Kind,
+<span class="lineNum">      53 </span>            :           typename Arg1Scalar = typename traits&lt;typename T::Arg1&gt;::Scalar,
+<span class="lineNum">      54 </span>            :           typename Arg2Scalar = typename traits&lt;typename T::Arg2&gt;::Scalar,
+<span class="lineNum">      55 </span>            :           typename Arg3Scalar = typename traits&lt;typename T::Arg3&gt;::Scalar&gt; struct ternary_evaluator;
+<span class="lineNum">      56 </span>            : 
+<span class="lineNum">      57 </span>            : template&lt; typename T,
+<span class="lineNum">      58 </span>            :           typename LhsKind   = typename evaluator_traits&lt;typename T::Lhs&gt;::Kind,
+<span class="lineNum">      59 </span>            :           typename RhsKind   = typename evaluator_traits&lt;typename T::Rhs&gt;::Kind,
+<span class="lineNum">      60 </span>            :           typename LhsScalar = typename traits&lt;typename T::Lhs&gt;::Scalar,
+<span class="lineNum">      61 </span>            :           typename RhsScalar = typename traits&lt;typename T::Rhs&gt;::Scalar&gt; struct binary_evaluator;
+<span class="lineNum">      62 </span>            : 
+<span class="lineNum">      63 </span>            : template&lt; typename T,
+<span class="lineNum">      64 </span>            :           typename Kind   = typename evaluator_traits&lt;typename T::NestedExpression&gt;::Kind,
+<span class="lineNum">      65 </span>            :           typename Scalar = typename T::Scalar&gt; struct unary_evaluator;
+<span class="lineNum">      66 </span>            :           
+<span class="lineNum">      67 </span>            : // evaluator_traits&lt;T&gt; contains traits for evaluator&lt;T&gt; 
+<span class="lineNum">      68 </span>            : 
+<span class="lineNum">      69 </span>            : template&lt;typename T&gt;
+<span class="lineNum">      70 </span>            : struct evaluator_traits_base
+<span class="lineNum">      71 </span>            : {
+<span class="lineNum">      72 </span>            :   // by default, get evaluator kind and shape from storage
+<span class="lineNum">      73 </span>            :   typedef typename storage_kind_to_evaluator_kind&lt;typename traits&lt;T&gt;::StorageKind&gt;::Kind Kind;
+<span class="lineNum">      74 </span>            :   typedef typename storage_kind_to_shape&lt;typename traits&lt;T&gt;::StorageKind&gt;::Shape Shape;
+<span class="lineNum">      75 </span>            : };
+<span class="lineNum">      76 </span>            : 
+<span class="lineNum">      77 </span>            : // Default evaluator traits
+<span class="lineNum">      78 </span>            : template&lt;typename T&gt;
+<span class="lineNum">      79 </span>            : struct evaluator_traits : public evaluator_traits_base&lt;T&gt;
+<span class="lineNum">      80 </span>            : {
+<span class="lineNum">      81 </span>            : };
+<span class="lineNum">      82 </span>            : 
+<span class="lineNum">      83 </span>            : template&lt;typename T, typename Shape = typename evaluator_traits&lt;T&gt;::Shape &gt;
+<span class="lineNum">      84 </span>            : struct evaluator_assume_aliasing {
+<span class="lineNum">      85 </span>            :   static const bool value = false;
+<span class="lineNum">      86 </span>            : };
+<span class="lineNum">      87 </span>            : 
+<a name="88"><span class="lineNum">      88 </span>            : // By default, we assume a unary expression:</a>
+<span class="lineNum">      89 </span>            : template&lt;typename T&gt;
+<span class="lineNum">      90 </span><span class="lineCov">    1596843 : struct evaluator : public unary_evaluator&lt;T&gt;</span>
+<a name="91"><span class="lineNum">      91 </span>            : {</a>
+<span class="lineNum">      92 </span>            :   typedef unary_evaluator&lt;T&gt; Base;
+<span class="lineNum">      93 </span><span class="lineCov">    1596843 :   EIGEN_DEVICE_FUNC explicit evaluator(const T&amp; xpr) : Base(xpr) {}</span>
+<span class="lineNum">      94 </span>            : };
+<span class="lineNum">      95 </span>            : 
+<span class="lineNum">      96 </span>            : 
+<a name="97"><span class="lineNum">      97 </span>            : // TODO: Think about const-correctness</a>
+<span class="lineNum">      98 </span>            : template&lt;typename T&gt;
+<span class="lineNum">      99 </span><span class="lineCov">    3426325 : struct evaluator&lt;const T&gt;</span>
+<span class="lineNum">     100 </span>            :   : evaluator&lt;T&gt;
+<a name="101"><span class="lineNum">     101 </span>            : {</a>
+<span class="lineNum">     102 </span>            :   EIGEN_DEVICE_FUNC
+<span class="lineNum">     103 </span><span class="lineCov">    3426325 :   explicit evaluator(const T&amp; xpr) : evaluator&lt;T&gt;(xpr) {}</span>
+<span class="lineNum">     104 </span>            : };
+<span class="lineNum">     105 </span>            : 
+<span class="lineNum">     106 </span>            : // ---------- base class for all evaluators ----------
+<a name="107"><span class="lineNum">     107 </span>            : </a>
+<span class="lineNum">     108 </span>            : template&lt;typename ExpressionType&gt;
+<span class="lineNum">     109 </span><span class="lineCov">   29060035 : struct evaluator_base : public noncopyable</span>
+<span class="lineNum">     110 </span>            : {
+<span class="lineNum">     111 </span>            :   // TODO that's not very nice to have to propagate all these traits. They are currently only needed to handle outer,inner indices.
+<span class="lineNum">     112 </span>            :   typedef traits&lt;ExpressionType&gt; ExpressionTraits;
+<span class="lineNum">     113 </span>            :   
+<span class="lineNum">     114 </span>            :   enum {
+<span class="lineNum">     115 </span>            :     Alignment = 0
+<span class="lineNum">     116 </span>            :   };
+<span class="lineNum">     117 </span>            : };
+<span class="lineNum">     118 </span>            : 
+<span class="lineNum">     119 </span>            : // -------------------- Matrix and Array --------------------
+<span class="lineNum">     120 </span>            : //
+<span class="lineNum">     121 </span>            : // evaluator&lt;PlainObjectBase&gt; is a common base class for the
+<span class="lineNum">     122 </span>            : // Matrix and Array evaluators.
+<span class="lineNum">     123 </span>            : // Here we directly specialize evaluator. This is not really a unary expression, and it is, by definition, dense,
+<span class="lineNum">     124 </span>            : // so no need for more sophisticated dispatching.
+<a name="125"><span class="lineNum">     125 </span>            : </a>
+<span class="lineNum">     126 </span>            : template&lt;typename Derived&gt;
+<span class="lineNum">     127 </span><span class="lineCov">    6490461 : struct evaluator&lt;PlainObjectBase&lt;Derived&gt; &gt;</span>
+<span class="lineNum">     128 </span>            :   : evaluator_base&lt;Derived&gt;
+<span class="lineNum">     129 </span>            : {
+<span class="lineNum">     130 </span>            :   typedef PlainObjectBase&lt;Derived&gt; PlainObjectType;
+<span class="lineNum">     131 </span>            :   typedef typename PlainObjectType::Scalar Scalar;
+<span class="lineNum">     132 </span>            :   typedef typename PlainObjectType::CoeffReturnType CoeffReturnType;
+<span class="lineNum">     133 </span>            : 
+<span class="lineNum">     134 </span>            :   enum {
+<span class="lineNum">     135 </span>            :     IsRowMajor = PlainObjectType::IsRowMajor,
+<span class="lineNum">     136 </span>            :     IsVectorAtCompileTime = PlainObjectType::IsVectorAtCompileTime,
+<span class="lineNum">     137 </span>            :     RowsAtCompileTime = PlainObjectType::RowsAtCompileTime,
+<span class="lineNum">     138 </span>            :     ColsAtCompileTime = PlainObjectType::ColsAtCompileTime,
+<span class="lineNum">     139 </span>            :     
+<span class="lineNum">     140 </span>            :     CoeffReadCost = NumTraits&lt;Scalar&gt;::ReadCost,
+<span class="lineNum">     141 </span>            :     Flags = traits&lt;Derived&gt;::EvaluatorFlags,
+<span class="lineNum">     142 </span>            :     Alignment = traits&lt;Derived&gt;::Alignment
+<a name="143"><span class="lineNum">     143 </span>            :   };</a>
+<span class="lineNum">     144 </span>            :   
+<span class="lineNum">     145 </span><span class="lineCov">      42095 :   EIGEN_DEVICE_FUNC evaluator()</span>
+<span class="lineNum">     146 </span>            :     : m_data(0),
+<span class="lineNum">     147 </span>            :       m_outerStride(IsVectorAtCompileTime  ? 0 
+<span class="lineNum">     148 </span>            :                                            : int(IsRowMajor) ? ColsAtCompileTime 
+<span class="lineNum">     149 </span><span class="lineCov">      42095 :                                            : RowsAtCompileTime)</span>
+<span class="lineNum">     150 </span>            :   {
+<span class="lineNum">     151 </span>            :     EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+<a name="152"><span class="lineNum">     152 </span><span class="lineCov">      42095 :   }</span></a>
+<span class="lineNum">     153 </span>            :   
+<span class="lineNum">     154 </span><span class="lineCov">    6490461 :   EIGEN_DEVICE_FUNC explicit evaluator(const PlainObjectType&amp; m)</span>
+<span class="lineNum">     155 </span><span class="lineCov">    6490461 :     : m_data(m.data()), m_outerStride(IsVectorAtCompileTime ? 0 : m.outerStride()) </span>
+<span class="lineNum">     156 </span>            :   {
+<span class="lineNum">     157 </span>            :     EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+<span class="lineNum">     158 </span><span class="lineCov">    6490461 :   }</span>
+<a name="159"><span class="lineNum">     159 </span>            : </a>
+<span class="lineNum">     160 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     161 </span><span class="lineCov">    9969823 :   CoeffReturnType coeff(Index row, Index col) const</span>
+<span class="lineNum">     162 </span>            :   {
+<span class="lineNum">     163 </span>            :     if (IsRowMajor)
+<span class="lineNum">     164 </span><span class="lineCov">         30 :       return m_data[row * m_outerStride.value() + col];</span>
+<span class="lineNum">     165 </span>            :     else
+<span class="lineNum">     166 </span><span class="lineCov">    9969793 :       return m_data[row + col * m_outerStride.value()];</span>
+<span class="lineNum">     167 </span>            :   }
+<a name="168"><span class="lineNum">     168 </span>            : </a>
+<span class="lineNum">     169 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     170 </span><span class="lineCov">    1072517 :   CoeffReturnType coeff(Index index) const</span>
+<span class="lineNum">     171 </span>            :   {
+<span class="lineNum">     172 </span><span class="lineCov">    1072517 :     return m_data[index];</span>
+<span class="lineNum">     173 </span>            :   }
+<a name="174"><span class="lineNum">     174 </span>            : </a>
+<span class="lineNum">     175 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     176 </span><span class="lineCov">    9127003 :   Scalar&amp; coeffRef(Index row, Index col)</span>
+<span class="lineNum">     177 </span>            :   {
+<span class="lineNum">     178 </span>            :     if (IsRowMajor)
+<span class="lineNum">     179 </span><span class="lineCov">        330 :       return const_cast&lt;Scalar*&gt;(m_data)[row * m_outerStride.value() + col];</span>
+<span class="lineNum">     180 </span>            :     else
+<span class="lineNum">     181 </span><span class="lineCov">    9126673 :       return const_cast&lt;Scalar*&gt;(m_data)[row + col * m_outerStride.value()];</span>
+<span class="lineNum">     182 </span>            :   }
+<a name="183"><span class="lineNum">     183 </span>            : </a>
+<span class="lineNum">     184 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     185 </span><span class="lineCov">    2844158 :   Scalar&amp; coeffRef(Index index)</span>
+<span class="lineNum">     186 </span>            :   {
+<span class="lineNum">     187 </span><span class="lineCov">    2844158 :     return const_cast&lt;Scalar*&gt;(m_data)[index];</span>
+<span class="lineNum">     188 </span>            :   }
+<span class="lineNum">     189 </span>            : 
+<a name="190"><span class="lineNum">     190 </span>            :   template&lt;int LoadMode, typename PacketType&gt;</a>
+<span class="lineNum">     191 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">     192 </span><span class="lineCov">   12406383 :   PacketType packet(Index row, Index col) const</span>
+<span class="lineNum">     193 </span>            :   {
+<span class="lineNum">     194 </span>            :     if (IsRowMajor)
+<span class="lineNum">     195 </span><span class="lineCov">       1080 :       return ploadt&lt;PacketType, LoadMode&gt;(m_data + row * m_outerStride.value() + col);</span>
+<span class="lineNum">     196 </span>            :     else
+<span class="lineNum">     197 </span><span class="lineCov">   24811686 :       return ploadt&lt;PacketType, LoadMode&gt;(m_data + row + col * m_outerStride.value());</span>
+<span class="lineNum">     198 </span>            :   }
+<span class="lineNum">     199 </span>            : 
+<a name="200"><span class="lineNum">     200 </span>            :   template&lt;int LoadMode, typename PacketType&gt;</a>
+<span class="lineNum">     201 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">     202 </span><span class="lineCov">     801005 :   PacketType packet(Index index) const</span>
+<span class="lineNum">     203 </span>            :   {
+<span class="lineNum">     204 </span><span class="lineCov">    1602010 :     return ploadt&lt;PacketType, LoadMode&gt;(m_data + index);</span>
+<span class="lineNum">     205 </span>            :   }
+<span class="lineNum">     206 </span>            : 
+<a name="207"><span class="lineNum">     207 </span>            :   template&lt;int StoreMode,typename PacketType&gt;</a>
+<span class="lineNum">     208 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">     209 </span><span class="lineCov">    1013742 :   void writePacket(Index row, Index col, const PacketType&amp; x)</span>
+<span class="lineNum">     210 </span>            :   {
+<span class="lineNum">     211 </span>            :     if (IsRowMajor)
+<span class="lineNum">     212 </span>            :       return pstoret&lt;Scalar, PacketType, StoreMode&gt;
+<span class="lineNum">     213 </span><span class="lineCov">       1080 :                     (const_cast&lt;Scalar*&gt;(m_data) + row * m_outerStride.value() + col, x);</span>
+<span class="lineNum">     214 </span>            :     else
+<span class="lineNum">     215 </span>            :       return pstoret&lt;Scalar, PacketType, StoreMode&gt;
+<span class="lineNum">     216 </span><span class="lineCov">    2026404 :                     (const_cast&lt;Scalar*&gt;(m_data) + row + col * m_outerStride.value(), x);</span>
+<span class="lineNum">     217 </span>            :   }
+<span class="lineNum">     218 </span>            : 
+<span class="lineNum">     219 </span>            :   template&lt;int StoreMode, typename PacketType&gt;
+<span class="lineNum">     220 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">     221 </span>            :   void writePacket(Index index, const PacketType&amp; x)
+<span class="lineNum">     222 </span>            :   {
+<span class="lineNum">     223 </span>            :     return pstoret&lt;Scalar, PacketType, StoreMode&gt;(const_cast&lt;Scalar*&gt;(m_data) + index, x);
+<span class="lineNum">     224 </span>            :   }
+<span class="lineNum">     225 </span>            : 
+<span class="lineNum">     226 </span>            : protected:
+<span class="lineNum">     227 </span>            :   const Scalar *m_data;
+<span class="lineNum">     228 </span>            : 
+<span class="lineNum">     229 </span>            :   // We do not need to know the outer stride for vectors
+<span class="lineNum">     230 </span>            :   variable_if_dynamic&lt;Index, IsVectorAtCompileTime  ? 0 
+<span class="lineNum">     231 </span>            :                                                     : int(IsRowMajor) ? ColsAtCompileTime 
+<span class="lineNum">     232 </span>            :                                                     : RowsAtCompileTime&gt; m_outerStride;
+<span class="lineNum">     233 </span>            : };
+<a name="234"><span class="lineNum">     234 </span>            : </a>
+<span class="lineNum">     235 </span>            : template&lt;typename Scalar, int Rows, int Cols, int Options, int MaxRows, int MaxCols&gt;
+<span class="lineNum">     236 </span><span class="lineCov">    6490461 : struct evaluator&lt;Matrix&lt;Scalar, Rows, Cols, Options, MaxRows, MaxCols&gt; &gt;</span>
+<span class="lineNum">     237 </span>            :   : evaluator&lt;PlainObjectBase&lt;Matrix&lt;Scalar, Rows, Cols, Options, MaxRows, MaxCols&gt; &gt; &gt;
+<span class="lineNum">     238 </span>            : {
+<a name="239"><span class="lineNum">     239 </span>            :   typedef Matrix&lt;Scalar, Rows, Cols, Options, MaxRows, MaxCols&gt; XprType;</a>
+<span class="lineNum">     240 </span>            :   
+<a name="241"><span class="lineNum">     241 </span><span class="lineCov">      42095 :   EIGEN_DEVICE_FUNC evaluator() {}</span></a>
+<span class="lineNum">     242 </span>            : 
+<span class="lineNum">     243 </span><span class="lineCov">    6490461 :   EIGEN_DEVICE_FUNC explicit evaluator(const XprType&amp; m)</span>
+<span class="lineNum">     244 </span><span class="lineCov">    6490461 :     : evaluator&lt;PlainObjectBase&lt;XprType&gt; &gt;(m) </span>
+<span class="lineNum">     245 </span><span class="lineCov">    6490461 :   { }</span>
+<span class="lineNum">     246 </span>            : };
+<span class="lineNum">     247 </span>            : 
+<span class="lineNum">     248 </span>            : template&lt;typename Scalar, int Rows, int Cols, int Options, int MaxRows, int MaxCols&gt;
+<span class="lineNum">     249 </span>            : struct evaluator&lt;Array&lt;Scalar, Rows, Cols, Options, MaxRows, MaxCols&gt; &gt;
+<span class="lineNum">     250 </span>            :   : evaluator&lt;PlainObjectBase&lt;Array&lt;Scalar, Rows, Cols, Options, MaxRows, MaxCols&gt; &gt; &gt;
+<span class="lineNum">     251 </span>            : {
+<span class="lineNum">     252 </span>            :   typedef Array&lt;Scalar, Rows, Cols, Options, MaxRows, MaxCols&gt; XprType;
+<span class="lineNum">     253 </span>            : 
+<span class="lineNum">     254 </span>            :   EIGEN_DEVICE_FUNC evaluator() {}
+<span class="lineNum">     255 </span>            :   
+<span class="lineNum">     256 </span>            :   EIGEN_DEVICE_FUNC explicit evaluator(const XprType&amp; m)
+<span class="lineNum">     257 </span>            :     : evaluator&lt;PlainObjectBase&lt;XprType&gt; &gt;(m) 
+<span class="lineNum">     258 </span>            :   { }
+<span class="lineNum">     259 </span>            : };
+<span class="lineNum">     260 </span>            : 
+<span class="lineNum">     261 </span>            : // -------------------- Transpose --------------------
+<a name="262"><span class="lineNum">     262 </span>            : </a>
+<span class="lineNum">     263 </span>            : template&lt;typename ArgType&gt;
+<span class="lineNum">     264 </span><span class="lineCov">    1165016 : struct unary_evaluator&lt;Transpose&lt;ArgType&gt;, IndexBased&gt;</span>
+<span class="lineNum">     265 </span>            :   : evaluator_base&lt;Transpose&lt;ArgType&gt; &gt;
+<span class="lineNum">     266 </span>            : {
+<span class="lineNum">     267 </span>            :   typedef Transpose&lt;ArgType&gt; XprType;
+<span class="lineNum">     268 </span>            :   
+<span class="lineNum">     269 </span>            :   enum {
+<span class="lineNum">     270 </span>            :     CoeffReadCost = evaluator&lt;ArgType&gt;::CoeffReadCost,    
+<span class="lineNum">     271 </span>            :     Flags = evaluator&lt;ArgType&gt;::Flags ^ RowMajorBit,
+<span class="lineNum">     272 </span>            :     Alignment = evaluator&lt;ArgType&gt;::Alignment
+<a name="273"><span class="lineNum">     273 </span>            :   };</a>
+<span class="lineNum">     274 </span>            : 
+<span class="lineNum">     275 </span><span class="lineCov">    1165016 :   EIGEN_DEVICE_FUNC explicit unary_evaluator(const XprType&amp; t) : m_argImpl(t.nestedExpression()) {}</span>
+<span class="lineNum">     276 </span>            : 
+<span class="lineNum">     277 </span>            :   typedef typename XprType::Scalar Scalar;
+<span class="lineNum">     278 </span>            :   typedef typename XprType::CoeffReturnType CoeffReturnType;
+<a name="279"><span class="lineNum">     279 </span>            : </a>
+<span class="lineNum">     280 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     281 </span><span class="lineCov">    1160078 :   CoeffReturnType coeff(Index row, Index col) const</span>
+<span class="lineNum">     282 </span>            :   {
+<span class="lineNum">     283 </span><span class="lineCov">    1160078 :     return m_argImpl.coeff(col, row);</span>
+<span class="lineNum">     284 </span>            :   }
+<a name="285"><span class="lineNum">     285 </span>            : </a>
+<span class="lineNum">     286 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     287 </span><span class="lineCov">     434280 :   CoeffReturnType coeff(Index index) const</span>
+<span class="lineNum">     288 </span>            :   {
+<span class="lineNum">     289 </span><span class="lineCov">     434280 :     return m_argImpl.coeff(index);</span>
+<span class="lineNum">     290 </span>            :   }
+<span class="lineNum">     291 </span>            : 
+<span class="lineNum">     292 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     293 </span>            :   Scalar&amp; coeffRef(Index row, Index col)
+<span class="lineNum">     294 </span>            :   {
+<span class="lineNum">     295 </span>            :     return m_argImpl.coeffRef(col, row);
+<span class="lineNum">     296 </span>            :   }
+<a name="297"><span class="lineNum">     297 </span>            : </a>
+<span class="lineNum">     298 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     299 </span><span class="lineCov">     369080 :   typename XprType::Scalar&amp; coeffRef(Index index)</span>
+<span class="lineNum">     300 </span>            :   {
+<span class="lineNum">     301 </span><span class="lineCov">     369080 :     return m_argImpl.coeffRef(index);</span>
+<span class="lineNum">     302 </span>            :   }
+<span class="lineNum">     303 </span>            : 
+<a name="304"><span class="lineNum">     304 </span>            :   template&lt;int LoadMode, typename PacketType&gt;</a>
+<span class="lineNum">     305 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">     306 </span><span class="lineCov">    1213496 :   PacketType packet(Index row, Index col) const</span>
+<span class="lineNum">     307 </span>            :   {
+<span class="lineNum">     308 </span><span class="lineCov">    1213496 :     return m_argImpl.template packet&lt;LoadMode,PacketType&gt;(col, row);</span>
+<span class="lineNum">     309 </span>            :   }
+<span class="lineNum">     310 </span>            : 
+<a name="311"><span class="lineNum">     311 </span>            :   template&lt;int LoadMode, typename PacketType&gt;</a>
+<span class="lineNum">     312 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">     313 </span><span class="lineCov">     788660 :   PacketType packet(Index index) const</span>
+<span class="lineNum">     314 </span>            :   {
+<span class="lineNum">     315 </span><span class="lineCov">     788660 :     return m_argImpl.template packet&lt;LoadMode,PacketType&gt;(index);</span>
+<span class="lineNum">     316 </span>            :   }
+<span class="lineNum">     317 </span>            : 
+<span class="lineNum">     318 </span>            :   template&lt;int StoreMode, typename PacketType&gt;
+<span class="lineNum">     319 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">     320 </span>            :   void writePacket(Index row, Index col, const PacketType&amp; x)
+<span class="lineNum">     321 </span>            :   {
+<span class="lineNum">     322 </span>            :     m_argImpl.template writePacket&lt;StoreMode,PacketType&gt;(col, row, x);
+<span class="lineNum">     323 </span>            :   }
+<span class="lineNum">     324 </span>            : 
+<span class="lineNum">     325 </span>            :   template&lt;int StoreMode, typename PacketType&gt;
+<span class="lineNum">     326 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">     327 </span>            :   void writePacket(Index index, const PacketType&amp; x)
+<span class="lineNum">     328 </span>            :   {
+<span class="lineNum">     329 </span>            :     m_argImpl.template writePacket&lt;StoreMode,PacketType&gt;(index, x);
+<span class="lineNum">     330 </span>            :   }
+<span class="lineNum">     331 </span>            : 
+<span class="lineNum">     332 </span>            : protected:
+<span class="lineNum">     333 </span>            :   evaluator&lt;ArgType&gt; m_argImpl;
+<span class="lineNum">     334 </span>            : };
+<span class="lineNum">     335 </span>            : 
+<span class="lineNum">     336 </span>            : // -------------------- CwiseNullaryOp --------------------
+<span class="lineNum">     337 </span>            : // Like Matrix and Array, this is not really a unary expression, so we directly specialize evaluator.
+<span class="lineNum">     338 </span>            : // Likewise, there is not need to more sophisticated dispatching here.
+<span class="lineNum">     339 </span>            : 
+<span class="lineNum">     340 </span>            : template&lt;typename Scalar,typename NullaryOp,
+<span class="lineNum">     341 </span>            :          bool has_nullary = has_nullary_operator&lt;NullaryOp&gt;::value,
+<span class="lineNum">     342 </span>            :          bool has_unary   = has_unary_operator&lt;NullaryOp&gt;::value,
+<span class="lineNum">     343 </span>            :          bool has_binary  = has_binary_operator&lt;NullaryOp&gt;::value&gt;
+<span class="lineNum">     344 </span>            : struct nullary_wrapper
+<span class="lineNum">     345 </span>            : {
+<span class="lineNum">     346 </span>            :   template &lt;typename IndexType&gt;
+<span class="lineNum">     347 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar operator()(const NullaryOp&amp; op, IndexType i, IndexType j) const { return op(i,j); }
+<span class="lineNum">     348 </span>            :   template &lt;typename IndexType&gt;
+<span class="lineNum">     349 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar operator()(const NullaryOp&amp; op, IndexType i) const { return op(i); }
+<span class="lineNum">     350 </span>            : 
+<span class="lineNum">     351 </span>            :   template &lt;typename T, typename IndexType&gt; EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE T packetOp(const NullaryOp&amp; op, IndexType i, IndexType j) const { return op.template packetOp&lt;T&gt;(i,j); }
+<span class="lineNum">     352 </span>            :   template &lt;typename T, typename IndexType&gt; EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE T packetOp(const NullaryOp&amp; op, IndexType i) const { return op.template packetOp&lt;T&gt;(i); }
+<span class="lineNum">     353 </span>            : };
+<span class="lineNum">     354 </span>            : 
+<span class="lineNum">     355 </span>            : template&lt;typename Scalar,typename NullaryOp&gt;
+<span class="lineNum">     356 </span>            : struct nullary_wrapper&lt;Scalar,NullaryOp,true,false,false&gt;
+<a name="357"><span class="lineNum">     357 </span>            : {</a>
+<a name="358"><span class="lineNum">     358 </span>            :   template &lt;typename IndexType&gt;</a>
+<span class="lineNum">     359 </span><span class="lineCov">     164965 :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar operator()(const NullaryOp&amp; op, IndexType=0, IndexType=0) const { return op(); }</span>
+<span class="lineNum">     360 </span><span class="lineCov">    3887609 :   template &lt;typename T, typename IndexType&gt; EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE T packetOp(const NullaryOp&amp; op, IndexType=0, IndexType=0) const { return op.template packetOp&lt;T&gt;(); }</span>
+<span class="lineNum">     361 </span>            : };
+<span class="lineNum">     362 </span>            : 
+<span class="lineNum">     363 </span>            : template&lt;typename Scalar,typename NullaryOp&gt;
+<span class="lineNum">     364 </span>            : struct nullary_wrapper&lt;Scalar,NullaryOp,false,false,true&gt;
+<a name="365"><span class="lineNum">     365 </span>            : {</a>
+<span class="lineNum">     366 </span>            :   template &lt;typename IndexType&gt;
+<span class="lineNum">     367 </span><span class="lineCov">    1202160 :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar operator()(const NullaryOp&amp; op, IndexType i, IndexType j=0) const { return op(i,j); }</span>
+<span class="lineNum">     368 </span>            :   template &lt;typename T, typename IndexType&gt; EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE T packetOp(const NullaryOp&amp; op, IndexType i, IndexType j=0) const { return op.template packetOp&lt;T&gt;(i,j); }
+<span class="lineNum">     369 </span>            : };
+<span class="lineNum">     370 </span>            : 
+<span class="lineNum">     371 </span>            : // We need the following specialization for vector-only functors assigned to a runtime vector,
+<span class="lineNum">     372 </span>            : // for instance, using linspace and assigning a RowVectorXd to a MatrixXd or even a row of a MatrixXd.
+<span class="lineNum">     373 </span>            : // In this case, i==0 and j is used for the actual iteration.
+<span class="lineNum">     374 </span>            : template&lt;typename Scalar,typename NullaryOp&gt;
+<span class="lineNum">     375 </span>            : struct nullary_wrapper&lt;Scalar,NullaryOp,false,true,false&gt;
+<span class="lineNum">     376 </span>            : {
+<span class="lineNum">     377 </span>            :   template &lt;typename IndexType&gt;
+<span class="lineNum">     378 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar operator()(const NullaryOp&amp; op, IndexType i, IndexType j) const {
+<span class="lineNum">     379 </span>            :     eigen_assert(i==0 || j==0);
+<span class="lineNum">     380 </span>            :     return op(i+j);
+<span class="lineNum">     381 </span>            :   }
+<span class="lineNum">     382 </span>            :   template &lt;typename T, typename IndexType&gt; EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE T packetOp(const NullaryOp&amp; op, IndexType i, IndexType j) const {
+<span class="lineNum">     383 </span>            :     eigen_assert(i==0 || j==0);
+<span class="lineNum">     384 </span>            :     return op.template packetOp&lt;T&gt;(i+j);
+<span class="lineNum">     385 </span>            :   }
+<span class="lineNum">     386 </span>            : 
+<span class="lineNum">     387 </span>            :   template &lt;typename IndexType&gt;
+<span class="lineNum">     388 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar operator()(const NullaryOp&amp; op, IndexType i) const { return op(i); }
+<span class="lineNum">     389 </span>            :   template &lt;typename T, typename IndexType&gt;
+<span class="lineNum">     390 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE T packetOp(const NullaryOp&amp; op, IndexType i) const { return op.template packetOp&lt;T&gt;(i); }
+<span class="lineNum">     391 </span>            : };
+<span class="lineNum">     392 </span>            : 
+<span class="lineNum">     393 </span>            : template&lt;typename Scalar,typename NullaryOp&gt;
+<span class="lineNum">     394 </span>            : struct nullary_wrapper&lt;Scalar,NullaryOp,false,false,false&gt; {};
+<span class="lineNum">     395 </span>            : 
+<span class="lineNum">     396 </span>            : #if 0 &amp;&amp; EIGEN_COMP_MSVC&gt;0
+<span class="lineNum">     397 </span>            : // Disable this ugly workaround. This is now handled in traits&lt;Ref&gt;::match,
+<span class="lineNum">     398 </span>            : // but this piece of code might still become handly if some other weird compilation
+<span class="lineNum">     399 </span>            : // erros pop up again.
+<span class="lineNum">     400 </span>            : 
+<span class="lineNum">     401 </span>            : // MSVC exhibits a weird compilation error when
+<span class="lineNum">     402 </span>            : // compiling:
+<span class="lineNum">     403 </span>            : //    Eigen::MatrixXf A = MatrixXf::Random(3,3);
+<span class="lineNum">     404 </span>            : //    Ref&lt;const MatrixXf&gt; R = 2.f*A;
+<span class="lineNum">     405 </span>            : // and that has_*ary_operator&lt;scalar_constant_op&lt;float&gt;&gt; have not been instantiated yet.
+<span class="lineNum">     406 </span>            : // The &quot;problem&quot; is that evaluator&lt;2.f*A&gt; is instantiated by traits&lt;Ref&gt;::match&lt;2.f*A&gt;
+<span class="lineNum">     407 </span>            : // and at that time has_*ary_operator&lt;T&gt; returns true regardless of T.
+<span class="lineNum">     408 </span>            : // Then nullary_wrapper is badly instantiated as nullary_wrapper&lt;.,.,true,true,true&gt;.
+<span class="lineNum">     409 </span>            : // The trick is thus to defer the proper instantiation of nullary_wrapper when coeff(),
+<span class="lineNum">     410 </span>            : // and packet() are really instantiated as implemented below:
+<span class="lineNum">     411 </span>            : 
+<span class="lineNum">     412 </span>            : // This is a simple wrapper around Index to enforce the re-instantiation of
+<span class="lineNum">     413 </span>            : // has_*ary_operator when needed.
+<span class="lineNum">     414 </span>            : template&lt;typename T&gt; struct nullary_wrapper_workaround_msvc {
+<span class="lineNum">     415 </span>            :   nullary_wrapper_workaround_msvc(const T&amp;);
+<span class="lineNum">     416 </span>            :   operator T()const;
+<span class="lineNum">     417 </span>            : };
+<span class="lineNum">     418 </span>            : 
+<span class="lineNum">     419 </span>            : template&lt;typename Scalar,typename NullaryOp&gt;
+<span class="lineNum">     420 </span>            : struct nullary_wrapper&lt;Scalar,NullaryOp,true,true,true&gt;
+<span class="lineNum">     421 </span>            : {
+<span class="lineNum">     422 </span>            :   template &lt;typename IndexType&gt;
+<span class="lineNum">     423 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar operator()(const NullaryOp&amp; op, IndexType i, IndexType j) const {
+<span class="lineNum">     424 </span>            :     return nullary_wrapper&lt;Scalar,NullaryOp,
+<span class="lineNum">     425 </span>            :     has_nullary_operator&lt;NullaryOp,nullary_wrapper_workaround_msvc&lt;IndexType&gt; &gt;::value,
+<span class="lineNum">     426 </span>            :     has_unary_operator&lt;NullaryOp,nullary_wrapper_workaround_msvc&lt;IndexType&gt; &gt;::value,
+<span class="lineNum">     427 </span>            :     has_binary_operator&lt;NullaryOp,nullary_wrapper_workaround_msvc&lt;IndexType&gt; &gt;::value&gt;().operator()(op,i,j);
+<span class="lineNum">     428 </span>            :   }
+<span class="lineNum">     429 </span>            :   template &lt;typename IndexType&gt;
+<span class="lineNum">     430 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar operator()(const NullaryOp&amp; op, IndexType i) const {
+<span class="lineNum">     431 </span>            :     return nullary_wrapper&lt;Scalar,NullaryOp,
+<span class="lineNum">     432 </span>            :     has_nullary_operator&lt;NullaryOp,nullary_wrapper_workaround_msvc&lt;IndexType&gt; &gt;::value,
+<span class="lineNum">     433 </span>            :     has_unary_operator&lt;NullaryOp,nullary_wrapper_workaround_msvc&lt;IndexType&gt; &gt;::value,
+<span class="lineNum">     434 </span>            :     has_binary_operator&lt;NullaryOp,nullary_wrapper_workaround_msvc&lt;IndexType&gt; &gt;::value&gt;().operator()(op,i);
+<span class="lineNum">     435 </span>            :   }
+<span class="lineNum">     436 </span>            : 
+<span class="lineNum">     437 </span>            :   template &lt;typename T, typename IndexType&gt;
+<span class="lineNum">     438 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE T packetOp(const NullaryOp&amp; op, IndexType i, IndexType j) const {
+<span class="lineNum">     439 </span>            :     return nullary_wrapper&lt;Scalar,NullaryOp,
+<span class="lineNum">     440 </span>            :     has_nullary_operator&lt;NullaryOp,nullary_wrapper_workaround_msvc&lt;IndexType&gt; &gt;::value,
+<span class="lineNum">     441 </span>            :     has_unary_operator&lt;NullaryOp,nullary_wrapper_workaround_msvc&lt;IndexType&gt; &gt;::value,
+<span class="lineNum">     442 </span>            :     has_binary_operator&lt;NullaryOp,nullary_wrapper_workaround_msvc&lt;IndexType&gt; &gt;::value&gt;().template packetOp&lt;T&gt;(op,i,j);
+<span class="lineNum">     443 </span>            :   }
+<span class="lineNum">     444 </span>            :   template &lt;typename T, typename IndexType&gt;
+<span class="lineNum">     445 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE T packetOp(const NullaryOp&amp; op, IndexType i) const {
+<span class="lineNum">     446 </span>            :     return nullary_wrapper&lt;Scalar,NullaryOp,
+<span class="lineNum">     447 </span>            :     has_nullary_operator&lt;NullaryOp,nullary_wrapper_workaround_msvc&lt;IndexType&gt; &gt;::value,
+<span class="lineNum">     448 </span>            :     has_unary_operator&lt;NullaryOp,nullary_wrapper_workaround_msvc&lt;IndexType&gt; &gt;::value,
+<span class="lineNum">     449 </span>            :     has_binary_operator&lt;NullaryOp,nullary_wrapper_workaround_msvc&lt;IndexType&gt; &gt;::value&gt;().template packetOp&lt;T&gt;(op,i);
+<span class="lineNum">     450 </span>            :   }
+<span class="lineNum">     451 </span>            : };
+<span class="lineNum">     452 </span>            : #endif // MSVC workaround
+<a name="453"><span class="lineNum">     453 </span>            : </a>
+<span class="lineNum">     454 </span>            : template&lt;typename NullaryOp, typename PlainObjectType&gt;
+<span class="lineNum">     455 </span><span class="lineCov">     818319 : struct evaluator&lt;CwiseNullaryOp&lt;NullaryOp,PlainObjectType&gt; &gt;</span>
+<span class="lineNum">     456 </span>            :   : evaluator_base&lt;CwiseNullaryOp&lt;NullaryOp,PlainObjectType&gt; &gt;
+<span class="lineNum">     457 </span>            : {
+<span class="lineNum">     458 </span>            :   typedef CwiseNullaryOp&lt;NullaryOp,PlainObjectType&gt; XprType;
+<span class="lineNum">     459 </span>            :   typedef typename internal::remove_all&lt;PlainObjectType&gt;::type PlainObjectTypeCleaned;
+<span class="lineNum">     460 </span>            :   
+<span class="lineNum">     461 </span>            :   enum {
+<span class="lineNum">     462 </span>            :     CoeffReadCost = internal::functor_traits&lt;NullaryOp&gt;::Cost,
+<span class="lineNum">     463 </span>            :     
+<span class="lineNum">     464 </span>            :     Flags = (evaluator&lt;PlainObjectTypeCleaned&gt;::Flags
+<span class="lineNum">     465 </span>            :           &amp;  (  HereditaryBits
+<span class="lineNum">     466 </span>            :               | (functor_has_linear_access&lt;NullaryOp&gt;::ret  ? LinearAccessBit : 0)
+<span class="lineNum">     467 </span>            :               | (functor_traits&lt;NullaryOp&gt;::PacketAccess    ? PacketAccessBit : 0)))
+<span class="lineNum">     468 </span>            :           | (functor_traits&lt;NullaryOp&gt;::IsRepeatable ? 0 : EvalBeforeNestingBit),
+<span class="lineNum">     469 </span>            :     Alignment = AlignedMax
+<a name="470"><span class="lineNum">     470 </span>            :   };</a>
+<span class="lineNum">     471 </span>            : 
+<span class="lineNum">     472 </span><span class="lineCov">     818319 :   EIGEN_DEVICE_FUNC explicit evaluator(const XprType&amp; n)</span>
+<span class="lineNum">     473 </span><span class="lineCov">     818319 :     : m_functor(n.functor()), m_wrapper()</span>
+<span class="lineNum">     474 </span>            :   {
+<span class="lineNum">     475 </span>            :     EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+<span class="lineNum">     476 </span><span class="lineCov">     818319 :   }</span>
+<span class="lineNum">     477 </span>            : 
+<span class="lineNum">     478 </span>            :   typedef typename XprType::CoeffReturnType CoeffReturnType;
+<span class="lineNum">     479 </span>            : 
+<a name="480"><span class="lineNum">     480 </span>            :   template &lt;typename IndexType&gt;</a>
+<span class="lineNum">     481 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     482 </span><span class="lineCov">    1245417 :   CoeffReturnType coeff(IndexType row, IndexType col) const</span>
+<span class="lineNum">     483 </span>            :   {
+<span class="lineNum">     484 </span><span class="lineCov">    1245417 :     return m_wrapper(m_functor, row, col);</span>
+<span class="lineNum">     485 </span>            :   }
+<span class="lineNum">     486 </span>            : 
+<a name="487"><span class="lineNum">     487 </span>            :   template &lt;typename IndexType&gt;</a>
+<span class="lineNum">     488 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     489 </span><span class="lineCov">     121708 :   CoeffReturnType coeff(IndexType index) const</span>
+<span class="lineNum">     490 </span>            :   {
+<span class="lineNum">     491 </span><span class="lineCov">     121708 :     return m_wrapper(m_functor,index);</span>
+<span class="lineNum">     492 </span>            :   }
+<span class="lineNum">     493 </span>            : 
+<a name="494"><span class="lineNum">     494 </span>            :   template&lt;int LoadMode, typename PacketType, typename IndexType&gt;</a>
+<span class="lineNum">     495 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">     496 </span><span class="lineCov">    3027492 :   PacketType packet(IndexType row, IndexType col) const</span>
+<span class="lineNum">     497 </span>            :   {
+<span class="lineNum">     498 </span><span class="lineCov">    3027492 :     return m_wrapper.template packetOp&lt;PacketType&gt;(m_functor, row, col);</span>
+<span class="lineNum">     499 </span>            :   }
+<span class="lineNum">     500 </span>            : 
+<a name="501"><span class="lineNum">     501 </span>            :   template&lt;int LoadMode, typename PacketType, typename IndexType&gt;</a>
+<span class="lineNum">     502 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">     503 </span><span class="lineCov">     860117 :   PacketType packet(IndexType index) const</span>
+<span class="lineNum">     504 </span>            :   {
+<span class="lineNum">     505 </span><span class="lineCov">     860117 :     return m_wrapper.template packetOp&lt;PacketType&gt;(m_functor, index);</span>
+<span class="lineNum">     506 </span>            :   }
+<span class="lineNum">     507 </span>            : 
+<span class="lineNum">     508 </span>            : protected:
+<span class="lineNum">     509 </span>            :   const NullaryOp m_functor;
+<span class="lineNum">     510 </span>            :   const internal::nullary_wrapper&lt;CoeffReturnType,NullaryOp&gt; m_wrapper;
+<span class="lineNum">     511 </span>            : };
+<span class="lineNum">     512 </span>            : 
+<span class="lineNum">     513 </span>            : // -------------------- CwiseUnaryOp --------------------
+<a name="514"><span class="lineNum">     514 </span>            : </a>
+<span class="lineNum">     515 </span>            : template&lt;typename UnaryOp, typename ArgType&gt;
+<span class="lineNum">     516 </span><span class="lineCov">     431827 : struct unary_evaluator&lt;CwiseUnaryOp&lt;UnaryOp, ArgType&gt;, IndexBased &gt;</span>
+<span class="lineNum">     517 </span>            :   : evaluator_base&lt;CwiseUnaryOp&lt;UnaryOp, ArgType&gt; &gt;
+<span class="lineNum">     518 </span>            : {
+<span class="lineNum">     519 </span>            :   typedef CwiseUnaryOp&lt;UnaryOp, ArgType&gt; XprType;
+<span class="lineNum">     520 </span>            :   
+<span class="lineNum">     521 </span>            :   enum {
+<span class="lineNum">     522 </span>            :     CoeffReadCost = evaluator&lt;ArgType&gt;::CoeffReadCost + functor_traits&lt;UnaryOp&gt;::Cost,
+<span class="lineNum">     523 </span>            :     
+<span class="lineNum">     524 </span>            :     Flags = evaluator&lt;ArgType&gt;::Flags
+<span class="lineNum">     525 </span>            :           &amp; (HereditaryBits | LinearAccessBit | (functor_traits&lt;UnaryOp&gt;::PacketAccess ? PacketAccessBit : 0)),
+<span class="lineNum">     526 </span>            :     Alignment = evaluator&lt;ArgType&gt;::Alignment
+<span class="lineNum">     527 </span>            :   };
+<a name="528"><span class="lineNum">     528 </span>            : </a>
+<span class="lineNum">     529 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     530 </span><span class="lineCov">     431827 :   explicit unary_evaluator(const XprType&amp; op)</span>
+<span class="lineNum">     531 </span>            :     : m_functor(op.functor()), 
+<span class="lineNum">     532 </span><span class="lineCov">     431827 :       m_argImpl(op.nestedExpression()) </span>
+<span class="lineNum">     533 </span>            :   {
+<span class="lineNum">     534 </span>            :     EIGEN_INTERNAL_CHECK_COST_VALUE(functor_traits&lt;UnaryOp&gt;::Cost);
+<span class="lineNum">     535 </span>            :     EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+<span class="lineNum">     536 </span><span class="lineCov">     431827 :   }</span>
+<span class="lineNum">     537 </span>            : 
+<span class="lineNum">     538 </span>            :   typedef typename XprType::CoeffReturnType CoeffReturnType;
+<a name="539"><span class="lineNum">     539 </span>            : </a>
+<span class="lineNum">     540 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     541 </span><span class="lineCov">     995930 :   CoeffReturnType coeff(Index row, Index col) const</span>
+<span class="lineNum">     542 </span>            :   {
+<span class="lineNum">     543 </span><span class="lineCov">     995930 :     return m_functor(m_argImpl.coeff(row, col));</span>
+<span class="lineNum">     544 </span>            :   }
+<a name="545"><span class="lineNum">     545 </span>            : </a>
+<span class="lineNum">     546 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     547 </span><span class="lineCov">      10525 :   CoeffReturnType coeff(Index index) const</span>
+<span class="lineNum">     548 </span>            :   {
+<span class="lineNum">     549 </span><span class="lineCov">      10525 :     return m_functor(m_argImpl.coeff(index));</span>
+<span class="lineNum">     550 </span>            :   }
+<span class="lineNum">     551 </span>            : 
+<a name="552"><span class="lineNum">     552 </span>            :   template&lt;int LoadMode, typename PacketType&gt;</a>
+<span class="lineNum">     553 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">     554 </span><span class="lineCov">     894638 :   PacketType packet(Index row, Index col) const</span>
+<span class="lineNum">     555 </span>            :   {
+<span class="lineNum">     556 </span><span class="lineCov">     894638 :     return m_functor.packetOp(m_argImpl.template packet&lt;LoadMode, PacketType&gt;(row, col));</span>
+<span class="lineNum">     557 </span>            :   }
+<span class="lineNum">     558 </span>            : 
+<a name="559"><span class="lineNum">     559 </span>            :   template&lt;int LoadMode, typename PacketType&gt;</a>
+<span class="lineNum">     560 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">     561 </span><span class="lineCov">     228195 :   PacketType packet(Index index) const</span>
+<span class="lineNum">     562 </span>            :   {
+<span class="lineNum">     563 </span><span class="lineCov">     228195 :     return m_functor.packetOp(m_argImpl.template packet&lt;LoadMode, PacketType&gt;(index));</span>
+<span class="lineNum">     564 </span>            :   }
+<span class="lineNum">     565 </span>            : 
+<span class="lineNum">     566 </span>            : protected:
+<span class="lineNum">     567 </span>            :   const UnaryOp m_functor;
+<span class="lineNum">     568 </span>            :   evaluator&lt;ArgType&gt; m_argImpl;
+<span class="lineNum">     569 </span>            : };
+<span class="lineNum">     570 </span>            : 
+<span class="lineNum">     571 </span>            : // -------------------- CwiseTernaryOp --------------------
+<span class="lineNum">     572 </span>            : 
+<span class="lineNum">     573 </span>            : // this is a ternary expression
+<span class="lineNum">     574 </span>            : template&lt;typename TernaryOp, typename Arg1, typename Arg2, typename Arg3&gt;
+<span class="lineNum">     575 </span>            : struct evaluator&lt;CwiseTernaryOp&lt;TernaryOp, Arg1, Arg2, Arg3&gt; &gt;
+<span class="lineNum">     576 </span>            :   : public ternary_evaluator&lt;CwiseTernaryOp&lt;TernaryOp, Arg1, Arg2, Arg3&gt; &gt;
+<span class="lineNum">     577 </span>            : {
+<span class="lineNum">     578 </span>            :   typedef CwiseTernaryOp&lt;TernaryOp, Arg1, Arg2, Arg3&gt; XprType;
+<span class="lineNum">     579 </span>            :   typedef ternary_evaluator&lt;CwiseTernaryOp&lt;TernaryOp, Arg1, Arg2, Arg3&gt; &gt; Base;
+<span class="lineNum">     580 </span>            :   
+<span class="lineNum">     581 </span>            :   EIGEN_DEVICE_FUNC explicit evaluator(const XprType&amp; xpr) : Base(xpr) {}
+<span class="lineNum">     582 </span>            : };
+<span class="lineNum">     583 </span>            : 
+<span class="lineNum">     584 </span>            : template&lt;typename TernaryOp, typename Arg1, typename Arg2, typename Arg3&gt;
+<span class="lineNum">     585 </span>            : struct ternary_evaluator&lt;CwiseTernaryOp&lt;TernaryOp, Arg1, Arg2, Arg3&gt;, IndexBased, IndexBased&gt;
+<span class="lineNum">     586 </span>            :   : evaluator_base&lt;CwiseTernaryOp&lt;TernaryOp, Arg1, Arg2, Arg3&gt; &gt;
+<span class="lineNum">     587 </span>            : {
+<span class="lineNum">     588 </span>            :   typedef CwiseTernaryOp&lt;TernaryOp, Arg1, Arg2, Arg3&gt; XprType;
+<span class="lineNum">     589 </span>            :   
+<span class="lineNum">     590 </span>            :   enum {
+<span class="lineNum">     591 </span>            :     CoeffReadCost = evaluator&lt;Arg1&gt;::CoeffReadCost + evaluator&lt;Arg2&gt;::CoeffReadCost + evaluator&lt;Arg3&gt;::CoeffReadCost + functor_traits&lt;TernaryOp&gt;::Cost,
+<span class="lineNum">     592 </span>            :     
+<span class="lineNum">     593 </span>            :     Arg1Flags = evaluator&lt;Arg1&gt;::Flags,
+<span class="lineNum">     594 </span>            :     Arg2Flags = evaluator&lt;Arg2&gt;::Flags,
+<span class="lineNum">     595 </span>            :     Arg3Flags = evaluator&lt;Arg3&gt;::Flags,
+<span class="lineNum">     596 </span>            :     SameType = is_same&lt;typename Arg1::Scalar,typename Arg2::Scalar&gt;::value &amp;&amp; is_same&lt;typename Arg1::Scalar,typename Arg3::Scalar&gt;::value,
+<span class="lineNum">     597 </span>            :     StorageOrdersAgree = (int(Arg1Flags)&amp;RowMajorBit)==(int(Arg2Flags)&amp;RowMajorBit) &amp;&amp; (int(Arg1Flags)&amp;RowMajorBit)==(int(Arg3Flags)&amp;RowMajorBit),
+<span class="lineNum">     598 </span>            :     Flags0 = (int(Arg1Flags) | int(Arg2Flags) | int(Arg3Flags)) &amp; (
+<span class="lineNum">     599 </span>            :         HereditaryBits
+<span class="lineNum">     600 </span>            :         | (int(Arg1Flags) &amp; int(Arg2Flags) &amp; int(Arg3Flags) &amp;
+<span class="lineNum">     601 </span>            :            ( (StorageOrdersAgree ? LinearAccessBit : 0)
+<span class="lineNum">     602 </span>            :            | (functor_traits&lt;TernaryOp&gt;::PacketAccess &amp;&amp; StorageOrdersAgree &amp;&amp; SameType ? PacketAccessBit : 0)
+<span class="lineNum">     603 </span>            :            )
+<span class="lineNum">     604 </span>            :         )
+<span class="lineNum">     605 </span>            :      ),
+<span class="lineNum">     606 </span>            :     Flags = (Flags0 &amp; ~RowMajorBit) | (Arg1Flags &amp; RowMajorBit),
+<span class="lineNum">     607 </span>            :     Alignment = EIGEN_PLAIN_ENUM_MIN(
+<span class="lineNum">     608 </span>            :         EIGEN_PLAIN_ENUM_MIN(evaluator&lt;Arg1&gt;::Alignment, evaluator&lt;Arg2&gt;::Alignment),
+<span class="lineNum">     609 </span>            :         evaluator&lt;Arg3&gt;::Alignment)
+<span class="lineNum">     610 </span>            :   };
+<span class="lineNum">     611 </span>            : 
+<span class="lineNum">     612 </span>            :   EIGEN_DEVICE_FUNC explicit ternary_evaluator(const XprType&amp; xpr)
+<span class="lineNum">     613 </span>            :     : m_functor(xpr.functor()),
+<span class="lineNum">     614 </span>            :       m_arg1Impl(xpr.arg1()), 
+<span class="lineNum">     615 </span>            :       m_arg2Impl(xpr.arg2()), 
+<span class="lineNum">     616 </span>            :       m_arg3Impl(xpr.arg3())  
+<span class="lineNum">     617 </span>            :   {
+<span class="lineNum">     618 </span>            :     EIGEN_INTERNAL_CHECK_COST_VALUE(functor_traits&lt;TernaryOp&gt;::Cost);
+<span class="lineNum">     619 </span>            :     EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+<span class="lineNum">     620 </span>            :   }
+<span class="lineNum">     621 </span>            : 
+<span class="lineNum">     622 </span>            :   typedef typename XprType::CoeffReturnType CoeffReturnType;
+<span class="lineNum">     623 </span>            : 
+<span class="lineNum">     624 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     625 </span>            :   CoeffReturnType coeff(Index row, Index col) const
+<span class="lineNum">     626 </span>            :   {
+<span class="lineNum">     627 </span>            :     return m_functor(m_arg1Impl.coeff(row, col), m_arg2Impl.coeff(row, col), m_arg3Impl.coeff(row, col));
+<span class="lineNum">     628 </span>            :   }
+<span class="lineNum">     629 </span>            : 
+<span class="lineNum">     630 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     631 </span>            :   CoeffReturnType coeff(Index index) const
+<span class="lineNum">     632 </span>            :   {
+<span class="lineNum">     633 </span>            :     return m_functor(m_arg1Impl.coeff(index), m_arg2Impl.coeff(index), m_arg3Impl.coeff(index));
+<span class="lineNum">     634 </span>            :   }
+<span class="lineNum">     635 </span>            : 
+<span class="lineNum">     636 </span>            :   template&lt;int LoadMode, typename PacketType&gt;
+<span class="lineNum">     637 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">     638 </span>            :   PacketType packet(Index row, Index col) const
+<span class="lineNum">     639 </span>            :   {
+<span class="lineNum">     640 </span>            :     return m_functor.packetOp(m_arg1Impl.template packet&lt;LoadMode,PacketType&gt;(row, col),
+<span class="lineNum">     641 </span>            :                               m_arg2Impl.template packet&lt;LoadMode,PacketType&gt;(row, col),
+<span class="lineNum">     642 </span>            :                               m_arg3Impl.template packet&lt;LoadMode,PacketType&gt;(row, col));
+<span class="lineNum">     643 </span>            :   }
+<span class="lineNum">     644 </span>            : 
+<span class="lineNum">     645 </span>            :   template&lt;int LoadMode, typename PacketType&gt;
+<span class="lineNum">     646 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">     647 </span>            :   PacketType packet(Index index) const
+<span class="lineNum">     648 </span>            :   {
+<span class="lineNum">     649 </span>            :     return m_functor.packetOp(m_arg1Impl.template packet&lt;LoadMode,PacketType&gt;(index),
+<span class="lineNum">     650 </span>            :                               m_arg2Impl.template packet&lt;LoadMode,PacketType&gt;(index),
+<span class="lineNum">     651 </span>            :                               m_arg3Impl.template packet&lt;LoadMode,PacketType&gt;(index));
+<span class="lineNum">     652 </span>            :   }
+<span class="lineNum">     653 </span>            : 
+<span class="lineNum">     654 </span>            : protected:
+<span class="lineNum">     655 </span>            :   const TernaryOp m_functor;
+<span class="lineNum">     656 </span>            :   evaluator&lt;Arg1&gt; m_arg1Impl;
+<span class="lineNum">     657 </span>            :   evaluator&lt;Arg2&gt; m_arg2Impl;
+<span class="lineNum">     658 </span>            :   evaluator&lt;Arg3&gt; m_arg3Impl;
+<span class="lineNum">     659 </span>            : };
+<span class="lineNum">     660 </span>            : 
+<span class="lineNum">     661 </span>            : // -------------------- CwiseBinaryOp --------------------
+<span class="lineNum">     662 </span>            : 
+<a name="663"><span class="lineNum">     663 </span>            : // this is a binary expression</a>
+<span class="lineNum">     664 </span>            : template&lt;typename BinaryOp, typename Lhs, typename Rhs&gt;
+<span class="lineNum">     665 </span><span class="lineCov">     984365 : struct evaluator&lt;CwiseBinaryOp&lt;BinaryOp, Lhs, Rhs&gt; &gt;</span>
+<span class="lineNum">     666 </span>            :   : public binary_evaluator&lt;CwiseBinaryOp&lt;BinaryOp, Lhs, Rhs&gt; &gt;
+<span class="lineNum">     667 </span>            : {
+<span class="lineNum">     668 </span>            :   typedef CwiseBinaryOp&lt;BinaryOp, Lhs, Rhs&gt; XprType;
+<a name="669"><span class="lineNum">     669 </span>            :   typedef binary_evaluator&lt;CwiseBinaryOp&lt;BinaryOp, Lhs, Rhs&gt; &gt; Base;</a>
+<span class="lineNum">     670 </span>            :   
+<span class="lineNum">     671 </span><span class="lineCov">     984365 :   EIGEN_DEVICE_FUNC explicit evaluator(const XprType&amp; xpr) : Base(xpr) {}</span>
+<span class="lineNum">     672 </span>            : };
+<a name="673"><span class="lineNum">     673 </span>            : </a>
+<span class="lineNum">     674 </span>            : template&lt;typename BinaryOp, typename Lhs, typename Rhs&gt;
+<span class="lineNum">     675 </span><span class="lineCov">     984365 : struct binary_evaluator&lt;CwiseBinaryOp&lt;BinaryOp, Lhs, Rhs&gt;, IndexBased, IndexBased&gt;</span>
+<span class="lineNum">     676 </span>            :   : evaluator_base&lt;CwiseBinaryOp&lt;BinaryOp, Lhs, Rhs&gt; &gt;
+<span class="lineNum">     677 </span>            : {
+<span class="lineNum">     678 </span>            :   typedef CwiseBinaryOp&lt;BinaryOp, Lhs, Rhs&gt; XprType;
+<span class="lineNum">     679 </span>            :   
+<span class="lineNum">     680 </span>            :   enum {
+<span class="lineNum">     681 </span>            :     CoeffReadCost = evaluator&lt;Lhs&gt;::CoeffReadCost + evaluator&lt;Rhs&gt;::CoeffReadCost + functor_traits&lt;BinaryOp&gt;::Cost,
+<span class="lineNum">     682 </span>            :     
+<span class="lineNum">     683 </span>            :     LhsFlags = evaluator&lt;Lhs&gt;::Flags,
+<span class="lineNum">     684 </span>            :     RhsFlags = evaluator&lt;Rhs&gt;::Flags,
+<span class="lineNum">     685 </span>            :     SameType = is_same&lt;typename Lhs::Scalar,typename Rhs::Scalar&gt;::value,
+<span class="lineNum">     686 </span>            :     StorageOrdersAgree = (int(LhsFlags)&amp;RowMajorBit)==(int(RhsFlags)&amp;RowMajorBit),
+<span class="lineNum">     687 </span>            :     Flags0 = (int(LhsFlags) | int(RhsFlags)) &amp; (
+<span class="lineNum">     688 </span>            :         HereditaryBits
+<span class="lineNum">     689 </span>            :       | (int(LhsFlags) &amp; int(RhsFlags) &amp;
+<span class="lineNum">     690 </span>            :            ( (StorageOrdersAgree ? LinearAccessBit : 0)
+<span class="lineNum">     691 </span>            :            | (functor_traits&lt;BinaryOp&gt;::PacketAccess &amp;&amp; StorageOrdersAgree &amp;&amp; SameType ? PacketAccessBit : 0)
+<span class="lineNum">     692 </span>            :            )
+<span class="lineNum">     693 </span>            :         )
+<span class="lineNum">     694 </span>            :      ),
+<span class="lineNum">     695 </span>            :     Flags = (Flags0 &amp; ~RowMajorBit) | (LhsFlags &amp; RowMajorBit),
+<span class="lineNum">     696 </span>            :     Alignment = EIGEN_PLAIN_ENUM_MIN(evaluator&lt;Lhs&gt;::Alignment,evaluator&lt;Rhs&gt;::Alignment)
+<a name="697"><span class="lineNum">     697 </span>            :   };</a>
+<span class="lineNum">     698 </span>            : 
+<span class="lineNum">     699 </span><span class="lineCov">     984365 :   EIGEN_DEVICE_FUNC explicit binary_evaluator(const XprType&amp; xpr)</span>
+<span class="lineNum">     700 </span>            :     : m_functor(xpr.functor()),
+<span class="lineNum">     701 </span>            :       m_lhsImpl(xpr.lhs()), 
+<span class="lineNum">     702 </span><span class="lineCov">     984365 :       m_rhsImpl(xpr.rhs())  </span>
+<span class="lineNum">     703 </span>            :   {
+<span class="lineNum">     704 </span>            :     EIGEN_INTERNAL_CHECK_COST_VALUE(functor_traits&lt;BinaryOp&gt;::Cost);
+<span class="lineNum">     705 </span>            :     EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+<span class="lineNum">     706 </span><span class="lineCov">     984365 :   }</span>
+<span class="lineNum">     707 </span>            : 
+<span class="lineNum">     708 </span>            :   typedef typename XprType::CoeffReturnType CoeffReturnType;
+<a name="709"><span class="lineNum">     709 </span>            : </a>
+<span class="lineNum">     710 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     711 </span><span class="lineCov">     558408 :   CoeffReturnType coeff(Index row, Index col) const</span>
+<span class="lineNum">     712 </span>            :   {
+<span class="lineNum">     713 </span><span class="lineCov">     558408 :     return m_functor(m_lhsImpl.coeff(row, col), m_rhsImpl.coeff(row, col));</span>
+<span class="lineNum">     714 </span>            :   }
+<a name="715"><span class="lineNum">     715 </span>            : </a>
+<span class="lineNum">     716 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     717 </span><span class="lineCov">     116827 :   CoeffReturnType coeff(Index index) const</span>
+<span class="lineNum">     718 </span>            :   {
+<span class="lineNum">     719 </span><span class="lineCov">     116827 :     return m_functor(m_lhsImpl.coeff(index), m_rhsImpl.coeff(index));</span>
+<span class="lineNum">     720 </span>            :   }
+<span class="lineNum">     721 </span>            : 
+<a name="722"><span class="lineNum">     722 </span>            :   template&lt;int LoadMode, typename PacketType&gt;</a>
+<span class="lineNum">     723 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">     724 </span><span class="lineCov">    1250911 :   PacketType packet(Index row, Index col) const</span>
+<span class="lineNum">     725 </span>            :   {
+<span class="lineNum">     726 </span>            :     return m_functor.packetOp(m_lhsImpl.template packet&lt;LoadMode,PacketType&gt;(row, col),
+<span class="lineNum">     727 </span><span class="lineCov">    1250911 :                               m_rhsImpl.template packet&lt;LoadMode,PacketType&gt;(row, col));</span>
+<span class="lineNum">     728 </span>            :   }
+<span class="lineNum">     729 </span>            : 
+<a name="730"><span class="lineNum">     730 </span>            :   template&lt;int LoadMode, typename PacketType&gt;</a>
+<span class="lineNum">     731 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">     732 </span><span class="lineCov">     878873 :   PacketType packet(Index index) const</span>
+<span class="lineNum">     733 </span>            :   {
+<span class="lineNum">     734 </span>            :     return m_functor.packetOp(m_lhsImpl.template packet&lt;LoadMode,PacketType&gt;(index),
+<span class="lineNum">     735 </span><span class="lineCov">     878873 :                               m_rhsImpl.template packet&lt;LoadMode,PacketType&gt;(index));</span>
+<span class="lineNum">     736 </span>            :   }
+<span class="lineNum">     737 </span>            : 
+<span class="lineNum">     738 </span>            : protected:
+<span class="lineNum">     739 </span>            :   const BinaryOp m_functor;
+<span class="lineNum">     740 </span>            :   evaluator&lt;Lhs&gt; m_lhsImpl;
+<span class="lineNum">     741 </span>            :   evaluator&lt;Rhs&gt; m_rhsImpl;
+<span class="lineNum">     742 </span>            : };
+<span class="lineNum">     743 </span>            : 
+<span class="lineNum">     744 </span>            : // -------------------- CwiseUnaryView --------------------
+<span class="lineNum">     745 </span>            : 
+<span class="lineNum">     746 </span>            : template&lt;typename UnaryOp, typename ArgType&gt;
+<span class="lineNum">     747 </span>            : struct unary_evaluator&lt;CwiseUnaryView&lt;UnaryOp, ArgType&gt;, IndexBased&gt;
+<span class="lineNum">     748 </span>            :   : evaluator_base&lt;CwiseUnaryView&lt;UnaryOp, ArgType&gt; &gt;
+<span class="lineNum">     749 </span>            : {
+<span class="lineNum">     750 </span>            :   typedef CwiseUnaryView&lt;UnaryOp, ArgType&gt; XprType;
+<span class="lineNum">     751 </span>            :   
+<span class="lineNum">     752 </span>            :   enum {
+<span class="lineNum">     753 </span>            :     CoeffReadCost = evaluator&lt;ArgType&gt;::CoeffReadCost + functor_traits&lt;UnaryOp&gt;::Cost,
+<span class="lineNum">     754 </span>            :     
+<span class="lineNum">     755 </span>            :     Flags = (evaluator&lt;ArgType&gt;::Flags &amp; (HereditaryBits | LinearAccessBit | DirectAccessBit)),
+<span class="lineNum">     756 </span>            :     
+<span class="lineNum">     757 </span>            :     Alignment = 0 // FIXME it is not very clear why alignment is necessarily lost...
+<span class="lineNum">     758 </span>            :   };
+<span class="lineNum">     759 </span>            : 
+<span class="lineNum">     760 </span>            :   EIGEN_DEVICE_FUNC explicit unary_evaluator(const XprType&amp; op)
+<span class="lineNum">     761 </span>            :     : m_unaryOp(op.functor()), 
+<span class="lineNum">     762 </span>            :       m_argImpl(op.nestedExpression()) 
+<span class="lineNum">     763 </span>            :   {
+<span class="lineNum">     764 </span>            :     EIGEN_INTERNAL_CHECK_COST_VALUE(functor_traits&lt;UnaryOp&gt;::Cost);
+<span class="lineNum">     765 </span>            :     EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+<span class="lineNum">     766 </span>            :   }
+<span class="lineNum">     767 </span>            : 
+<span class="lineNum">     768 </span>            :   typedef typename XprType::Scalar Scalar;
+<span class="lineNum">     769 </span>            :   typedef typename XprType::CoeffReturnType CoeffReturnType;
+<span class="lineNum">     770 </span>            : 
+<span class="lineNum">     771 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     772 </span>            :   CoeffReturnType coeff(Index row, Index col) const
+<span class="lineNum">     773 </span>            :   {
+<span class="lineNum">     774 </span>            :     return m_unaryOp(m_argImpl.coeff(row, col));
+<span class="lineNum">     775 </span>            :   }
+<span class="lineNum">     776 </span>            : 
+<span class="lineNum">     777 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     778 </span>            :   CoeffReturnType coeff(Index index) const
+<span class="lineNum">     779 </span>            :   {
+<span class="lineNum">     780 </span>            :     return m_unaryOp(m_argImpl.coeff(index));
+<span class="lineNum">     781 </span>            :   }
+<span class="lineNum">     782 </span>            : 
+<span class="lineNum">     783 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     784 </span>            :   Scalar&amp; coeffRef(Index row, Index col)
+<span class="lineNum">     785 </span>            :   {
+<span class="lineNum">     786 </span>            :     return m_unaryOp(m_argImpl.coeffRef(row, col));
+<span class="lineNum">     787 </span>            :   }
+<span class="lineNum">     788 </span>            : 
+<span class="lineNum">     789 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     790 </span>            :   Scalar&amp; coeffRef(Index index)
+<span class="lineNum">     791 </span>            :   {
+<span class="lineNum">     792 </span>            :     return m_unaryOp(m_argImpl.coeffRef(index));
+<span class="lineNum">     793 </span>            :   }
+<span class="lineNum">     794 </span>            : 
+<span class="lineNum">     795 </span>            : protected:
+<span class="lineNum">     796 </span>            :   const UnaryOp m_unaryOp;
+<span class="lineNum">     797 </span>            :   evaluator&lt;ArgType&gt; m_argImpl;
+<span class="lineNum">     798 </span>            : };
+<span class="lineNum">     799 </span>            : 
+<span class="lineNum">     800 </span>            : // -------------------- Map --------------------
+<span class="lineNum">     801 </span>            : 
+<span class="lineNum">     802 </span>            : // FIXME perhaps the PlainObjectType could be provided by Derived::PlainObject ?
+<span class="lineNum">     803 </span>            : // but that might complicate template specialization
+<span class="lineNum">     804 </span>            : template&lt;typename Derived, typename PlainObjectType&gt;
+<span class="lineNum">     805 </span>            : struct mapbase_evaluator;
+<a name="806"><span class="lineNum">     806 </span>            : </a>
+<span class="lineNum">     807 </span>            : template&lt;typename Derived, typename PlainObjectType&gt;
+<span class="lineNum">     808 </span><span class="lineCov">    3961644 : struct mapbase_evaluator : evaluator_base&lt;Derived&gt;</span>
+<span class="lineNum">     809 </span>            : {
+<span class="lineNum">     810 </span>            :   typedef Derived  XprType;
+<span class="lineNum">     811 </span>            :   typedef typename XprType::PointerType PointerType;
+<span class="lineNum">     812 </span>            :   typedef typename XprType::Scalar Scalar;
+<span class="lineNum">     813 </span>            :   typedef typename XprType::CoeffReturnType CoeffReturnType;
+<span class="lineNum">     814 </span>            :   
+<span class="lineNum">     815 </span>            :   enum {
+<span class="lineNum">     816 </span>            :     IsRowMajor = XprType::RowsAtCompileTime,
+<span class="lineNum">     817 </span>            :     ColsAtCompileTime = XprType::ColsAtCompileTime,
+<span class="lineNum">     818 </span>            :     CoeffReadCost = NumTraits&lt;Scalar&gt;::ReadCost
+<a name="819"><span class="lineNum">     819 </span>            :   };</a>
+<span class="lineNum">     820 </span>            : 
+<span class="lineNum">     821 </span><span class="lineCov">    3961644 :   EIGEN_DEVICE_FUNC explicit mapbase_evaluator(const XprType&amp; map)</span>
+<span class="lineNum">     822 </span>            :     : m_data(const_cast&lt;PointerType&gt;(map.data())),
+<span class="lineNum">     823 </span>            :       m_innerStride(map.innerStride()),
+<span class="lineNum">     824 </span><span class="lineCov">    3961644 :       m_outerStride(map.outerStride())</span>
+<span class="lineNum">     825 </span>            :   {
+<span class="lineNum">     826 </span>            :     EIGEN_STATIC_ASSERT(EIGEN_IMPLIES(evaluator&lt;Derived&gt;::Flags&amp;PacketAccessBit, internal::inner_stride_at_compile_time&lt;Derived&gt;::ret==1),
+<span class="lineNum">     827 </span>            :                         PACKET_ACCESS_REQUIRES_TO_HAVE_INNER_STRIDE_FIXED_TO_1);
+<span class="lineNum">     828 </span>            :     EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+<span class="lineNum">     829 </span><span class="lineCov">    3961644 :   }</span>
+<a name="830"><span class="lineNum">     830 </span>            : </a>
+<span class="lineNum">     831 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     832 </span><span class="lineCov">    5010316 :   CoeffReturnType coeff(Index row, Index col) const</span>
+<span class="lineNum">     833 </span>            :   {
+<span class="lineNum">     834 </span><span class="lineCov">    5010316 :     return m_data[col * colStride() + row * rowStride()];</span>
+<span class="lineNum">     835 </span>            :   }
+<a name="836"><span class="lineNum">     836 </span>            : </a>
+<span class="lineNum">     837 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     838 </span><span class="lineCov">    2026446 :   CoeffReturnType coeff(Index index) const</span>
+<span class="lineNum">     839 </span>            :   {
+<span class="lineNum">     840 </span><span class="lineCov">    2026446 :     return m_data[index * m_innerStride.value()];</span>
+<span class="lineNum">     841 </span>            :   }
+<a name="842"><span class="lineNum">     842 </span>            : </a>
+<span class="lineNum">     843 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     844 </span><span class="lineCov">    4269371 :   Scalar&amp; coeffRef(Index row, Index col)</span>
+<span class="lineNum">     845 </span>            :   {
+<span class="lineNum">     846 </span><span class="lineCov">    4269371 :     return m_data[col * colStride() + row * rowStride()];</span>
+<span class="lineNum">     847 </span>            :   }
+<a name="848"><span class="lineNum">     848 </span>            : </a>
+<span class="lineNum">     849 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     850 </span><span class="lineCov">    1513994 :   Scalar&amp; coeffRef(Index index)</span>
+<span class="lineNum">     851 </span>            :   {
+<span class="lineNum">     852 </span><span class="lineCov">    1513994 :     return m_data[index * m_innerStride.value()];</span>
+<span class="lineNum">     853 </span>            :   }
+<span class="lineNum">     854 </span>            : 
+<a name="855"><span class="lineNum">     855 </span>            :   template&lt;int LoadMode, typename PacketType&gt;</a>
+<span class="lineNum">     856 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">     857 </span><span class="lineCov">    4200003 :   PacketType packet(Index row, Index col) const</span>
+<span class="lineNum">     858 </span>            :   {
+<span class="lineNum">     859 </span><span class="lineCov">    4200003 :     PointerType ptr = m_data + row * rowStride() + col * colStride();</span>
+<span class="lineNum">     860 </span><span class="lineCov">    4200003 :     return internal::ploadt&lt;PacketType, LoadMode&gt;(ptr);</span>
+<span class="lineNum">     861 </span>            :   }
+<span class="lineNum">     862 </span>            : 
+<a name="863"><span class="lineNum">     863 </span>            :   template&lt;int LoadMode, typename PacketType&gt;</a>
+<span class="lineNum">     864 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">     865 </span><span class="lineCov">    2111470 :   PacketType packet(Index index) const</span>
+<span class="lineNum">     866 </span>            :   {
+<span class="lineNum">     867 </span><span class="lineCov">    4222940 :     return internal::ploadt&lt;PacketType, LoadMode&gt;(m_data + index * m_innerStride.value());</span>
+<span class="lineNum">     868 </span>            :   }
+<span class="lineNum">     869 </span>            : 
+<a name="870"><span class="lineNum">     870 </span>            :   template&lt;int StoreMode, typename PacketType&gt;</a>
+<span class="lineNum">     871 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">     872 </span><span class="lineNoCov">          0 :   void writePacket(Index row, Index col, const PacketType&amp; x)</span>
+<span class="lineNum">     873 </span>            :   {
+<span class="lineNum">     874 </span><span class="lineNoCov">          0 :     PointerType ptr = m_data + row * rowStride() + col * colStride();</span>
+<span class="lineNum">     875 </span><span class="lineNoCov">          0 :     return internal::pstoret&lt;Scalar, PacketType, StoreMode&gt;(ptr, x);</span>
+<span class="lineNum">     876 </span>            :   }
+<span class="lineNum">     877 </span>            : 
+<a name="878"><span class="lineNum">     878 </span>            :   template&lt;int StoreMode, typename PacketType&gt;</a>
+<span class="lineNum">     879 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">     880 </span><span class="lineCov">     191450 :   void writePacket(Index index, const PacketType&amp; x)</span>
+<span class="lineNum">     881 </span>            :   {
+<span class="lineNum">     882 </span><span class="lineCov">     191450 :     internal::pstoret&lt;Scalar, PacketType, StoreMode&gt;(m_data + index * m_innerStride.value(), x);</span>
+<span class="lineNum">     883 </span><span class="lineCov">     191450 :   }</span>
+<a name="884"><span class="lineNum">     884 </span>            : protected:</a>
+<span class="lineNum">     885 </span>            :   EIGEN_DEVICE_FUNC
+<a name="886"><span class="lineNum">     886 </span><span class="lineCov">   13479690 :   inline Index rowStride() const { return XprType::IsRowMajor ? m_outerStride.value() : m_innerStride.value(); }</span></a>
+<span class="lineNum">     887 </span>            :   EIGEN_DEVICE_FUNC
+<span class="lineNum">     888 </span><span class="lineCov">   13479690 :   inline Index colStride() const { return XprType::IsRowMajor ? m_innerStride.value() : m_outerStride.value(); }</span>
+<span class="lineNum">     889 </span>            : 
+<span class="lineNum">     890 </span>            :   PointerType m_data;
+<span class="lineNum">     891 </span>            :   const internal::variable_if_dynamic&lt;Index, XprType::InnerStrideAtCompileTime&gt; m_innerStride;
+<span class="lineNum">     892 </span>            :   const internal::variable_if_dynamic&lt;Index, XprType::OuterStrideAtCompileTime&gt; m_outerStride;
+<span class="lineNum">     893 </span>            : };
+<a name="894"><span class="lineNum">     894 </span>            : </a>
+<span class="lineNum">     895 </span>            : template&lt;typename PlainObjectType, int MapOptions, typename StrideType&gt; 
+<span class="lineNum">     896 </span><span class="lineCov">      34780 : struct evaluator&lt;Map&lt;PlainObjectType, MapOptions, StrideType&gt; &gt;</span>
+<span class="lineNum">     897 </span>            :   : public mapbase_evaluator&lt;Map&lt;PlainObjectType, MapOptions, StrideType&gt;, PlainObjectType&gt;
+<span class="lineNum">     898 </span>            : {
+<span class="lineNum">     899 </span>            :   typedef Map&lt;PlainObjectType, MapOptions, StrideType&gt; XprType;
+<span class="lineNum">     900 </span>            :   typedef typename XprType::Scalar Scalar;
+<span class="lineNum">     901 </span>            :   // TODO: should check for smaller packet types once we can handle multi-sized packet types
+<span class="lineNum">     902 </span>            :   typedef typename packet_traits&lt;Scalar&gt;::type PacketScalar;
+<span class="lineNum">     903 </span>            :   
+<span class="lineNum">     904 </span>            :   enum {
+<span class="lineNum">     905 </span>            :     InnerStrideAtCompileTime = StrideType::InnerStrideAtCompileTime == 0
+<span class="lineNum">     906 </span>            :                              ? int(PlainObjectType::InnerStrideAtCompileTime)
+<span class="lineNum">     907 </span>            :                              : int(StrideType::InnerStrideAtCompileTime),
+<span class="lineNum">     908 </span>            :     OuterStrideAtCompileTime = StrideType::OuterStrideAtCompileTime == 0
+<span class="lineNum">     909 </span>            :                              ? int(PlainObjectType::OuterStrideAtCompileTime)
+<span class="lineNum">     910 </span>            :                              : int(StrideType::OuterStrideAtCompileTime),
+<span class="lineNum">     911 </span>            :     HasNoInnerStride = InnerStrideAtCompileTime == 1,
+<span class="lineNum">     912 </span>            :     HasNoOuterStride = StrideType::OuterStrideAtCompileTime == 0,
+<span class="lineNum">     913 </span>            :     HasNoStride = HasNoInnerStride &amp;&amp; HasNoOuterStride,
+<span class="lineNum">     914 </span>            :     IsDynamicSize = PlainObjectType::SizeAtCompileTime==Dynamic,
+<span class="lineNum">     915 </span>            :     
+<span class="lineNum">     916 </span>            :     PacketAccessMask = bool(HasNoInnerStride) ? ~int(0) : ~int(PacketAccessBit),
+<span class="lineNum">     917 </span>            :     LinearAccessMask = bool(HasNoStride) || bool(PlainObjectType::IsVectorAtCompileTime) ? ~int(0) : ~int(LinearAccessBit),
+<span class="lineNum">     918 </span>            :     Flags = int( evaluator&lt;PlainObjectType&gt;::Flags) &amp; (LinearAccessMask&amp;PacketAccessMask),
+<span class="lineNum">     919 </span>            :     
+<span class="lineNum">     920 </span>            :     Alignment = int(MapOptions)&amp;int(AlignedMask)
+<a name="921"><span class="lineNum">     921 </span>            :   };</a>
+<span class="lineNum">     922 </span>            : 
+<span class="lineNum">     923 </span><span class="lineCov">      34780 :   EIGEN_DEVICE_FUNC explicit evaluator(const XprType&amp; map)</span>
+<span class="lineNum">     924 </span><span class="lineCov">      34780 :     : mapbase_evaluator&lt;XprType, PlainObjectType&gt;(map) </span>
+<span class="lineNum">     925 </span><span class="lineCov">      34780 :   { }</span>
+<span class="lineNum">     926 </span>            : };
+<span class="lineNum">     927 </span>            : 
+<span class="lineNum">     928 </span>            : // -------------------- Ref --------------------
+<span class="lineNum">     929 </span>            : 
+<span class="lineNum">     930 </span>            : template&lt;typename PlainObjectType, int RefOptions, typename StrideType&gt; 
+<span class="lineNum">     931 </span>            : struct evaluator&lt;Ref&lt;PlainObjectType, RefOptions, StrideType&gt; &gt;
+<span class="lineNum">     932 </span>            :   : public mapbase_evaluator&lt;Ref&lt;PlainObjectType, RefOptions, StrideType&gt;, PlainObjectType&gt;
+<span class="lineNum">     933 </span>            : {
+<span class="lineNum">     934 </span>            :   typedef Ref&lt;PlainObjectType, RefOptions, StrideType&gt; XprType;
+<span class="lineNum">     935 </span>            :   
+<span class="lineNum">     936 </span>            :   enum {
+<span class="lineNum">     937 </span>            :     Flags = evaluator&lt;Map&lt;PlainObjectType, RefOptions, StrideType&gt; &gt;::Flags,
+<span class="lineNum">     938 </span>            :     Alignment = evaluator&lt;Map&lt;PlainObjectType, RefOptions, StrideType&gt; &gt;::Alignment
+<span class="lineNum">     939 </span>            :   };
+<span class="lineNum">     940 </span>            : 
+<span class="lineNum">     941 </span>            :   EIGEN_DEVICE_FUNC explicit evaluator(const XprType&amp; ref)
+<span class="lineNum">     942 </span>            :     : mapbase_evaluator&lt;XprType, PlainObjectType&gt;(ref) 
+<span class="lineNum">     943 </span>            :   { }
+<span class="lineNum">     944 </span>            : };
+<span class="lineNum">     945 </span>            : 
+<span class="lineNum">     946 </span>            : // -------------------- Block --------------------
+<span class="lineNum">     947 </span>            : 
+<span class="lineNum">     948 </span>            : template&lt;typename ArgType, int BlockRows, int BlockCols, bool InnerPanel,
+<span class="lineNum">     949 </span>            :          bool HasDirectAccess = internal::has_direct_access&lt;ArgType&gt;::ret&gt; struct block_evaluator;
+<a name="950"><span class="lineNum">     950 </span>            :          </a>
+<span class="lineNum">     951 </span>            : template&lt;typename ArgType, int BlockRows, int BlockCols, bool InnerPanel&gt; 
+<span class="lineNum">     952 </span><span class="lineCov">    4125390 : struct evaluator&lt;Block&lt;ArgType, BlockRows, BlockCols, InnerPanel&gt; &gt;</span>
+<span class="lineNum">     953 </span>            :   : block_evaluator&lt;ArgType, BlockRows, BlockCols, InnerPanel&gt;
+<span class="lineNum">     954 </span>            : {
+<span class="lineNum">     955 </span>            :   typedef Block&lt;ArgType, BlockRows, BlockCols, InnerPanel&gt; XprType;
+<span class="lineNum">     956 </span>            :   typedef typename XprType::Scalar Scalar;
+<span class="lineNum">     957 </span>            :   // TODO: should check for smaller packet types once we can handle multi-sized packet types
+<span class="lineNum">     958 </span>            :   typedef typename packet_traits&lt;Scalar&gt;::type PacketScalar;
+<span class="lineNum">     959 </span>            :   
+<span class="lineNum">     960 </span>            :   enum {
+<span class="lineNum">     961 </span>            :     CoeffReadCost = evaluator&lt;ArgType&gt;::CoeffReadCost,
+<span class="lineNum">     962 </span>            :     
+<span class="lineNum">     963 </span>            :     RowsAtCompileTime = traits&lt;XprType&gt;::RowsAtCompileTime,
+<span class="lineNum">     964 </span>            :     ColsAtCompileTime = traits&lt;XprType&gt;::ColsAtCompileTime,
+<span class="lineNum">     965 </span>            :     MaxRowsAtCompileTime = traits&lt;XprType&gt;::MaxRowsAtCompileTime,
+<span class="lineNum">     966 </span>            :     MaxColsAtCompileTime = traits&lt;XprType&gt;::MaxColsAtCompileTime,
+<span class="lineNum">     967 </span>            :     
+<span class="lineNum">     968 </span>            :     ArgTypeIsRowMajor = (int(evaluator&lt;ArgType&gt;::Flags)&amp;RowMajorBit) != 0,
+<span class="lineNum">     969 </span>            :     IsRowMajor = (MaxRowsAtCompileTime==1 &amp;&amp; MaxColsAtCompileTime!=1) ? 1
+<span class="lineNum">     970 </span>            :                : (MaxColsAtCompileTime==1 &amp;&amp; MaxRowsAtCompileTime!=1) ? 0
+<span class="lineNum">     971 </span>            :                : ArgTypeIsRowMajor,
+<span class="lineNum">     972 </span>            :     HasSameStorageOrderAsArgType = (IsRowMajor == ArgTypeIsRowMajor),
+<span class="lineNum">     973 </span>            :     InnerSize = IsRowMajor ? int(ColsAtCompileTime) : int(RowsAtCompileTime),
+<span class="lineNum">     974 </span>            :     InnerStrideAtCompileTime = HasSameStorageOrderAsArgType
+<span class="lineNum">     975 </span>            :                              ? int(inner_stride_at_compile_time&lt;ArgType&gt;::ret)
+<span class="lineNum">     976 </span>            :                              : int(outer_stride_at_compile_time&lt;ArgType&gt;::ret),
+<span class="lineNum">     977 </span>            :     OuterStrideAtCompileTime = HasSameStorageOrderAsArgType
+<span class="lineNum">     978 </span>            :                              ? int(outer_stride_at_compile_time&lt;ArgType&gt;::ret)
+<span class="lineNum">     979 </span>            :                              : int(inner_stride_at_compile_time&lt;ArgType&gt;::ret),
+<span class="lineNum">     980 </span>            :     MaskPacketAccessBit = (InnerStrideAtCompileTime == 1 || HasSameStorageOrderAsArgType) ? PacketAccessBit : 0,
+<span class="lineNum">     981 </span>            :     
+<span class="lineNum">     982 </span>            :     FlagsLinearAccessBit = (RowsAtCompileTime == 1 || ColsAtCompileTime == 1 || (InnerPanel &amp;&amp; (evaluator&lt;ArgType&gt;::Flags&amp;LinearAccessBit))) ? LinearAccessBit : 0,    
+<span class="lineNum">     983 </span>            :     FlagsRowMajorBit = XprType::Flags&amp;RowMajorBit,
+<span class="lineNum">     984 </span>            :     Flags0 = evaluator&lt;ArgType&gt;::Flags &amp; ( (HereditaryBits &amp; ~RowMajorBit) |
+<span class="lineNum">     985 </span>            :                                            DirectAccessBit |
+<span class="lineNum">     986 </span>            :                                            MaskPacketAccessBit),
+<span class="lineNum">     987 </span>            :     Flags = Flags0 | FlagsLinearAccessBit | FlagsRowMajorBit,
+<span class="lineNum">     988 </span>            :     
+<span class="lineNum">     989 </span>            :     PacketAlignment = unpacket_traits&lt;PacketScalar&gt;::alignment,
+<span class="lineNum">     990 </span>            :     Alignment0 = (InnerPanel &amp;&amp; (OuterStrideAtCompileTime!=Dynamic)
+<span class="lineNum">     991 </span>            :                              &amp;&amp; (OuterStrideAtCompileTime!=0)
+<span class="lineNum">     992 </span>            :                              &amp;&amp; (((OuterStrideAtCompileTime * int(sizeof(Scalar))) % int(PacketAlignment)) == 0)) ? int(PacketAlignment) : 0,
+<span class="lineNum">     993 </span>            :     Alignment = EIGEN_PLAIN_ENUM_MIN(evaluator&lt;ArgType&gt;::Alignment, Alignment0)
+<a name="994"><span class="lineNum">     994 </span>            :   };</a>
+<span class="lineNum">     995 </span>            :   typedef block_evaluator&lt;ArgType, BlockRows, BlockCols, InnerPanel&gt; block_evaluator_type;
+<span class="lineNum">     996 </span><span class="lineCov">    4125390 :   EIGEN_DEVICE_FUNC explicit evaluator(const XprType&amp; block) : block_evaluator_type(block)</span>
+<span class="lineNum">     997 </span>            :   {
+<span class="lineNum">     998 </span>            :     EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+<span class="lineNum">     999 </span><span class="lineCov">    4125390 :   }</span>
+<span class="lineNum">    1000 </span>            : };
+<span class="lineNum">    1001 </span>            : 
+<a name="1002"><span class="lineNum">    1002 </span>            : // no direct-access =&gt; dispatch to a unary evaluator</a>
+<span class="lineNum">    1003 </span>            : template&lt;typename ArgType, int BlockRows, int BlockCols, bool InnerPanel&gt;
+<span class="lineNum">    1004 </span><span class="lineCov">     198526 : struct block_evaluator&lt;ArgType, BlockRows, BlockCols, InnerPanel, /*HasDirectAccess*/ false&gt;</span>
+<span class="lineNum">    1005 </span>            :   : unary_evaluator&lt;Block&lt;ArgType, BlockRows, BlockCols, InnerPanel&gt; &gt;
+<span class="lineNum">    1006 </span>            : {
+<a name="1007"><span class="lineNum">    1007 </span>            :   typedef Block&lt;ArgType, BlockRows, BlockCols, InnerPanel&gt; XprType;</a>
+<span class="lineNum">    1008 </span>            : 
+<span class="lineNum">    1009 </span><span class="lineCov">     198526 :   EIGEN_DEVICE_FUNC explicit block_evaluator(const XprType&amp; block)</span>
+<span class="lineNum">    1010 </span><span class="lineCov">     198526 :     : unary_evaluator&lt;XprType&gt;(block) </span>
+<span class="lineNum">    1011 </span><span class="lineCov">     198526 :   {}</span>
+<span class="lineNum">    1012 </span>            : };
+<a name="1013"><span class="lineNum">    1013 </span>            : </a>
+<span class="lineNum">    1014 </span>            : template&lt;typename ArgType, int BlockRows, int BlockCols, bool InnerPanel&gt;
+<span class="lineNum">    1015 </span><span class="lineCov">     198526 : struct unary_evaluator&lt;Block&lt;ArgType, BlockRows, BlockCols, InnerPanel&gt;, IndexBased&gt;</span>
+<span class="lineNum">    1016 </span>            :   : evaluator_base&lt;Block&lt;ArgType, BlockRows, BlockCols, InnerPanel&gt; &gt;
+<span class="lineNum">    1017 </span>            : {
+<a name="1018"><span class="lineNum">    1018 </span>            :   typedef Block&lt;ArgType, BlockRows, BlockCols, InnerPanel&gt; XprType;</a>
+<span class="lineNum">    1019 </span>            : 
+<span class="lineNum">    1020 </span><span class="lineCov">     198526 :   EIGEN_DEVICE_FUNC explicit unary_evaluator(const XprType&amp; block)</span>
+<span class="lineNum">    1021 </span>            :     : m_argImpl(block.nestedExpression()), 
+<span class="lineNum">    1022 </span>            :       m_startRow(block.startRow()), 
+<span class="lineNum">    1023 </span>            :       m_startCol(block.startCol()),
+<span class="lineNum">    1024 </span><span class="lineCov">     198526 :       m_linear_offset(InnerPanel?(XprType::IsRowMajor ? block.startRow()*block.cols() : block.startCol()*block.rows()):0)</span>
+<span class="lineNum">    1025 </span><span class="lineCov">     198526 :   { }</span>
+<span class="lineNum">    1026 </span>            :  
+<span class="lineNum">    1027 </span>            :   typedef typename XprType::Scalar Scalar;
+<span class="lineNum">    1028 </span>            :   typedef typename XprType::CoeffReturnType CoeffReturnType;
+<span class="lineNum">    1029 </span>            : 
+<span class="lineNum">    1030 </span>            :   enum {
+<span class="lineNum">    1031 </span>            :     RowsAtCompileTime = XprType::RowsAtCompileTime,
+<span class="lineNum">    1032 </span>            :     ForwardLinearAccess = InnerPanel &amp;&amp; bool(evaluator&lt;ArgType&gt;::Flags&amp;LinearAccessBit)
+<span class="lineNum">    1033 </span>            :   };
+<a name="1034"><span class="lineNum">    1034 </span>            :  </a>
+<span class="lineNum">    1035 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">    1036 </span><span class="lineCov">        470 :   CoeffReturnType coeff(Index row, Index col) const</span>
+<span class="lineNum">    1037 </span>            :   { 
+<span class="lineNum">    1038 </span><span class="lineCov">        470 :     return m_argImpl.coeff(m_startRow.value() + row, m_startCol.value() + col); </span>
+<span class="lineNum">    1039 </span>            :   }
+<a name="1040"><span class="lineNum">    1040 </span>            :   </a>
+<span class="lineNum">    1041 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">    1042 </span><span class="lineCov">        470 :   CoeffReturnType coeff(Index index) const</span>
+<span class="lineNum">    1043 </span>            :   { 
+<span class="lineNum">    1044 </span>            :     if (ForwardLinearAccess)
+<span class="lineNum">    1045 </span>            :       return m_argImpl.coeff(m_linear_offset.value() + index); 
+<span class="lineNum">    1046 </span>            :     else
+<span class="lineNum">    1047 </span><span class="lineCov">        470 :       return coeff(RowsAtCompileTime == 1 ? 0 : index, RowsAtCompileTime == 1 ? index : 0);</span>
+<span class="lineNum">    1048 </span>            :   }
+<span class="lineNum">    1049 </span>            : 
+<span class="lineNum">    1050 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">    1051 </span>            :   Scalar&amp; coeffRef(Index row, Index col)
+<span class="lineNum">    1052 </span>            :   { 
+<span class="lineNum">    1053 </span>            :     return m_argImpl.coeffRef(m_startRow.value() + row, m_startCol.value() + col); 
+<span class="lineNum">    1054 </span>            :   }
+<span class="lineNum">    1055 </span>            :   
+<span class="lineNum">    1056 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">    1057 </span>            :   Scalar&amp; coeffRef(Index index)
+<span class="lineNum">    1058 </span>            :   { 
+<span class="lineNum">    1059 </span>            :     if (ForwardLinearAccess)
+<span class="lineNum">    1060 </span>            :       return m_argImpl.coeffRef(m_linear_offset.value() + index); 
+<span class="lineNum">    1061 </span>            :     else
+<span class="lineNum">    1062 </span>            :       return coeffRef(RowsAtCompileTime == 1 ? 0 : index, RowsAtCompileTime == 1 ? index : 0);
+<span class="lineNum">    1063 </span>            :   }
+<span class="lineNum">    1064 </span>            :  
+<a name="1065"><span class="lineNum">    1065 </span>            :   template&lt;int LoadMode, typename PacketType&gt;</a>
+<span class="lineNum">    1066 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">    1067 </span><span class="lineCov">     396582 :   PacketType packet(Index row, Index col) const </span>
+<span class="lineNum">    1068 </span>            :   { 
+<span class="lineNum">    1069 </span><span class="lineCov">     396582 :     return m_argImpl.template packet&lt;LoadMode,PacketType&gt;(m_startRow.value() + row, m_startCol.value() + col); </span>
+<span class="lineNum">    1070 </span>            :   }
+<span class="lineNum">    1071 </span>            : 
+<a name="1072"><span class="lineNum">    1072 </span>            :   template&lt;int LoadMode, typename PacketType&gt;</a>
+<span class="lineNum">    1073 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">    1074 </span><span class="lineCov">        470 :   PacketType packet(Index index) const </span>
+<span class="lineNum">    1075 </span>            :   { 
+<span class="lineNum">    1076 </span>            :     if (ForwardLinearAccess)
+<span class="lineNum">    1077 </span>            :       return m_argImpl.template packet&lt;LoadMode,PacketType&gt;(m_linear_offset.value() + index);
+<span class="lineNum">    1078 </span>            :     else
+<span class="lineNum">    1079 </span>            :       return packet&lt;LoadMode,PacketType&gt;(RowsAtCompileTime == 1 ? 0 : index,
+<span class="lineNum">    1080 </span><span class="lineCov">        470 :                                          RowsAtCompileTime == 1 ? index : 0);</span>
+<span class="lineNum">    1081 </span>            :   }
+<span class="lineNum">    1082 </span>            :   
+<span class="lineNum">    1083 </span>            :   template&lt;int StoreMode, typename PacketType&gt;
+<span class="lineNum">    1084 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">    1085 </span>            :   void writePacket(Index row, Index col, const PacketType&amp; x) 
+<span class="lineNum">    1086 </span>            :   {
+<span class="lineNum">    1087 </span>            :     return m_argImpl.template writePacket&lt;StoreMode,PacketType&gt;(m_startRow.value() + row, m_startCol.value() + col, x); 
+<span class="lineNum">    1088 </span>            :   }
+<span class="lineNum">    1089 </span>            :   
+<span class="lineNum">    1090 </span>            :   template&lt;int StoreMode, typename PacketType&gt;
+<span class="lineNum">    1091 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">    1092 </span>            :   void writePacket(Index index, const PacketType&amp; x) 
+<span class="lineNum">    1093 </span>            :   {
+<span class="lineNum">    1094 </span>            :     if (ForwardLinearAccess)
+<span class="lineNum">    1095 </span>            :       return m_argImpl.template writePacket&lt;StoreMode,PacketType&gt;(m_linear_offset.value() + index, x);
+<span class="lineNum">    1096 </span>            :     else
+<span class="lineNum">    1097 </span>            :       return writePacket&lt;StoreMode,PacketType&gt;(RowsAtCompileTime == 1 ? 0 : index,
+<span class="lineNum">    1098 </span>            :                                               RowsAtCompileTime == 1 ? index : 0,
+<span class="lineNum">    1099 </span>            :                                               x);
+<span class="lineNum">    1100 </span>            :   }
+<span class="lineNum">    1101 </span>            :  
+<span class="lineNum">    1102 </span>            : protected:
+<span class="lineNum">    1103 </span>            :   evaluator&lt;ArgType&gt; m_argImpl;
+<span class="lineNum">    1104 </span>            :   const variable_if_dynamic&lt;Index, (ArgType::RowsAtCompileTime == 1 &amp;&amp; BlockRows==1) ? 0 : Dynamic&gt; m_startRow;
+<span class="lineNum">    1105 </span>            :   const variable_if_dynamic&lt;Index, (ArgType::ColsAtCompileTime == 1 &amp;&amp; BlockCols==1) ? 0 : Dynamic&gt; m_startCol;
+<span class="lineNum">    1106 </span>            :   const variable_if_dynamic&lt;Index, InnerPanel ? Dynamic : 0&gt; m_linear_offset;
+<span class="lineNum">    1107 </span>            : };
+<span class="lineNum">    1108 </span>            : 
+<span class="lineNum">    1109 </span>            : // TODO: This evaluator does not actually use the child evaluator; 
+<span class="lineNum">    1110 </span>            : // all action is via the data() as returned by the Block expression.
+<a name="1111"><span class="lineNum">    1111 </span>            : </a>
+<span class="lineNum">    1112 </span>            : template&lt;typename ArgType, int BlockRows, int BlockCols, bool InnerPanel&gt; 
+<span class="lineNum">    1113 </span><span class="lineCov">    3926864 : struct block_evaluator&lt;ArgType, BlockRows, BlockCols, InnerPanel, /* HasDirectAccess */ true&gt;</span>
+<span class="lineNum">    1114 </span>            :   : mapbase_evaluator&lt;Block&lt;ArgType, BlockRows, BlockCols, InnerPanel&gt;,
+<span class="lineNum">    1115 </span>            :                       typename Block&lt;ArgType, BlockRows, BlockCols, InnerPanel&gt;::PlainObject&gt;
+<span class="lineNum">    1116 </span>            : {
+<span class="lineNum">    1117 </span>            :   typedef Block&lt;ArgType, BlockRows, BlockCols, InnerPanel&gt; XprType;
+<a name="1118"><span class="lineNum">    1118 </span>            :   typedef typename XprType::Scalar Scalar;</a>
+<span class="lineNum">    1119 </span>            : 
+<span class="lineNum">    1120 </span><span class="lineCov">    3926864 :   EIGEN_DEVICE_FUNC explicit block_evaluator(const XprType&amp; block)</span>
+<span class="lineNum">    1121 </span><span class="lineCov">    3926864 :     : mapbase_evaluator&lt;XprType, typename XprType::PlainObject&gt;(block) </span>
+<span class="lineNum">    1122 </span>            :   {
+<span class="lineNum">    1123 </span>            :     // TODO: for the 3.3 release, this should be turned to an internal assertion, but let's keep it as is for the beta lifetime
+<span class="lineNum">    1124 </span><span class="lineCov">    3926864 :     eigen_assert(((internal::UIntPtr(block.data()) % EIGEN_PLAIN_ENUM_MAX(1,evaluator&lt;XprType&gt;::Alignment)) == 0) &amp;&amp; &quot;data is not aligned&quot;);</span>
+<span class="lineNum">    1125 </span><span class="lineCov">    3926864 :   }</span>
+<span class="lineNum">    1126 </span>            : };
+<span class="lineNum">    1127 </span>            : 
+<span class="lineNum">    1128 </span>            : 
+<span class="lineNum">    1129 </span>            : // -------------------- Select --------------------
+<span class="lineNum">    1130 </span>            : // NOTE shall we introduce a ternary_evaluator?
+<span class="lineNum">    1131 </span>            : 
+<span class="lineNum">    1132 </span>            : // TODO enable vectorization for Select
+<span class="lineNum">    1133 </span>            : template&lt;typename ConditionMatrixType, typename ThenMatrixType, typename ElseMatrixType&gt;
+<span class="lineNum">    1134 </span>            : struct evaluator&lt;Select&lt;ConditionMatrixType, ThenMatrixType, ElseMatrixType&gt; &gt;
+<span class="lineNum">    1135 </span>            :   : evaluator_base&lt;Select&lt;ConditionMatrixType, ThenMatrixType, ElseMatrixType&gt; &gt;
+<span class="lineNum">    1136 </span>            : {
+<span class="lineNum">    1137 </span>            :   typedef Select&lt;ConditionMatrixType, ThenMatrixType, ElseMatrixType&gt; XprType;
+<span class="lineNum">    1138 </span>            :   enum {
+<span class="lineNum">    1139 </span>            :     CoeffReadCost = evaluator&lt;ConditionMatrixType&gt;::CoeffReadCost
+<span class="lineNum">    1140 </span>            :                   + EIGEN_PLAIN_ENUM_MAX(evaluator&lt;ThenMatrixType&gt;::CoeffReadCost,
+<span class="lineNum">    1141 </span>            :                                          evaluator&lt;ElseMatrixType&gt;::CoeffReadCost),
+<span class="lineNum">    1142 </span>            : 
+<span class="lineNum">    1143 </span>            :     Flags = (unsigned int)evaluator&lt;ThenMatrixType&gt;::Flags &amp; evaluator&lt;ElseMatrixType&gt;::Flags &amp; HereditaryBits,
+<span class="lineNum">    1144 </span>            :     
+<span class="lineNum">    1145 </span>            :     Alignment = EIGEN_PLAIN_ENUM_MIN(evaluator&lt;ThenMatrixType&gt;::Alignment, evaluator&lt;ElseMatrixType&gt;::Alignment)
+<span class="lineNum">    1146 </span>            :   };
+<span class="lineNum">    1147 </span>            : 
+<span class="lineNum">    1148 </span>            :   EIGEN_DEVICE_FUNC explicit evaluator(const XprType&amp; select)
+<span class="lineNum">    1149 </span>            :     : m_conditionImpl(select.conditionMatrix()),
+<span class="lineNum">    1150 </span>            :       m_thenImpl(select.thenMatrix()),
+<span class="lineNum">    1151 </span>            :       m_elseImpl(select.elseMatrix())
+<span class="lineNum">    1152 </span>            :   {
+<span class="lineNum">    1153 </span>            :     EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+<span class="lineNum">    1154 </span>            :   }
+<span class="lineNum">    1155 </span>            :  
+<span class="lineNum">    1156 </span>            :   typedef typename XprType::CoeffReturnType CoeffReturnType;
+<span class="lineNum">    1157 </span>            : 
+<span class="lineNum">    1158 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">    1159 </span>            :   CoeffReturnType coeff(Index row, Index col) const
+<span class="lineNum">    1160 </span>            :   {
+<span class="lineNum">    1161 </span>            :     if (m_conditionImpl.coeff(row, col))
+<span class="lineNum">    1162 </span>            :       return m_thenImpl.coeff(row, col);
+<span class="lineNum">    1163 </span>            :     else
+<span class="lineNum">    1164 </span>            :       return m_elseImpl.coeff(row, col);
+<span class="lineNum">    1165 </span>            :   }
+<span class="lineNum">    1166 </span>            : 
+<span class="lineNum">    1167 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">    1168 </span>            :   CoeffReturnType coeff(Index index) const
+<span class="lineNum">    1169 </span>            :   {
+<span class="lineNum">    1170 </span>            :     if (m_conditionImpl.coeff(index))
+<span class="lineNum">    1171 </span>            :       return m_thenImpl.coeff(index);
+<span class="lineNum">    1172 </span>            :     else
+<span class="lineNum">    1173 </span>            :       return m_elseImpl.coeff(index);
+<span class="lineNum">    1174 </span>            :   }
+<span class="lineNum">    1175 </span>            :  
+<span class="lineNum">    1176 </span>            : protected:
+<span class="lineNum">    1177 </span>            :   evaluator&lt;ConditionMatrixType&gt; m_conditionImpl;
+<span class="lineNum">    1178 </span>            :   evaluator&lt;ThenMatrixType&gt; m_thenImpl;
+<span class="lineNum">    1179 </span>            :   evaluator&lt;ElseMatrixType&gt; m_elseImpl;
+<span class="lineNum">    1180 </span>            : };
+<span class="lineNum">    1181 </span>            : 
+<span class="lineNum">    1182 </span>            : 
+<span class="lineNum">    1183 </span>            : // -------------------- Replicate --------------------
+<span class="lineNum">    1184 </span>            : 
+<span class="lineNum">    1185 </span>            : template&lt;typename ArgType, int RowFactor, int ColFactor&gt; 
+<span class="lineNum">    1186 </span>            : struct unary_evaluator&lt;Replicate&lt;ArgType, RowFactor, ColFactor&gt; &gt;
+<span class="lineNum">    1187 </span>            :   : evaluator_base&lt;Replicate&lt;ArgType, RowFactor, ColFactor&gt; &gt;
+<span class="lineNum">    1188 </span>            : {
+<span class="lineNum">    1189 </span>            :   typedef Replicate&lt;ArgType, RowFactor, ColFactor&gt; XprType;
+<span class="lineNum">    1190 </span>            :   typedef typename XprType::CoeffReturnType CoeffReturnType;
+<span class="lineNum">    1191 </span>            :   enum {
+<span class="lineNum">    1192 </span>            :     Factor = (RowFactor==Dynamic || ColFactor==Dynamic) ? Dynamic : RowFactor*ColFactor
+<span class="lineNum">    1193 </span>            :   };
+<span class="lineNum">    1194 </span>            :   typedef typename internal::nested_eval&lt;ArgType,Factor&gt;::type ArgTypeNested;
+<span class="lineNum">    1195 </span>            :   typedef typename internal::remove_all&lt;ArgTypeNested&gt;::type ArgTypeNestedCleaned;
+<span class="lineNum">    1196 </span>            :   
+<span class="lineNum">    1197 </span>            :   enum {
+<span class="lineNum">    1198 </span>            :     CoeffReadCost = evaluator&lt;ArgTypeNestedCleaned&gt;::CoeffReadCost,
+<span class="lineNum">    1199 </span>            :     LinearAccessMask = XprType::IsVectorAtCompileTime ? LinearAccessBit : 0,
+<span class="lineNum">    1200 </span>            :     Flags = (evaluator&lt;ArgTypeNestedCleaned&gt;::Flags &amp; (HereditaryBits|LinearAccessMask) &amp; ~RowMajorBit) | (traits&lt;XprType&gt;::Flags &amp; RowMajorBit),
+<span class="lineNum">    1201 </span>            :     
+<span class="lineNum">    1202 </span>            :     Alignment = evaluator&lt;ArgTypeNestedCleaned&gt;::Alignment
+<span class="lineNum">    1203 </span>            :   };
+<span class="lineNum">    1204 </span>            : 
+<span class="lineNum">    1205 </span>            :   EIGEN_DEVICE_FUNC explicit unary_evaluator(const XprType&amp; replicate)
+<span class="lineNum">    1206 </span>            :     : m_arg(replicate.nestedExpression()),
+<span class="lineNum">    1207 </span>            :       m_argImpl(m_arg),
+<span class="lineNum">    1208 </span>            :       m_rows(replicate.nestedExpression().rows()),
+<span class="lineNum">    1209 </span>            :       m_cols(replicate.nestedExpression().cols())
+<span class="lineNum">    1210 </span>            :   {}
+<span class="lineNum">    1211 </span>            :  
+<span class="lineNum">    1212 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">    1213 </span>            :   CoeffReturnType coeff(Index row, Index col) const
+<span class="lineNum">    1214 </span>            :   {
+<span class="lineNum">    1215 </span>            :     // try to avoid using modulo; this is a pure optimization strategy
+<span class="lineNum">    1216 </span>            :     const Index actual_row = internal::traits&lt;XprType&gt;::RowsAtCompileTime==1 ? 0
+<span class="lineNum">    1217 </span>            :                            : RowFactor==1 ? row
+<span class="lineNum">    1218 </span>            :                            : row % m_rows.value();
+<span class="lineNum">    1219 </span>            :     const Index actual_col = internal::traits&lt;XprType&gt;::ColsAtCompileTime==1 ? 0
+<span class="lineNum">    1220 </span>            :                            : ColFactor==1 ? col
+<span class="lineNum">    1221 </span>            :                            : col % m_cols.value();
+<span class="lineNum">    1222 </span>            :     
+<span class="lineNum">    1223 </span>            :     return m_argImpl.coeff(actual_row, actual_col);
+<span class="lineNum">    1224 </span>            :   }
+<span class="lineNum">    1225 </span>            :   
+<span class="lineNum">    1226 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">    1227 </span>            :   CoeffReturnType coeff(Index index) const
+<span class="lineNum">    1228 </span>            :   {
+<span class="lineNum">    1229 </span>            :     // try to avoid using modulo; this is a pure optimization strategy
+<span class="lineNum">    1230 </span>            :     const Index actual_index = internal::traits&lt;XprType&gt;::RowsAtCompileTime==1
+<span class="lineNum">    1231 </span>            :                                   ? (ColFactor==1 ?  index : index%m_cols.value())
+<span class="lineNum">    1232 </span>            :                                   : (RowFactor==1 ?  index : index%m_rows.value());
+<span class="lineNum">    1233 </span>            :     
+<span class="lineNum">    1234 </span>            :     return m_argImpl.coeff(actual_index);
+<span class="lineNum">    1235 </span>            :   }
+<span class="lineNum">    1236 </span>            : 
+<span class="lineNum">    1237 </span>            :   template&lt;int LoadMode, typename PacketType&gt;
+<span class="lineNum">    1238 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">    1239 </span>            :   PacketType packet(Index row, Index col) const
+<span class="lineNum">    1240 </span>            :   {
+<span class="lineNum">    1241 </span>            :     const Index actual_row = internal::traits&lt;XprType&gt;::RowsAtCompileTime==1 ? 0
+<span class="lineNum">    1242 </span>            :                            : RowFactor==1 ? row
+<span class="lineNum">    1243 </span>            :                            : row % m_rows.value();
+<span class="lineNum">    1244 </span>            :     const Index actual_col = internal::traits&lt;XprType&gt;::ColsAtCompileTime==1 ? 0
+<span class="lineNum">    1245 </span>            :                            : ColFactor==1 ? col
+<span class="lineNum">    1246 </span>            :                            : col % m_cols.value();
+<span class="lineNum">    1247 </span>            : 
+<span class="lineNum">    1248 </span>            :     return m_argImpl.template packet&lt;LoadMode,PacketType&gt;(actual_row, actual_col);
+<span class="lineNum">    1249 </span>            :   }
+<span class="lineNum">    1250 </span>            :   
+<span class="lineNum">    1251 </span>            :   template&lt;int LoadMode, typename PacketType&gt;
+<span class="lineNum">    1252 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">    1253 </span>            :   PacketType packet(Index index) const
+<span class="lineNum">    1254 </span>            :   {
+<span class="lineNum">    1255 </span>            :     const Index actual_index = internal::traits&lt;XprType&gt;::RowsAtCompileTime==1
+<span class="lineNum">    1256 </span>            :                                   ? (ColFactor==1 ?  index : index%m_cols.value())
+<span class="lineNum">    1257 </span>            :                                   : (RowFactor==1 ?  index : index%m_rows.value());
+<span class="lineNum">    1258 </span>            : 
+<span class="lineNum">    1259 </span>            :     return m_argImpl.template packet&lt;LoadMode,PacketType&gt;(actual_index);
+<span class="lineNum">    1260 </span>            :   }
+<span class="lineNum">    1261 </span>            :  
+<span class="lineNum">    1262 </span>            : protected:
+<span class="lineNum">    1263 </span>            :   const ArgTypeNested m_arg;
+<span class="lineNum">    1264 </span>            :   evaluator&lt;ArgTypeNestedCleaned&gt; m_argImpl;
+<span class="lineNum">    1265 </span>            :   const variable_if_dynamic&lt;Index, ArgType::RowsAtCompileTime&gt; m_rows;
+<span class="lineNum">    1266 </span>            :   const variable_if_dynamic&lt;Index, ArgType::ColsAtCompileTime&gt; m_cols;
+<span class="lineNum">    1267 </span>            : };
+<span class="lineNum">    1268 </span>            : 
+<span class="lineNum">    1269 </span>            : 
+<span class="lineNum">    1270 </span>            : // -------------------- PartialReduxExpr --------------------
+<span class="lineNum">    1271 </span>            : 
+<span class="lineNum">    1272 </span>            : template&lt; typename ArgType, typename MemberOp, int Direction&gt;
+<span class="lineNum">    1273 </span>            : struct evaluator&lt;PartialReduxExpr&lt;ArgType, MemberOp, Direction&gt; &gt;
+<span class="lineNum">    1274 </span>            :   : evaluator_base&lt;PartialReduxExpr&lt;ArgType, MemberOp, Direction&gt; &gt;
+<span class="lineNum">    1275 </span>            : {
+<span class="lineNum">    1276 </span>            :   typedef PartialReduxExpr&lt;ArgType, MemberOp, Direction&gt; XprType;
+<span class="lineNum">    1277 </span>            :   typedef typename internal::nested_eval&lt;ArgType,1&gt;::type ArgTypeNested;
+<span class="lineNum">    1278 </span>            :   typedef typename internal::remove_all&lt;ArgTypeNested&gt;::type ArgTypeNestedCleaned;
+<span class="lineNum">    1279 </span>            :   typedef typename ArgType::Scalar InputScalar;
+<span class="lineNum">    1280 </span>            :   typedef typename XprType::Scalar Scalar;
+<span class="lineNum">    1281 </span>            :   enum {
+<span class="lineNum">    1282 </span>            :     TraversalSize = Direction==int(Vertical) ? int(ArgType::RowsAtCompileTime) :  int(ArgType::ColsAtCompileTime)
+<span class="lineNum">    1283 </span>            :   };
+<span class="lineNum">    1284 </span>            :   typedef typename MemberOp::template Cost&lt;InputScalar,int(TraversalSize)&gt; CostOpType;
+<span class="lineNum">    1285 </span>            :   enum {
+<span class="lineNum">    1286 </span>            :     CoeffReadCost = TraversalSize==Dynamic ? HugeCost
+<span class="lineNum">    1287 </span>            :                   : TraversalSize * evaluator&lt;ArgType&gt;::CoeffReadCost + int(CostOpType::value),
+<span class="lineNum">    1288 </span>            :     
+<span class="lineNum">    1289 </span>            :     Flags = (traits&lt;XprType&gt;::Flags&amp;RowMajorBit) | (evaluator&lt;ArgType&gt;::Flags&amp;(HereditaryBits&amp;(~RowMajorBit))) | LinearAccessBit,
+<span class="lineNum">    1290 </span>            :     
+<span class="lineNum">    1291 </span>            :     Alignment = 0 // FIXME this will need to be improved once PartialReduxExpr is vectorized
+<span class="lineNum">    1292 </span>            :   };
+<span class="lineNum">    1293 </span>            : 
+<span class="lineNum">    1294 </span>            :   EIGEN_DEVICE_FUNC explicit evaluator(const XprType xpr)
+<span class="lineNum">    1295 </span>            :     : m_arg(xpr.nestedExpression()), m_functor(xpr.functor())
+<span class="lineNum">    1296 </span>            :   {
+<span class="lineNum">    1297 </span>            :     EIGEN_INTERNAL_CHECK_COST_VALUE(TraversalSize==Dynamic ? HugeCost : int(CostOpType::value));
+<span class="lineNum">    1298 </span>            :     EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+<span class="lineNum">    1299 </span>            :   }
+<span class="lineNum">    1300 </span>            : 
+<span class="lineNum">    1301 </span>            :   typedef typename XprType::CoeffReturnType CoeffReturnType;
+<span class="lineNum">    1302 </span>            : 
+<span class="lineNum">    1303 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">    1304 </span>            :   const Scalar coeff(Index i, Index j) const
+<span class="lineNum">    1305 </span>            :   {
+<span class="lineNum">    1306 </span>            :     if (Direction==Vertical)
+<span class="lineNum">    1307 </span>            :       return m_functor(m_arg.col(j));
+<span class="lineNum">    1308 </span>            :     else
+<span class="lineNum">    1309 </span>            :       return m_functor(m_arg.row(i));
+<span class="lineNum">    1310 </span>            :   }
+<span class="lineNum">    1311 </span>            : 
+<span class="lineNum">    1312 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">    1313 </span>            :   const Scalar coeff(Index index) const
+<span class="lineNum">    1314 </span>            :   {
+<span class="lineNum">    1315 </span>            :     if (Direction==Vertical)
+<span class="lineNum">    1316 </span>            :       return m_functor(m_arg.col(index));
+<span class="lineNum">    1317 </span>            :     else
+<span class="lineNum">    1318 </span>            :       return m_functor(m_arg.row(index));
+<span class="lineNum">    1319 </span>            :   }
+<span class="lineNum">    1320 </span>            : 
+<span class="lineNum">    1321 </span>            : protected:
+<span class="lineNum">    1322 </span>            :   typename internal::add_const_on_value_type&lt;ArgTypeNested&gt;::type m_arg;
+<span class="lineNum">    1323 </span>            :   const MemberOp m_functor;
+<span class="lineNum">    1324 </span>            : };
+<span class="lineNum">    1325 </span>            : 
+<span class="lineNum">    1326 </span>            : 
+<span class="lineNum">    1327 </span>            : // -------------------- MatrixWrapper and ArrayWrapper --------------------
+<span class="lineNum">    1328 </span>            : //
+<span class="lineNum">    1329 </span>            : // evaluator_wrapper_base&lt;T&gt; is a common base class for the
+<span class="lineNum">    1330 </span>            : // MatrixWrapper and ArrayWrapper evaluators.
+<a name="1331"><span class="lineNum">    1331 </span>            : </a>
+<span class="lineNum">    1332 </span>            : template&lt;typename XprType&gt;
+<span class="lineNum">    1333 </span><span class="lineNoCov">          0 : struct evaluator_wrapper_base</span>
+<span class="lineNum">    1334 </span>            :   : evaluator_base&lt;XprType&gt;
+<span class="lineNum">    1335 </span>            : {
+<span class="lineNum">    1336 </span>            :   typedef typename remove_all&lt;typename XprType::NestedExpressionType&gt;::type ArgType;
+<span class="lineNum">    1337 </span>            :   enum {
+<span class="lineNum">    1338 </span>            :     CoeffReadCost = evaluator&lt;ArgType&gt;::CoeffReadCost,
+<span class="lineNum">    1339 </span>            :     Flags = evaluator&lt;ArgType&gt;::Flags,
+<span class="lineNum">    1340 </span>            :     Alignment = evaluator&lt;ArgType&gt;::Alignment
+<a name="1341"><span class="lineNum">    1341 </span>            :   };</a>
+<span class="lineNum">    1342 </span>            : 
+<span class="lineNum">    1343 </span><span class="lineNoCov">          0 :   EIGEN_DEVICE_FUNC explicit evaluator_wrapper_base(const ArgType&amp; arg) : m_argImpl(arg) {}</span>
+<span class="lineNum">    1344 </span>            : 
+<span class="lineNum">    1345 </span>            :   typedef typename ArgType::Scalar Scalar;
+<span class="lineNum">    1346 </span>            :   typedef typename ArgType::CoeffReturnType CoeffReturnType;
+<a name="1347"><span class="lineNum">    1347 </span>            : </a>
+<span class="lineNum">    1348 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">    1349 </span><span class="lineNoCov">          0 :   CoeffReturnType coeff(Index row, Index col) const</span>
+<span class="lineNum">    1350 </span>            :   {
+<span class="lineNum">    1351 </span><span class="lineNoCov">          0 :     return m_argImpl.coeff(row, col);</span>
+<span class="lineNum">    1352 </span>            :   }
+<span class="lineNum">    1353 </span>            : 
+<span class="lineNum">    1354 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">    1355 </span>            :   CoeffReturnType coeff(Index index) const
+<span class="lineNum">    1356 </span>            :   {
+<span class="lineNum">    1357 </span>            :     return m_argImpl.coeff(index);
+<span class="lineNum">    1358 </span>            :   }
+<span class="lineNum">    1359 </span>            : 
+<span class="lineNum">    1360 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">    1361 </span>            :   Scalar&amp; coeffRef(Index row, Index col)
+<span class="lineNum">    1362 </span>            :   {
+<span class="lineNum">    1363 </span>            :     return m_argImpl.coeffRef(row, col);
+<span class="lineNum">    1364 </span>            :   }
+<span class="lineNum">    1365 </span>            : 
+<span class="lineNum">    1366 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">    1367 </span>            :   Scalar&amp; coeffRef(Index index)
+<span class="lineNum">    1368 </span>            :   {
+<span class="lineNum">    1369 </span>            :     return m_argImpl.coeffRef(index);
+<span class="lineNum">    1370 </span>            :   }
+<span class="lineNum">    1371 </span>            : 
+<span class="lineNum">    1372 </span>            :   template&lt;int LoadMode, typename PacketType&gt;
+<span class="lineNum">    1373 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">    1374 </span>            :   PacketType packet(Index row, Index col) const
+<span class="lineNum">    1375 </span>            :   {
+<span class="lineNum">    1376 </span>            :     return m_argImpl.template packet&lt;LoadMode,PacketType&gt;(row, col);
+<span class="lineNum">    1377 </span>            :   }
+<span class="lineNum">    1378 </span>            : 
+<span class="lineNum">    1379 </span>            :   template&lt;int LoadMode, typename PacketType&gt;
+<span class="lineNum">    1380 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">    1381 </span>            :   PacketType packet(Index index) const
+<span class="lineNum">    1382 </span>            :   {
+<span class="lineNum">    1383 </span>            :     return m_argImpl.template packet&lt;LoadMode,PacketType&gt;(index);
+<span class="lineNum">    1384 </span>            :   }
+<span class="lineNum">    1385 </span>            : 
+<span class="lineNum">    1386 </span>            :   template&lt;int StoreMode, typename PacketType&gt;
+<span class="lineNum">    1387 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">    1388 </span>            :   void writePacket(Index row, Index col, const PacketType&amp; x)
+<span class="lineNum">    1389 </span>            :   {
+<span class="lineNum">    1390 </span>            :     m_argImpl.template writePacket&lt;StoreMode&gt;(row, col, x);
+<span class="lineNum">    1391 </span>            :   }
+<span class="lineNum">    1392 </span>            : 
+<span class="lineNum">    1393 </span>            :   template&lt;int StoreMode, typename PacketType&gt;
+<span class="lineNum">    1394 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">    1395 </span>            :   void writePacket(Index index, const PacketType&amp; x)
+<span class="lineNum">    1396 </span>            :   {
+<span class="lineNum">    1397 </span>            :     m_argImpl.template writePacket&lt;StoreMode&gt;(index, x);
+<span class="lineNum">    1398 </span>            :   }
+<span class="lineNum">    1399 </span>            : 
+<span class="lineNum">    1400 </span>            : protected:
+<span class="lineNum">    1401 </span>            :   evaluator&lt;ArgType&gt; m_argImpl;
+<span class="lineNum">    1402 </span>            : };
+<span class="lineNum">    1403 </span>            : 
+<span class="lineNum">    1404 </span>            : template&lt;typename TArgType&gt;
+<span class="lineNum">    1405 </span>            : struct unary_evaluator&lt;MatrixWrapper&lt;TArgType&gt; &gt;
+<span class="lineNum">    1406 </span>            :   : evaluator_wrapper_base&lt;MatrixWrapper&lt;TArgType&gt; &gt;
+<span class="lineNum">    1407 </span>            : {
+<span class="lineNum">    1408 </span>            :   typedef MatrixWrapper&lt;TArgType&gt; XprType;
+<span class="lineNum">    1409 </span>            : 
+<span class="lineNum">    1410 </span>            :   EIGEN_DEVICE_FUNC explicit unary_evaluator(const XprType&amp; wrapper)
+<span class="lineNum">    1411 </span>            :     : evaluator_wrapper_base&lt;MatrixWrapper&lt;TArgType&gt; &gt;(wrapper.nestedExpression())
+<span class="lineNum">    1412 </span>            :   { }
+<span class="lineNum">    1413 </span>            : };
+<a name="1414"><span class="lineNum">    1414 </span>            : </a>
+<span class="lineNum">    1415 </span>            : template&lt;typename TArgType&gt;
+<span class="lineNum">    1416 </span><span class="lineNoCov">          0 : struct unary_evaluator&lt;ArrayWrapper&lt;TArgType&gt; &gt;</span>
+<span class="lineNum">    1417 </span>            :   : evaluator_wrapper_base&lt;ArrayWrapper&lt;TArgType&gt; &gt;
+<span class="lineNum">    1418 </span>            : {
+<a name="1419"><span class="lineNum">    1419 </span>            :   typedef ArrayWrapper&lt;TArgType&gt; XprType;</a>
+<span class="lineNum">    1420 </span>            : 
+<span class="lineNum">    1421 </span><span class="lineNoCov">          0 :   EIGEN_DEVICE_FUNC explicit unary_evaluator(const XprType&amp; wrapper)</span>
+<span class="lineNum">    1422 </span><span class="lineNoCov">          0 :     : evaluator_wrapper_base&lt;ArrayWrapper&lt;TArgType&gt; &gt;(wrapper.nestedExpression())</span>
+<span class="lineNum">    1423 </span><span class="lineNoCov">          0 :   { }</span>
+<span class="lineNum">    1424 </span>            : };
+<span class="lineNum">    1425 </span>            : 
+<span class="lineNum">    1426 </span>            : 
+<span class="lineNum">    1427 </span>            : // -------------------- Reverse --------------------
+<span class="lineNum">    1428 </span>            : 
+<span class="lineNum">    1429 </span>            : // defined in Reverse.h:
+<span class="lineNum">    1430 </span>            : template&lt;typename PacketType, bool ReversePacket&gt; struct reverse_packet_cond;
+<a name="1431"><span class="lineNum">    1431 </span>            : </a>
+<span class="lineNum">    1432 </span>            : template&lt;typename ArgType, int Direction&gt;
+<span class="lineNum">    1433 </span><span class="lineNoCov">          0 : struct unary_evaluator&lt;Reverse&lt;ArgType, Direction&gt; &gt;</span>
+<span class="lineNum">    1434 </span>            :   : evaluator_base&lt;Reverse&lt;ArgType, Direction&gt; &gt;
+<span class="lineNum">    1435 </span>            : {
+<span class="lineNum">    1436 </span>            :   typedef Reverse&lt;ArgType, Direction&gt; XprType;
+<span class="lineNum">    1437 </span>            :   typedef typename XprType::Scalar Scalar;
+<span class="lineNum">    1438 </span>            :   typedef typename XprType::CoeffReturnType CoeffReturnType;
+<span class="lineNum">    1439 </span>            : 
+<span class="lineNum">    1440 </span>            :   enum {
+<span class="lineNum">    1441 </span>            :     IsRowMajor = XprType::IsRowMajor,
+<span class="lineNum">    1442 </span>            :     IsColMajor = !IsRowMajor,
+<span class="lineNum">    1443 </span>            :     ReverseRow = (Direction == Vertical)   || (Direction == BothDirections),
+<span class="lineNum">    1444 </span>            :     ReverseCol = (Direction == Horizontal) || (Direction == BothDirections),
+<span class="lineNum">    1445 </span>            :     ReversePacket = (Direction == BothDirections)
+<span class="lineNum">    1446 </span>            :                     || ((Direction == Vertical)   &amp;&amp; IsColMajor)
+<span class="lineNum">    1447 </span>            :                     || ((Direction == Horizontal) &amp;&amp; IsRowMajor),
+<span class="lineNum">    1448 </span>            :                     
+<span class="lineNum">    1449 </span>            :     CoeffReadCost = evaluator&lt;ArgType&gt;::CoeffReadCost,
+<span class="lineNum">    1450 </span>            :     
+<span class="lineNum">    1451 </span>            :     // let's enable LinearAccess only with vectorization because of the product overhead
+<span class="lineNum">    1452 </span>            :     // FIXME enable DirectAccess with negative strides?
+<span class="lineNum">    1453 </span>            :     Flags0 = evaluator&lt;ArgType&gt;::Flags,
+<span class="lineNum">    1454 </span>            :     LinearAccess = ( (Direction==BothDirections) &amp;&amp; (int(Flags0)&amp;PacketAccessBit) )
+<span class="lineNum">    1455 </span>            :                   || ((ReverseRow &amp;&amp; XprType::ColsAtCompileTime==1) || (ReverseCol &amp;&amp; XprType::RowsAtCompileTime==1))
+<span class="lineNum">    1456 </span>            :                  ? LinearAccessBit : 0,
+<span class="lineNum">    1457 </span>            : 
+<span class="lineNum">    1458 </span>            :     Flags = int(Flags0) &amp; (HereditaryBits | PacketAccessBit | LinearAccess),
+<span class="lineNum">    1459 </span>            :     
+<span class="lineNum">    1460 </span>            :     Alignment = 0 // FIXME in some rare cases, Alignment could be preserved, like a Vector4f.
+<a name="1461"><span class="lineNum">    1461 </span>            :   };</a>
+<span class="lineNum">    1462 </span>            : 
+<span class="lineNum">    1463 </span><span class="lineNoCov">          0 :   EIGEN_DEVICE_FUNC explicit unary_evaluator(const XprType&amp; reverse)</span>
+<span class="lineNum">    1464 </span>            :     : m_argImpl(reverse.nestedExpression()),
+<span class="lineNum">    1465 </span><span class="lineNoCov">          0 :       m_rows(ReverseRow ? reverse.nestedExpression().rows() : 1),</span>
+<span class="lineNum">    1466 </span><span class="lineNoCov">          0 :       m_cols(ReverseCol ? reverse.nestedExpression().cols() : 1)</span>
+<span class="lineNum">    1467 </span><span class="lineNoCov">          0 :   { }</span>
+<a name="1468"><span class="lineNum">    1468 </span>            :  </a>
+<span class="lineNum">    1469 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">    1470 </span><span class="lineNoCov">          0 :   CoeffReturnType coeff(Index row, Index col) const</span>
+<span class="lineNum">    1471 </span>            :   {
+<span class="lineNum">    1472 </span><span class="lineNoCov">          0 :     return m_argImpl.coeff(ReverseRow ? m_rows.value() - row - 1 : row,</span>
+<span class="lineNum">    1473 </span><span class="lineNoCov">          0 :                            ReverseCol ? m_cols.value() - col - 1 : col);</span>
+<span class="lineNum">    1474 </span>            :   }
+<a name="1475"><span class="lineNum">    1475 </span>            : </a>
+<span class="lineNum">    1476 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">    1477 </span><span class="lineNoCov">          0 :   CoeffReturnType coeff(Index index) const</span>
+<span class="lineNum">    1478 </span>            :   {
+<span class="lineNum">    1479 </span><span class="lineNoCov">          0 :     return m_argImpl.coeff(m_rows.value() * m_cols.value() - index - 1);</span>
+<span class="lineNum">    1480 </span>            :   }
+<span class="lineNum">    1481 </span>            : 
+<span class="lineNum">    1482 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">    1483 </span>            :   Scalar&amp; coeffRef(Index row, Index col)
+<span class="lineNum">    1484 </span>            :   {
+<span class="lineNum">    1485 </span>            :     return m_argImpl.coeffRef(ReverseRow ? m_rows.value() - row - 1 : row,
+<span class="lineNum">    1486 </span>            :                               ReverseCol ? m_cols.value() - col - 1 : col);
+<span class="lineNum">    1487 </span>            :   }
+<span class="lineNum">    1488 </span>            : 
+<span class="lineNum">    1489 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">    1490 </span>            :   Scalar&amp; coeffRef(Index index)
+<span class="lineNum">    1491 </span>            :   {
+<span class="lineNum">    1492 </span>            :     return m_argImpl.coeffRef(m_rows.value() * m_cols.value() - index - 1);
+<span class="lineNum">    1493 </span>            :   }
+<span class="lineNum">    1494 </span>            : 
+<a name="1495"><span class="lineNum">    1495 </span>            :   template&lt;int LoadMode, typename PacketType&gt;</a>
+<span class="lineNum">    1496 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">    1497 </span><span class="lineNoCov">          0 :   PacketType packet(Index row, Index col) const</span>
+<span class="lineNum">    1498 </span>            :   {
+<span class="lineNum">    1499 </span>            :     enum {
+<span class="lineNum">    1500 </span>            :       PacketSize = unpacket_traits&lt;PacketType&gt;::size,
+<span class="lineNum">    1501 </span>            :       OffsetRow  = ReverseRow &amp;&amp; IsColMajor ? PacketSize : 1,
+<span class="lineNum">    1502 </span>            :       OffsetCol  = ReverseCol &amp;&amp; IsRowMajor ? PacketSize : 1
+<span class="lineNum">    1503 </span>            :     };
+<span class="lineNum">    1504 </span>            :     typedef internal::reverse_packet_cond&lt;PacketType,ReversePacket&gt; reverse_packet;
+<span class="lineNum">    1505 </span><span class="lineNoCov">          0 :     return reverse_packet::run(m_argImpl.template packet&lt;LoadMode,PacketType&gt;(</span>
+<span class="lineNum">    1506 </span><span class="lineNoCov">          0 :                                   ReverseRow ? m_rows.value() - row - OffsetRow : row,</span>
+<span class="lineNum">    1507 </span><span class="lineNoCov">          0 :                                   ReverseCol ? m_cols.value() - col - OffsetCol : col));</span>
+<span class="lineNum">    1508 </span>            :   }
+<span class="lineNum">    1509 </span>            : 
+<a name="1510"><span class="lineNum">    1510 </span>            :   template&lt;int LoadMode, typename PacketType&gt;</a>
+<span class="lineNum">    1511 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">    1512 </span><span class="lineNoCov">          0 :   PacketType packet(Index index) const</span>
+<span class="lineNum">    1513 </span>            :   {
+<span class="lineNum">    1514 </span>            :     enum { PacketSize = unpacket_traits&lt;PacketType&gt;::size };
+<span class="lineNum">    1515 </span><span class="lineNoCov">          0 :     return preverse(m_argImpl.template packet&lt;LoadMode,PacketType&gt;(m_rows.value() * m_cols.value() - index - PacketSize));</span>
+<span class="lineNum">    1516 </span>            :   }
+<span class="lineNum">    1517 </span>            : 
+<a name="1518"><span class="lineNum">    1518 </span>            :   template&lt;int LoadMode, typename PacketType&gt;</a>
+<span class="lineNum">    1519 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">    1520 </span><span class="lineNoCov">          0 :   void writePacket(Index row, Index col, const PacketType&amp; x)</span>
+<span class="lineNum">    1521 </span>            :   {
+<span class="lineNum">    1522 </span>            :     // FIXME we could factorize some code with packet(i,j)
+<span class="lineNum">    1523 </span>            :     enum {
+<span class="lineNum">    1524 </span>            :       PacketSize = unpacket_traits&lt;PacketType&gt;::size,
+<span class="lineNum">    1525 </span>            :       OffsetRow  = ReverseRow &amp;&amp; IsColMajor ? PacketSize : 1,
+<span class="lineNum">    1526 </span>            :       OffsetCol  = ReverseCol &amp;&amp; IsRowMajor ? PacketSize : 1
+<span class="lineNum">    1527 </span>            :     };
+<span class="lineNum">    1528 </span>            :     typedef internal::reverse_packet_cond&lt;PacketType,ReversePacket&gt; reverse_packet;
+<span class="lineNum">    1529 </span><span class="lineNoCov">          0 :     m_argImpl.template writePacket&lt;LoadMode&gt;(</span>
+<span class="lineNum">    1530 </span><span class="lineNoCov">          0 :                                   ReverseRow ? m_rows.value() - row - OffsetRow : row,</span>
+<span class="lineNum">    1531 </span><span class="lineNoCov">          0 :                                   ReverseCol ? m_cols.value() - col - OffsetCol : col,</span>
+<span class="lineNum">    1532 </span><span class="lineNoCov">          0 :                                   reverse_packet::run(x));</span>
+<span class="lineNum">    1533 </span><span class="lineNoCov">          0 :   }</span>
+<span class="lineNum">    1534 </span>            : 
+<a name="1535"><span class="lineNum">    1535 </span>            :   template&lt;int LoadMode, typename PacketType&gt;</a>
+<span class="lineNum">    1536 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">    1537 </span><span class="lineNoCov">          0 :   void writePacket(Index index, const PacketType&amp; x)</span>
+<span class="lineNum">    1538 </span>            :   {
+<span class="lineNum">    1539 </span>            :     enum { PacketSize = unpacket_traits&lt;PacketType&gt;::size };
+<span class="lineNum">    1540 </span><span class="lineNoCov">          0 :     m_argImpl.template writePacket&lt;LoadMode&gt;</span>
+<span class="lineNum">    1541 </span><span class="lineNoCov">          0 :       (m_rows.value() * m_cols.value() - index - PacketSize, preverse(x));</span>
+<span class="lineNum">    1542 </span><span class="lineNoCov">          0 :   }</span>
+<span class="lineNum">    1543 </span>            :  
+<span class="lineNum">    1544 </span>            : protected:
+<span class="lineNum">    1545 </span>            :   evaluator&lt;ArgType&gt; m_argImpl;
+<span class="lineNum">    1546 </span>            : 
+<span class="lineNum">    1547 </span>            :   // If we do not reverse rows, then we do not need to know the number of rows; same for columns
+<span class="lineNum">    1548 </span>            :   // Nonetheless, in this case it is important to set to 1 such that the coeff(index) method works fine for vectors.
+<span class="lineNum">    1549 </span>            :   const variable_if_dynamic&lt;Index, ReverseRow ? ArgType::RowsAtCompileTime : 1&gt; m_rows;
+<span class="lineNum">    1550 </span>            :   const variable_if_dynamic&lt;Index, ReverseCol ? ArgType::ColsAtCompileTime : 1&gt; m_cols;
+<span class="lineNum">    1551 </span>            : };
+<span class="lineNum">    1552 </span>            : 
+<span class="lineNum">    1553 </span>            : 
+<span class="lineNum">    1554 </span>            : // -------------------- Diagonal --------------------
+<a name="1555"><span class="lineNum">    1555 </span>            : </a>
+<span class="lineNum">    1556 </span>            : template&lt;typename ArgType, int DiagIndex&gt;
+<span class="lineNum">    1557 </span><span class="lineCov">      40420 : struct evaluator&lt;Diagonal&lt;ArgType, DiagIndex&gt; &gt;</span>
+<span class="lineNum">    1558 </span>            :   : evaluator_base&lt;Diagonal&lt;ArgType, DiagIndex&gt; &gt;
+<span class="lineNum">    1559 </span>            : {
+<span class="lineNum">    1560 </span>            :   typedef Diagonal&lt;ArgType, DiagIndex&gt; XprType;
+<span class="lineNum">    1561 </span>            :   
+<span class="lineNum">    1562 </span>            :   enum {
+<span class="lineNum">    1563 </span>            :     CoeffReadCost = evaluator&lt;ArgType&gt;::CoeffReadCost,
+<span class="lineNum">    1564 </span>            :     
+<span class="lineNum">    1565 </span>            :     Flags = (unsigned int)(evaluator&lt;ArgType&gt;::Flags &amp; (HereditaryBits | DirectAccessBit) &amp; ~RowMajorBit) | LinearAccessBit,
+<span class="lineNum">    1566 </span>            :     
+<span class="lineNum">    1567 </span>            :     Alignment = 0
+<a name="1568"><span class="lineNum">    1568 </span>            :   };</a>
+<span class="lineNum">    1569 </span>            : 
+<span class="lineNum">    1570 </span><span class="lineCov">      40420 :   EIGEN_DEVICE_FUNC explicit evaluator(const XprType&amp; diagonal)</span>
+<span class="lineNum">    1571 </span>            :     : m_argImpl(diagonal.nestedExpression()),
+<span class="lineNum">    1572 </span><span class="lineCov">      40420 :       m_index(diagonal.index())</span>
+<span class="lineNum">    1573 </span><span class="lineCov">      40420 :   { }</span>
+<span class="lineNum">    1574 </span>            :  
+<span class="lineNum">    1575 </span>            :   typedef typename XprType::Scalar Scalar;
+<span class="lineNum">    1576 </span>            :   typedef typename XprType::CoeffReturnType CoeffReturnType;
+<a name="1577"><span class="lineNum">    1577 </span>            : </a>
+<span class="lineNum">    1578 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">    1579 </span><span class="lineNoCov">          0 :   CoeffReturnType coeff(Index row, Index) const</span>
+<span class="lineNum">    1580 </span>            :   {
+<span class="lineNum">    1581 </span><span class="lineNoCov">          0 :     return m_argImpl.coeff(row + rowOffset(), row + colOffset());</span>
+<span class="lineNum">    1582 </span>            :   }
+<a name="1583"><span class="lineNum">    1583 </span>            : </a>
+<span class="lineNum">    1584 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">    1585 </span><span class="lineCov">      39950 :   CoeffReturnType coeff(Index index) const</span>
+<span class="lineNum">    1586 </span>            :   {
+<span class="lineNum">    1587 </span><span class="lineCov">      39950 :     return m_argImpl.coeff(index + rowOffset(), index + colOffset());</span>
+<span class="lineNum">    1588 </span>            :   }
+<span class="lineNum">    1589 </span>            : 
+<span class="lineNum">    1590 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">    1591 </span>            :   Scalar&amp; coeffRef(Index row, Index)
+<span class="lineNum">    1592 </span>            :   {
+<span class="lineNum">    1593 </span>            :     return m_argImpl.coeffRef(row + rowOffset(), row + colOffset());
+<span class="lineNum">    1594 </span>            :   }
+<a name="1595"><span class="lineNum">    1595 </span>            : </a>
+<span class="lineNum">    1596 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">    1597 </span><span class="lineCov">      20210 :   Scalar&amp; coeffRef(Index index)</span>
+<span class="lineNum">    1598 </span>            :   {
+<span class="lineNum">    1599 </span><span class="lineCov">      20210 :     return m_argImpl.coeffRef(index + rowOffset(), index + colOffset());</span>
+<span class="lineNum">    1600 </span>            :   }
+<span class="lineNum">    1601 </span>            : 
+<span class="lineNum">    1602 </span>            : protected:
+<span class="lineNum">    1603 </span>            :   evaluator&lt;ArgType&gt; m_argImpl;
+<span class="lineNum">    1604 </span>            :   const internal::variable_if_dynamicindex&lt;Index, XprType::DiagIndex&gt; m_index;
+<a name="1605"><span class="lineNum">    1605 </span>            : </a>
+<a name="1606"><span class="lineNum">    1606 </span>            : private:</a>
+<span class="lineNum">    1607 </span><span class="lineCov">      60160 :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Index rowOffset() const { return m_index.value() &gt; 0 ? 0 : -m_index.value(); }</span>
+<span class="lineNum">    1608 </span><span class="lineCov">      60160 :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Index colOffset() const { return m_index.value() &gt; 0 ? m_index.value() : 0; }</span>
+<span class="lineNum">    1609 </span>            : };
+<span class="lineNum">    1610 </span>            : 
+<span class="lineNum">    1611 </span>            : 
+<span class="lineNum">    1612 </span>            : //----------------------------------------------------------------------
+<span class="lineNum">    1613 </span>            : // deprecated code
+<span class="lineNum">    1614 </span>            : //----------------------------------------------------------------------
+<span class="lineNum">    1615 </span>            : 
+<span class="lineNum">    1616 </span>            : // -------------------- EvalToTemp --------------------
+<span class="lineNum">    1617 </span>            : 
+<span class="lineNum">    1618 </span>            : // expression class for evaluating nested expression to a temporary
+<span class="lineNum">    1619 </span>            : 
+<span class="lineNum">    1620 </span>            : template&lt;typename ArgType&gt; class EvalToTemp;
+<span class="lineNum">    1621 </span>            : 
+<span class="lineNum">    1622 </span>            : template&lt;typename ArgType&gt;
+<span class="lineNum">    1623 </span>            : struct traits&lt;EvalToTemp&lt;ArgType&gt; &gt;
+<span class="lineNum">    1624 </span>            :   : public traits&lt;ArgType&gt;
+<span class="lineNum">    1625 </span>            : { };
+<span class="lineNum">    1626 </span>            : 
+<span class="lineNum">    1627 </span>            : template&lt;typename ArgType&gt;
+<span class="lineNum">    1628 </span>            : class EvalToTemp
+<span class="lineNum">    1629 </span>            :   : public dense_xpr_base&lt;EvalToTemp&lt;ArgType&gt; &gt;::type
+<span class="lineNum">    1630 </span>            : {
+<span class="lineNum">    1631 </span>            :  public:
+<span class="lineNum">    1632 </span>            :  
+<span class="lineNum">    1633 </span>            :   typedef typename dense_xpr_base&lt;EvalToTemp&gt;::type Base;
+<span class="lineNum">    1634 </span>            :   EIGEN_GENERIC_PUBLIC_INTERFACE(EvalToTemp)
+<span class="lineNum">    1635 </span>            :  
+<span class="lineNum">    1636 </span>            :   explicit EvalToTemp(const ArgType&amp; arg)
+<span class="lineNum">    1637 </span>            :     : m_arg(arg)
+<span class="lineNum">    1638 </span>            :   { }
+<span class="lineNum">    1639 </span>            :  
+<span class="lineNum">    1640 </span>            :   const ArgType&amp; arg() const
+<span class="lineNum">    1641 </span>            :   {
+<span class="lineNum">    1642 </span>            :     return m_arg;
+<span class="lineNum">    1643 </span>            :   }
+<span class="lineNum">    1644 </span>            : 
+<span class="lineNum">    1645 </span>            :   Index rows() const 
+<span class="lineNum">    1646 </span>            :   {
+<span class="lineNum">    1647 </span>            :     return m_arg.rows();
+<span class="lineNum">    1648 </span>            :   }
+<span class="lineNum">    1649 </span>            : 
+<span class="lineNum">    1650 </span>            :   Index cols() const 
+<span class="lineNum">    1651 </span>            :   {
+<span class="lineNum">    1652 </span>            :     return m_arg.cols();
+<span class="lineNum">    1653 </span>            :   }
+<span class="lineNum">    1654 </span>            : 
+<span class="lineNum">    1655 </span>            :  private:
+<span class="lineNum">    1656 </span>            :   const ArgType&amp; m_arg;
+<span class="lineNum">    1657 </span>            : };
+<span class="lineNum">    1658 </span>            :  
+<span class="lineNum">    1659 </span>            : template&lt;typename ArgType&gt;
+<span class="lineNum">    1660 </span>            : struct evaluator&lt;EvalToTemp&lt;ArgType&gt; &gt;
+<span class="lineNum">    1661 </span>            :   : public evaluator&lt;typename ArgType::PlainObject&gt;
+<span class="lineNum">    1662 </span>            : {
+<span class="lineNum">    1663 </span>            :   typedef EvalToTemp&lt;ArgType&gt;                   XprType;
+<span class="lineNum">    1664 </span>            :   typedef typename ArgType::PlainObject         PlainObject;
+<span class="lineNum">    1665 </span>            :   typedef evaluator&lt;PlainObject&gt; Base;
+<span class="lineNum">    1666 </span>            :   
+<span class="lineNum">    1667 </span>            :   EIGEN_DEVICE_FUNC explicit evaluator(const XprType&amp; xpr)
+<span class="lineNum">    1668 </span>            :     : m_result(xpr.arg())
+<span class="lineNum">    1669 </span>            :   {
+<span class="lineNum">    1670 </span>            :     ::new (static_cast&lt;Base*&gt;(this)) Base(m_result);
+<span class="lineNum">    1671 </span>            :   }
+<span class="lineNum">    1672 </span>            : 
+<span class="lineNum">    1673 </span>            :   // This constructor is used when nesting an EvalTo evaluator in another evaluator
+<span class="lineNum">    1674 </span>            :   EIGEN_DEVICE_FUNC evaluator(const ArgType&amp; arg)
+<span class="lineNum">    1675 </span>            :     : m_result(arg)
+<span class="lineNum">    1676 </span>            :   {
+<span class="lineNum">    1677 </span>            :     ::new (static_cast&lt;Base*&gt;(this)) Base(m_result);
+<span class="lineNum">    1678 </span>            :   }
+<span class="lineNum">    1679 </span>            : 
+<span class="lineNum">    1680 </span>            : protected:
+<span class="lineNum">    1681 </span>            :   PlainObject m_result;
+<span class="lineNum">    1682 </span>            : };
+<span class="lineNum">    1683 </span>            : 
+<span class="lineNum">    1684 </span>            : } // namespace internal
+<span class="lineNum">    1685 </span>            : 
+<span class="lineNum">    1686 </span>            : } // end namespace Eigen
+<span class="lineNum">    1687 </span>            : 
+<span class="lineNum">    1688 </span>            : #endif // EIGEN_COREEVALUATORS_H
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

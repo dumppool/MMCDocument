@@ -1,0 +1,876 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Main Call Code Analysis - /usr/local/include/eigen3/Eigen/src/Core/functors/UnaryFunctors.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../../../index.html">top level</a> - <a href="index.html">usr/local/include/eigen3/Eigen/src/Core/functors</a> - UnaryFunctors.h<span style="font-size: 80%;"> (source / <a href="UnaryFunctors.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Main Call Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">12</td>
+            <td class="headerCovTableEntry">12</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 16:51:56</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">12</td>
+            <td class="headerCovTableEntry">12</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // This file is part of Eigen, a lightweight C++ template library</a>
+<span class="lineNum">       2 </span>            : // for linear algebra.
+<span class="lineNum">       3 </span>            : //
+<span class="lineNum">       4 </span>            : // Copyright (C) 2008-2016 Gael Guennebaud &lt;gael.guennebaud@inria.fr&gt;
+<span class="lineNum">       5 </span>            : //
+<span class="lineNum">       6 </span>            : // This Source Code Form is subject to the terms of the Mozilla
+<span class="lineNum">       7 </span>            : // Public License v. 2.0. If a copy of the MPL was not distributed
+<span class="lineNum">       8 </span>            : // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+<span class="lineNum">       9 </span>            : 
+<span class="lineNum">      10 </span>            : #ifndef EIGEN_UNARY_FUNCTORS_H
+<span class="lineNum">      11 </span>            : #define EIGEN_UNARY_FUNCTORS_H
+<span class="lineNum">      12 </span>            : 
+<span class="lineNum">      13 </span>            : namespace Eigen {
+<span class="lineNum">      14 </span>            : 
+<span class="lineNum">      15 </span>            : namespace internal {
+<span class="lineNum">      16 </span>            : 
+<span class="lineNum">      17 </span>            : /** \internal
+<span class="lineNum">      18 </span>            :   * \brief Template functor to compute the opposite of a scalar
+<span class="lineNum">      19 </span>            :   *
+<span class="lineNum">      20 </span>            :   * \sa class CwiseUnaryOp, MatrixBase::operator-
+<a name="21"><span class="lineNum">      21 </span>            :   */</a>
+<a name="22"><span class="lineNum">      22 </span>            : template&lt;typename Scalar&gt; struct scalar_opposite_op {</a>
+<span class="lineNum">      23 </span><span class="lineCov">     521804 :   EIGEN_EMPTY_STRUCT_CTOR(scalar_opposite_op)</span>
+<a name="24"><span class="lineNum">      24 </span><span class="lineCov">      45900 :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Scalar operator() (const Scalar&amp; a) const { return -a; }</span></a>
+<span class="lineNum">      25 </span>            :   template&lt;typename Packet&gt;
+<span class="lineNum">      26 </span><span class="lineCov">     296688 :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Packet packetOp(const Packet&amp; a) const</span>
+<span class="lineNum">      27 </span><span class="lineCov">     296688 :   { return internal::pnegate(a); }</span>
+<span class="lineNum">      28 </span>            : };
+<span class="lineNum">      29 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">      30 </span>            : struct functor_traits&lt;scalar_opposite_op&lt;Scalar&gt; &gt;
+<span class="lineNum">      31 </span>            : { enum {
+<span class="lineNum">      32 </span>            :     Cost = NumTraits&lt;Scalar&gt;::AddCost,
+<span class="lineNum">      33 </span>            :     PacketAccess = packet_traits&lt;Scalar&gt;::HasNegate };
+<span class="lineNum">      34 </span>            : };
+<span class="lineNum">      35 </span>            : 
+<span class="lineNum">      36 </span>            : /** \internal
+<span class="lineNum">      37 </span>            :   * \brief Template functor to compute the absolute value of a scalar
+<span class="lineNum">      38 </span>            :   *
+<span class="lineNum">      39 </span>            :   * \sa class CwiseUnaryOp, Cwise::abs
+<a name="40"><span class="lineNum">      40 </span>            :   */</a>
+<span class="lineNum">      41 </span>            : template&lt;typename Scalar&gt; struct scalar_abs_op {
+<a name="42"><span class="lineNum">      42 </span><span class="lineCov">      80923 :   EIGEN_EMPTY_STRUCT_CTOR(scalar_abs_op)</span></a>
+<span class="lineNum">      43 </span>            :   typedef typename NumTraits&lt;Scalar&gt;::Real result_type;
+<a name="44"><span class="lineNum">      44 </span><span class="lineCov">     636142 :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const result_type operator() (const Scalar&amp; a) const { return numext::abs(a); }</span></a>
+<span class="lineNum">      45 </span>            :   template&lt;typename Packet&gt;
+<span class="lineNum">      46 </span><span class="lineCov">      88747 :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Packet packetOp(const Packet&amp; a) const</span>
+<span class="lineNum">      47 </span><span class="lineCov">      88747 :   { return internal::pabs(a); }</span>
+<span class="lineNum">      48 </span>            : };
+<span class="lineNum">      49 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">      50 </span>            : struct functor_traits&lt;scalar_abs_op&lt;Scalar&gt; &gt;
+<span class="lineNum">      51 </span>            : {
+<span class="lineNum">      52 </span>            :   enum {
+<span class="lineNum">      53 </span>            :     Cost = NumTraits&lt;Scalar&gt;::AddCost,
+<span class="lineNum">      54 </span>            :     PacketAccess = packet_traits&lt;Scalar&gt;::HasAbs
+<span class="lineNum">      55 </span>            :   };
+<span class="lineNum">      56 </span>            : };
+<span class="lineNum">      57 </span>            : 
+<span class="lineNum">      58 </span>            : /** \internal
+<span class="lineNum">      59 </span>            :   * \brief Template functor to compute the score of a scalar, to chose a pivot
+<span class="lineNum">      60 </span>            :   *
+<span class="lineNum">      61 </span>            :   * \sa class CwiseUnaryOp
+<span class="lineNum">      62 </span>            :   */
+<span class="lineNum">      63 </span>            : template&lt;typename Scalar&gt; struct scalar_score_coeff_op : scalar_abs_op&lt;Scalar&gt;
+<span class="lineNum">      64 </span>            : {
+<span class="lineNum">      65 </span>            :   typedef void Score_is_abs;
+<span class="lineNum">      66 </span>            : };
+<span class="lineNum">      67 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">      68 </span>            : struct functor_traits&lt;scalar_score_coeff_op&lt;Scalar&gt; &gt; : functor_traits&lt;scalar_abs_op&lt;Scalar&gt; &gt; {};
+<span class="lineNum">      69 </span>            : 
+<span class="lineNum">      70 </span>            : /* Avoid recomputing abs when we know the score and they are the same. Not a true Eigen functor.  */
+<span class="lineNum">      71 </span>            : template&lt;typename Scalar, typename=void&gt; struct abs_knowing_score
+<span class="lineNum">      72 </span>            : {
+<span class="lineNum">      73 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(abs_knowing_score)
+<span class="lineNum">      74 </span>            :   typedef typename NumTraits&lt;Scalar&gt;::Real result_type;
+<span class="lineNum">      75 </span>            :   template&lt;typename Score&gt;
+<span class="lineNum">      76 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const result_type operator() (const Scalar&amp; a, const Score&amp;) const { return numext::abs(a); }
+<span class="lineNum">      77 </span>            : };
+<span class="lineNum">      78 </span>            : template&lt;typename Scalar&gt; struct abs_knowing_score&lt;Scalar, typename scalar_score_coeff_op&lt;Scalar&gt;::Score_is_abs&gt;
+<span class="lineNum">      79 </span>            : {
+<span class="lineNum">      80 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(abs_knowing_score)
+<span class="lineNum">      81 </span>            :   typedef typename NumTraits&lt;Scalar&gt;::Real result_type;
+<span class="lineNum">      82 </span>            :   template&lt;typename Scal&gt;
+<span class="lineNum">      83 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const result_type operator() (const Scal&amp;, const result_type&amp; a) const { return a; }
+<span class="lineNum">      84 </span>            : };
+<span class="lineNum">      85 </span>            : 
+<span class="lineNum">      86 </span>            : /** \internal
+<span class="lineNum">      87 </span>            :   * \brief Template functor to compute the squared absolute value of a scalar
+<span class="lineNum">      88 </span>            :   *
+<span class="lineNum">      89 </span>            :   * \sa class CwiseUnaryOp, Cwise::abs2
+<a name="90"><span class="lineNum">      90 </span>            :   */</a>
+<span class="lineNum">      91 </span>            : template&lt;typename Scalar&gt; struct scalar_abs2_op {
+<span class="lineNum">      92 </span><span class="lineCov">      34818 :   EIGEN_EMPTY_STRUCT_CTOR(scalar_abs2_op)</span>
+<a name="93"><span class="lineNum">      93 </span>            :   typedef typename NumTraits&lt;Scalar&gt;::Real result_type;</a>
+<span class="lineNum">      94 </span>            :   EIGEN_DEVICE_FUNC
+<a name="95"><span class="lineNum">      95 </span><span class="lineCov">         72 :   EIGEN_STRONG_INLINE const result_type operator() (const Scalar&amp; a) const { return numext::abs2(a); }</span></a>
+<span class="lineNum">      96 </span>            :   template&lt;typename Packet&gt;
+<span class="lineNum">      97 </span><span class="lineCov">      23020 :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Packet packetOp(const Packet&amp; a) const</span>
+<span class="lineNum">      98 </span><span class="lineCov">      23020 :   { return internal::pmul(a,a); }</span>
+<span class="lineNum">      99 </span>            : };
+<span class="lineNum">     100 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     101 </span>            : struct functor_traits&lt;scalar_abs2_op&lt;Scalar&gt; &gt;
+<span class="lineNum">     102 </span>            : { enum { Cost = NumTraits&lt;Scalar&gt;::MulCost, PacketAccess = packet_traits&lt;Scalar&gt;::HasAbs2 }; };
+<span class="lineNum">     103 </span>            : 
+<span class="lineNum">     104 </span>            : /** \internal
+<span class="lineNum">     105 </span>            :   * \brief Template functor to compute the conjugate of a complex value
+<span class="lineNum">     106 </span>            :   *
+<span class="lineNum">     107 </span>            :   * \sa class CwiseUnaryOp, MatrixBase::conjugate()
+<span class="lineNum">     108 </span>            :   */
+<span class="lineNum">     109 </span>            : template&lt;typename Scalar&gt; struct scalar_conjugate_op {
+<span class="lineNum">     110 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_conjugate_op)
+<span class="lineNum">     111 </span>            :   EIGEN_DEVICE_FUNC
+<span class="lineNum">     112 </span>            :   EIGEN_STRONG_INLINE const Scalar operator() (const Scalar&amp; a) const { using numext::conj; return conj(a); }
+<span class="lineNum">     113 </span>            :   template&lt;typename Packet&gt;
+<span class="lineNum">     114 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Packet packetOp(const Packet&amp; a) const { return internal::pconj(a); }
+<span class="lineNum">     115 </span>            : };
+<span class="lineNum">     116 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     117 </span>            : struct functor_traits&lt;scalar_conjugate_op&lt;Scalar&gt; &gt;
+<span class="lineNum">     118 </span>            : {
+<span class="lineNum">     119 </span>            :   enum {
+<span class="lineNum">     120 </span>            :     Cost = NumTraits&lt;Scalar&gt;::IsComplex ? NumTraits&lt;Scalar&gt;::AddCost : 0,
+<span class="lineNum">     121 </span>            :     PacketAccess = packet_traits&lt;Scalar&gt;::HasConj
+<span class="lineNum">     122 </span>            :   };
+<span class="lineNum">     123 </span>            : };
+<span class="lineNum">     124 </span>            : 
+<span class="lineNum">     125 </span>            : /** \internal
+<span class="lineNum">     126 </span>            :   * \brief Template functor to compute the phase angle of a complex
+<span class="lineNum">     127 </span>            :   *
+<span class="lineNum">     128 </span>            :   * \sa class CwiseUnaryOp, Cwise::arg
+<span class="lineNum">     129 </span>            :   */
+<span class="lineNum">     130 </span>            : template&lt;typename Scalar&gt; struct scalar_arg_op {
+<span class="lineNum">     131 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_arg_op)
+<span class="lineNum">     132 </span>            :   typedef typename NumTraits&lt;Scalar&gt;::Real result_type;
+<span class="lineNum">     133 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const result_type operator() (const Scalar&amp; a) const { using numext::arg; return arg(a); }
+<span class="lineNum">     134 </span>            :   template&lt;typename Packet&gt;
+<span class="lineNum">     135 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Packet packetOp(const Packet&amp; a) const
+<span class="lineNum">     136 </span>            :   { return internal::parg(a); }
+<span class="lineNum">     137 </span>            : };
+<span class="lineNum">     138 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     139 </span>            : struct functor_traits&lt;scalar_arg_op&lt;Scalar&gt; &gt;
+<span class="lineNum">     140 </span>            : {
+<span class="lineNum">     141 </span>            :   enum {
+<span class="lineNum">     142 </span>            :     Cost = NumTraits&lt;Scalar&gt;::IsComplex ? 5 * NumTraits&lt;Scalar&gt;::MulCost : NumTraits&lt;Scalar&gt;::AddCost,
+<span class="lineNum">     143 </span>            :     PacketAccess = packet_traits&lt;Scalar&gt;::HasArg
+<span class="lineNum">     144 </span>            :   };
+<span class="lineNum">     145 </span>            : };
+<span class="lineNum">     146 </span>            : /** \internal
+<span class="lineNum">     147 </span>            :   * \brief Template functor to cast a scalar to another type
+<span class="lineNum">     148 </span>            :   *
+<span class="lineNum">     149 </span>            :   * \sa class CwiseUnaryOp, MatrixBase::cast()
+<span class="lineNum">     150 </span>            :   */
+<span class="lineNum">     151 </span>            : template&lt;typename Scalar, typename NewType&gt;
+<span class="lineNum">     152 </span>            : struct scalar_cast_op {
+<span class="lineNum">     153 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_cast_op)
+<span class="lineNum">     154 </span>            :   typedef NewType result_type;
+<span class="lineNum">     155 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const NewType operator() (const Scalar&amp; a) const { return cast&lt;Scalar, NewType&gt;(a); }
+<span class="lineNum">     156 </span>            : };
+<span class="lineNum">     157 </span>            : template&lt;typename Scalar, typename NewType&gt;
+<span class="lineNum">     158 </span>            : struct functor_traits&lt;scalar_cast_op&lt;Scalar,NewType&gt; &gt;
+<span class="lineNum">     159 </span>            : { enum { Cost = is_same&lt;Scalar, NewType&gt;::value ? 0 : NumTraits&lt;NewType&gt;::AddCost, PacketAccess = false }; };
+<span class="lineNum">     160 </span>            : 
+<span class="lineNum">     161 </span>            : /** \internal
+<span class="lineNum">     162 </span>            :   * \brief Template functor to extract the real part of a complex
+<span class="lineNum">     163 </span>            :   *
+<span class="lineNum">     164 </span>            :   * \sa class CwiseUnaryOp, MatrixBase::real()
+<span class="lineNum">     165 </span>            :   */
+<span class="lineNum">     166 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     167 </span>            : struct scalar_real_op {
+<span class="lineNum">     168 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_real_op)
+<span class="lineNum">     169 </span>            :   typedef typename NumTraits&lt;Scalar&gt;::Real result_type;
+<span class="lineNum">     170 </span>            :   EIGEN_DEVICE_FUNC
+<span class="lineNum">     171 </span>            :   EIGEN_STRONG_INLINE result_type operator() (const Scalar&amp; a) const { return numext::real(a); }
+<span class="lineNum">     172 </span>            : };
+<span class="lineNum">     173 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     174 </span>            : struct functor_traits&lt;scalar_real_op&lt;Scalar&gt; &gt;
+<span class="lineNum">     175 </span>            : { enum { Cost = 0, PacketAccess = false }; };
+<span class="lineNum">     176 </span>            : 
+<span class="lineNum">     177 </span>            : /** \internal
+<span class="lineNum">     178 </span>            :   * \brief Template functor to extract the imaginary part of a complex
+<span class="lineNum">     179 </span>            :   *
+<span class="lineNum">     180 </span>            :   * \sa class CwiseUnaryOp, MatrixBase::imag()
+<span class="lineNum">     181 </span>            :   */
+<span class="lineNum">     182 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     183 </span>            : struct scalar_imag_op {
+<span class="lineNum">     184 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_imag_op)
+<span class="lineNum">     185 </span>            :   typedef typename NumTraits&lt;Scalar&gt;::Real result_type;
+<span class="lineNum">     186 </span>            :   EIGEN_DEVICE_FUNC
+<span class="lineNum">     187 </span>            :   EIGEN_STRONG_INLINE result_type operator() (const Scalar&amp; a) const { return numext::imag(a); }
+<span class="lineNum">     188 </span>            : };
+<span class="lineNum">     189 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     190 </span>            : struct functor_traits&lt;scalar_imag_op&lt;Scalar&gt; &gt;
+<span class="lineNum">     191 </span>            : { enum { Cost = 0, PacketAccess = false }; };
+<span class="lineNum">     192 </span>            : 
+<span class="lineNum">     193 </span>            : /** \internal
+<span class="lineNum">     194 </span>            :   * \brief Template functor to extract the real part of a complex as a reference
+<span class="lineNum">     195 </span>            :   *
+<span class="lineNum">     196 </span>            :   * \sa class CwiseUnaryOp, MatrixBase::real()
+<span class="lineNum">     197 </span>            :   */
+<span class="lineNum">     198 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     199 </span>            : struct scalar_real_ref_op {
+<span class="lineNum">     200 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_real_ref_op)
+<span class="lineNum">     201 </span>            :   typedef typename NumTraits&lt;Scalar&gt;::Real result_type;
+<span class="lineNum">     202 </span>            :   EIGEN_DEVICE_FUNC
+<span class="lineNum">     203 </span>            :   EIGEN_STRONG_INLINE result_type&amp; operator() (const Scalar&amp; a) const { return numext::real_ref(*const_cast&lt;Scalar*&gt;(&amp;a)); }
+<span class="lineNum">     204 </span>            : };
+<span class="lineNum">     205 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     206 </span>            : struct functor_traits&lt;scalar_real_ref_op&lt;Scalar&gt; &gt;
+<span class="lineNum">     207 </span>            : { enum { Cost = 0, PacketAccess = false }; };
+<span class="lineNum">     208 </span>            : 
+<span class="lineNum">     209 </span>            : /** \internal
+<span class="lineNum">     210 </span>            :   * \brief Template functor to extract the imaginary part of a complex as a reference
+<span class="lineNum">     211 </span>            :   *
+<span class="lineNum">     212 </span>            :   * \sa class CwiseUnaryOp, MatrixBase::imag()
+<span class="lineNum">     213 </span>            :   */
+<span class="lineNum">     214 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     215 </span>            : struct scalar_imag_ref_op {
+<span class="lineNum">     216 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_imag_ref_op)
+<span class="lineNum">     217 </span>            :   typedef typename NumTraits&lt;Scalar&gt;::Real result_type;
+<span class="lineNum">     218 </span>            :   EIGEN_DEVICE_FUNC
+<span class="lineNum">     219 </span>            :   EIGEN_STRONG_INLINE result_type&amp; operator() (const Scalar&amp; a) const { return numext::imag_ref(*const_cast&lt;Scalar*&gt;(&amp;a)); }
+<span class="lineNum">     220 </span>            : };
+<span class="lineNum">     221 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     222 </span>            : struct functor_traits&lt;scalar_imag_ref_op&lt;Scalar&gt; &gt;
+<span class="lineNum">     223 </span>            : { enum { Cost = 0, PacketAccess = false }; };
+<span class="lineNum">     224 </span>            : 
+<span class="lineNum">     225 </span>            : /** \internal
+<span class="lineNum">     226 </span>            :   *
+<span class="lineNum">     227 </span>            :   * \brief Template functor to compute the exponential of a scalar
+<span class="lineNum">     228 </span>            :   *
+<span class="lineNum">     229 </span>            :   * \sa class CwiseUnaryOp, Cwise::exp()
+<span class="lineNum">     230 </span>            :   */
+<span class="lineNum">     231 </span>            : template&lt;typename Scalar&gt; struct scalar_exp_op {
+<span class="lineNum">     232 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_exp_op)
+<span class="lineNum">     233 </span>            :   EIGEN_DEVICE_FUNC inline const Scalar operator() (const Scalar&amp; a) const { return numext::exp(a); }
+<span class="lineNum">     234 </span>            :   template &lt;typename Packet&gt;
+<span class="lineNum">     235 </span>            :   EIGEN_DEVICE_FUNC inline Packet packetOp(const Packet&amp; a) const { return internal::pexp(a); }
+<span class="lineNum">     236 </span>            : };
+<span class="lineNum">     237 </span>            : template &lt;typename Scalar&gt;
+<span class="lineNum">     238 </span>            : struct functor_traits&lt;scalar_exp_op&lt;Scalar&gt; &gt; {
+<span class="lineNum">     239 </span>            :   enum {
+<span class="lineNum">     240 </span>            :     PacketAccess = packet_traits&lt;Scalar&gt;::HasExp,
+<span class="lineNum">     241 </span>            :     // The following numbers are based on the AVX implementation.
+<span class="lineNum">     242 </span>            : #ifdef EIGEN_VECTORIZE_FMA
+<span class="lineNum">     243 </span>            :     // Haswell can issue 2 add/mul/madd per cycle.
+<span class="lineNum">     244 </span>            :     Cost =
+<span class="lineNum">     245 </span>            :     (sizeof(Scalar) == 4
+<span class="lineNum">     246 </span>            :      // float: 8 pmadd, 4 pmul, 2 padd/psub, 6 other
+<span class="lineNum">     247 </span>            :      ? (8 * NumTraits&lt;Scalar&gt;::AddCost + 6 * NumTraits&lt;Scalar&gt;::MulCost)
+<span class="lineNum">     248 </span>            :      // double: 7 pmadd, 5 pmul, 3 padd/psub, 1 div,  13 other
+<span class="lineNum">     249 </span>            :      : (14 * NumTraits&lt;Scalar&gt;::AddCost +
+<span class="lineNum">     250 </span>            :         6 * NumTraits&lt;Scalar&gt;::MulCost +
+<span class="lineNum">     251 </span>            :         scalar_div_cost&lt;Scalar,packet_traits&lt;Scalar&gt;::HasDiv&gt;::value))
+<span class="lineNum">     252 </span>            : #else
+<span class="lineNum">     253 </span>            :     Cost =
+<span class="lineNum">     254 </span>            :     (sizeof(Scalar) == 4
+<span class="lineNum">     255 </span>            :      // float: 7 pmadd, 6 pmul, 4 padd/psub, 10 other
+<span class="lineNum">     256 </span>            :      ? (21 * NumTraits&lt;Scalar&gt;::AddCost + 13 * NumTraits&lt;Scalar&gt;::MulCost)
+<span class="lineNum">     257 </span>            :      // double: 7 pmadd, 5 pmul, 3 padd/psub, 1 div,  13 other
+<span class="lineNum">     258 </span>            :      : (23 * NumTraits&lt;Scalar&gt;::AddCost +
+<span class="lineNum">     259 </span>            :         12 * NumTraits&lt;Scalar&gt;::MulCost +
+<span class="lineNum">     260 </span>            :         scalar_div_cost&lt;Scalar,packet_traits&lt;Scalar&gt;::HasDiv&gt;::value))
+<span class="lineNum">     261 </span>            : #endif
+<span class="lineNum">     262 </span>            :   };
+<span class="lineNum">     263 </span>            : };
+<span class="lineNum">     264 </span>            : 
+<span class="lineNum">     265 </span>            : /** \internal
+<span class="lineNum">     266 </span>            :   *
+<span class="lineNum">     267 </span>            :   * \brief Template functor to compute the logarithm of a scalar
+<span class="lineNum">     268 </span>            :   *
+<span class="lineNum">     269 </span>            :   * \sa class CwiseUnaryOp, ArrayBase::log()
+<span class="lineNum">     270 </span>            :   */
+<span class="lineNum">     271 </span>            : template&lt;typename Scalar&gt; struct scalar_log_op {
+<span class="lineNum">     272 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_log_op)
+<span class="lineNum">     273 </span>            :   EIGEN_DEVICE_FUNC inline const Scalar operator() (const Scalar&amp; a) const { return numext::log(a); }
+<span class="lineNum">     274 </span>            :   template &lt;typename Packet&gt;
+<span class="lineNum">     275 </span>            :   EIGEN_DEVICE_FUNC inline Packet packetOp(const Packet&amp; a) const { return internal::plog(a); }
+<span class="lineNum">     276 </span>            : };
+<span class="lineNum">     277 </span>            : template &lt;typename Scalar&gt;
+<span class="lineNum">     278 </span>            : struct functor_traits&lt;scalar_log_op&lt;Scalar&gt; &gt; {
+<span class="lineNum">     279 </span>            :   enum {
+<span class="lineNum">     280 </span>            :     PacketAccess = packet_traits&lt;Scalar&gt;::HasLog,
+<span class="lineNum">     281 </span>            :     Cost =
+<span class="lineNum">     282 </span>            :     (PacketAccess
+<span class="lineNum">     283 </span>            :      // The following numbers are based on the AVX implementation.
+<span class="lineNum">     284 </span>            : #ifdef EIGEN_VECTORIZE_FMA
+<span class="lineNum">     285 </span>            :      // 8 pmadd, 6 pmul, 8 padd/psub, 16 other, can issue 2 add/mul/madd per cycle.
+<span class="lineNum">     286 </span>            :      ? (20 * NumTraits&lt;Scalar&gt;::AddCost + 7 * NumTraits&lt;Scalar&gt;::MulCost)
+<span class="lineNum">     287 </span>            : #else
+<span class="lineNum">     288 </span>            :      // 8 pmadd, 6 pmul, 8 padd/psub, 20 other
+<span class="lineNum">     289 </span>            :      ? (36 * NumTraits&lt;Scalar&gt;::AddCost + 14 * NumTraits&lt;Scalar&gt;::MulCost)
+<span class="lineNum">     290 </span>            : #endif
+<span class="lineNum">     291 </span>            :      // Measured cost of std::log.
+<span class="lineNum">     292 </span>            :      : sizeof(Scalar)==4 ? 40 : 85)
+<span class="lineNum">     293 </span>            :   };
+<span class="lineNum">     294 </span>            : };
+<span class="lineNum">     295 </span>            : 
+<span class="lineNum">     296 </span>            : /** \internal
+<span class="lineNum">     297 </span>            :   *
+<span class="lineNum">     298 </span>            :   * \brief Template functor to compute the logarithm of 1 plus a scalar value
+<span class="lineNum">     299 </span>            :   *
+<span class="lineNum">     300 </span>            :   * \sa class CwiseUnaryOp, ArrayBase::log1p()
+<span class="lineNum">     301 </span>            :   */
+<span class="lineNum">     302 </span>            : template&lt;typename Scalar&gt; struct scalar_log1p_op {
+<span class="lineNum">     303 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_log1p_op)
+<span class="lineNum">     304 </span>            :   EIGEN_DEVICE_FUNC inline const Scalar operator() (const Scalar&amp; a) const { return numext::log1p(a); }
+<span class="lineNum">     305 </span>            :   template &lt;typename Packet&gt;
+<span class="lineNum">     306 </span>            :   EIGEN_DEVICE_FUNC inline Packet packetOp(const Packet&amp; a) const { return internal::plog1p(a); }
+<span class="lineNum">     307 </span>            : };
+<span class="lineNum">     308 </span>            : template &lt;typename Scalar&gt;
+<span class="lineNum">     309 </span>            : struct functor_traits&lt;scalar_log1p_op&lt;Scalar&gt; &gt; {
+<span class="lineNum">     310 </span>            :   enum {
+<span class="lineNum">     311 </span>            :     PacketAccess = packet_traits&lt;Scalar&gt;::HasLog1p,
+<span class="lineNum">     312 </span>            :     Cost = functor_traits&lt;scalar_log_op&lt;Scalar&gt; &gt;::Cost // TODO measure cost of log1p
+<span class="lineNum">     313 </span>            :   };
+<span class="lineNum">     314 </span>            : };
+<span class="lineNum">     315 </span>            : 
+<span class="lineNum">     316 </span>            : /** \internal
+<span class="lineNum">     317 </span>            :   *
+<span class="lineNum">     318 </span>            :   * \brief Template functor to compute the base-10 logarithm of a scalar
+<span class="lineNum">     319 </span>            :   *
+<span class="lineNum">     320 </span>            :   * \sa class CwiseUnaryOp, Cwise::log10()
+<span class="lineNum">     321 </span>            :   */
+<span class="lineNum">     322 </span>            : template&lt;typename Scalar&gt; struct scalar_log10_op {
+<span class="lineNum">     323 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_log10_op)
+<span class="lineNum">     324 </span>            :   EIGEN_DEVICE_FUNC inline const Scalar operator() (const Scalar&amp; a) const { EIGEN_USING_STD_MATH(log10) return log10(a); }
+<span class="lineNum">     325 </span>            :   template &lt;typename Packet&gt;
+<span class="lineNum">     326 </span>            :   EIGEN_DEVICE_FUNC inline Packet packetOp(const Packet&amp; a) const { return internal::plog10(a); }
+<span class="lineNum">     327 </span>            : };
+<span class="lineNum">     328 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     329 </span>            : struct functor_traits&lt;scalar_log10_op&lt;Scalar&gt; &gt;
+<span class="lineNum">     330 </span>            : { enum { Cost = 5 * NumTraits&lt;Scalar&gt;::MulCost, PacketAccess = packet_traits&lt;Scalar&gt;::HasLog10 }; };
+<span class="lineNum">     331 </span>            : 
+<span class="lineNum">     332 </span>            : /** \internal
+<span class="lineNum">     333 </span>            :   * \brief Template functor to compute the square root of a scalar
+<span class="lineNum">     334 </span>            :   * \sa class CwiseUnaryOp, Cwise::sqrt()
+<span class="lineNum">     335 </span>            :   */
+<span class="lineNum">     336 </span>            : template&lt;typename Scalar&gt; struct scalar_sqrt_op {
+<span class="lineNum">     337 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_sqrt_op)
+<span class="lineNum">     338 </span>            :   EIGEN_DEVICE_FUNC inline const Scalar operator() (const Scalar&amp; a) const { return numext::sqrt(a); }
+<span class="lineNum">     339 </span>            :   template &lt;typename Packet&gt;
+<span class="lineNum">     340 </span>            :   EIGEN_DEVICE_FUNC inline Packet packetOp(const Packet&amp; a) const { return internal::psqrt(a); }
+<span class="lineNum">     341 </span>            : };
+<span class="lineNum">     342 </span>            : template &lt;typename Scalar&gt;
+<span class="lineNum">     343 </span>            : struct functor_traits&lt;scalar_sqrt_op&lt;Scalar&gt; &gt; {
+<span class="lineNum">     344 </span>            :   enum {
+<span class="lineNum">     345 </span>            : #if EIGEN_FAST_MATH
+<span class="lineNum">     346 </span>            :     // The following numbers are based on the AVX implementation.
+<span class="lineNum">     347 </span>            :     Cost = (sizeof(Scalar) == 8 ? 28
+<span class="lineNum">     348 </span>            :                                 // 4 pmul, 1 pmadd, 3 other
+<span class="lineNum">     349 </span>            :                                 : (3 * NumTraits&lt;Scalar&gt;::AddCost +
+<span class="lineNum">     350 </span>            :                                    5 * NumTraits&lt;Scalar&gt;::MulCost)),
+<span class="lineNum">     351 </span>            : #else
+<span class="lineNum">     352 </span>            :     // The following numbers are based on min VSQRT throughput on Haswell.
+<span class="lineNum">     353 </span>            :     Cost = (sizeof(Scalar) == 8 ? 28 : 14),
+<span class="lineNum">     354 </span>            : #endif
+<span class="lineNum">     355 </span>            :     PacketAccess = packet_traits&lt;Scalar&gt;::HasSqrt
+<span class="lineNum">     356 </span>            :   };
+<span class="lineNum">     357 </span>            : };
+<span class="lineNum">     358 </span>            : 
+<span class="lineNum">     359 </span>            : /** \internal
+<span class="lineNum">     360 </span>            :   * \brief Template functor to compute the reciprocal square root of a scalar
+<span class="lineNum">     361 </span>            :   * \sa class CwiseUnaryOp, Cwise::rsqrt()
+<span class="lineNum">     362 </span>            :   */
+<span class="lineNum">     363 </span>            : template&lt;typename Scalar&gt; struct scalar_rsqrt_op {
+<span class="lineNum">     364 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_rsqrt_op)
+<span class="lineNum">     365 </span>            :   EIGEN_DEVICE_FUNC inline const Scalar operator() (const Scalar&amp; a) const { return Scalar(1)/numext::sqrt(a); }
+<span class="lineNum">     366 </span>            :   template &lt;typename Packet&gt;
+<span class="lineNum">     367 </span>            :   EIGEN_DEVICE_FUNC inline Packet packetOp(const Packet&amp; a) const { return internal::prsqrt(a); }
+<span class="lineNum">     368 </span>            : };
+<span class="lineNum">     369 </span>            : 
+<span class="lineNum">     370 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     371 </span>            : struct functor_traits&lt;scalar_rsqrt_op&lt;Scalar&gt; &gt;
+<span class="lineNum">     372 </span>            : { enum {
+<span class="lineNum">     373 </span>            :     Cost = 5 * NumTraits&lt;Scalar&gt;::MulCost,
+<span class="lineNum">     374 </span>            :     PacketAccess = packet_traits&lt;Scalar&gt;::HasRsqrt
+<span class="lineNum">     375 </span>            :   };
+<span class="lineNum">     376 </span>            : };
+<span class="lineNum">     377 </span>            : 
+<span class="lineNum">     378 </span>            : /** \internal
+<span class="lineNum">     379 </span>            :   * \brief Template functor to compute the cosine of a scalar
+<span class="lineNum">     380 </span>            :   * \sa class CwiseUnaryOp, ArrayBase::cos()
+<span class="lineNum">     381 </span>            :   */
+<span class="lineNum">     382 </span>            : template&lt;typename Scalar&gt; struct scalar_cos_op {
+<span class="lineNum">     383 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_cos_op)
+<span class="lineNum">     384 </span>            :   EIGEN_DEVICE_FUNC inline Scalar operator() (const Scalar&amp; a) const { return numext::cos(a); }
+<span class="lineNum">     385 </span>            :   template &lt;typename Packet&gt;
+<span class="lineNum">     386 </span>            :   EIGEN_DEVICE_FUNC inline Packet packetOp(const Packet&amp; a) const { return internal::pcos(a); }
+<span class="lineNum">     387 </span>            : };
+<span class="lineNum">     388 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     389 </span>            : struct functor_traits&lt;scalar_cos_op&lt;Scalar&gt; &gt;
+<span class="lineNum">     390 </span>            : {
+<span class="lineNum">     391 </span>            :   enum {
+<span class="lineNum">     392 </span>            :     Cost = 5 * NumTraits&lt;Scalar&gt;::MulCost,
+<span class="lineNum">     393 </span>            :     PacketAccess = packet_traits&lt;Scalar&gt;::HasCos
+<span class="lineNum">     394 </span>            :   };
+<span class="lineNum">     395 </span>            : };
+<span class="lineNum">     396 </span>            : 
+<span class="lineNum">     397 </span>            : /** \internal
+<span class="lineNum">     398 </span>            :   * \brief Template functor to compute the sine of a scalar
+<span class="lineNum">     399 </span>            :   * \sa class CwiseUnaryOp, ArrayBase::sin()
+<span class="lineNum">     400 </span>            :   */
+<span class="lineNum">     401 </span>            : template&lt;typename Scalar&gt; struct scalar_sin_op {
+<span class="lineNum">     402 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_sin_op)
+<span class="lineNum">     403 </span>            :   EIGEN_DEVICE_FUNC inline const Scalar operator() (const Scalar&amp; a) const { return numext::sin(a); }
+<span class="lineNum">     404 </span>            :   template &lt;typename Packet&gt;
+<span class="lineNum">     405 </span>            :   EIGEN_DEVICE_FUNC inline Packet packetOp(const Packet&amp; a) const { return internal::psin(a); }
+<span class="lineNum">     406 </span>            : };
+<span class="lineNum">     407 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     408 </span>            : struct functor_traits&lt;scalar_sin_op&lt;Scalar&gt; &gt;
+<span class="lineNum">     409 </span>            : {
+<span class="lineNum">     410 </span>            :   enum {
+<span class="lineNum">     411 </span>            :     Cost = 5 * NumTraits&lt;Scalar&gt;::MulCost,
+<span class="lineNum">     412 </span>            :     PacketAccess = packet_traits&lt;Scalar&gt;::HasSin
+<span class="lineNum">     413 </span>            :   };
+<span class="lineNum">     414 </span>            : };
+<span class="lineNum">     415 </span>            : 
+<span class="lineNum">     416 </span>            : 
+<span class="lineNum">     417 </span>            : /** \internal
+<span class="lineNum">     418 </span>            :   * \brief Template functor to compute the tan of a scalar
+<span class="lineNum">     419 </span>            :   * \sa class CwiseUnaryOp, ArrayBase::tan()
+<span class="lineNum">     420 </span>            :   */
+<span class="lineNum">     421 </span>            : template&lt;typename Scalar&gt; struct scalar_tan_op {
+<span class="lineNum">     422 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_tan_op)
+<span class="lineNum">     423 </span>            :   EIGEN_DEVICE_FUNC inline const Scalar operator() (const Scalar&amp; a) const { return numext::tan(a); }
+<span class="lineNum">     424 </span>            :   template &lt;typename Packet&gt;
+<span class="lineNum">     425 </span>            :   EIGEN_DEVICE_FUNC inline Packet packetOp(const Packet&amp; a) const { return internal::ptan(a); }
+<span class="lineNum">     426 </span>            : };
+<span class="lineNum">     427 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     428 </span>            : struct functor_traits&lt;scalar_tan_op&lt;Scalar&gt; &gt;
+<span class="lineNum">     429 </span>            : {
+<span class="lineNum">     430 </span>            :   enum {
+<span class="lineNum">     431 </span>            :     Cost = 5 * NumTraits&lt;Scalar&gt;::MulCost,
+<span class="lineNum">     432 </span>            :     PacketAccess = packet_traits&lt;Scalar&gt;::HasTan
+<span class="lineNum">     433 </span>            :   };
+<span class="lineNum">     434 </span>            : };
+<span class="lineNum">     435 </span>            : 
+<span class="lineNum">     436 </span>            : /** \internal
+<span class="lineNum">     437 </span>            :   * \brief Template functor to compute the arc cosine of a scalar
+<span class="lineNum">     438 </span>            :   * \sa class CwiseUnaryOp, ArrayBase::acos()
+<span class="lineNum">     439 </span>            :   */
+<span class="lineNum">     440 </span>            : template&lt;typename Scalar&gt; struct scalar_acos_op {
+<span class="lineNum">     441 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_acos_op)
+<span class="lineNum">     442 </span>            :   EIGEN_DEVICE_FUNC inline const Scalar operator() (const Scalar&amp; a) const { return numext::acos(a); }
+<span class="lineNum">     443 </span>            :   template &lt;typename Packet&gt;
+<span class="lineNum">     444 </span>            :   EIGEN_DEVICE_FUNC inline Packet packetOp(const Packet&amp; a) const { return internal::pacos(a); }
+<span class="lineNum">     445 </span>            : };
+<span class="lineNum">     446 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     447 </span>            : struct functor_traits&lt;scalar_acos_op&lt;Scalar&gt; &gt;
+<span class="lineNum">     448 </span>            : {
+<span class="lineNum">     449 </span>            :   enum {
+<span class="lineNum">     450 </span>            :     Cost = 5 * NumTraits&lt;Scalar&gt;::MulCost,
+<span class="lineNum">     451 </span>            :     PacketAccess = packet_traits&lt;Scalar&gt;::HasACos
+<span class="lineNum">     452 </span>            :   };
+<span class="lineNum">     453 </span>            : };
+<span class="lineNum">     454 </span>            : 
+<span class="lineNum">     455 </span>            : /** \internal
+<span class="lineNum">     456 </span>            :   * \brief Template functor to compute the arc sine of a scalar
+<span class="lineNum">     457 </span>            :   * \sa class CwiseUnaryOp, ArrayBase::asin()
+<span class="lineNum">     458 </span>            :   */
+<span class="lineNum">     459 </span>            : template&lt;typename Scalar&gt; struct scalar_asin_op {
+<span class="lineNum">     460 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_asin_op)
+<span class="lineNum">     461 </span>            :   EIGEN_DEVICE_FUNC inline const Scalar operator() (const Scalar&amp; a) const { return numext::asin(a); }
+<span class="lineNum">     462 </span>            :   template &lt;typename Packet&gt;
+<span class="lineNum">     463 </span>            :   EIGEN_DEVICE_FUNC inline Packet packetOp(const Packet&amp; a) const { return internal::pasin(a); }
+<span class="lineNum">     464 </span>            : };
+<span class="lineNum">     465 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     466 </span>            : struct functor_traits&lt;scalar_asin_op&lt;Scalar&gt; &gt;
+<span class="lineNum">     467 </span>            : {
+<span class="lineNum">     468 </span>            :   enum {
+<span class="lineNum">     469 </span>            :     Cost = 5 * NumTraits&lt;Scalar&gt;::MulCost,
+<span class="lineNum">     470 </span>            :     PacketAccess = packet_traits&lt;Scalar&gt;::HasASin
+<span class="lineNum">     471 </span>            :   };
+<span class="lineNum">     472 </span>            : };
+<span class="lineNum">     473 </span>            : 
+<span class="lineNum">     474 </span>            : 
+<span class="lineNum">     475 </span>            : /** \internal
+<span class="lineNum">     476 </span>            :   * \brief Template functor to compute the atan of a scalar
+<span class="lineNum">     477 </span>            :   * \sa class CwiseUnaryOp, ArrayBase::atan()
+<span class="lineNum">     478 </span>            :   */
+<span class="lineNum">     479 </span>            : template&lt;typename Scalar&gt; struct scalar_atan_op {
+<span class="lineNum">     480 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_atan_op)
+<span class="lineNum">     481 </span>            :   EIGEN_DEVICE_FUNC inline const Scalar operator() (const Scalar&amp; a) const { return numext::atan(a); }
+<span class="lineNum">     482 </span>            :   template &lt;typename Packet&gt;
+<span class="lineNum">     483 </span>            :   EIGEN_DEVICE_FUNC inline Packet packetOp(const Packet&amp; a) const { return internal::patan(a); }
+<span class="lineNum">     484 </span>            : };
+<span class="lineNum">     485 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     486 </span>            : struct functor_traits&lt;scalar_atan_op&lt;Scalar&gt; &gt;
+<span class="lineNum">     487 </span>            : {
+<span class="lineNum">     488 </span>            :   enum {
+<span class="lineNum">     489 </span>            :     Cost = 5 * NumTraits&lt;Scalar&gt;::MulCost,
+<span class="lineNum">     490 </span>            :     PacketAccess = packet_traits&lt;Scalar&gt;::HasATan
+<span class="lineNum">     491 </span>            :   };
+<span class="lineNum">     492 </span>            : };
+<span class="lineNum">     493 </span>            : 
+<span class="lineNum">     494 </span>            : /** \internal
+<span class="lineNum">     495 </span>            :   * \brief Template functor to compute the tanh of a scalar
+<span class="lineNum">     496 </span>            :   * \sa class CwiseUnaryOp, ArrayBase::tanh()
+<span class="lineNum">     497 </span>            :   */
+<span class="lineNum">     498 </span>            : template &lt;typename Scalar&gt;
+<span class="lineNum">     499 </span>            : struct scalar_tanh_op {
+<span class="lineNum">     500 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_tanh_op)
+<span class="lineNum">     501 </span>            :   EIGEN_DEVICE_FUNC inline const Scalar operator()(const Scalar&amp; a) const { return numext::tanh(a); }
+<span class="lineNum">     502 </span>            :   template &lt;typename Packet&gt;
+<span class="lineNum">     503 </span>            :   EIGEN_DEVICE_FUNC inline Packet packetOp(const Packet&amp; x) const { return ptanh(x); }
+<span class="lineNum">     504 </span>            : };
+<span class="lineNum">     505 </span>            : 
+<span class="lineNum">     506 </span>            : template &lt;typename Scalar&gt;
+<span class="lineNum">     507 </span>            : struct functor_traits&lt;scalar_tanh_op&lt;Scalar&gt; &gt; {
+<span class="lineNum">     508 </span>            :   enum {
+<span class="lineNum">     509 </span>            :     PacketAccess = packet_traits&lt;Scalar&gt;::HasTanh,
+<span class="lineNum">     510 </span>            :     Cost = ( (EIGEN_FAST_MATH &amp;&amp; is_same&lt;Scalar,float&gt;::value)
+<span class="lineNum">     511 </span>            : // The following numbers are based on the AVX implementation,
+<span class="lineNum">     512 </span>            : #ifdef EIGEN_VECTORIZE_FMA
+<span class="lineNum">     513 </span>            :                 // Haswell can issue 2 add/mul/madd per cycle.
+<span class="lineNum">     514 </span>            :                 // 9 pmadd, 2 pmul, 1 div, 2 other
+<span class="lineNum">     515 </span>            :                 ? (2 * NumTraits&lt;Scalar&gt;::AddCost +
+<span class="lineNum">     516 </span>            :                    6 * NumTraits&lt;Scalar&gt;::MulCost +
+<span class="lineNum">     517 </span>            :                    scalar_div_cost&lt;Scalar,packet_traits&lt;Scalar&gt;::HasDiv&gt;::value)
+<span class="lineNum">     518 </span>            : #else
+<span class="lineNum">     519 </span>            :                 ? (11 * NumTraits&lt;Scalar&gt;::AddCost +
+<span class="lineNum">     520 </span>            :                    11 * NumTraits&lt;Scalar&gt;::MulCost +
+<span class="lineNum">     521 </span>            :                    scalar_div_cost&lt;Scalar,packet_traits&lt;Scalar&gt;::HasDiv&gt;::value)
+<span class="lineNum">     522 </span>            : #endif
+<span class="lineNum">     523 </span>            :                 // This number assumes a naive implementation of tanh
+<span class="lineNum">     524 </span>            :                 : (6 * NumTraits&lt;Scalar&gt;::AddCost +
+<span class="lineNum">     525 </span>            :                    3 * NumTraits&lt;Scalar&gt;::MulCost +
+<span class="lineNum">     526 </span>            :                    2 * scalar_div_cost&lt;Scalar,packet_traits&lt;Scalar&gt;::HasDiv&gt;::value +
+<span class="lineNum">     527 </span>            :                    functor_traits&lt;scalar_exp_op&lt;Scalar&gt; &gt;::Cost))
+<span class="lineNum">     528 </span>            :   };
+<span class="lineNum">     529 </span>            : };
+<span class="lineNum">     530 </span>            : 
+<span class="lineNum">     531 </span>            : /** \internal
+<span class="lineNum">     532 </span>            :   * \brief Template functor to compute the sinh of a scalar
+<span class="lineNum">     533 </span>            :   * \sa class CwiseUnaryOp, ArrayBase::sinh()
+<span class="lineNum">     534 </span>            :   */
+<span class="lineNum">     535 </span>            : template&lt;typename Scalar&gt; struct scalar_sinh_op {
+<span class="lineNum">     536 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_sinh_op)
+<span class="lineNum">     537 </span>            :   EIGEN_DEVICE_FUNC inline const Scalar operator() (const Scalar&amp; a) const { return numext::sinh(a); }
+<span class="lineNum">     538 </span>            :   template &lt;typename Packet&gt;
+<span class="lineNum">     539 </span>            :   EIGEN_DEVICE_FUNC inline Packet packetOp(const Packet&amp; a) const { return internal::psinh(a); }
+<span class="lineNum">     540 </span>            : };
+<span class="lineNum">     541 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     542 </span>            : struct functor_traits&lt;scalar_sinh_op&lt;Scalar&gt; &gt;
+<span class="lineNum">     543 </span>            : {
+<span class="lineNum">     544 </span>            :   enum {
+<span class="lineNum">     545 </span>            :     Cost = 5 * NumTraits&lt;Scalar&gt;::MulCost,
+<span class="lineNum">     546 </span>            :     PacketAccess = packet_traits&lt;Scalar&gt;::HasSinh
+<span class="lineNum">     547 </span>            :   };
+<span class="lineNum">     548 </span>            : };
+<span class="lineNum">     549 </span>            : 
+<span class="lineNum">     550 </span>            : /** \internal
+<span class="lineNum">     551 </span>            :   * \brief Template functor to compute the cosh of a scalar
+<span class="lineNum">     552 </span>            :   * \sa class CwiseUnaryOp, ArrayBase::cosh()
+<span class="lineNum">     553 </span>            :   */
+<span class="lineNum">     554 </span>            : template&lt;typename Scalar&gt; struct scalar_cosh_op {
+<span class="lineNum">     555 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_cosh_op)
+<span class="lineNum">     556 </span>            :   EIGEN_DEVICE_FUNC inline const Scalar operator() (const Scalar&amp; a) const { return numext::cosh(a); }
+<span class="lineNum">     557 </span>            :   template &lt;typename Packet&gt;
+<span class="lineNum">     558 </span>            :   EIGEN_DEVICE_FUNC inline Packet packetOp(const Packet&amp; a) const { return internal::pcosh(a); }
+<span class="lineNum">     559 </span>            : };
+<span class="lineNum">     560 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     561 </span>            : struct functor_traits&lt;scalar_cosh_op&lt;Scalar&gt; &gt;
+<span class="lineNum">     562 </span>            : {
+<span class="lineNum">     563 </span>            :   enum {
+<span class="lineNum">     564 </span>            :     Cost = 5 * NumTraits&lt;Scalar&gt;::MulCost,
+<span class="lineNum">     565 </span>            :     PacketAccess = packet_traits&lt;Scalar&gt;::HasCosh
+<span class="lineNum">     566 </span>            :   };
+<span class="lineNum">     567 </span>            : };
+<span class="lineNum">     568 </span>            : 
+<span class="lineNum">     569 </span>            : /** \internal
+<span class="lineNum">     570 </span>            :   * \brief Template functor to compute the inverse of a scalar
+<span class="lineNum">     571 </span>            :   * \sa class CwiseUnaryOp, Cwise::inverse()
+<span class="lineNum">     572 </span>            :   */
+<span class="lineNum">     573 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     574 </span>            : struct scalar_inverse_op {
+<span class="lineNum">     575 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_inverse_op)
+<span class="lineNum">     576 </span>            :   EIGEN_DEVICE_FUNC inline Scalar operator() (const Scalar&amp; a) const { return Scalar(1)/a; }
+<span class="lineNum">     577 </span>            :   template&lt;typename Packet&gt;
+<span class="lineNum">     578 </span>            :   EIGEN_DEVICE_FUNC inline const Packet packetOp(const Packet&amp; a) const
+<span class="lineNum">     579 </span>            :   { return internal::pdiv(pset1&lt;Packet&gt;(Scalar(1)),a); }
+<span class="lineNum">     580 </span>            : };
+<span class="lineNum">     581 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     582 </span>            : struct functor_traits&lt;scalar_inverse_op&lt;Scalar&gt; &gt;
+<span class="lineNum">     583 </span>            : { enum { Cost = NumTraits&lt;Scalar&gt;::MulCost, PacketAccess = packet_traits&lt;Scalar&gt;::HasDiv }; };
+<span class="lineNum">     584 </span>            : 
+<span class="lineNum">     585 </span>            : /** \internal
+<span class="lineNum">     586 </span>            :   * \brief Template functor to compute the square of a scalar
+<span class="lineNum">     587 </span>            :   * \sa class CwiseUnaryOp, Cwise::square()
+<span class="lineNum">     588 </span>            :   */
+<span class="lineNum">     589 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     590 </span>            : struct scalar_square_op {
+<span class="lineNum">     591 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_square_op)
+<span class="lineNum">     592 </span>            :   EIGEN_DEVICE_FUNC inline Scalar operator() (const Scalar&amp; a) const { return a*a; }
+<span class="lineNum">     593 </span>            :   template&lt;typename Packet&gt;
+<span class="lineNum">     594 </span>            :   EIGEN_DEVICE_FUNC inline const Packet packetOp(const Packet&amp; a) const
+<span class="lineNum">     595 </span>            :   { return internal::pmul(a,a); }
+<span class="lineNum">     596 </span>            : };
+<span class="lineNum">     597 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     598 </span>            : struct functor_traits&lt;scalar_square_op&lt;Scalar&gt; &gt;
+<span class="lineNum">     599 </span>            : { enum { Cost = NumTraits&lt;Scalar&gt;::MulCost, PacketAccess = packet_traits&lt;Scalar&gt;::HasMul }; };
+<span class="lineNum">     600 </span>            : 
+<span class="lineNum">     601 </span>            : /** \internal
+<span class="lineNum">     602 </span>            :   * \brief Template functor to compute the cube of a scalar
+<span class="lineNum">     603 </span>            :   * \sa class CwiseUnaryOp, Cwise::cube()
+<span class="lineNum">     604 </span>            :   */
+<span class="lineNum">     605 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     606 </span>            : struct scalar_cube_op {
+<span class="lineNum">     607 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_cube_op)
+<span class="lineNum">     608 </span>            :   EIGEN_DEVICE_FUNC inline Scalar operator() (const Scalar&amp; a) const { return a*a*a; }
+<span class="lineNum">     609 </span>            :   template&lt;typename Packet&gt;
+<span class="lineNum">     610 </span>            :   EIGEN_DEVICE_FUNC inline const Packet packetOp(const Packet&amp; a) const
+<span class="lineNum">     611 </span>            :   { return internal::pmul(a,pmul(a,a)); }
+<span class="lineNum">     612 </span>            : };
+<span class="lineNum">     613 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     614 </span>            : struct functor_traits&lt;scalar_cube_op&lt;Scalar&gt; &gt;
+<span class="lineNum">     615 </span>            : { enum { Cost = 2*NumTraits&lt;Scalar&gt;::MulCost, PacketAccess = packet_traits&lt;Scalar&gt;::HasMul }; };
+<span class="lineNum">     616 </span>            : 
+<span class="lineNum">     617 </span>            : /** \internal
+<span class="lineNum">     618 </span>            :   * \brief Template functor to compute the rounded value of a scalar
+<span class="lineNum">     619 </span>            :   * \sa class CwiseUnaryOp, ArrayBase::round()
+<span class="lineNum">     620 </span>            :   */
+<span class="lineNum">     621 </span>            : template&lt;typename Scalar&gt; struct scalar_round_op {
+<span class="lineNum">     622 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_round_op)
+<span class="lineNum">     623 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Scalar operator() (const Scalar&amp; a) const { return numext::round(a); }
+<span class="lineNum">     624 </span>            :   template &lt;typename Packet&gt;
+<span class="lineNum">     625 </span>            :   EIGEN_DEVICE_FUNC inline Packet packetOp(const Packet&amp; a) const { return internal::pround(a); }
+<span class="lineNum">     626 </span>            : };
+<span class="lineNum">     627 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     628 </span>            : struct functor_traits&lt;scalar_round_op&lt;Scalar&gt; &gt;
+<span class="lineNum">     629 </span>            : {
+<span class="lineNum">     630 </span>            :   enum {
+<span class="lineNum">     631 </span>            :     Cost = NumTraits&lt;Scalar&gt;::MulCost,
+<span class="lineNum">     632 </span>            :     PacketAccess = packet_traits&lt;Scalar&gt;::HasRound
+<span class="lineNum">     633 </span>            :   };
+<span class="lineNum">     634 </span>            : };
+<span class="lineNum">     635 </span>            : 
+<span class="lineNum">     636 </span>            : /** \internal
+<span class="lineNum">     637 </span>            :   * \brief Template functor to compute the floor of a scalar
+<span class="lineNum">     638 </span>            :   * \sa class CwiseUnaryOp, ArrayBase::floor()
+<span class="lineNum">     639 </span>            :   */
+<span class="lineNum">     640 </span>            : template&lt;typename Scalar&gt; struct scalar_floor_op {
+<span class="lineNum">     641 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_floor_op)
+<span class="lineNum">     642 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Scalar operator() (const Scalar&amp; a) const { return numext::floor(a); }
+<span class="lineNum">     643 </span>            :   template &lt;typename Packet&gt;
+<span class="lineNum">     644 </span>            :   EIGEN_DEVICE_FUNC inline Packet packetOp(const Packet&amp; a) const { return internal::pfloor(a); }
+<span class="lineNum">     645 </span>            : };
+<span class="lineNum">     646 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     647 </span>            : struct functor_traits&lt;scalar_floor_op&lt;Scalar&gt; &gt;
+<span class="lineNum">     648 </span>            : {
+<span class="lineNum">     649 </span>            :   enum {
+<span class="lineNum">     650 </span>            :     Cost = NumTraits&lt;Scalar&gt;::MulCost,
+<span class="lineNum">     651 </span>            :     PacketAccess = packet_traits&lt;Scalar&gt;::HasFloor
+<span class="lineNum">     652 </span>            :   };
+<span class="lineNum">     653 </span>            : };
+<span class="lineNum">     654 </span>            : 
+<span class="lineNum">     655 </span>            : /** \internal
+<span class="lineNum">     656 </span>            :   * \brief Template functor to compute the ceil of a scalar
+<span class="lineNum">     657 </span>            :   * \sa class CwiseUnaryOp, ArrayBase::ceil()
+<span class="lineNum">     658 </span>            :   */
+<span class="lineNum">     659 </span>            : template&lt;typename Scalar&gt; struct scalar_ceil_op {
+<span class="lineNum">     660 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_ceil_op)
+<span class="lineNum">     661 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Scalar operator() (const Scalar&amp; a) const { return numext::ceil(a); }
+<span class="lineNum">     662 </span>            :   template &lt;typename Packet&gt;
+<span class="lineNum">     663 </span>            :   EIGEN_DEVICE_FUNC inline Packet packetOp(const Packet&amp; a) const { return internal::pceil(a); }
+<span class="lineNum">     664 </span>            : };
+<span class="lineNum">     665 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     666 </span>            : struct functor_traits&lt;scalar_ceil_op&lt;Scalar&gt; &gt;
+<span class="lineNum">     667 </span>            : {
+<span class="lineNum">     668 </span>            :   enum {
+<span class="lineNum">     669 </span>            :     Cost = NumTraits&lt;Scalar&gt;::MulCost,
+<span class="lineNum">     670 </span>            :     PacketAccess = packet_traits&lt;Scalar&gt;::HasCeil
+<span class="lineNum">     671 </span>            :   };
+<span class="lineNum">     672 </span>            : };
+<span class="lineNum">     673 </span>            : 
+<span class="lineNum">     674 </span>            : /** \internal
+<span class="lineNum">     675 </span>            :   * \brief Template functor to compute whether a scalar is NaN
+<span class="lineNum">     676 </span>            :   * \sa class CwiseUnaryOp, ArrayBase::isnan()
+<span class="lineNum">     677 </span>            :   */
+<span class="lineNum">     678 </span>            : template&lt;typename Scalar&gt; struct scalar_isnan_op {
+<span class="lineNum">     679 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_isnan_op)
+<span class="lineNum">     680 </span>            :   typedef bool result_type;
+<span class="lineNum">     681 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE result_type operator() (const Scalar&amp; a) const { return (numext::isnan)(a); }
+<span class="lineNum">     682 </span>            : };
+<span class="lineNum">     683 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     684 </span>            : struct functor_traits&lt;scalar_isnan_op&lt;Scalar&gt; &gt;
+<span class="lineNum">     685 </span>            : {
+<span class="lineNum">     686 </span>            :   enum {
+<span class="lineNum">     687 </span>            :     Cost = NumTraits&lt;Scalar&gt;::MulCost,
+<span class="lineNum">     688 </span>            :     PacketAccess = false
+<span class="lineNum">     689 </span>            :   };
+<span class="lineNum">     690 </span>            : };
+<span class="lineNum">     691 </span>            : 
+<span class="lineNum">     692 </span>            : /** \internal
+<span class="lineNum">     693 </span>            :   * \brief Template functor to check whether a scalar is +/-inf
+<span class="lineNum">     694 </span>            :   * \sa class CwiseUnaryOp, ArrayBase::isinf()
+<span class="lineNum">     695 </span>            :   */
+<span class="lineNum">     696 </span>            : template&lt;typename Scalar&gt; struct scalar_isinf_op {
+<span class="lineNum">     697 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_isinf_op)
+<span class="lineNum">     698 </span>            :   typedef bool result_type;
+<span class="lineNum">     699 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE result_type operator() (const Scalar&amp; a) const { return (numext::isinf)(a); }
+<span class="lineNum">     700 </span>            : };
+<span class="lineNum">     701 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     702 </span>            : struct functor_traits&lt;scalar_isinf_op&lt;Scalar&gt; &gt;
+<span class="lineNum">     703 </span>            : {
+<span class="lineNum">     704 </span>            :   enum {
+<span class="lineNum">     705 </span>            :     Cost = NumTraits&lt;Scalar&gt;::MulCost,
+<span class="lineNum">     706 </span>            :     PacketAccess = false
+<span class="lineNum">     707 </span>            :   };
+<span class="lineNum">     708 </span>            : };
+<span class="lineNum">     709 </span>            : 
+<span class="lineNum">     710 </span>            : /** \internal
+<span class="lineNum">     711 </span>            :   * \brief Template functor to check whether a scalar has a finite value
+<span class="lineNum">     712 </span>            :   * \sa class CwiseUnaryOp, ArrayBase::isfinite()
+<span class="lineNum">     713 </span>            :   */
+<span class="lineNum">     714 </span>            : template&lt;typename Scalar&gt; struct scalar_isfinite_op {
+<span class="lineNum">     715 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_isfinite_op)
+<span class="lineNum">     716 </span>            :   typedef bool result_type;
+<span class="lineNum">     717 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE result_type operator() (const Scalar&amp; a) const { return (numext::isfinite)(a); }
+<span class="lineNum">     718 </span>            : };
+<span class="lineNum">     719 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     720 </span>            : struct functor_traits&lt;scalar_isfinite_op&lt;Scalar&gt; &gt;
+<span class="lineNum">     721 </span>            : {
+<span class="lineNum">     722 </span>            :   enum {
+<span class="lineNum">     723 </span>            :     Cost = NumTraits&lt;Scalar&gt;::MulCost,
+<span class="lineNum">     724 </span>            :     PacketAccess = false
+<span class="lineNum">     725 </span>            :   };
+<span class="lineNum">     726 </span>            : };
+<span class="lineNum">     727 </span>            : 
+<span class="lineNum">     728 </span>            : /** \internal
+<span class="lineNum">     729 </span>            :   * \brief Template functor to compute the logical not of a boolean
+<span class="lineNum">     730 </span>            :   *
+<span class="lineNum">     731 </span>            :   * \sa class CwiseUnaryOp, ArrayBase::operator!
+<span class="lineNum">     732 </span>            :   */
+<span class="lineNum">     733 </span>            : template&lt;typename Scalar&gt; struct scalar_boolean_not_op {
+<span class="lineNum">     734 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_boolean_not_op)
+<span class="lineNum">     735 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE bool operator() (const bool&amp; a) const { return !a; }
+<span class="lineNum">     736 </span>            : };
+<span class="lineNum">     737 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     738 </span>            : struct functor_traits&lt;scalar_boolean_not_op&lt;Scalar&gt; &gt; {
+<span class="lineNum">     739 </span>            :   enum {
+<span class="lineNum">     740 </span>            :     Cost = NumTraits&lt;bool&gt;::AddCost,
+<span class="lineNum">     741 </span>            :     PacketAccess = false
+<span class="lineNum">     742 </span>            :   };
+<span class="lineNum">     743 </span>            : };
+<span class="lineNum">     744 </span>            : 
+<span class="lineNum">     745 </span>            : /** \internal
+<span class="lineNum">     746 </span>            :   * \brief Template functor to compute the signum of a scalar
+<span class="lineNum">     747 </span>            :   * \sa class CwiseUnaryOp, Cwise::sign()
+<span class="lineNum">     748 </span>            :   */
+<span class="lineNum">     749 </span>            : template&lt;typename Scalar,bool iscpx=(NumTraits&lt;Scalar&gt;::IsComplex!=0) &gt; struct scalar_sign_op;
+<span class="lineNum">     750 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     751 </span>            : struct scalar_sign_op&lt;Scalar,false&gt; {
+<span class="lineNum">     752 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_sign_op)
+<span class="lineNum">     753 </span>            :   EIGEN_DEVICE_FUNC inline const Scalar operator() (const Scalar&amp; a) const
+<span class="lineNum">     754 </span>            :   {
+<span class="lineNum">     755 </span>            :       return Scalar( (a&gt;Scalar(0)) - (a&lt;Scalar(0)) );
+<span class="lineNum">     756 </span>            :   }
+<span class="lineNum">     757 </span>            :   //TODO
+<span class="lineNum">     758 </span>            :   //template &lt;typename Packet&gt;
+<span class="lineNum">     759 </span>            :   //EIGEN_DEVICE_FUNC inline Packet packetOp(const Packet&amp; a) const { return internal::psign(a); }
+<span class="lineNum">     760 </span>            : };
+<span class="lineNum">     761 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     762 </span>            : struct scalar_sign_op&lt;Scalar,true&gt; {
+<span class="lineNum">     763 </span>            :   EIGEN_EMPTY_STRUCT_CTOR(scalar_sign_op)
+<span class="lineNum">     764 </span>            :   EIGEN_DEVICE_FUNC inline const Scalar operator() (const Scalar&amp; a) const
+<span class="lineNum">     765 </span>            :   {
+<span class="lineNum">     766 </span>            :     typedef typename NumTraits&lt;Scalar&gt;::Real real_type;
+<span class="lineNum">     767 </span>            :     real_type aa = numext::abs(a);
+<span class="lineNum">     768 </span>            :     if (aa==real_type(0))
+<span class="lineNum">     769 </span>            :       return Scalar(0);
+<span class="lineNum">     770 </span>            :     aa = real_type(1)/aa;
+<span class="lineNum">     771 </span>            :     return Scalar(real(a)*aa, imag(a)*aa );
+<span class="lineNum">     772 </span>            :   }
+<span class="lineNum">     773 </span>            :   //TODO
+<span class="lineNum">     774 </span>            :   //template &lt;typename Packet&gt;
+<span class="lineNum">     775 </span>            :   //EIGEN_DEVICE_FUNC inline Packet packetOp(const Packet&amp; a) const { return internal::psign(a); }
+<span class="lineNum">     776 </span>            : };
+<span class="lineNum">     777 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     778 </span>            : struct functor_traits&lt;scalar_sign_op&lt;Scalar&gt; &gt;
+<span class="lineNum">     779 </span>            : { enum {
+<span class="lineNum">     780 </span>            :     Cost = 
+<span class="lineNum">     781 </span>            :         NumTraits&lt;Scalar&gt;::IsComplex
+<span class="lineNum">     782 </span>            :         ? ( 8*NumTraits&lt;Scalar&gt;::MulCost  ) // roughly
+<span class="lineNum">     783 </span>            :         : ( 3*NumTraits&lt;Scalar&gt;::AddCost),
+<span class="lineNum">     784 </span>            :     PacketAccess = packet_traits&lt;Scalar&gt;::HasSign
+<span class="lineNum">     785 </span>            :   };
+<span class="lineNum">     786 </span>            : };
+<span class="lineNum">     787 </span>            : 
+<span class="lineNum">     788 </span>            : } // end namespace internal
+<span class="lineNum">     789 </span>            : 
+<span class="lineNum">     790 </span>            : } // end namespace Eigen
+<span class="lineNum">     791 </span>            : 
+<span class="lineNum">     792 </span>            : #endif // EIGEN_FUNCTORS_H
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

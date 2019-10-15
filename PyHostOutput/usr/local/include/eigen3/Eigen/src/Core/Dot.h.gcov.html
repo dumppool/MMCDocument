@@ -1,0 +1,402 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - PyHost Code Analysis - /usr/local/include/eigen3/Eigen/src/Core/Dot.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../../index.html">top level</a> - <a href="index.html">usr/local/include/eigen3/Eigen/src/Core</a> - Dot.h<span style="font-size: 80%;"> (source / <a href="Dot.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">PyHost Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">23</td>
+            <td class="headerCovTableEntry">24</td>
+            <td class="headerCovTableEntryHi">95.8 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 17:04:23</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">18</td>
+            <td class="headerCovTableEntry">35</td>
+            <td class="headerCovTableEntryLo">51.4 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // This file is part of Eigen, a lightweight C++ template library</a>
+<span class="lineNum">       2 </span>            : // for linear algebra.
+<span class="lineNum">       3 </span>            : //
+<span class="lineNum">       4 </span>            : // Copyright (C) 2006-2008, 2010 Benoit Jacob &lt;jacob.benoit.1@gmail.com&gt;
+<span class="lineNum">       5 </span>            : //
+<span class="lineNum">       6 </span>            : // This Source Code Form is subject to the terms of the Mozilla
+<span class="lineNum">       7 </span>            : // Public License v. 2.0. If a copy of the MPL was not distributed
+<span class="lineNum">       8 </span>            : // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+<span class="lineNum">       9 </span>            : 
+<span class="lineNum">      10 </span>            : #ifndef EIGEN_DOT_H
+<span class="lineNum">      11 </span>            : #define EIGEN_DOT_H
+<span class="lineNum">      12 </span>            : 
+<span class="lineNum">      13 </span>            : namespace Eigen { 
+<span class="lineNum">      14 </span>            : 
+<span class="lineNum">      15 </span>            : namespace internal {
+<span class="lineNum">      16 </span>            : 
+<span class="lineNum">      17 </span>            : // helper function for dot(). The problem is that if we put that in the body of dot(), then upon calling dot
+<span class="lineNum">      18 </span>            : // with mismatched types, the compiler emits errors about failing to instantiate cwiseProduct BEFORE
+<span class="lineNum">      19 </span>            : // looking at the static assertions. Thus this is a trick to get better compile errors.
+<span class="lineNum">      20 </span>            : template&lt;typename T, typename U,
+<span class="lineNum">      21 </span>            : // the NeedToTranspose condition here is taken straight from Assign.h
+<span class="lineNum">      22 </span>            :          bool NeedToTranspose = T::IsVectorAtCompileTime
+<span class="lineNum">      23 </span>            :                 &amp;&amp; U::IsVectorAtCompileTime
+<span class="lineNum">      24 </span>            :                 &amp;&amp; ((int(T::RowsAtCompileTime) == 1 &amp;&amp; int(U::ColsAtCompileTime) == 1)
+<span class="lineNum">      25 </span>            :                       |  // FIXME | instead of || to please GCC 4.4.0 stupid warning &quot;suggest parentheses around &amp;&amp;&quot;.
+<span class="lineNum">      26 </span>            :                          // revert to || as soon as not needed anymore.
+<span class="lineNum">      27 </span>            :                     (int(T::ColsAtCompileTime) == 1 &amp;&amp; int(U::RowsAtCompileTime) == 1))
+<span class="lineNum">      28 </span>            : &gt;
+<span class="lineNum">      29 </span>            : struct dot_nocheck
+<span class="lineNum">      30 </span>            : {
+<span class="lineNum">      31 </span>            :   typedef scalar_conj_product_op&lt;typename traits&lt;T&gt;::Scalar,typename traits&lt;U&gt;::Scalar&gt; conj_prod;
+<span class="lineNum">      32 </span>            :   typedef typename conj_prod::result_type ResScalar;
+<a name="33"><span class="lineNum">      33 </span>            :   EIGEN_DEVICE_FUNC</a>
+<span class="lineNum">      34 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">      35 </span><span class="lineCov">       4239 :   static ResScalar run(const MatrixBase&lt;T&gt;&amp; a, const MatrixBase&lt;U&gt;&amp; b)</span>
+<span class="lineNum">      36 </span>            :   {
+<span class="lineNum">      37 </span><span class="lineCov">       4239 :     return a.template binaryExpr&lt;conj_prod&gt;(b).sum();</span>
+<span class="lineNum">      38 </span>            :   }
+<span class="lineNum">      39 </span>            : };
+<span class="lineNum">      40 </span>            : 
+<span class="lineNum">      41 </span>            : template&lt;typename T, typename U&gt;
+<span class="lineNum">      42 </span>            : struct dot_nocheck&lt;T, U, true&gt;
+<span class="lineNum">      43 </span>            : {
+<span class="lineNum">      44 </span>            :   typedef scalar_conj_product_op&lt;typename traits&lt;T&gt;::Scalar,typename traits&lt;U&gt;::Scalar&gt; conj_prod;
+<span class="lineNum">      45 </span>            :   typedef typename conj_prod::result_type ResScalar;
+<span class="lineNum">      46 </span>            :   EIGEN_DEVICE_FUNC
+<span class="lineNum">      47 </span>            :   EIGEN_STRONG_INLINE
+<span class="lineNum">      48 </span>            :   static ResScalar run(const MatrixBase&lt;T&gt;&amp; a, const MatrixBase&lt;U&gt;&amp; b)
+<span class="lineNum">      49 </span>            :   {
+<span class="lineNum">      50 </span>            :     return a.transpose().template binaryExpr&lt;conj_prod&gt;(b).sum();
+<span class="lineNum">      51 </span>            :   }
+<span class="lineNum">      52 </span>            : };
+<span class="lineNum">      53 </span>            : 
+<span class="lineNum">      54 </span>            : } // end namespace internal
+<span class="lineNum">      55 </span>            : 
+<span class="lineNum">      56 </span>            : /** \fn MatrixBase::dot
+<span class="lineNum">      57 </span>            :   * \returns the dot product of *this with other.
+<span class="lineNum">      58 </span>            :   *
+<span class="lineNum">      59 </span>            :   * \only_for_vectors
+<span class="lineNum">      60 </span>            :   *
+<span class="lineNum">      61 </span>            :   * \note If the scalar type is complex numbers, then this function returns the hermitian
+<span class="lineNum">      62 </span>            :   * (sesquilinear) dot product, conjugate-linear in the first variable and linear in the
+<span class="lineNum">      63 </span>            :   * second variable.
+<span class="lineNum">      64 </span>            :   *
+<span class="lineNum">      65 </span>            :   * \sa squaredNorm(), norm()
+<span class="lineNum">      66 </span>            :   */
+<span class="lineNum">      67 </span>            : template&lt;typename Derived&gt;
+<span class="lineNum">      68 </span>            : template&lt;typename OtherDerived&gt;
+<span class="lineNum">      69 </span>            : EIGEN_DEVICE_FUNC
+<a name="70"><span class="lineNum">      70 </span>            : EIGEN_STRONG_INLINE</a>
+<span class="lineNum">      71 </span>            : typename ScalarBinaryOpTraits&lt;typename internal::traits&lt;Derived&gt;::Scalar,typename internal::traits&lt;OtherDerived&gt;::Scalar&gt;::ReturnType
+<span class="lineNum">      72 </span><span class="lineCov">       4239 : MatrixBase&lt;Derived&gt;::dot(const MatrixBase&lt;OtherDerived&gt;&amp; other) const</span>
+<span class="lineNum">      73 </span>            : {
+<span class="lineNum">      74 </span>            :   EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+<span class="lineNum">      75 </span>            :   EIGEN_STATIC_ASSERT_VECTOR_ONLY(OtherDerived)
+<span class="lineNum">      76 </span>            :   EIGEN_STATIC_ASSERT_SAME_VECTOR_SIZE(Derived,OtherDerived)
+<span class="lineNum">      77 </span>            : #if !(defined(EIGEN_NO_STATIC_ASSERT) &amp;&amp; defined(EIGEN_NO_DEBUG))
+<span class="lineNum">      78 </span>            :   typedef internal::scalar_conj_product_op&lt;Scalar,typename OtherDerived::Scalar&gt; func;
+<span class="lineNum">      79 </span>            :   EIGEN_CHECK_BINARY_COMPATIBILIY(func,Scalar,typename OtherDerived::Scalar);
+<span class="lineNum">      80 </span>            : #endif
+<span class="lineNum">      81 </span>            :   
+<span class="lineNum">      82 </span><span class="lineCov">       4239 :   eigen_assert(size() == other.size());</span>
+<span class="lineNum">      83 </span>            : 
+<span class="lineNum">      84 </span><span class="lineCov">       4239 :   return internal::dot_nocheck&lt;Derived,OtherDerived&gt;::run(*this, other);</span>
+<span class="lineNum">      85 </span>            : }
+<span class="lineNum">      86 </span>            : 
+<span class="lineNum">      87 </span>            : //---------- implementation of L2 norm and related functions ----------
+<span class="lineNum">      88 </span>            : 
+<span class="lineNum">      89 </span>            : /** \returns, for vectors, the squared \em l2 norm of \c *this, and for matrices the Frobenius norm.
+<span class="lineNum">      90 </span>            :   * In both cases, it consists in the sum of the square of all the matrix entries.
+<span class="lineNum">      91 </span>            :   * For vectors, this is also equals to the dot product of \c *this with itself.
+<span class="lineNum">      92 </span>            :   *
+<span class="lineNum">      93 </span>            :   * \sa dot(), norm(), lpNorm()
+<a name="94"><span class="lineNum">      94 </span>            :   */</a>
+<span class="lineNum">      95 </span>            : template&lt;typename Derived&gt;
+<span class="lineNum">      96 </span><span class="lineCov">      29911 : EIGEN_STRONG_INLINE typename NumTraits&lt;typename internal::traits&lt;Derived&gt;::Scalar&gt;::Real MatrixBase&lt;Derived&gt;::squaredNorm() const</span>
+<span class="lineNum">      97 </span>            : {
+<span class="lineNum">      98 </span><span class="lineCov">      29911 :   return numext::real((*this).cwiseAbs2().sum());</span>
+<span class="lineNum">      99 </span>            : }
+<span class="lineNum">     100 </span>            : 
+<span class="lineNum">     101 </span>            : /** \returns, for vectors, the \em l2 norm of \c *this, and for matrices the Frobenius norm.
+<span class="lineNum">     102 </span>            :   * In both cases, it consists in the square root of the sum of the square of all the matrix entries.
+<span class="lineNum">     103 </span>            :   * For vectors, this is also equals to the square root of the dot product of \c *this with itself.
+<span class="lineNum">     104 </span>            :   *
+<span class="lineNum">     105 </span>            :   * \sa lpNorm(), dot(), squaredNorm()
+<a name="106"><span class="lineNum">     106 </span>            :   */</a>
+<span class="lineNum">     107 </span>            : template&lt;typename Derived&gt;
+<span class="lineNum">     108 </span><span class="lineCov">      14310 : EIGEN_STRONG_INLINE typename NumTraits&lt;typename internal::traits&lt;Derived&gt;::Scalar&gt;::Real MatrixBase&lt;Derived&gt;::norm() const</span>
+<span class="lineNum">     109 </span>            : {
+<span class="lineNum">     110 </span><span class="lineCov">      28620 :   return numext::sqrt(squaredNorm());</span>
+<span class="lineNum">     111 </span>            : }
+<span class="lineNum">     112 </span>            : 
+<span class="lineNum">     113 </span>            : /** \returns an expression of the quotient of \c *this by its own norm.
+<span class="lineNum">     114 </span>            :   *
+<span class="lineNum">     115 </span>            :   * \warning If the input vector is too small (i.e., this-&gt;norm()==0),
+<span class="lineNum">     116 </span>            :   *          then this function returns a copy of the input.
+<span class="lineNum">     117 </span>            :   *
+<span class="lineNum">     118 </span>            :   * \only_for_vectors
+<span class="lineNum">     119 </span>            :   *
+<span class="lineNum">     120 </span>            :   * \sa norm(), normalize()
+<span class="lineNum">     121 </span>            :   */
+<a name="122"><span class="lineNum">     122 </span>            : template&lt;typename Derived&gt;</a>
+<span class="lineNum">     123 </span>            : EIGEN_STRONG_INLINE const typename MatrixBase&lt;Derived&gt;::PlainObject
+<span class="lineNum">     124 </span><span class="lineCov">       1080 : MatrixBase&lt;Derived&gt;::normalized() const</span>
+<span class="lineNum">     125 </span>            : {
+<span class="lineNum">     126 </span>            :   typedef typename internal::nested_eval&lt;Derived,2&gt;::type _Nested;
+<span class="lineNum">     127 </span><span class="lineCov">       1080 :   _Nested n(derived());</span>
+<span class="lineNum">     128 </span><span class="lineCov">       1080 :   RealScalar z = n.squaredNorm();</span>
+<span class="lineNum">     129 </span>            :   // NOTE: after extensive benchmarking, this conditional does not impact performance, at least on recent x86 CPU
+<span class="lineNum">     130 </span><span class="lineCov">       1080 :   if(z&gt;RealScalar(0))</span>
+<span class="lineNum">     131 </span><span class="lineCov">       1080 :     return n / numext::sqrt(z);</span>
+<span class="lineNum">     132 </span>            :   else
+<span class="lineNum">     133 </span><span class="lineNoCov">          0 :     return n;</span>
+<span class="lineNum">     134 </span>            : }
+<span class="lineNum">     135 </span>            : 
+<span class="lineNum">     136 </span>            : /** Normalizes the vector, i.e. divides it by its own norm.
+<span class="lineNum">     137 </span>            :   *
+<span class="lineNum">     138 </span>            :   * \only_for_vectors
+<span class="lineNum">     139 </span>            :   *
+<span class="lineNum">     140 </span>            :   * \warning If the input vector is too small (i.e., this-&gt;norm()==0), then \c *this is left unchanged.
+<span class="lineNum">     141 </span>            :   *
+<span class="lineNum">     142 </span>            :   * \sa norm(), normalized()
+<a name="143"><span class="lineNum">     143 </span>            :   */</a>
+<span class="lineNum">     144 </span>            : template&lt;typename Derived&gt;
+<span class="lineNum">     145 </span><span class="lineCov">       5791 : EIGEN_STRONG_INLINE void MatrixBase&lt;Derived&gt;::normalize()</span>
+<span class="lineNum">     146 </span>            : {
+<span class="lineNum">     147 </span><span class="lineCov">       5791 :   RealScalar z = squaredNorm();</span>
+<span class="lineNum">     148 </span>            :   // NOTE: after extensive benchmarking, this conditional does not impact performance, at least on recent x86 CPU
+<span class="lineNum">     149 </span><span class="lineCov">       5791 :   if(z&gt;RealScalar(0))</span>
+<span class="lineNum">     150 </span><span class="lineCov">       5791 :     derived() /= numext::sqrt(z);</span>
+<span class="lineNum">     151 </span><span class="lineCov">       5791 : }</span>
+<span class="lineNum">     152 </span>            : 
+<span class="lineNum">     153 </span>            : /** \returns an expression of the quotient of \c *this by its own norm while avoiding underflow and overflow.
+<span class="lineNum">     154 </span>            :   *
+<span class="lineNum">     155 </span>            :   * \only_for_vectors
+<span class="lineNum">     156 </span>            :   *
+<span class="lineNum">     157 </span>            :   * This method is analogue to the normalized() method, but it reduces the risk of
+<span class="lineNum">     158 </span>            :   * underflow and overflow when computing the norm.
+<span class="lineNum">     159 </span>            :   *
+<span class="lineNum">     160 </span>            :   * \warning If the input vector is too small (i.e., this-&gt;norm()==0),
+<span class="lineNum">     161 </span>            :   *          then this function returns a copy of the input.
+<span class="lineNum">     162 </span>            :   *
+<span class="lineNum">     163 </span>            :   * \sa stableNorm(), stableNormalize(), normalized()
+<span class="lineNum">     164 </span>            :   */
+<span class="lineNum">     165 </span>            : template&lt;typename Derived&gt;
+<span class="lineNum">     166 </span>            : EIGEN_STRONG_INLINE const typename MatrixBase&lt;Derived&gt;::PlainObject
+<span class="lineNum">     167 </span>            : MatrixBase&lt;Derived&gt;::stableNormalized() const
+<span class="lineNum">     168 </span>            : {
+<span class="lineNum">     169 </span>            :   typedef typename internal::nested_eval&lt;Derived,3&gt;::type _Nested;
+<span class="lineNum">     170 </span>            :   _Nested n(derived());
+<span class="lineNum">     171 </span>            :   RealScalar w = n.cwiseAbs().maxCoeff();
+<span class="lineNum">     172 </span>            :   RealScalar z = (n/w).squaredNorm();
+<span class="lineNum">     173 </span>            :   if(z&gt;RealScalar(0))
+<span class="lineNum">     174 </span>            :     return n / (numext::sqrt(z)*w);
+<span class="lineNum">     175 </span>            :   else
+<span class="lineNum">     176 </span>            :     return n;
+<span class="lineNum">     177 </span>            : }
+<span class="lineNum">     178 </span>            : 
+<span class="lineNum">     179 </span>            : /** Normalizes the vector while avoid underflow and overflow
+<span class="lineNum">     180 </span>            :   *
+<span class="lineNum">     181 </span>            :   * \only_for_vectors
+<span class="lineNum">     182 </span>            :   *
+<span class="lineNum">     183 </span>            :   * This method is analogue to the normalize() method, but it reduces the risk of
+<span class="lineNum">     184 </span>            :   * underflow and overflow when computing the norm.
+<span class="lineNum">     185 </span>            :   *
+<span class="lineNum">     186 </span>            :   * \warning If the input vector is too small (i.e., this-&gt;norm()==0), then \c *this is left unchanged.
+<span class="lineNum">     187 </span>            :   *
+<span class="lineNum">     188 </span>            :   * \sa stableNorm(), stableNormalized(), normalize()
+<span class="lineNum">     189 </span>            :   */
+<span class="lineNum">     190 </span>            : template&lt;typename Derived&gt;
+<span class="lineNum">     191 </span>            : EIGEN_STRONG_INLINE void MatrixBase&lt;Derived&gt;::stableNormalize()
+<span class="lineNum">     192 </span>            : {
+<span class="lineNum">     193 </span>            :   RealScalar w = cwiseAbs().maxCoeff();
+<span class="lineNum">     194 </span>            :   RealScalar z = (derived()/w).squaredNorm();
+<span class="lineNum">     195 </span>            :   if(z&gt;RealScalar(0))
+<span class="lineNum">     196 </span>            :     derived() /= numext::sqrt(z)*w;
+<span class="lineNum">     197 </span>            : }
+<span class="lineNum">     198 </span>            : 
+<span class="lineNum">     199 </span>            : //---------- implementation of other norms ----------
+<span class="lineNum">     200 </span>            : 
+<span class="lineNum">     201 </span>            : namespace internal {
+<span class="lineNum">     202 </span>            : 
+<span class="lineNum">     203 </span>            : template&lt;typename Derived, int p&gt;
+<span class="lineNum">     204 </span>            : struct lpNorm_selector
+<span class="lineNum">     205 </span>            : {
+<span class="lineNum">     206 </span>            :   typedef typename NumTraits&lt;typename traits&lt;Derived&gt;::Scalar&gt;::Real RealScalar;
+<span class="lineNum">     207 </span>            :   EIGEN_DEVICE_FUNC
+<span class="lineNum">     208 </span>            :   static inline RealScalar run(const MatrixBase&lt;Derived&gt;&amp; m)
+<span class="lineNum">     209 </span>            :   {
+<span class="lineNum">     210 </span>            :     EIGEN_USING_STD_MATH(pow)
+<span class="lineNum">     211 </span>            :     return pow(m.cwiseAbs().array().pow(p).sum(), RealScalar(1)/p);
+<span class="lineNum">     212 </span>            :   }
+<span class="lineNum">     213 </span>            : };
+<span class="lineNum">     214 </span>            : 
+<span class="lineNum">     215 </span>            : template&lt;typename Derived&gt;
+<span class="lineNum">     216 </span>            : struct lpNorm_selector&lt;Derived, 1&gt;
+<a name="217"><span class="lineNum">     217 </span>            : {</a>
+<span class="lineNum">     218 </span>            :   EIGEN_DEVICE_FUNC
+<span class="lineNum">     219 </span><span class="lineCov">      40421 :   static inline typename NumTraits&lt;typename traits&lt;Derived&gt;::Scalar&gt;::Real run(const MatrixBase&lt;Derived&gt;&amp; m)</span>
+<span class="lineNum">     220 </span>            :   {
+<span class="lineNum">     221 </span><span class="lineCov">      40421 :     return m.cwiseAbs().sum();</span>
+<span class="lineNum">     222 </span>            :   }
+<span class="lineNum">     223 </span>            : };
+<span class="lineNum">     224 </span>            : 
+<span class="lineNum">     225 </span>            : template&lt;typename Derived&gt;
+<span class="lineNum">     226 </span>            : struct lpNorm_selector&lt;Derived, 2&gt;
+<span class="lineNum">     227 </span>            : {
+<span class="lineNum">     228 </span>            :   EIGEN_DEVICE_FUNC
+<span class="lineNum">     229 </span>            :   static inline typename NumTraits&lt;typename traits&lt;Derived&gt;::Scalar&gt;::Real run(const MatrixBase&lt;Derived&gt;&amp; m)
+<span class="lineNum">     230 </span>            :   {
+<span class="lineNum">     231 </span>            :     return m.norm();
+<span class="lineNum">     232 </span>            :   }
+<span class="lineNum">     233 </span>            : };
+<span class="lineNum">     234 </span>            : 
+<span class="lineNum">     235 </span>            : template&lt;typename Derived&gt;
+<span class="lineNum">     236 </span>            : struct lpNorm_selector&lt;Derived, Infinity&gt;
+<span class="lineNum">     237 </span>            : {
+<span class="lineNum">     238 </span>            :   typedef typename NumTraits&lt;typename traits&lt;Derived&gt;::Scalar&gt;::Real RealScalar;
+<span class="lineNum">     239 </span>            :   EIGEN_DEVICE_FUNC
+<span class="lineNum">     240 </span>            :   static inline RealScalar run(const MatrixBase&lt;Derived&gt;&amp; m)
+<span class="lineNum">     241 </span>            :   {
+<span class="lineNum">     242 </span>            :     if(Derived::SizeAtCompileTime==0 || (Derived::SizeAtCompileTime==Dynamic &amp;&amp; m.size()==0))
+<span class="lineNum">     243 </span>            :       return RealScalar(0);
+<span class="lineNum">     244 </span>            :     return m.cwiseAbs().maxCoeff();
+<span class="lineNum">     245 </span>            :   }
+<span class="lineNum">     246 </span>            : };
+<span class="lineNum">     247 </span>            : 
+<span class="lineNum">     248 </span>            : } // end namespace internal
+<span class="lineNum">     249 </span>            : 
+<span class="lineNum">     250 </span>            : /** \returns the \b coefficient-wise \f$ \ell^p \f$ norm of \c *this, that is, returns the p-th root of the sum of the p-th powers of the absolute values
+<span class="lineNum">     251 </span>            :   *          of the coefficients of \c *this. If \a p is the special value \a Eigen::Infinity, this function returns the \f$ \ell^\infty \f$
+<span class="lineNum">     252 </span>            :   *          norm, that is the maximum of the absolute values of the coefficients of \c *this.
+<span class="lineNum">     253 </span>            :   *
+<span class="lineNum">     254 </span>            :   * In all cases, if \c *this is empty, then the value 0 is returned.
+<span class="lineNum">     255 </span>            :   *
+<span class="lineNum">     256 </span>            :   * \note For matrices, this function does not compute the &lt;a href=&quot;https://en.wikipedia.org/wiki/Operator_norm&quot;&gt;operator-norm&lt;/a&gt;. That is, if \c *this is a matrix, then its coefficients are interpreted as a 1D vector. Nonetheless, you can easily compute the 1-norm and \f$\infty\f$-norm matrix operator norms using \link TutorialReductionsVisitorsBroadcastingReductionsNorm partial reductions \endlink.
+<span class="lineNum">     257 </span>            :   *
+<span class="lineNum">     258 </span>            :   * \sa norm()
+<span class="lineNum">     259 </span>            :   */
+<span class="lineNum">     260 </span>            : template&lt;typename Derived&gt;
+<span class="lineNum">     261 </span>            : template&lt;int p&gt;
+<span class="lineNum">     262 </span>            : #ifndef EIGEN_PARSED_BY_DOXYGEN
+<span class="lineNum">     263 </span>            : inline typename NumTraits&lt;typename internal::traits&lt;Derived&gt;::Scalar&gt;::Real
+<span class="lineNum">     264 </span>            : #else
+<a name="265"><span class="lineNum">     265 </span>            : MatrixBase&lt;Derived&gt;::RealScalar</a>
+<span class="lineNum">     266 </span>            : #endif
+<span class="lineNum">     267 </span><span class="lineCov">      40421 : MatrixBase&lt;Derived&gt;::lpNorm() const</span>
+<span class="lineNum">     268 </span>            : {
+<span class="lineNum">     269 </span><span class="lineCov">      40421 :   return internal::lpNorm_selector&lt;Derived, p&gt;::run(*this);</span>
+<span class="lineNum">     270 </span>            : }
+<span class="lineNum">     271 </span>            : 
+<span class="lineNum">     272 </span>            : //---------- implementation of isOrthogonal / isUnitary ----------
+<span class="lineNum">     273 </span>            : 
+<span class="lineNum">     274 </span>            : /** \returns true if *this is approximately orthogonal to \a other,
+<span class="lineNum">     275 </span>            :   *          within the precision given by \a prec.
+<span class="lineNum">     276 </span>            :   *
+<span class="lineNum">     277 </span>            :   * Example: \include MatrixBase_isOrthogonal.cpp
+<span class="lineNum">     278 </span>            :   * Output: \verbinclude MatrixBase_isOrthogonal.out
+<span class="lineNum">     279 </span>            :   */
+<span class="lineNum">     280 </span>            : template&lt;typename Derived&gt;
+<span class="lineNum">     281 </span>            : template&lt;typename OtherDerived&gt;
+<span class="lineNum">     282 </span>            : bool MatrixBase&lt;Derived&gt;::isOrthogonal
+<span class="lineNum">     283 </span>            : (const MatrixBase&lt;OtherDerived&gt;&amp; other, const RealScalar&amp; prec) const
+<span class="lineNum">     284 </span>            : {
+<span class="lineNum">     285 </span>            :   typename internal::nested_eval&lt;Derived,2&gt;::type nested(derived());
+<span class="lineNum">     286 </span>            :   typename internal::nested_eval&lt;OtherDerived,2&gt;::type otherNested(other.derived());
+<span class="lineNum">     287 </span>            :   return numext::abs2(nested.dot(otherNested)) &lt;= prec * prec * nested.squaredNorm() * otherNested.squaredNorm();
+<span class="lineNum">     288 </span>            : }
+<span class="lineNum">     289 </span>            : 
+<span class="lineNum">     290 </span>            : /** \returns true if *this is approximately an unitary matrix,
+<span class="lineNum">     291 </span>            :   *          within the precision given by \a prec. In the case where the \a Scalar
+<span class="lineNum">     292 </span>            :   *          type is real numbers, a unitary matrix is an orthogonal matrix, whence the name.
+<span class="lineNum">     293 </span>            :   *
+<span class="lineNum">     294 </span>            :   * \note This can be used to check whether a family of vectors forms an orthonormal basis.
+<span class="lineNum">     295 </span>            :   *       Indeed, \c m.isUnitary() returns true if and only if the columns (equivalently, the rows) of m form an
+<span class="lineNum">     296 </span>            :   *       orthonormal basis.
+<span class="lineNum">     297 </span>            :   *
+<span class="lineNum">     298 </span>            :   * Example: \include MatrixBase_isUnitary.cpp
+<span class="lineNum">     299 </span>            :   * Output: \verbinclude MatrixBase_isUnitary.out
+<span class="lineNum">     300 </span>            :   */
+<span class="lineNum">     301 </span>            : template&lt;typename Derived&gt;
+<span class="lineNum">     302 </span>            : bool MatrixBase&lt;Derived&gt;::isUnitary(const RealScalar&amp; prec) const
+<span class="lineNum">     303 </span>            : {
+<span class="lineNum">     304 </span>            :   typename internal::nested_eval&lt;Derived,1&gt;::type self(derived());
+<span class="lineNum">     305 </span>            :   for(Index i = 0; i &lt; cols(); ++i)
+<span class="lineNum">     306 </span>            :   {
+<span class="lineNum">     307 </span>            :     if(!internal::isApprox(self.col(i).squaredNorm(), static_cast&lt;RealScalar&gt;(1), prec))
+<span class="lineNum">     308 </span>            :       return false;
+<span class="lineNum">     309 </span>            :     for(Index j = 0; j &lt; i; ++j)
+<span class="lineNum">     310 </span>            :       if(!internal::isMuchSmallerThan(self.col(i).dot(self.col(j)), static_cast&lt;Scalar&gt;(1), prec))
+<span class="lineNum">     311 </span>            :         return false;
+<span class="lineNum">     312 </span>            :   }
+<span class="lineNum">     313 </span>            :   return true;
+<span class="lineNum">     314 </span>            : }
+<span class="lineNum">     315 </span>            : 
+<span class="lineNum">     316 </span>            : } // end namespace Eigen
+<span class="lineNum">     317 </span>            : 
+<span class="lineNum">     318 </span>            : #endif // EIGEN_DOT_H
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

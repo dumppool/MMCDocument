@@ -1,0 +1,853 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - PyHost Code Analysis - DeepMimicCore/util/BVHReader.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">DeepMimicCore/util</a> - BVHReader.cpp<span style="font-size: 80%;"> (source / <a href="BVHReader.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">PyHost Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntry">417</td>
+            <td class="headerCovTableEntryLo">0.7 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 17:04:23</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntry">47</td>
+            <td class="headerCovTableEntryLo">8.5 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /*</a>
+<span class="lineNum">       2 </span>            :  * BVHReader.cpp
+<span class="lineNum">       3 </span>            :  *
+<span class="lineNum">       4 </span>            :  *  Created on: Nov 4, 2016
+<span class="lineNum">       5 </span>            :  *      Author: Glen
+<span class="lineNum">       6 </span>            :  */
+<span class="lineNum">       7 </span>            : 
+<span class="lineNum">       8 </span>            : #include &quot;BVHReader.h&quot;
+<span class="lineNum">       9 </span>            : #include &lt;iostream&gt;
+<span class="lineNum">      10 </span>            : #include &lt;deque&gt;
+<a name="11"><span class="lineNum">      11 </span>            : #include &lt;stack&gt;</a>
+<a name="12"><span class="lineNum">      12 </span>            : </a>
+<span class="lineNum">      13 </span><span class="lineCov">          2 : const std::string cBVHReader::gReserved[] = { &quot;HIERARCHY&quot;, &quot;ROOT&quot;, &quot;OFFSET&quot;, &quot;CHANNELS&quot;, &quot;MOTION&quot; };</span>
+<span class="lineNum">      14 </span><span class="lineCov">          2 : const std::string cBVHReader::gChannelNames[] = { &quot;Xposition&quot;, &quot;Yposition&quot;, &quot;Zposition&quot;, &quot;Zrotation&quot;, &quot;Xrotation&quot;, &quot;Yrotation&quot; };</span>
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span>            : //const double gScale = gInchesToMeters;
+<span class="lineNum">      17 </span>            : const double gScale = 0.01;
+<span class="lineNum">      18 </span>            : //const double gScale = 0.004; // dragon
+<a name="19"><span class="lineNum">      19 </span>            : //const double gScale = 0.003; // t-rex</a>
+<span class="lineNum">      20 </span>            : 
+<span class="lineNum">      21 </span><span class="lineNoCov">          0 : int cBVHReader::tJointData::CalcPoseDim() const</span>
+<span class="lineNum">      22 </span>            : {
+<span class="lineNum">      23 </span><span class="lineNoCov">          0 :         int dim = 0;</span>
+<span class="lineNum">      24 </span><span class="lineNoCov">          0 :         if (IsRoot())</span>
+<span class="lineNum">      25 </span>            :         {
+<span class="lineNum">      26 </span><span class="lineNoCov">          0 :                 dim = cKinTree::gRootDim;</span>
+<span class="lineNum">      27 </span>            :         }
+<span class="lineNum">      28 </span><span class="lineNoCov">          0 :         else if (IsValid())</span>
+<span class="lineNum">      29 </span>            :         {
+<span class="lineNum">      30 </span><span class="lineNoCov">          0 :                 dim = cKinTree::GetJointParamSize(mJointType);</span>
+<span class="lineNum">      31 </span>            :         }
+<span class="lineNum">      32 </span><span class="lineNoCov">          0 :         return dim;</span>
+<a name="33"><span class="lineNum">      33 </span>            : }</a>
+<span class="lineNum">      34 </span>            : 
+<span class="lineNum">      35 </span><span class="lineNoCov">          0 : bool cBVHReader::tJointData::IsRoot() const</span>
+<span class="lineNum">      36 </span>            : {
+<span class="lineNum">      37 </span><span class="lineNoCov">          0 :         return parent == gInvalidIdx;</span>
+<a name="38"><span class="lineNum">      38 </span>            : }</a>
+<span class="lineNum">      39 </span>            : 
+<span class="lineNum">      40 </span><span class="lineNoCov">          0 : bool cBVHReader::tJointData::IsValid() const</span>
+<span class="lineNum">      41 </span>            : {
+<span class="lineNum">      42 </span>            :         // end effectors don't count as joints
+<span class="lineNum">      43 </span><span class="lineNoCov">          0 :         bool valid = (num_channels &gt; 0) || (children.size() &gt; 0);</span>
+<span class="lineNum">      44 </span><span class="lineNoCov">          0 :         return valid;</span>
+<a name="45"><span class="lineNum">      45 </span>            : }</a>
+<span class="lineNum">      46 </span>            : 
+<span class="lineNum">      47 </span><span class="lineNoCov">          0 : void cBVHReader::PoseData::Clear()</span>
+<span class="lineNum">      48 </span>            : {
+<span class="lineNum">      49 </span><span class="lineNoCov">          0 :         channels_types.clear();</span>
+<span class="lineNum">      50 </span><span class="lineNoCov">          0 :         data.resize(0, 0);</span>
+<a name="51"><span class="lineNum">      51 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      52 </span>            : 
+<span class="lineNum">      53 </span><span class="lineNoCov">          0 : cBVHReader::cBVHReader()</span>
+<span class="lineNum">      54 </span>            : {
+<span class="lineNum">      55 </span><span class="lineNoCov">          0 :         mModelTrans.setIdentity();</span>
+<span class="lineNum">      56 </span><span class="lineNoCov">          0 :         mChannelCounter = 0;</span>
+<a name="57"><span class="lineNum">      57 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      58 </span>            : 
+<span class="lineNum">      59 </span><span class="lineNoCov">          0 : cBVHReader::~cBVHReader() {</span>
+<span class="lineNum">      60 </span>            :         // TODO Auto-generated destructor stub
+<a name="61"><span class="lineNum">      61 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      62 </span>            : 
+<span class="lineNum">      63 </span><span class="lineNoCov">          0 : void cBVHReader::printData() const</span>
+<span class="lineNum">      64 </span>            : {
+<span class="lineNum">      65 </span><span class="lineNoCov">          0 :         const auto&amp; root = GetRootJoint();</span>
+<span class="lineNum">      66 </span><span class="lineNoCov">          0 :         printJointHeirachy(root);</span>
+<span class="lineNum">      67 </span>            : 
+<span class="lineNum">      68 </span><span class="lineNoCov">          0 :         std::cout &lt;&lt; &quot;motionData: &quot; &lt;&lt; motionData.data.row(1) &lt;&lt; std::endl;</span>
+<a name="69"><span class="lineNum">      69 </span><span class="lineNoCov">          0 : };</span></a>
+<span class="lineNum">      70 </span>            : 
+<span class="lineNum">      71 </span><span class="lineNoCov">          0 : void cBVHReader::printJointHeirachy(const tJointData&amp; joint) const</span>
+<span class="lineNum">      72 </span>            : {
+<span class="lineNum">      73 </span><span class="lineNoCov">          0 :         std::cout &lt;&lt; &quot;Joint Name: &quot; &lt;&lt; joint.name &lt;&lt; std::endl;</span>
+<span class="lineNum">      74 </span><span class="lineNoCov">          0 :         for (auto ct = joint.children.begin(); ct != joint.children.end(); ++ct)</span>
+<span class="lineNum">      75 </span>            :         {
+<span class="lineNum">      76 </span><span class="lineNoCov">          0 :                 int child_id = *ct;</span>
+<span class="lineNum">      77 </span><span class="lineNoCov">          0 :                 const tJointData&amp; child_joint = GetJointData(child_id);</span>
+<span class="lineNum">      78 </span><span class="lineNoCov">          0 :                 if (child_joint.children.size() &gt; 0)</span>
+<span class="lineNum">      79 </span>            :                 {
+<span class="lineNum">      80 </span><span class="lineNoCov">          0 :                         this-&gt;printJointHeirachy(child_joint);</span>
+<span class="lineNum">      81 </span>            :                 }
+<span class="lineNum">      82 </span>            :         }
+<a name="83"><span class="lineNum">      83 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      84 </span>            : 
+<span class="lineNum">      85 </span><span class="lineNoCov">          0 : void cBVHReader::parseBVH(const std::string&amp; filename)</span>
+<span class="lineNum">      86 </span>            : {
+<span class="lineNum">      87 </span><span class="lineNoCov">          0 :         Clear();</span>
+<span class="lineNum">      88 </span>            : 
+<span class="lineNum">      89 </span><span class="lineNoCov">          0 :         std::fstream file;</span>
+<span class="lineNum">      90 </span><span class="lineNoCov">          0 :         file.open(filename.c_str(), std::ios_base::in);</span>
+<span class="lineNum">      91 </span>            : 
+<span class="lineNum">      92 </span><span class="lineNoCov">          0 :         if (file.is_open())</span>
+<span class="lineNum">      93 </span>            :         {
+<span class="lineNum">      94 </span><span class="lineNoCov">          0 :                 std::string line;</span>
+<span class="lineNum">      95 </span>            : 
+<span class="lineNum">      96 </span><span class="lineNoCov">          0 :                 while (file.good())</span>
+<span class="lineNum">      97 </span>            :                 {
+<span class="lineNum">      98 </span><span class="lineNoCov">          0 :                         file &gt;&gt; line;</span>
+<span class="lineNum">      99 </span><span class="lineNoCov">          0 :                         if (trim(line) == &quot;HIERARCHY&quot;)</span>
+<span class="lineNum">     100 </span>            :                         {
+<span class="lineNum">     101 </span><span class="lineNoCov">          0 :                                 parseHierarchy(file);</span>
+<span class="lineNum">     102 </span>            :                         }
+<span class="lineNum">     103 </span><span class="lineNoCov">          0 :                         break;</span>
+<span class="lineNum">     104 </span>            :                 }
+<span class="lineNum">     105 </span>            : 
+<span class="lineNum">     106 </span><span class="lineNoCov">          0 :                 file.close();</span>
+<span class="lineNum">     107 </span>            :         }
+<span class="lineNum">     108 </span>            :         else
+<span class="lineNum">     109 </span>            :         {
+<span class="lineNum">     110 </span><span class="lineNoCov">          0 :                 std::cerr &lt;&lt; &quot;Error opening BVN file &quot; &lt;&lt; filename &lt;&lt; std::endl;</span>
+<span class="lineNum">     111 </span>            :         }
+<a name="112"><span class="lineNum">     112 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     113 </span>            : 
+<span class="lineNum">     114 </span><span class="lineNoCov">          0 : void cBVHReader::SetModelTransform(const tMatrix&amp; trans)</span>
+<span class="lineNum">     115 </span>            : {
+<span class="lineNum">     116 </span><span class="lineNoCov">          0 :         mModelTrans = trans;</span>
+<a name="117"><span class="lineNum">     117 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     118 </span>            : 
+<span class="lineNum">     119 </span><span class="lineNoCov">          0 : void cBVHReader::parseHierarchy(std::istream&amp; stream)</span>
+<span class="lineNum">     120 </span>            : {
+<span class="lineNum">     121 </span><span class="lineNoCov">          0 :         std::string tmp;</span>
+<span class="lineNum">     122 </span>            : 
+<span class="lineNum">     123 </span><span class="lineNoCov">          0 :         while (stream.good())</span>
+<span class="lineNum">     124 </span>            :         {
+<span class="lineNum">     125 </span><span class="lineNoCov">          0 :                 stream &gt;&gt; tmp;</span>
+<span class="lineNum">     126 </span>            : 
+<span class="lineNum">     127 </span><span class="lineNoCov">          0 :                 if (trim(tmp) == &quot;ROOT&quot;)</span>
+<span class="lineNum">     128 </span>            :                 {
+<span class="lineNum">     129 </span><span class="lineNoCov">          0 :                         parseJoint(stream);</span>
+<span class="lineNum">     130 </span>            :                 }
+<span class="lineNum">     131 </span><span class="lineNoCov">          0 :                 else if (trim(tmp) == &quot;MOTION&quot;)</span>
+<span class="lineNum">     132 </span>            :                 {
+<span class="lineNum">     133 </span><span class="lineNoCov">          0 :                         parseMotion(stream);</span>
+<span class="lineNum">     134 </span>            :                 }
+<span class="lineNum">     135 </span>            :         }
+<span class="lineNum">     136 </span><span class="lineNoCov">          0 : }</span>
+<a name="137"><span class="lineNum">     137 </span>            : </a>
+<span class="lineNum">     138 </span>            : 
+<span class="lineNum">     139 </span><span class="lineNoCov">          0 : void cBVHReader::parseMotion(std::istream&amp; stream)</span>
+<span class="lineNum">     140 </span>            : {
+<span class="lineNum">     141 </span><span class="lineNoCov">          0 :         std::string tmp;</span>
+<span class="lineNum">     142 </span>            : 
+<span class="lineNum">     143 </span><span class="lineNoCov">          0 :         while (stream.good())</span>
+<span class="lineNum">     144 </span>            :         {
+<span class="lineNum">     145 </span><span class="lineNoCov">          0 :                 stream &gt;&gt; tmp;</span>
+<span class="lineNum">     146 </span>            : 
+<span class="lineNum">     147 </span><span class="lineNoCov">          0 :                 if (trim(tmp) == &quot;Frames:&quot;)</span>
+<span class="lineNum">     148 </span>            :                 {
+<span class="lineNum">     149 </span><span class="lineNoCov">          0 :                         stream &gt;&gt; motionData.num_frames;</span>
+<span class="lineNum">     150 </span>            :                 }
+<span class="lineNum">     151 </span><span class="lineNoCov">          0 :                 else if (trim(tmp) == &quot;Time:&quot;)</span>
+<span class="lineNum">     152 </span>            :                 {
+<span class="lineNum">     153 </span>            :                         float frame_step;
+<span class="lineNum">     154 </span><span class="lineNoCov">          0 :                         stream &gt;&gt; frame_step;</span>
+<span class="lineNum">     155 </span>            : 
+<span class="lineNum">     156 </span><span class="lineNoCov">          0 :                         motionData.frame_step = frame_step;</span>
+<span class="lineNum">     157 </span><span class="lineNoCov">          0 :                         size_t num_frames = motionData.num_frames;</span>
+<span class="lineNum">     158 </span><span class="lineNoCov">          0 :                         size_t num_channels = motionData.num_motion_channels;</span>
+<span class="lineNum">     159 </span>            : 
+<span class="lineNum">     160 </span><span class="lineNoCov">          0 :                         motionData.data = Eigen::MatrixXd::Ones( num_frames , num_channels);</span>
+<span class="lineNum">     161 </span>            : 
+<span class="lineNum">     162 </span><span class="lineNoCov">          0 :                         for (size_t frame = 0; frame &lt; num_frames; frame++)</span>
+<span class="lineNum">     163 </span>            :                         {
+<span class="lineNum">     164 </span><span class="lineNoCov">          0 :                                 for (int channel = 0; channel &lt; num_channels; channel++)</span>
+<span class="lineNum">     165 </span>            :                                 {
+<span class="lineNum">     166 </span>            :                                         double x;
+<span class="lineNum">     167 </span><span class="lineNoCov">          0 :                                         std::stringstream ss;</span>
+<span class="lineNum">     168 </span><span class="lineNoCov">          0 :                                         stream &gt;&gt; tmp;</span>
+<span class="lineNum">     169 </span><span class="lineNoCov">          0 :                                         ss &lt;&lt; tmp;</span>
+<span class="lineNum">     170 </span><span class="lineNoCov">          0 :                                         ss &gt;&gt; x;</span>
+<span class="lineNum">     171 </span><span class="lineNoCov">          0 :                                         if ((motionData.channels_types[channel] == Xrotation) ||</span>
+<span class="lineNum">     172 </span><span class="lineNoCov">          0 :                                                 (motionData.channels_types[channel] == Yrotation) ||</span>
+<span class="lineNum">     173 </span><span class="lineNoCov">          0 :                                                 (motionData.channels_types[channel] == Zrotation))</span>
+<span class="lineNum">     174 </span>            :                                         {  // Need to convert degrees to radians from these files.
+<span class="lineNum">     175 </span><span class="lineNoCov">          0 :                                                 x *= gDegreesToRadians;</span>
+<span class="lineNum">     176 </span>            :                                         }
+<span class="lineNum">     177 </span>            :                                         else
+<span class="lineNum">     178 </span>            :                                         {
+<span class="lineNum">     179 </span><span class="lineNoCov">          0 :                                                 x *= gScale;</span>
+<span class="lineNum">     180 </span>            :                                         }
+<span class="lineNum">     181 </span><span class="lineNoCov">          0 :                                         motionData.data(frame, channel) = x;</span>
+<span class="lineNum">     182 </span>            :                                 }
+<span class="lineNum">     183 </span>            :                         }
+<span class="lineNum">     184 </span>            :                 }
+<span class="lineNum">     185 </span>            :         }
+<a name="186"><span class="lineNum">     186 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     187 </span>            : 
+<span class="lineNum">     188 </span><span class="lineNoCov">          0 : void cBVHReader::Clear()</span>
+<span class="lineNum">     189 </span>            : {
+<span class="lineNum">     190 </span><span class="lineNoCov">          0 :         mJointData.clear();</span>
+<span class="lineNum">     191 </span><span class="lineNoCov">          0 :         motionData.Clear();</span>
+<span class="lineNum">     192 </span><span class="lineNoCov">          0 :         mChannelCounter = 0;</span>
+<a name="193"><span class="lineNum">     193 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     194 </span>            : 
+<span class="lineNum">     195 </span><span class="lineNoCov">          0 : int cBVHReader::parseJoint(std::istream&amp; stream, int parent_id)</span>
+<span class="lineNum">     196 </span>            : {
+<span class="lineNum">     197 </span><span class="lineNoCov">          0 :         int joint_id = AddJoint();</span>
+<span class="lineNum">     198 </span><span class="lineNoCov">          0 :         tJointData joint;</span>
+<span class="lineNum">     199 </span><span class="lineNoCov">          0 :         joint.parent = parent_id;</span>
+<span class="lineNum">     200 </span>            : 
+<span class="lineNum">     201 </span>            :         //    stats.num_total_joints++;
+<span class="lineNum">     202 </span>            :         //    allJoints.insert(joint);
+<span class="lineNum">     203 </span>            : 
+<span class="lineNum">     204 </span>            :         // load joint name
+<span class="lineNum">     205 </span><span class="lineNoCov">          0 :         std::string* name = new std::string;</span>
+<span class="lineNum">     206 </span><span class="lineNoCov">          0 :         stream &gt;&gt; *name;</span>
+<span class="lineNum">     207 </span><span class="lineNoCov">          0 :         joint.name = name-&gt;c_str();</span>
+<span class="lineNum">     208 </span>            : 
+<span class="lineNum">     209 </span><span class="lineNoCov">          0 :         std::string tmp;</span>
+<span class="lineNum">     210 </span><span class="lineNoCov">          0 :         joint.matrix = tMatrix::Identity();</span>
+<span class="lineNum">     211 </span>            : 
+<span class="lineNum">     212 </span><span class="lineNoCov">          0 :         unsigned channel_order_index = 0;</span>
+<span class="lineNum">     213 </span><span class="lineNoCov">          0 :         while (stream.good())</span>
+<span class="lineNum">     214 </span>            :         {
+<span class="lineNum">     215 </span><span class="lineNoCov">          0 :                 stream &gt;&gt; tmp;</span>
+<span class="lineNum">     216 </span><span class="lineNoCov">          0 :                 tmp = trim(tmp);</span>
+<span class="lineNum">     217 </span>            : 
+<span class="lineNum">     218 </span>            :                 // setting channels
+<span class="lineNum">     219 </span><span class="lineNoCov">          0 :                 char c = tmp.at(0);</span>
+<span class="lineNum">     220 </span><span class="lineNoCov">          0 :                 if (c == 'X' || c == 'Y' || c == 'Z')</span>
+<span class="lineNum">     221 </span>            :                 {
+<span class="lineNum">     222 </span><span class="lineNoCov">          0 :                         if (tmp == &quot;Xposition&quot;)</span>
+<span class="lineNum">     223 </span>            :                         {
+<span class="lineNum">     224 </span><span class="lineNoCov">          0 :                                 joint.channels_order.push_back(Xposition);</span>
+<span class="lineNum">     225 </span><span class="lineNoCov">          0 :                                 motionData.channels_types.push_back(Xposition);</span>
+<span class="lineNum">     226 </span>            :                         }
+<span class="lineNum">     227 </span><span class="lineNoCov">          0 :                         else if (tmp == &quot;Yposition&quot;)</span>
+<span class="lineNum">     228 </span>            :                         {
+<span class="lineNum">     229 </span><span class="lineNoCov">          0 :                                 joint.channels_order.push_back(Yposition);</span>
+<span class="lineNum">     230 </span><span class="lineNoCov">          0 :                                 motionData.channels_types.push_back(Yposition);</span>
+<span class="lineNum">     231 </span>            :                         }
+<span class="lineNum">     232 </span><span class="lineNoCov">          0 :                         else if (tmp == &quot;Zposition&quot;)</span>
+<span class="lineNum">     233 </span>            :                         {
+<span class="lineNum">     234 </span><span class="lineNoCov">          0 :                                 joint.channels_order.push_back(Zposition);</span>
+<span class="lineNum">     235 </span><span class="lineNoCov">          0 :                                 motionData.channels_types.push_back(Zposition);</span>
+<span class="lineNum">     236 </span>            :                         }
+<span class="lineNum">     237 </span><span class="lineNoCov">          0 :                         else if (tmp == &quot;Xrotation&quot;)</span>
+<span class="lineNum">     238 </span>            :                         {
+<span class="lineNum">     239 </span><span class="lineNoCov">          0 :                                 joint.channels_order.push_back(Xrotation);</span>
+<span class="lineNum">     240 </span><span class="lineNoCov">          0 :                                 motionData.channels_types.push_back(Xrotation);</span>
+<span class="lineNum">     241 </span>            :                         }
+<span class="lineNum">     242 </span><span class="lineNoCov">          0 :                         else if (tmp == &quot;Yrotation&quot;)</span>
+<span class="lineNum">     243 </span>            :                         {
+<span class="lineNum">     244 </span><span class="lineNoCov">          0 :                                 joint.channels_order.push_back(Yrotation);</span>
+<span class="lineNum">     245 </span><span class="lineNoCov">          0 :                                 motionData.channels_types.push_back(Yrotation);</span>
+<span class="lineNum">     246 </span>            :                         }
+<span class="lineNum">     247 </span><span class="lineNoCov">          0 :                         else if (tmp == &quot;Zrotation&quot;)</span>
+<span class="lineNum">     248 </span>            :                         {
+<span class="lineNum">     249 </span><span class="lineNoCov">          0 :                                 joint.channels_order.push_back(Zrotation);</span>
+<span class="lineNum">     250 </span><span class="lineNoCov">          0 :                                 motionData.channels_types.push_back(Zrotation);</span>
+<span class="lineNum">     251 </span>            :                         }
+<span class="lineNum">     252 </span>            :                 }
+<span class="lineNum">     253 </span>            : 
+<span class="lineNum">     254 </span><span class="lineNoCov">          0 :                 if (tmp == &quot;OFFSET&quot;)</span>
+<span class="lineNum">     255 </span>            :                 {
+<span class="lineNum">     256 </span><span class="lineNoCov">          0 :                         stream &gt;&gt; joint.offset(0)</span>
+<span class="lineNum">     257 </span><span class="lineNoCov">          0 :                                 &gt;&gt; joint.offset(1)</span>
+<span class="lineNum">     258 </span><span class="lineNoCov">          0 :                                 &gt;&gt; joint.offset(2);</span>
+<span class="lineNum">     259 </span><span class="lineNoCov">          0 :                         joint.offset *= gScale;</span>
+<span class="lineNum">     260 </span><span class="lineNoCov">          0 :                         joint.offset = mModelTrans * joint.offset;</span>
+<span class="lineNum">     261 </span><span class="lineNoCov">          0 :                         tMatrix trans = cMathUtil::TranslateMat(joint.offset);</span>
+<span class="lineNum">     262 </span><span class="lineNoCov">          0 :                         joint.matrix = trans;</span>
+<span class="lineNum">     263 </span>            :                 }
+<span class="lineNum">     264 </span><span class="lineNoCov">          0 :                 else if (tmp == &quot;CHANNELS&quot;)</span>
+<span class="lineNum">     265 </span>            :                 {
+<span class="lineNum">     266 </span>            :                         // loading num of channels
+<span class="lineNum">     267 </span><span class="lineNoCov">          0 :                         stream &gt;&gt; joint.num_channels;</span>
+<span class="lineNum">     268 </span>            : 
+<span class="lineNum">     269 </span>            :                         // adding to statistics
+<span class="lineNum">     270 </span><span class="lineNoCov">          0 :                         motionData.num_motion_channels += joint.num_channels;</span>
+<span class="lineNum">     271 </span>            : 
+<span class="lineNum">     272 </span>            :                         // increasing static counter of channel index startin motion section
+<span class="lineNum">     273 </span><span class="lineNoCov">          0 :                         joint.channel_start = mChannelCounter;</span>
+<span class="lineNum">     274 </span><span class="lineNoCov">          0 :                         mChannelCounter += joint.num_channels;</span>
+<span class="lineNum">     275 </span>            : 
+<span class="lineNum">     276 </span>            :                         // creating array for channel order specification
+<span class="lineNum">     277 </span>            :                         // joint-&gt;channels_order = new short[joint-&gt;num_channels];
+<span class="lineNum">     278 </span>            : 
+<span class="lineNum">     279 </span>            :                 }
+<span class="lineNum">     280 </span><span class="lineNoCov">          0 :                 else if (tmp == &quot;JOINT&quot;)</span>
+<span class="lineNum">     281 </span>            :                 {
+<span class="lineNum">     282 </span><span class="lineNoCov">          0 :                         int child_id = parseJoint(stream, joint_id);</span>
+<span class="lineNum">     283 </span><span class="lineNoCov">          0 :                         tJointData&amp; child_joint = GetJointData(child_id);</span>
+<span class="lineNum">     284 </span><span class="lineNoCov">          0 :                         joint.children.push_back(child_id);</span>
+<span class="lineNum">     285 </span>            :                 }
+<span class="lineNum">     286 </span><span class="lineNoCov">          0 :                 else if (tmp == &quot;End&quot;)</span>
+<span class="lineNum">     287 </span>            :                 {
+<span class="lineNum">     288 </span>            :                         // End Site {
+<span class="lineNum">     289 </span><span class="lineNoCov">          0 :                         stream &gt;&gt; tmp &gt;&gt; tmp;</span>
+<span class="lineNum">     290 </span>            : 
+<span class="lineNum">     291 </span><span class="lineNoCov">          0 :                         int child_id = AddJoint();</span>
+<span class="lineNum">     292 </span><span class="lineNoCov">          0 :                         tJointData&amp; end_joint = GetJointData(child_id);</span>
+<span class="lineNum">     293 </span><span class="lineNoCov">          0 :                         end_joint.parent = joint_id;</span>
+<span class="lineNum">     294 </span><span class="lineNoCov">          0 :                         end_joint.num_channels = 0;</span>
+<span class="lineNum">     295 </span><span class="lineNoCov">          0 :                         end_joint.name = &quot;EndSite&quot;;</span>
+<span class="lineNum">     296 </span><span class="lineNoCov">          0 :                         end_joint.mJointType = cKinTree::eJointTypeFixed;</span>
+<span class="lineNum">     297 </span><span class="lineNoCov">          0 :                         joint.children.push_back(child_id);</span>
+<span class="lineNum">     298 </span>            : 
+<span class="lineNum">     299 </span>            :                         //            allJoints.insert(tmp_joint);
+<span class="lineNum">     300 </span>            : 
+<span class="lineNum">     301 </span><span class="lineNoCov">          0 :                         stream &gt;&gt; tmp;</span>
+<span class="lineNum">     302 </span><span class="lineNoCov">          0 :                         if (tmp == &quot;OFFSET&quot;)</span>
+<span class="lineNum">     303 </span>            :                         {
+<span class="lineNum">     304 </span><span class="lineNoCov">          0 :                                 stream &gt;&gt; end_joint.offset(0)</span>
+<span class="lineNum">     305 </span><span class="lineNoCov">          0 :                                                 &gt;&gt; end_joint.offset(1)</span>
+<span class="lineNum">     306 </span><span class="lineNoCov">          0 :                                                 &gt;&gt; end_joint.offset(2);</span>
+<span class="lineNum">     307 </span><span class="lineNoCov">          0 :                                 end_joint.offset *= gScale;</span>
+<span class="lineNum">     308 </span><span class="lineNoCov">          0 :                                 end_joint.offset = mModelTrans * end_joint.offset;</span>
+<span class="lineNum">     309 </span><span class="lineNoCov">          0 :                                 tMatrix trans = cMathUtil::TranslateMat(end_joint.offset);</span>
+<span class="lineNum">     310 </span><span class="lineNoCov">          0 :                                 end_joint.matrix = trans;</span>
+<span class="lineNum">     311 </span>            :                         }
+<span class="lineNum">     312 </span><span class="lineNoCov">          0 :                         stream &gt;&gt; tmp;</span>
+<span class="lineNum">     313 </span>            :                 }
+<span class="lineNum">     314 </span><span class="lineNoCov">          0 :                 else if (tmp == &quot;}&quot;)</span>
+<span class="lineNum">     315 </span>            :                 {
+<span class="lineNum">     316 </span><span class="lineNoCov">          0 :                         break;</span>
+<span class="lineNum">     317 </span>            :                 }
+<span class="lineNum">     318 </span>            :         }
+<span class="lineNum">     319 </span>            : 
+<span class="lineNum">     320 </span><span class="lineNoCov">          0 :         joint.mJointType = CalcJointType(joint);</span>
+<span class="lineNum">     321 </span><span class="lineNoCov">          0 :         mJointData[joint_id] = joint;</span>
+<span class="lineNum">     322 </span><span class="lineNoCov">          0 :         return joint_id;</span>
+<a name="323"><span class="lineNum">     323 </span>            : }</a>
+<span class="lineNum">     324 </span>            : 
+<span class="lineNum">     325 </span><span class="lineNoCov">          0 : tMatrix cBVHReader::getTransformationForFrame(const tJointData&amp; joint, size_t frame_) const</span>
+<span class="lineNum">     326 </span>            : {
+<span class="lineNum">     327 </span><span class="lineNoCov">          0 :         return this-&gt;getTransformationForFrame(joint.channel_start, joint.channels_order, motionData.data, frame_);</span>
+<a name="328"><span class="lineNum">     328 </span>            : }</a>
+<span class="lineNum">     329 </span>            : 
+<span class="lineNum">     330 </span><span class="lineNoCov">          0 : tMatrix cBVHReader::getTranslationForFrame(const tJointData&amp; joint, size_t frame_) const</span>
+<span class="lineNum">     331 </span>            : {
+<span class="lineNum">     332 </span><span class="lineNoCov">          0 :         return this-&gt;getTranslationForFrame(joint.channel_start, joint.channels_order, motionData.data, frame_);</span>
+<a name="333"><span class="lineNum">     333 </span>            : }</a>
+<span class="lineNum">     334 </span>            : 
+<span class="lineNum">     335 </span><span class="lineNoCov">          0 : tMatrix cBVHReader::getRotationForFrame(const tJointData&amp; joint, size_t frame_) const</span>
+<span class="lineNum">     336 </span>            : {
+<span class="lineNum">     337 </span><span class="lineNoCov">          0 :         return this-&gt;getRotationForFrame(joint.channel_start, joint.channels_order, motionData.data, frame_);</span>
+<a name="338"><span class="lineNum">     338 </span>            : }</a>
+<span class="lineNum">     339 </span>            : 
+<span class="lineNum">     340 </span><span class="lineNoCov">          0 : const cBVHReader::tJointData&amp; cBVHReader::GetRootJoint() const</span>
+<span class="lineNum">     341 </span>            : {
+<span class="lineNum">     342 </span><span class="lineNoCov">          0 :         return GetJointData(0);</span>
+<a name="343"><span class="lineNum">     343 </span>            : }</a>
+<span class="lineNum">     344 </span>            : 
+<span class="lineNum">     345 </span><span class="lineNoCov">          0 : const cBVHReader::tJointData&amp; cBVHReader::GetJointData(int joint_id) const</span>
+<span class="lineNum">     346 </span>            : {
+<span class="lineNum">     347 </span><span class="lineNoCov">          0 :         assert(joint_id &gt;= 0 &amp;&amp; joint_id &lt; mJointData.size());</span>
+<span class="lineNum">     348 </span><span class="lineNoCov">          0 :         return mJointData[joint_id];</span>
+<a name="349"><span class="lineNum">     349 </span>            : }</a>
+<span class="lineNum">     350 </span>            : 
+<span class="lineNum">     351 </span><span class="lineNoCov">          0 : cBVHReader::tJointData&amp; cBVHReader::GetJointData(int joint_id)</span>
+<span class="lineNum">     352 </span>            : {
+<span class="lineNum">     353 </span><span class="lineNoCov">          0 :         assert(joint_id &gt;= 0 &amp;&amp; joint_id &lt; mJointData.size());</span>
+<span class="lineNum">     354 </span><span class="lineNoCov">          0 :         return mJointData[joint_id];</span>
+<a name="355"><span class="lineNum">     355 </span>            : }</a>
+<span class="lineNum">     356 </span>            : 
+<span class="lineNum">     357 </span><span class="lineNoCov">          0 : int cBVHReader::FindJoint(std::string joint_name) const</span>
+<span class="lineNum">     358 </span>            : {
+<span class="lineNum">     359 </span><span class="lineNoCov">          0 :         int joint_id = gInvalidIdx;</span>
+<span class="lineNum">     360 </span>            : 
+<span class="lineNum">     361 </span><span class="lineNoCov">          0 :         for (int j = 0; j &lt; GetNumJoints(); ++j)</span>
+<span class="lineNum">     362 </span>            :         {
+<span class="lineNum">     363 </span><span class="lineNoCov">          0 :                 const tJointData&amp; joint_data = GetJointData(j);</span>
+<span class="lineNum">     364 </span><span class="lineNoCov">          0 :                 if (joint_data.name == joint_name)</span>
+<span class="lineNum">     365 </span>            :                 {
+<span class="lineNum">     366 </span><span class="lineNoCov">          0 :                         joint_id = j;</span>
+<span class="lineNum">     367 </span><span class="lineNoCov">          0 :                         break;</span>
+<span class="lineNum">     368 </span>            :                 }
+<span class="lineNum">     369 </span>            :         }
+<span class="lineNum">     370 </span>            : 
+<span class="lineNum">     371 </span><span class="lineNoCov">          0 :         return joint_id;</span>
+<a name="372"><span class="lineNum">     372 </span>            : }</a>
+<span class="lineNum">     373 </span>            : 
+<span class="lineNum">     374 </span><span class="lineNoCov">          0 : int cBVHReader::GetNumJoints() const</span>
+<span class="lineNum">     375 </span>            : {
+<span class="lineNum">     376 </span><span class="lineNoCov">          0 :         return static_cast&lt;int&gt;(mJointData.size());</span>
+<a name="377"><span class="lineNum">     377 </span>            : }</a>
+<span class="lineNum">     378 </span>            : 
+<span class="lineNum">     379 </span><span class="lineNoCov">          0 : void cBVHReader::BuildJointMat(Eigen::MatrixXd&amp; out_joint_mat) const</span>
+<span class="lineNum">     380 </span>            : {
+<span class="lineNum">     381 </span><span class="lineNoCov">          0 :         std::vector&lt;int&gt; valid_joints;</span>
+<span class="lineNum">     382 </span><span class="lineNoCov">          0 :         FetchValidJoints(valid_joints);</span>
+<span class="lineNum">     383 </span>            :         
+<span class="lineNum">     384 </span><span class="lineNoCov">          0 :         int num_joints = static_cast&lt;int&gt;(valid_joints.size());</span>
+<span class="lineNum">     385 </span><span class="lineNoCov">          0 :         std::vector&lt;int&gt; joint_id_to_idx(GetNumJoints());</span>
+<span class="lineNum">     386 </span><span class="lineNoCov">          0 :         for (size_t j = 0; j &lt; num_joints; ++j)</span>
+<span class="lineNum">     387 </span>            :         {
+<span class="lineNum">     388 </span><span class="lineNoCov">          0 :                 int joint_id = valid_joints[j];</span>
+<span class="lineNum">     389 </span><span class="lineNoCov">          0 :                 joint_id_to_idx[joint_id] = static_cast&lt;int&gt;(j);</span>
+<span class="lineNum">     390 </span>            :         }
+<span class="lineNum">     391 </span>            :         
+<span class="lineNum">     392 </span><span class="lineNoCov">          0 :         out_joint_mat.resize(num_joints, cKinTree::eJointDescMax);</span>
+<span class="lineNum">     393 </span><span class="lineNoCov">          0 :         for (int j = 0; j &lt; num_joints; ++j)</span>
+<span class="lineNum">     394 </span>            :         {
+<span class="lineNum">     395 </span><span class="lineNoCov">          0 :                 int joint_id = valid_joints[j];</span>
+<span class="lineNum">     396 </span><span class="lineNoCov">          0 :                 const tJointData&amp; joint = GetJointData(joint_id);</span>
+<span class="lineNum">     397 </span><span class="lineNoCov">          0 :                 int parent_idx = gInvalidIdx;</span>
+<span class="lineNum">     398 </span><span class="lineNoCov">          0 :                 if (joint.parent != gInvalidIdx)</span>
+<span class="lineNum">     399 </span>            :                 {
+<span class="lineNum">     400 </span><span class="lineNoCov">          0 :                         parent_idx = joint_id_to_idx[joint.parent];</span>
+<span class="lineNum">     401 </span>            :                 }
+<span class="lineNum">     402 </span><span class="lineNoCov">          0 :                 assert(parent_idx &lt; j);</span>
+<span class="lineNum">     403 </span>            : 
+<span class="lineNum">     404 </span><span class="lineNoCov">          0 :                 bool is_end = true;</span>
+<span class="lineNum">     405 </span><span class="lineNoCov">          0 :                 for (size_t c = 0; c &lt; joint.children.size(); ++c)</span>
+<span class="lineNum">     406 </span>            :                 {
+<span class="lineNum">     407 </span><span class="lineNoCov">          0 :                         const tJointData&amp; child_joint = GetJointData(joint.children[c]);</span>
+<span class="lineNum">     408 </span><span class="lineNoCov">          0 :                         if (child_joint.IsValid())</span>
+<span class="lineNum">     409 </span>            :                         {
+<span class="lineNum">     410 </span><span class="lineNoCov">          0 :                                 is_end = false;</span>
+<span class="lineNum">     411 </span><span class="lineNoCov">          0 :                                 break;</span>
+<span class="lineNum">     412 </span>            :                         }
+<span class="lineNum">     413 </span>            :                 }
+<span class="lineNum">     414 </span>            : 
+<span class="lineNum">     415 </span><span class="lineNoCov">          0 :                 cKinTree::tJointDesc curr_desc = cKinTree::BuildJointDesc();</span>
+<span class="lineNum">     416 </span><span class="lineNoCov">          0 :                 curr_desc[cKinTree::eJointDescType] = static_cast&lt;int&gt;(joint.mJointType);</span>
+<span class="lineNum">     417 </span><span class="lineNoCov">          0 :                 curr_desc[cKinTree::eJointDescParent] = parent_idx;</span>
+<span class="lineNum">     418 </span><span class="lineNoCov">          0 :                 curr_desc[cKinTree::eJointDescAttachX] = joint.offset[0];</span>
+<span class="lineNum">     419 </span><span class="lineNoCov">          0 :                 curr_desc[cKinTree::eJointDescAttachY] = joint.offset[1];</span>
+<span class="lineNum">     420 </span><span class="lineNoCov">          0 :                 curr_desc[cKinTree::eJointDescAttachZ] = joint.offset[2];</span>
+<span class="lineNum">     421 </span><span class="lineNoCov">          0 :                 curr_desc[cKinTree::eJointDescIsEndEffector] = (is_end) ? 1 : 0;</span>
+<span class="lineNum">     422 </span>            : 
+<span class="lineNum">     423 </span><span class="lineNoCov">          0 :                 out_joint_mat.row(j) = curr_desc;</span>
+<span class="lineNum">     424 </span>            :         }
+<a name="425"><span class="lineNum">     425 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     426 </span>            : 
+<span class="lineNum">     427 </span><span class="lineNoCov">          0 : void cBVHReader::BuildMotion(double target_framerate, cMotion&amp; out_motion) const</span>
+<span class="lineNum">     428 </span>            : {
+<span class="lineNum">     429 </span><span class="lineNoCov">          0 :         int frame_inc = 1;</span>
+<span class="lineNum">     430 </span><span class="lineNoCov">          0 :         if (target_framerate &gt; 0)</span>
+<span class="lineNum">     431 </span>            :         {
+<span class="lineNum">     432 </span><span class="lineNoCov">          0 :                 double target_frame_step = 1 / target_framerate;</span>
+<span class="lineNum">     433 </span><span class="lineNoCov">          0 :                 frame_inc = static_cast&lt;int&gt;(target_frame_step / motionData.frame_step);</span>
+<span class="lineNum">     434 </span><span class="lineNoCov">          0 :                 frame_inc = std::max(frame_inc, 1);</span>
+<span class="lineNum">     435 </span>            :         }
+<span class="lineNum">     436 </span>            : 
+<span class="lineNum">     437 </span><span class="lineNoCov">          0 :         int pose_dim = CalcPoseDim();</span>
+<span class="lineNum">     438 </span><span class="lineNoCov">          0 :         int num_frames = static_cast&lt;int&gt;(GetNumFrames() / frame_inc);</span>
+<span class="lineNum">     439 </span><span class="lineNoCov">          0 :         out_motion.Init(num_frames, pose_dim);</span>
+<span class="lineNum">     440 </span>            : 
+<span class="lineNum">     441 </span><span class="lineNoCov">          0 :         double frame_step = frame_inc * motionData.frame_step;</span>
+<span class="lineNum">     442 </span><span class="lineNoCov">          0 :         for (int f = 0; f &lt; num_frames; ++f)</span>
+<span class="lineNum">     443 </span>            :         {
+<span class="lineNum">     444 </span><span class="lineNoCov">          0 :                 double curr_time = f * frame_step;</span>
+<span class="lineNum">     445 </span><span class="lineNoCov">          0 :                 int frame_idx = f * frame_inc;</span>
+<span class="lineNum">     446 </span><span class="lineNoCov">          0 :                 Eigen::VectorXd curr_pose;</span>
+<span class="lineNum">     447 </span><span class="lineNoCov">          0 :                 ConvertFrameToPose(frame_idx, curr_pose);</span>
+<span class="lineNum">     448 </span>            : 
+<span class="lineNum">     449 </span><span class="lineNoCov">          0 :                 out_motion.SetFrame(f, curr_pose);</span>
+<span class="lineNum">     450 </span><span class="lineNoCov">          0 :                 out_motion.SetFrameTime(f, curr_time);</span>
+<span class="lineNum">     451 </span>            :         }
+<a name="452"><span class="lineNum">     452 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     453 </span>            : 
+<span class="lineNum">     454 </span><span class="lineNoCov">          0 : int cBVHReader::CalcPoseDim() const</span>
+<span class="lineNum">     455 </span>            : {
+<span class="lineNum">     456 </span><span class="lineNoCov">          0 :         int num_dofs = 0;</span>
+<span class="lineNum">     457 </span><span class="lineNoCov">          0 :         for (int j = 0; j &lt; GetNumJoints(); ++j)</span>
+<span class="lineNum">     458 </span>            :         {
+<span class="lineNum">     459 </span><span class="lineNoCov">          0 :                 const tJointData&amp; joint = GetJointData(j);</span>
+<span class="lineNum">     460 </span><span class="lineNoCov">          0 :                 int dim = joint.CalcPoseDim();</span>
+<span class="lineNum">     461 </span><span class="lineNoCov">          0 :                 num_dofs += dim;</span>
+<span class="lineNum">     462 </span>            :         }
+<span class="lineNum">     463 </span><span class="lineNoCov">          0 :         return num_dofs;</span>
+<a name="464"><span class="lineNum">     464 </span>            : }</a>
+<span class="lineNum">     465 </span>            : 
+<span class="lineNum">     466 </span><span class="lineNoCov">          0 : double cBVHReader::GetFramerate() const</span>
+<span class="lineNum">     467 </span>            : {
+<span class="lineNum">     468 </span><span class="lineNoCov">          0 :         return 1 / motionData.frame_step;</span>
+<a name="469"><span class="lineNum">     469 </span>            : }</a>
+<span class="lineNum">     470 </span>            : 
+<span class="lineNum">     471 </span><span class="lineNoCov">          0 : tMatrix cBVHReader::getTransformationForFrame(size_t channel_start, const std::vector&lt;Channels&gt; &amp; channels_order, const Eigen::MatrixXd &amp; frame_data,</span>
+<span class="lineNum">     472 </span>            :                                                                                                 size_t frame) const
+<span class="lineNum">     473 </span>            : {
+<span class="lineNum">     474 </span><span class="lineNoCov">          0 :         tMatrix trans_mat = getTranslationForFrame(channel_start, channels_order, frame_data, frame);</span>
+<span class="lineNum">     475 </span><span class="lineNoCov">          0 :         tMatrix rot_mat = getRotationForFrame(channel_start, channels_order, frame_data, frame);</span>
+<span class="lineNum">     476 </span><span class="lineNoCov">          0 :         tMatrix mat = trans_mat * rot_mat;</span>
+<span class="lineNum">     477 </span><span class="lineNoCov">          0 :         return mat;</span>
+<a name="478"><span class="lineNum">     478 </span>            : }</a>
+<span class="lineNum">     479 </span>            : 
+<span class="lineNum">     480 </span><span class="lineNoCov">          0 : tMatrix cBVHReader::getTranslationForFrame(size_t channel_start, const std::vector&lt;Channels&gt; &amp; channels_order, const Eigen::MatrixXd &amp; frame_data,</span>
+<span class="lineNum">     481 </span>            :                                                                                         size_t frame) const
+<span class="lineNum">     482 </span>            : {
+<span class="lineNum">     483 </span><span class="lineNoCov">          0 :         tMatrix mat = tMatrix::Identity();</span>
+<span class="lineNum">     484 </span>            : 
+<span class="lineNum">     485 </span><span class="lineNoCov">          0 :         for (size_t i = 0; i &lt; channels_order.size(); i++)</span>
+<span class="lineNum">     486 </span>            :         {
+<span class="lineNum">     487 </span><span class="lineNoCov">          0 :                 Channels curr_channel = channels_order[i];</span>
+<span class="lineNum">     488 </span><span class="lineNoCov">          0 :                 double val = frame_data(frame, channel_start + i);</span>
+<span class="lineNum">     489 </span><span class="lineNoCov">          0 :                 if (curr_channel == Xposition)</span>
+<span class="lineNum">     490 </span>            :                 {
+<span class="lineNum">     491 </span><span class="lineNoCov">          0 :                         mat(0, 3) = val;</span>
+<span class="lineNum">     492 </span>            :                 }
+<span class="lineNum">     493 </span><span class="lineNoCov">          0 :                 else if (curr_channel == Yposition)</span>
+<span class="lineNum">     494 </span>            :                 {
+<span class="lineNum">     495 </span><span class="lineNoCov">          0 :                         mat(1, 3) = val;</span>
+<span class="lineNum">     496 </span>            :                 }
+<span class="lineNum">     497 </span><span class="lineNoCov">          0 :                 else if (curr_channel == Zposition)</span>
+<span class="lineNum">     498 </span>            :                 {
+<span class="lineNum">     499 </span><span class="lineNoCov">          0 :                         mat(2, 3) = val;</span>
+<span class="lineNum">     500 </span>            :                 }
+<span class="lineNum">     501 </span>            :         }
+<span class="lineNum">     502 </span>            : 
+<span class="lineNum">     503 </span><span class="lineNoCov">          0 :         mat(3, 3) = 0; // ignore translation for local transforms</span>
+<span class="lineNum">     504 </span><span class="lineNoCov">          0 :         mat = mModelTrans * mat;</span>
+<span class="lineNum">     505 </span><span class="lineNoCov">          0 :         mat(3, 3) = 1;</span>
+<span class="lineNum">     506 </span><span class="lineNoCov">          0 :         return mat;</span>
+<a name="507"><span class="lineNum">     507 </span>            : }</a>
+<span class="lineNum">     508 </span>            : 
+<span class="lineNum">     509 </span><span class="lineNoCov">          0 : tMatrix cBVHReader::getRotationForFrame(size_t channel_start, const std::vector&lt;Channels&gt; &amp; channels_order, const Eigen::MatrixXd &amp; frame_data,</span>
+<span class="lineNum">     510 </span>            :                                                                                 size_t frame) const
+<span class="lineNum">     511 </span>            : {
+<span class="lineNum">     512 </span><span class="lineNoCov">          0 :         tMatrix mat = tMatrix::Identity();</span>
+<span class="lineNum">     513 </span>            : 
+<span class="lineNum">     514 </span><span class="lineNoCov">          0 :         for (size_t i = 0; i &lt; channels_order.size(); i++)</span>
+<span class="lineNum">     515 </span>            :         {
+<span class="lineNum">     516 </span><span class="lineNoCov">          0 :                 Channels curr_channel = channels_order[i];</span>
+<span class="lineNum">     517 </span><span class="lineNoCov">          0 :                 double val = frame_data(frame, channel_start + i);</span>
+<span class="lineNum">     518 </span><span class="lineNoCov">          0 :                 switch (curr_channel)</span>
+<span class="lineNum">     519 </span>            :                 {
+<span class="lineNum">     520 </span>            :                 case Xrotation:
+<span class="lineNum">     521 </span><span class="lineNoCov">          0 :                         mat *= cMathUtil::RotateMat(mModelTrans * tVector(1, 0, 0, 0), val);</span>
+<span class="lineNum">     522 </span><span class="lineNoCov">          0 :                         break;</span>
+<span class="lineNum">     523 </span>            :                 case Yrotation:
+<span class="lineNum">     524 </span><span class="lineNoCov">          0 :                         mat *= cMathUtil::RotateMat(mModelTrans * tVector(0, 1, 0, 0), val);</span>
+<span class="lineNum">     525 </span><span class="lineNoCov">          0 :                         break;</span>
+<span class="lineNum">     526 </span>            :                 case Zrotation:
+<span class="lineNum">     527 </span><span class="lineNoCov">          0 :                         mat *= cMathUtil::RotateMat(mModelTrans * tVector(0, 0, 1, 0), val);</span>
+<span class="lineNum">     528 </span><span class="lineNoCov">          0 :                         break;</span>
+<span class="lineNum">     529 </span>            :                 default:
+<span class="lineNum">     530 </span><span class="lineNoCov">          0 :                         break;</span>
+<span class="lineNum">     531 </span>            :                 }
+<span class="lineNum">     532 </span>            :         }
+<span class="lineNum">     533 </span>            : 
+<span class="lineNum">     534 </span><span class="lineNoCov">          0 :         return mat;</span>
+<a name="535"><span class="lineNum">     535 </span>            : }</a>
+<span class="lineNum">     536 </span>            : 
+<span class="lineNum">     537 </span><span class="lineNoCov">          0 : bool cBVHReader::GetJointLocation(std::string jointName, size_t frame_, tVector &amp; position,</span>
+<span class="lineNum">     538 </span>            :         tMatrix &amp; transform) const
+<span class="lineNum">     539 </span>            : {
+<span class="lineNum">     540 </span><span class="lineNoCov">          0 :         position = tVector::Zero();</span>
+<span class="lineNum">     541 </span><span class="lineNoCov">          0 :         position(3) = 1.0;</span>
+<span class="lineNum">     542 </span>            : 
+<span class="lineNum">     543 </span><span class="lineNoCov">          0 :         transform = tMatrix::Identity();</span>
+<span class="lineNum">     544 </span><span class="lineNoCov">          0 :         const tJointData&amp; root_joint = GetRootJoint();</span>
+<span class="lineNum">     545 </span><span class="lineNoCov">          0 :         return GetJointLocation(root_joint, jointName, frame_, position, transform);</span>
+<a name="546"><span class="lineNum">     546 </span>            : }</a>
+<span class="lineNum">     547 </span>            : 
+<span class="lineNum">     548 </span><span class="lineNoCov">          0 : bool cBVHReader::GetJointLocation(const tJointData&amp; joint, std::string jointName, size_t frame_, tVector &amp; position,</span>
+<span class="lineNum">     549 </span>            :                                                                         tMatrix &amp; transform) const
+<span class="lineNum">     550 </span>            : {
+<span class="lineNum">     551 </span><span class="lineNoCov">          0 :         tMatrix transJoint = joint.matrix * getTransformationForFrame(joint.channel_start, joint.channels_order, motionData.data, frame_);</span>
+<span class="lineNum">     552 </span><span class="lineNoCov">          0 :         tMatrix transTMP = transform * transJoint;</span>
+<span class="lineNum">     553 </span><span class="lineNoCov">          0 :         if (joint.name == jointName)</span>
+<span class="lineNum">     554 </span>            :         {
+<span class="lineNum">     555 </span><span class="lineNoCov">          0 :                 transform = transTMP;</span>
+<span class="lineNum">     556 </span><span class="lineNoCov">          0 :                 position = transform * position;</span>
+<span class="lineNum">     557 </span><span class="lineNoCov">          0 :                 return true;</span>
+<span class="lineNum">     558 </span>            :         }
+<span class="lineNum">     559 </span>            :                 
+<span class="lineNum">     560 </span>            :         // add children to stack
+<span class="lineNum">     561 </span><span class="lineNoCov">          0 :         for (size_t j = 0; j &lt; joint.children.size(); j++)</span>
+<span class="lineNum">     562 </span>            :         {
+<span class="lineNum">     563 </span><span class="lineNoCov">          0 :                 const tJointData&amp; child_data = GetJointData(joint.children[j]);</span>
+<span class="lineNum">     564 </span><span class="lineNoCov">          0 :                 bool found = GetJointLocation(child_data, jointName, frame_, position, transTMP);</span>
+<span class="lineNum">     565 </span><span class="lineNoCov">          0 :                 if (found)</span>
+<span class="lineNum">     566 </span>            :                 {
+<span class="lineNum">     567 </span><span class="lineNoCov">          0 :                         transform = transTMP;</span>
+<span class="lineNum">     568 </span><span class="lineNoCov">          0 :                         return found;</span>
+<span class="lineNum">     569 </span>            :                 }
+<span class="lineNum">     570 </span>            :         }
+<span class="lineNum">     571 </span>            :         
+<span class="lineNum">     572 </span><span class="lineNoCov">          0 :         return false;</span>
+<a name="573"><span class="lineNum">     573 </span>            : }</a>
+<span class="lineNum">     574 </span>            : 
+<span class="lineNum">     575 </span><span class="lineNoCov">          0 : int cBVHReader::AddJoint()</span>
+<span class="lineNum">     576 </span>            : {
+<span class="lineNum">     577 </span><span class="lineNoCov">          0 :         int joint_id = static_cast&lt;int&gt;(mJointData.size());</span>
+<span class="lineNum">     578 </span><span class="lineNoCov">          0 :         mJointData.push_back(tJointData());</span>
+<span class="lineNum">     579 </span><span class="lineNoCov">          0 :         return joint_id;</span>
+<a name="580"><span class="lineNum">     580 </span>            : }</a>
+<span class="lineNum">     581 </span>            : 
+<span class="lineNum">     582 </span><span class="lineNoCov">          0 : void cBVHReader::FetchValidJoints(std::vector&lt;int&gt;&amp; out_joints) const</span>
+<span class="lineNum">     583 </span>            : {
+<span class="lineNum">     584 </span><span class="lineNoCov">          0 :         int num_joints = GetNumJoints();</span>
+<span class="lineNum">     585 </span><span class="lineNoCov">          0 :         out_joints.reserve(num_joints);</span>
+<span class="lineNum">     586 </span>            : 
+<span class="lineNum">     587 </span><span class="lineNoCov">          0 :         for (int j = 0; j &lt; GetNumJoints(); ++j)</span>
+<span class="lineNum">     588 </span>            :         {
+<span class="lineNum">     589 </span><span class="lineNoCov">          0 :                 const tJointData&amp; joint = GetJointData(j);</span>
+<span class="lineNum">     590 </span><span class="lineNoCov">          0 :                 bool valid = joint.IsValid();</span>
+<span class="lineNum">     591 </span><span class="lineNoCov">          0 :                 if (valid)</span>
+<span class="lineNum">     592 </span>            :                 {
+<span class="lineNum">     593 </span><span class="lineNoCov">          0 :                         out_joints.push_back(j);</span>
+<span class="lineNum">     594 </span>            :                 }
+<span class="lineNum">     595 </span>            :         }
+<a name="596"><span class="lineNum">     596 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     597 </span>            : 
+<span class="lineNum">     598 </span><span class="lineNoCov">          0 : cKinTree::eJointType cBVHReader::CalcJointType(const tJointData&amp; joint_data) const</span>
+<span class="lineNum">     599 </span>            : {
+<span class="lineNum">     600 </span><span class="lineNoCov">          0 :         cKinTree::eJointType joint_type = cKinTree::eJointTypeNone;</span>
+<span class="lineNum">     601 </span><span class="lineNoCov">          0 :         if (joint_data.parent == gInvalidIdx)</span>
+<span class="lineNum">     602 </span>            :         {
+<span class="lineNum">     603 </span><span class="lineNoCov">          0 :                 joint_type = cKinTree::eJointTypeNone;</span>
+<span class="lineNum">     604 </span>            :         }
+<span class="lineNum">     605 </span>            :         else
+<span class="lineNum">     606 </span>            :         {
+<span class="lineNum">     607 </span><span class="lineNoCov">          0 :                 unsigned int channel_mask = 0;</span>
+<span class="lineNum">     608 </span><span class="lineNoCov">          0 :                 for (size_t i = 0; i &lt; joint_data.channels_order.size(); ++i)</span>
+<span class="lineNum">     609 </span>            :                 {
+<span class="lineNum">     610 </span><span class="lineNoCov">          0 :                         Channels curr_channel = joint_data.channels_order[i];</span>
+<span class="lineNum">     611 </span><span class="lineNoCov">          0 :                         channel_mask |= 1 &lt;&lt; curr_channel;</span>
+<span class="lineNum">     612 </span>            :                 }
+<span class="lineNum">     613 </span>            : 
+<span class="lineNum">     614 </span><span class="lineNoCov">          0 :                 switch (channel_mask)</span>
+<span class="lineNum">     615 </span>            :                 {
+<span class="lineNum">     616 </span>            :                 case 0:
+<span class="lineNum">     617 </span><span class="lineNoCov">          0 :                         joint_type = cKinTree::eJointTypeFixed;</span>
+<span class="lineNum">     618 </span><span class="lineNoCov">          0 :                         break;</span>
+<span class="lineNum">     619 </span>            :                 case (1 &lt;&lt; Xrotation) :
+<span class="lineNum">     620 </span>            :                 case (1 &lt;&lt; Yrotation) :
+<span class="lineNum">     621 </span>            :                 case (1 &lt;&lt; Zrotation) :
+<span class="lineNum">     622 </span><span class="lineNoCov">          0 :                         joint_type = cKinTree::eJointTypeRevolute;</span>
+<span class="lineNum">     623 </span><span class="lineNoCov">          0 :                         break;</span>
+<span class="lineNum">     624 </span>            :                 case (1 &lt;&lt; Xposition) :
+<span class="lineNum">     625 </span>            :                 case (1 &lt;&lt; Yposition) :
+<span class="lineNum">     626 </span>            :                 case (1 &lt;&lt; Zposition) :
+<span class="lineNum">     627 </span><span class="lineNoCov">          0 :                         joint_type = cKinTree::eJointTypePrismatic;</span>
+<span class="lineNum">     628 </span><span class="lineNoCov">          0 :                         break;</span>
+<span class="lineNum">     629 </span>            :                 case (1 &lt;&lt; Xrotation) | (1 &lt;&lt; Yrotation) | (1 &lt;&lt; Zrotation) :
+<span class="lineNum">     630 </span><span class="lineNoCov">          0 :                         joint_type = cKinTree::eJointTypeSpherical;</span>
+<span class="lineNum">     631 </span><span class="lineNoCov">          0 :                         break;</span>
+<span class="lineNum">     632 </span>            :                 case (1 &lt;&lt; Xposition) | (1 &lt;&lt; Yposition) :
+<span class="lineNum">     633 </span>            :                 case (1 &lt;&lt; Xposition) | (1 &lt;&lt; Zposition) :
+<span class="lineNum">     634 </span>            :                 case (1 &lt;&lt; Yposition) | (1 &lt;&lt; Zposition) :
+<span class="lineNum">     635 </span><span class="lineNoCov">          0 :                         joint_type = cKinTree::eJointTypePlanar;</span>
+<span class="lineNum">     636 </span><span class="lineNoCov">          0 :                         break;</span>
+<span class="lineNum">     637 </span>            :                 case (1 &lt;&lt; Xrotation) | (1 &lt;&lt; Yrotation) | (1 &lt;&lt; Zrotation) 
+<span class="lineNum">     638 </span>            :                         | (1 &lt;&lt; Xposition) | (1 &lt;&lt; Yposition) | (1 &lt;&lt; Zposition) :
+<span class="lineNum">     639 </span><span class="lineNoCov">          0 :                         joint_type = cKinTree::eJointTypeSpherical; // hack</span>
+<span class="lineNum">     640 </span><span class="lineNoCov">          0 :                         break;</span>
+<span class="lineNum">     641 </span>            :                 default:
+<span class="lineNum">     642 </span><span class="lineNoCov">          0 :                         assert(false); // unsupported joint type</span>
+<span class="lineNum">     643 </span>            :                         break;
+<span class="lineNum">     644 </span>            :                 }
+<span class="lineNum">     645 </span>            :         }
+<span class="lineNum">     646 </span>            : 
+<span class="lineNum">     647 </span><span class="lineNoCov">          0 :         return joint_type;</span>
+<a name="648"><span class="lineNum">     648 </span>            : }</a>
+<span class="lineNum">     649 </span>            : 
+<span class="lineNum">     650 </span><span class="lineNoCov">          0 : void cBVHReader::ConvertFrameToPose(int f, Eigen::VectorXd&amp; out_pose) const</span>
+<span class="lineNum">     651 </span>            : {
+<span class="lineNum">     652 </span><span class="lineNoCov">          0 :         int pose_dim = CalcPoseDim();</span>
+<span class="lineNum">     653 </span><span class="lineNoCov">          0 :         out_pose.resize(pose_dim);</span>
+<span class="lineNum">     654 </span><span class="lineNoCov">          0 :         int param_offset = 0;</span>
+<span class="lineNum">     655 </span><span class="lineNoCov">          0 :         for (int j = 0; j &lt; GetNumJoints(); ++j)</span>
+<span class="lineNum">     656 </span>            :         {
+<span class="lineNum">     657 </span><span class="lineNoCov">          0 :                 const tJointData&amp; joint = GetJointData(j);</span>
+<span class="lineNum">     658 </span><span class="lineNoCov">          0 :                 if (joint.IsValid())</span>
+<span class="lineNum">     659 </span>            :                 {
+<span class="lineNum">     660 </span><span class="lineNoCov">          0 :                         Eigen::VectorXd joint_pose;</span>
+<span class="lineNum">     661 </span><span class="lineNoCov">          0 :                         BuildJointPose(j, f, joint_pose);</span>
+<span class="lineNum">     662 </span>            : 
+<span class="lineNum">     663 </span><span class="lineNoCov">          0 :                         int param_size = static_cast&lt;int&gt;(joint_pose.size());</span>
+<span class="lineNum">     664 </span><span class="lineNoCov">          0 :                         out_pose.segment(param_offset, param_size) = joint_pose;</span>
+<span class="lineNum">     665 </span><span class="lineNoCov">          0 :                         param_offset += param_size;</span>
+<span class="lineNum">     666 </span>            :                 }
+<span class="lineNum">     667 </span>            :         }
+<span class="lineNum">     668 </span><span class="lineNoCov">          0 :         assert(param_offset == out_pose.size());</span>
+<a name="669"><span class="lineNum">     669 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     670 </span>            : 
+<span class="lineNum">     671 </span><span class="lineNoCov">          0 : void cBVHReader::BuildJointPose(int j, int frame, Eigen::VectorXd&amp; out_pose) const</span>
+<span class="lineNum">     672 </span>            : {
+<span class="lineNum">     673 </span><span class="lineNoCov">          0 :         const tJointData&amp; joint = GetJointData(j);</span>
+<span class="lineNum">     674 </span>            :         
+<span class="lineNum">     675 </span><span class="lineNoCov">          0 :         if (joint.IsRoot())</span>
+<span class="lineNum">     676 </span>            :         {
+<span class="lineNum">     677 </span><span class="lineNoCov">          0 :                 BuildJointPoseRoot(j, frame, out_pose);</span>
+<span class="lineNum">     678 </span>            :         }
+<span class="lineNum">     679 </span>            :         else
+<span class="lineNum">     680 </span>            :         {
+<span class="lineNum">     681 </span><span class="lineNoCov">          0 :                 switch (joint.mJointType)</span>
+<span class="lineNum">     682 </span>            :                 {
+<span class="lineNum">     683 </span>            :                 case cKinTree::eJointTypeRevolute:
+<span class="lineNum">     684 </span><span class="lineNoCov">          0 :                         BuildJointPoseRevolute(j, frame, out_pose);</span>
+<span class="lineNum">     685 </span><span class="lineNoCov">          0 :                         break;</span>
+<span class="lineNum">     686 </span>            :                 case cKinTree::eJointTypePlanar:
+<span class="lineNum">     687 </span><span class="lineNoCov">          0 :                         BuildJointPosePlanar(j, frame, out_pose);</span>
+<span class="lineNum">     688 </span><span class="lineNoCov">          0 :                         break;</span>
+<span class="lineNum">     689 </span>            :                 case cKinTree::eJointTypePrismatic:
+<span class="lineNum">     690 </span><span class="lineNoCov">          0 :                         BuildJointPosePrismatic(j, frame, out_pose);</span>
+<span class="lineNum">     691 </span><span class="lineNoCov">          0 :                         break;</span>
+<span class="lineNum">     692 </span>            :                 case cKinTree::eJointTypeFixed:
+<span class="lineNum">     693 </span><span class="lineNoCov">          0 :                         BuildJointPoseFixed(j, frame, out_pose);</span>
+<span class="lineNum">     694 </span><span class="lineNoCov">          0 :                         break;</span>
+<span class="lineNum">     695 </span>            :                 case cKinTree::eJointTypeSpherical:
+<span class="lineNum">     696 </span><span class="lineNoCov">          0 :                         BuildJointPoseSpherical(j, frame, out_pose);</span>
+<span class="lineNum">     697 </span><span class="lineNoCov">          0 :                         break;</span>
+<span class="lineNum">     698 </span>            :                 default:
+<span class="lineNum">     699 </span><span class="lineNoCov">          0 :                         assert(false); // unsupported joint type</span>
+<span class="lineNum">     700 </span>            :                         break;
+<span class="lineNum">     701 </span>            :                 }
+<span class="lineNum">     702 </span>            :         }
+<a name="703"><span class="lineNum">     703 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     704 </span>            : 
+<span class="lineNum">     705 </span><span class="lineNoCov">          0 : void cBVHReader::BuildJointPoseRoot(int j, int frame, Eigen::VectorXd&amp; out_pose) const</span>
+<span class="lineNum">     706 </span>            : {
+<span class="lineNum">     707 </span><span class="lineNoCov">          0 :         const tJointData&amp; joint = GetJointData(j);</span>
+<span class="lineNum">     708 </span><span class="lineNoCov">          0 :         int param_size = cKinTree::gRootDim;</span>
+<span class="lineNum">     709 </span><span class="lineNoCov">          0 :         out_pose = Eigen::VectorXd::Zero(param_size);</span>
+<span class="lineNum">     710 </span>            :         
+<span class="lineNum">     711 </span><span class="lineNoCov">          0 :         tMatrix rot = getRotationForFrame(joint, frame);</span>
+<span class="lineNum">     712 </span><span class="lineNoCov">          0 :         tMatrix trans = getTranslationForFrame(joint, frame);</span>
+<span class="lineNum">     713 </span><span class="lineNoCov">          0 :         tQuaternion quat = cMathUtil::RotMatToQuaternion(rot);</span>
+<span class="lineNum">     714 </span><span class="lineNoCov">          0 :         tVector offset = tVector(trans(0, 3), trans(1, 3), trans(2, 3), 0);</span>
+<span class="lineNum">     715 </span>            : 
+<span class="lineNum">     716 </span><span class="lineNoCov">          0 :         out_pose.segment(0, cKinTree::gPosDim) = offset.segment(0, cKinTree::gPosDim);</span>
+<span class="lineNum">     717 </span><span class="lineNoCov">          0 :         out_pose.segment(cKinTree::gPosDim, cKinTree::gRotDim) = cMathUtil::QuatToVec(quat);</span>
+<a name="718"><span class="lineNum">     718 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     719 </span>            : 
+<span class="lineNum">     720 </span><span class="lineNoCov">          0 : void cBVHReader::BuildJointPoseRevolute(int j, int frame, Eigen::VectorXd&amp; out_pose) const</span>
+<span class="lineNum">     721 </span>            : {
+<span class="lineNum">     722 </span><span class="lineNoCov">          0 :         const tJointData&amp; joint = GetJointData(j);</span>
+<span class="lineNum">     723 </span><span class="lineNoCov">          0 :         int param_size = cKinTree::GetJointParamSize(joint.mJointType);</span>
+<span class="lineNum">     724 </span><span class="lineNoCov">          0 :         out_pose = Eigen::VectorXd::Zero(param_size);</span>
+<span class="lineNum">     725 </span>            :         
+<span class="lineNum">     726 </span><span class="lineNoCov">          0 :         double val = motionData.data(frame, joint.channel_start);</span>
+<span class="lineNum">     727 </span><span class="lineNoCov">          0 :         out_pose[0] = val;</span>
+<a name="728"><span class="lineNum">     728 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     729 </span>            : 
+<span class="lineNum">     730 </span><span class="lineNoCov">          0 : void cBVHReader::BuildJointPosePlanar(int j, int frame, Eigen::VectorXd&amp; out_pose) const</span>
+<span class="lineNum">     731 </span>            : {
+<span class="lineNum">     732 </span><span class="lineNoCov">          0 :         const tJointData&amp; joint = GetJointData(j);</span>
+<span class="lineNum">     733 </span><span class="lineNoCov">          0 :         int param_size = cKinTree::GetJointParamSize(joint.mJointType);</span>
+<span class="lineNum">     734 </span><span class="lineNoCov">          0 :         out_pose = Eigen::VectorXd::Zero(param_size);</span>
+<span class="lineNum">     735 </span>            :         
+<span class="lineNum">     736 </span><span class="lineNoCov">          0 :         tMatrix trans = getTranslationForFrame(joint, frame);</span>
+<span class="lineNum">     737 </span><span class="lineNoCov">          0 :         tVector offset = tVector(trans(0, 3), trans(1, 3), trans(2, 3), 0);</span>
+<span class="lineNum">     738 </span>            : 
+<span class="lineNum">     739 </span><span class="lineNoCov">          0 :         out_pose[0] = offset[0];</span>
+<span class="lineNum">     740 </span><span class="lineNoCov">          0 :         out_pose[1] = offset[1];</span>
+<a name="741"><span class="lineNum">     741 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     742 </span>            : 
+<span class="lineNum">     743 </span><span class="lineNoCov">          0 : void cBVHReader::BuildJointPosePrismatic(int j, int frame, Eigen::VectorXd&amp; out_pose) const</span>
+<span class="lineNum">     744 </span>            : {
+<span class="lineNum">     745 </span><span class="lineNoCov">          0 :         const tJointData&amp; joint = GetJointData(j);</span>
+<span class="lineNum">     746 </span><span class="lineNoCov">          0 :         int param_size = cKinTree::GetJointParamSize(joint.mJointType);</span>
+<span class="lineNum">     747 </span><span class="lineNoCov">          0 :         out_pose = Eigen::VectorXd::Zero(param_size);</span>
+<span class="lineNum">     748 </span>            :         
+<span class="lineNum">     749 </span><span class="lineNoCov">          0 :         double val = motionData.data(frame, joint.channel_start);</span>
+<span class="lineNum">     750 </span><span class="lineNoCov">          0 :         out_pose[0] = val;</span>
+<a name="751"><span class="lineNum">     751 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     752 </span>            : 
+<span class="lineNum">     753 </span><span class="lineNoCov">          0 : void cBVHReader::BuildJointPoseFixed(int j, int frame, Eigen::VectorXd&amp; out_pose) const</span>
+<span class="lineNum">     754 </span>            : {
+<span class="lineNum">     755 </span><span class="lineNoCov">          0 :         const tJointData&amp; joint = GetJointData(j);</span>
+<span class="lineNum">     756 </span><span class="lineNoCov">          0 :         int param_size = cKinTree::GetJointParamSize(joint.mJointType);</span>
+<span class="lineNum">     757 </span><span class="lineNoCov">          0 :         out_pose = Eigen::VectorXd::Zero(param_size);</span>
+<a name="758"><span class="lineNum">     758 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     759 </span>            : 
+<span class="lineNum">     760 </span><span class="lineNoCov">          0 : void cBVHReader::BuildJointPoseSpherical(int j, int frame, Eigen::VectorXd&amp; out_pose) const</span>
+<span class="lineNum">     761 </span>            : {
+<span class="lineNum">     762 </span><span class="lineNoCov">          0 :         const tJointData&amp; joint = GetJointData(j);</span>
+<span class="lineNum">     763 </span><span class="lineNoCov">          0 :         int param_size = cKinTree::GetJointParamSize(joint.mJointType);</span>
+<span class="lineNum">     764 </span><span class="lineNoCov">          0 :         out_pose = Eigen::VectorXd::Zero(param_size);</span>
+<span class="lineNum">     765 </span>            :         
+<span class="lineNum">     766 </span><span class="lineNoCov">          0 :         tMatrix rot = getRotationForFrame(joint, frame);</span>
+<a name="767"><span class="lineNum">     767 </span><span class="lineNoCov">          0 :         tQuaternion quat = cMathUtil::RotMatToQuaternion(rot);</span></a>
+<span class="lineNum">     768 </span><span class="lineNoCov">          0 :         out_pose.segment(0, cKinTree::gRotDim) = cMathUtil::QuatToVec(quat);</span>
+<span class="lineNum">     769 </span><span class="lineCov">          3 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

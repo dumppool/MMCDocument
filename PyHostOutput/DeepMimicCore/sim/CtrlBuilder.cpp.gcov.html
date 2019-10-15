@@ -1,0 +1,192 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - PyHost Code Analysis - DeepMimicCore/sim/CtrlBuilder.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">DeepMimicCore/sim</a> - CtrlBuilder.cpp<span style="font-size: 80%;"> (source / <a href="CtrlBuilder.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">PyHost Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">34</td>
+            <td class="headerCovTableEntry">56</td>
+            <td class="headerCovTableEntryLo">60.7 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 17:04:23</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">7</td>
+            <td class="headerCovTableEntry">9</td>
+            <td class="headerCovTableEntryMed">77.8 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : #include &quot;sim/CtrlBuilder.h&quot;</a>
+<span class="lineNum">       2 </span>            : 
+<span class="lineNum">       3 </span>            : #include &quot;sim/CtController.h&quot;
+<span class="lineNum">       4 </span>            : #include &quot;sim/CtPDController.h&quot;
+<a name="5"><span class="lineNum">       5 </span>            : #include &quot;sim/CtVelController.h&quot;</a>
+<span class="lineNum">       6 </span>            : 
+<span class="lineNum">       7 </span><span class="lineCov">          2 : const std::string gCharCtrlName[cCtrlBuilder::eCharCtrlMax] =</span>
+<span class="lineNum">       8 </span>            : {
+<span class="lineNum">       9 </span>            :         &quot;none&quot;,
+<span class="lineNum">      10 </span>            :         &quot;ct&quot;,
+<span class="lineNum">      11 </span>            :         &quot;ct_pd&quot;,
+<span class="lineNum">      12 </span>            :         &quot;ct_vel&quot;
+<a name="13"><span class="lineNum">      13 </span><span class="lineCov">          1 : };</span></a>
+<span class="lineNum">      14 </span>            : 
+<span class="lineNum">      15 </span><span class="lineCov">          1 : cCtrlBuilder::tCtrlParams::tCtrlParams()</span>
+<span class="lineNum">      16 </span>            : {
+<span class="lineNum">      17 </span><span class="lineCov">          1 :         mCharCtrl = eCharCtrlNone;</span>
+<span class="lineNum">      18 </span><span class="lineCov">          1 :         mCtrlFile = &quot;&quot;;</span>
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span><span class="lineCov">          1 :         mChar = nullptr;</span>
+<span class="lineNum">      21 </span><span class="lineCov">          1 :         mGround = nullptr;</span>
+<span class="lineNum">      22 </span><span class="lineCov">          1 :         mGravity = gGravity;</span>
+<a name="23"><span class="lineNum">      23 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">      24 </span>            : 
+<span class="lineNum">      25 </span><span class="lineCov">          1 : void cCtrlBuilder::ParseCharCtrl(const std::string&amp; char_ctrl_str, eCharCtrl&amp; out_char_ctrl)</span>
+<span class="lineNum">      26 </span>            : {
+<span class="lineNum">      27 </span><span class="lineCov">          1 :         bool found = false;</span>
+<span class="lineNum">      28 </span><span class="lineCov">          1 :         if (char_ctrl_str == &quot;&quot; || char_ctrl_str == &quot;none&quot;)</span>
+<span class="lineNum">      29 </span>            :         {
+<span class="lineNum">      30 </span><span class="lineNoCov">          0 :                 out_char_ctrl = eCharCtrlNone;</span>
+<span class="lineNum">      31 </span><span class="lineNoCov">          0 :                 found = true;</span>
+<span class="lineNum">      32 </span>            :         }
+<span class="lineNum">      33 </span>            :         else
+<span class="lineNum">      34 </span>            :         {
+<span class="lineNum">      35 </span><span class="lineCov">          3 :                 for (int i = 0; i &lt; eCharCtrlMax; ++i)</span>
+<span class="lineNum">      36 </span>            :                 {
+<span class="lineNum">      37 </span><span class="lineCov">          3 :                         const std::string&amp; name = gCharCtrlName[i];</span>
+<span class="lineNum">      38 </span><span class="lineCov">          3 :                         if (char_ctrl_str == name)</span>
+<span class="lineNum">      39 </span>            :                         {
+<span class="lineNum">      40 </span><span class="lineCov">          1 :                                 out_char_ctrl = static_cast&lt;eCharCtrl&gt;(i);</span>
+<span class="lineNum">      41 </span><span class="lineCov">          1 :                                 found = true;</span>
+<span class="lineNum">      42 </span><span class="lineCov">          1 :                                 break;</span>
+<span class="lineNum">      43 </span>            :                         }
+<span class="lineNum">      44 </span>            :                 }
+<span class="lineNum">      45 </span>            :         }
+<span class="lineNum">      46 </span>            : 
+<span class="lineNum">      47 </span><span class="lineCov">          1 :         if (!found)</span>
+<span class="lineNum">      48 </span>            :         {
+<span class="lineNum">      49 </span><span class="lineNoCov">          0 :                 assert(false &amp;&amp; &quot;Unsupported character controller\n&quot;); // unsupported character controller</span>
+<span class="lineNum">      50 </span>            :         }
+<a name="51"><span class="lineNum">      51 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">      52 </span>            : 
+<span class="lineNum">      53 </span><span class="lineCov">          1 : bool cCtrlBuilder::BuildController(const tCtrlParams&amp; params, std::shared_ptr&lt;cCharController&gt;&amp; out_ctrl)</span>
+<span class="lineNum">      54 </span>            : {
+<span class="lineNum">      55 </span><span class="lineCov">          1 :         bool succ = true;</span>
+<span class="lineNum">      56 </span>            : 
+<span class="lineNum">      57 </span><span class="lineCov">          1 :         switch (params.mCharCtrl)</span>
+<span class="lineNum">      58 </span>            :         {
+<span class="lineNum">      59 </span>            :         case eCharCtrlNone:
+<span class="lineNum">      60 </span><span class="lineNoCov">          0 :                 break;</span>
+<span class="lineNum">      61 </span>            :         case eCharCtrlCt:
+<span class="lineNum">      62 </span><span class="lineNoCov">          0 :                 succ = BuildCtController(params, out_ctrl);</span>
+<span class="lineNum">      63 </span><span class="lineNoCov">          0 :                 break;</span>
+<span class="lineNum">      64 </span>            :         case eCharCtrlCtPD:
+<span class="lineNum">      65 </span><span class="lineCov">          1 :                 succ = BuildCtPDController(params, out_ctrl);</span>
+<span class="lineNum">      66 </span><span class="lineCov">          1 :                 break;</span>
+<span class="lineNum">      67 </span>            :         case eCharCtrlCtVel:
+<span class="lineNum">      68 </span><span class="lineNoCov">          0 :                 succ = BuildCtVelController(params, out_ctrl);</span>
+<span class="lineNum">      69 </span><span class="lineNoCov">          0 :                 break;</span>
+<span class="lineNum">      70 </span>            :         default:
+<span class="lineNum">      71 </span><span class="lineNoCov">          0 :                 assert(false &amp;&amp; &quot;Failed Building Unsupported Controller\n&quot;); // unsupported controller</span>
+<span class="lineNum">      72 </span>            :                 break;
+<span class="lineNum">      73 </span>            :         }
+<span class="lineNum">      74 </span>            : 
+<span class="lineNum">      75 </span><span class="lineCov">          1 :         return succ;</span>
+<a name="76"><span class="lineNum">      76 </span>            : }</a>
+<span class="lineNum">      77 </span>            : 
+<span class="lineNum">      78 </span><span class="lineNoCov">          0 : bool cCtrlBuilder::BuildCtController(const tCtrlParams&amp; params, std::shared_ptr&lt;cCharController&gt;&amp; out_ctrl)</span>
+<span class="lineNum">      79 </span>            : {
+<span class="lineNum">      80 </span><span class="lineNoCov">          0 :         bool succ = true;</span>
+<span class="lineNum">      81 </span><span class="lineNoCov">          0 :         std::shared_ptr&lt;cCtController&gt; ctrl = std::shared_ptr&lt;cCtController&gt;(new cCtController());</span>
+<span class="lineNum">      82 </span><span class="lineNoCov">          0 :         ctrl-&gt;Init(params.mChar.get(), params.mCtrlFile);</span>
+<span class="lineNum">      83 </span>            : 
+<span class="lineNum">      84 </span><span class="lineNoCov">          0 :         out_ctrl = ctrl;</span>
+<span class="lineNum">      85 </span><span class="lineNoCov">          0 :         return succ;</span>
+<a name="86"><span class="lineNum">      86 </span>            : }</a>
+<span class="lineNum">      87 </span>            : 
+<span class="lineNum">      88 </span><span class="lineCov">          1 : bool cCtrlBuilder::BuildCtPDController(const tCtrlParams&amp; params, std::shared_ptr&lt;cCharController&gt;&amp; out_ctrl)</span>
+<span class="lineNum">      89 </span>            : {
+<span class="lineNum">      90 </span><span class="lineCov">          1 :         bool succ = true;</span>
+<span class="lineNum">      91 </span><span class="lineCov">          2 :         std::shared_ptr&lt;cCtPDController&gt; ctrl = std::shared_ptr&lt;cCtPDController&gt;(new cCtPDController());</span>
+<span class="lineNum">      92 </span><span class="lineCov">          1 :         ctrl-&gt;SetGravity(params.mGravity);</span>
+<span class="lineNum">      93 </span><span class="lineCov">          1 :         ctrl-&gt;Init(params.mChar.get(), params.mCtrlFile);</span>
+<span class="lineNum">      94 </span>            : 
+<span class="lineNum">      95 </span><span class="lineCov">          1 :         out_ctrl = ctrl;</span>
+<span class="lineNum">      96 </span><span class="lineCov">          2 :         return succ;</span>
+<a name="97"><span class="lineNum">      97 </span>            : }</a>
+<span class="lineNum">      98 </span>            : 
+<span class="lineNum">      99 </span><span class="lineNoCov">          0 : bool cCtrlBuilder::BuildCtVelController(const tCtrlParams&amp; params, std::shared_ptr&lt;cCharController&gt;&amp; out_ctrl)</span>
+<span class="lineNum">     100 </span>            : {
+<span class="lineNum">     101 </span><span class="lineNoCov">          0 :         bool succ = true;</span>
+<span class="lineNum">     102 </span><span class="lineNoCov">          0 :         std::shared_ptr&lt;cCtVelController&gt; ctrl = std::shared_ptr&lt;cCtVelController&gt;(new cCtVelController());</span>
+<span class="lineNum">     103 </span><span class="lineNoCov">          0 :         ctrl-&gt;SetGravity(params.mGravity);</span>
+<span class="lineNum">     104 </span><span class="lineNoCov">          0 :         ctrl-&gt;Init(params.mChar.get(), params.mCtrlFile);</span>
+<span class="lineNum">     105 </span>            : 
+<a name="106"><span class="lineNum">     106 </span><span class="lineNoCov">          0 :         out_ctrl = ctrl;</span></a>
+<span class="lineNum">     107 </span><span class="lineNoCov">          0 :         return succ;</span>
+<span class="lineNum">     108 </span><span class="lineCov">          3 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

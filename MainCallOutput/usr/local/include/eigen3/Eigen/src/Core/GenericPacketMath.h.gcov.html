@@ -1,0 +1,677 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Main Call Code Analysis - /usr/local/include/eigen3/Eigen/src/Core/GenericPacketMath.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../../index.html">top level</a> - <a href="index.html">usr/local/include/eigen3/Eigen/src/Core</a> - GenericPacketMath.h<span style="font-size: 80%;"> (source / <a href="GenericPacketMath.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Main Call Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">10</td>
+            <td class="headerCovTableEntry">13</td>
+            <td class="headerCovTableEntryMed">76.9 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 16:51:56</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntry">7</td>
+            <td class="headerCovTableEntryLo">57.1 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // This file is part of Eigen, a lightweight C++ template library</a>
+<span class="lineNum">       2 </span>            : // for linear algebra.
+<span class="lineNum">       3 </span>            : //
+<span class="lineNum">       4 </span>            : // Copyright (C) 2008 Gael Guennebaud &lt;gael.guennebaud@inria.fr&gt;
+<span class="lineNum">       5 </span>            : // Copyright (C) 2006-2008 Benoit Jacob &lt;jacob.benoit.1@gmail.com&gt;
+<span class="lineNum">       6 </span>            : //
+<span class="lineNum">       7 </span>            : // This Source Code Form is subject to the terms of the Mozilla
+<span class="lineNum">       8 </span>            : // Public License v. 2.0. If a copy of the MPL was not distributed
+<span class="lineNum">       9 </span>            : // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+<span class="lineNum">      10 </span>            : 
+<span class="lineNum">      11 </span>            : #ifndef EIGEN_GENERIC_PACKET_MATH_H
+<span class="lineNum">      12 </span>            : #define EIGEN_GENERIC_PACKET_MATH_H
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span>            : namespace Eigen {
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span>            : namespace internal {
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span>            : /** \internal
+<span class="lineNum">      19 </span>            :   * \file GenericPacketMath.h
+<span class="lineNum">      20 </span>            :   *
+<span class="lineNum">      21 </span>            :   * Default implementation for types not supported by the vectorization.
+<span class="lineNum">      22 </span>            :   * In practice these functions are provided to make easier the writing
+<span class="lineNum">      23 </span>            :   * of generic vectorized code.
+<span class="lineNum">      24 </span>            :   */
+<span class="lineNum">      25 </span>            : 
+<span class="lineNum">      26 </span>            : #ifndef EIGEN_DEBUG_ALIGNED_LOAD
+<span class="lineNum">      27 </span>            : #define EIGEN_DEBUG_ALIGNED_LOAD
+<span class="lineNum">      28 </span>            : #endif
+<span class="lineNum">      29 </span>            : 
+<span class="lineNum">      30 </span>            : #ifndef EIGEN_DEBUG_UNALIGNED_LOAD
+<span class="lineNum">      31 </span>            : #define EIGEN_DEBUG_UNALIGNED_LOAD
+<span class="lineNum">      32 </span>            : #endif
+<span class="lineNum">      33 </span>            : 
+<span class="lineNum">      34 </span>            : #ifndef EIGEN_DEBUG_ALIGNED_STORE
+<span class="lineNum">      35 </span>            : #define EIGEN_DEBUG_ALIGNED_STORE
+<span class="lineNum">      36 </span>            : #endif
+<span class="lineNum">      37 </span>            : 
+<span class="lineNum">      38 </span>            : #ifndef EIGEN_DEBUG_UNALIGNED_STORE
+<span class="lineNum">      39 </span>            : #define EIGEN_DEBUG_UNALIGNED_STORE
+<span class="lineNum">      40 </span>            : #endif
+<span class="lineNum">      41 </span>            : 
+<span class="lineNum">      42 </span>            : struct default_packet_traits
+<span class="lineNum">      43 </span>            : {
+<span class="lineNum">      44 </span>            :   enum {
+<span class="lineNum">      45 </span>            :     HasHalfPacket = 0,
+<span class="lineNum">      46 </span>            : 
+<span class="lineNum">      47 </span>            :     HasAdd    = 1,
+<span class="lineNum">      48 </span>            :     HasSub    = 1,
+<span class="lineNum">      49 </span>            :     HasMul    = 1,
+<span class="lineNum">      50 </span>            :     HasNegate = 1,
+<span class="lineNum">      51 </span>            :     HasAbs    = 1,
+<span class="lineNum">      52 </span>            :     HasArg    = 0,
+<span class="lineNum">      53 </span>            :     HasAbs2   = 1,
+<span class="lineNum">      54 </span>            :     HasMin    = 1,
+<span class="lineNum">      55 </span>            :     HasMax    = 1,
+<span class="lineNum">      56 </span>            :     HasConj   = 1,
+<span class="lineNum">      57 </span>            :     HasSetLinear = 1,
+<span class="lineNum">      58 </span>            :     HasBlend  = 0,
+<span class="lineNum">      59 </span>            : 
+<span class="lineNum">      60 </span>            :     HasDiv    = 0,
+<span class="lineNum">      61 </span>            :     HasSqrt   = 0,
+<span class="lineNum">      62 </span>            :     HasRsqrt  = 0,
+<span class="lineNum">      63 </span>            :     HasExp    = 0,
+<span class="lineNum">      64 </span>            :     HasLog    = 0,
+<span class="lineNum">      65 </span>            :     HasLog1p  = 0,
+<span class="lineNum">      66 </span>            :     HasLog10  = 0,
+<span class="lineNum">      67 </span>            :     HasPow    = 0,
+<span class="lineNum">      68 </span>            : 
+<span class="lineNum">      69 </span>            :     HasSin    = 0,
+<span class="lineNum">      70 </span>            :     HasCos    = 0,
+<span class="lineNum">      71 </span>            :     HasTan    = 0,
+<span class="lineNum">      72 </span>            :     HasASin   = 0,
+<span class="lineNum">      73 </span>            :     HasACos   = 0,
+<span class="lineNum">      74 </span>            :     HasATan   = 0,
+<span class="lineNum">      75 </span>            :     HasSinh   = 0,
+<span class="lineNum">      76 </span>            :     HasCosh   = 0,
+<span class="lineNum">      77 </span>            :     HasTanh   = 0,
+<span class="lineNum">      78 </span>            :     HasLGamma = 0,
+<span class="lineNum">      79 </span>            :     HasDiGamma = 0,
+<span class="lineNum">      80 </span>            :     HasZeta = 0,
+<span class="lineNum">      81 </span>            :     HasPolygamma = 0,
+<span class="lineNum">      82 </span>            :     HasErf = 0,
+<span class="lineNum">      83 </span>            :     HasErfc = 0,
+<span class="lineNum">      84 </span>            :     HasIGamma = 0,
+<span class="lineNum">      85 </span>            :     HasIGammac = 0,
+<span class="lineNum">      86 </span>            :     HasBetaInc = 0,
+<span class="lineNum">      87 </span>            : 
+<span class="lineNum">      88 </span>            :     HasRound  = 0,
+<span class="lineNum">      89 </span>            :     HasFloor  = 0,
+<span class="lineNum">      90 </span>            :     HasCeil   = 0,
+<span class="lineNum">      91 </span>            : 
+<span class="lineNum">      92 </span>            :     HasSign   = 0
+<span class="lineNum">      93 </span>            :   };
+<span class="lineNum">      94 </span>            : };
+<span class="lineNum">      95 </span>            : 
+<span class="lineNum">      96 </span>            : template&lt;typename T&gt; struct packet_traits : default_packet_traits
+<span class="lineNum">      97 </span>            : {
+<span class="lineNum">      98 </span>            :   typedef T type;
+<span class="lineNum">      99 </span>            :   typedef T half;
+<span class="lineNum">     100 </span>            :   enum {
+<span class="lineNum">     101 </span>            :     Vectorizable = 0,
+<span class="lineNum">     102 </span>            :     size = 1,
+<span class="lineNum">     103 </span>            :     AlignedOnScalar = 0,
+<span class="lineNum">     104 </span>            :     HasHalfPacket = 0
+<span class="lineNum">     105 </span>            :   };
+<span class="lineNum">     106 </span>            :   enum {
+<span class="lineNum">     107 </span>            :     HasAdd    = 0,
+<span class="lineNum">     108 </span>            :     HasSub    = 0,
+<span class="lineNum">     109 </span>            :     HasMul    = 0,
+<span class="lineNum">     110 </span>            :     HasNegate = 0,
+<span class="lineNum">     111 </span>            :     HasAbs    = 0,
+<span class="lineNum">     112 </span>            :     HasAbs2   = 0,
+<span class="lineNum">     113 </span>            :     HasMin    = 0,
+<span class="lineNum">     114 </span>            :     HasMax    = 0,
+<span class="lineNum">     115 </span>            :     HasConj   = 0,
+<span class="lineNum">     116 </span>            :     HasSetLinear = 0
+<span class="lineNum">     117 </span>            :   };
+<span class="lineNum">     118 </span>            : };
+<span class="lineNum">     119 </span>            : 
+<span class="lineNum">     120 </span>            : template&lt;typename T&gt; struct packet_traits&lt;const T&gt; : packet_traits&lt;T&gt; { };
+<span class="lineNum">     121 </span>            : 
+<span class="lineNum">     122 </span>            : template &lt;typename Src, typename Tgt&gt; struct type_casting_traits {
+<span class="lineNum">     123 </span>            :   enum {
+<span class="lineNum">     124 </span>            :     VectorizedCast = 0,
+<span class="lineNum">     125 </span>            :     SrcCoeffRatio = 1,
+<span class="lineNum">     126 </span>            :     TgtCoeffRatio = 1
+<span class="lineNum">     127 </span>            :   };
+<span class="lineNum">     128 </span>            : };
+<span class="lineNum">     129 </span>            : 
+<span class="lineNum">     130 </span>            : 
+<span class="lineNum">     131 </span>            : /** \internal \returns static_cast&lt;TgtType&gt;(a) (coeff-wise) */
+<span class="lineNum">     132 </span>            : template &lt;typename SrcPacket, typename TgtPacket&gt;
+<span class="lineNum">     133 </span>            : EIGEN_DEVICE_FUNC inline TgtPacket
+<span class="lineNum">     134 </span>            : pcast(const SrcPacket&amp; a) {
+<span class="lineNum">     135 </span>            :   return static_cast&lt;TgtPacket&gt;(a);
+<span class="lineNum">     136 </span>            : }
+<span class="lineNum">     137 </span>            : template &lt;typename SrcPacket, typename TgtPacket&gt;
+<span class="lineNum">     138 </span>            : EIGEN_DEVICE_FUNC inline TgtPacket
+<span class="lineNum">     139 </span>            : pcast(const SrcPacket&amp; a, const SrcPacket&amp; /*b*/) {
+<span class="lineNum">     140 </span>            :   return static_cast&lt;TgtPacket&gt;(a);
+<span class="lineNum">     141 </span>            : }
+<span class="lineNum">     142 </span>            : 
+<span class="lineNum">     143 </span>            : template &lt;typename SrcPacket, typename TgtPacket&gt;
+<span class="lineNum">     144 </span>            : EIGEN_DEVICE_FUNC inline TgtPacket
+<span class="lineNum">     145 </span>            : pcast(const SrcPacket&amp; a, const SrcPacket&amp; /*b*/, const SrcPacket&amp; /*c*/, const SrcPacket&amp; /*d*/) {
+<span class="lineNum">     146 </span>            :   return static_cast&lt;TgtPacket&gt;(a);
+<span class="lineNum">     147 </span>            : }
+<span class="lineNum">     148 </span>            : 
+<a name="149"><span class="lineNum">     149 </span>            : /** \internal \returns a + b (coeff-wise) */</a>
+<span class="lineNum">     150 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline Packet
+<span class="lineNum">     151 </span><span class="lineCov">     217940 : padd(const Packet&amp; a,</span>
+<span class="lineNum">     152 </span><span class="lineCov">     217940 :         const Packet&amp; b) { return a+b; }</span>
+<span class="lineNum">     153 </span>            : 
+<span class="lineNum">     154 </span>            : /** \internal \returns a - b (coeff-wise) */
+<span class="lineNum">     155 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline Packet
+<span class="lineNum">     156 </span>            : psub(const Packet&amp; a,
+<span class="lineNum">     157 </span>            :         const Packet&amp; b) { return a-b; }
+<span class="lineNum">     158 </span>            : 
+<span class="lineNum">     159 </span>            : /** \internal \returns -a (coeff-wise) */
+<span class="lineNum">     160 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline Packet
+<span class="lineNum">     161 </span>            : pnegate(const Packet&amp; a) { return -a; }
+<span class="lineNum">     162 </span>            : 
+<span class="lineNum">     163 </span>            : /** \internal \returns conj(a) (coeff-wise) */
+<span class="lineNum">     164 </span>            : 
+<span class="lineNum">     165 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline Packet
+<span class="lineNum">     166 </span>            : pconj(const Packet&amp; a) { return numext::conj(a); }
+<span class="lineNum">     167 </span>            : 
+<a name="168"><span class="lineNum">     168 </span>            : /** \internal \returns a * b (coeff-wise) */</a>
+<span class="lineNum">     169 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline Packet
+<span class="lineNum">     170 </span><span class="lineCov">     243610 : pmul(const Packet&amp; a,</span>
+<span class="lineNum">     171 </span><span class="lineCov">     243610 :         const Packet&amp; b) { return a*b; }</span>
+<span class="lineNum">     172 </span>            : 
+<span class="lineNum">     173 </span>            : /** \internal \returns a / b (coeff-wise) */
+<span class="lineNum">     174 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline Packet
+<span class="lineNum">     175 </span>            : pdiv(const Packet&amp; a,
+<span class="lineNum">     176 </span>            :         const Packet&amp; b) { return a/b; }
+<span class="lineNum">     177 </span>            : 
+<span class="lineNum">     178 </span>            : /** \internal \returns the min of \a a and \a b  (coeff-wise) */
+<span class="lineNum">     179 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline Packet
+<span class="lineNum">     180 </span>            : pmin(const Packet&amp; a,
+<span class="lineNum">     181 </span>            :         const Packet&amp; b) { return numext::mini(a, b); }
+<span class="lineNum">     182 </span>            : 
+<span class="lineNum">     183 </span>            : /** \internal \returns the max of \a a and \a b  (coeff-wise) */
+<span class="lineNum">     184 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline Packet
+<span class="lineNum">     185 </span>            : pmax(const Packet&amp; a,
+<span class="lineNum">     186 </span>            :         const Packet&amp; b) { return numext::maxi(a, b); }
+<span class="lineNum">     187 </span>            : 
+<span class="lineNum">     188 </span>            : /** \internal \returns the absolute value of \a a */
+<span class="lineNum">     189 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline Packet
+<span class="lineNum">     190 </span>            : pabs(const Packet&amp; a) { using std::abs; return abs(a); }
+<span class="lineNum">     191 </span>            : 
+<span class="lineNum">     192 </span>            : /** \internal \returns the phase angle of \a a */
+<span class="lineNum">     193 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline Packet
+<span class="lineNum">     194 </span>            : parg(const Packet&amp; a) { using numext::arg; return arg(a); }
+<span class="lineNum">     195 </span>            : 
+<span class="lineNum">     196 </span>            : /** \internal \returns the bitwise and of \a a and \a b */
+<span class="lineNum">     197 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline Packet
+<span class="lineNum">     198 </span>            : pand(const Packet&amp; a, const Packet&amp; b) { return a &amp; b; }
+<span class="lineNum">     199 </span>            : 
+<span class="lineNum">     200 </span>            : /** \internal \returns the bitwise or of \a a and \a b */
+<span class="lineNum">     201 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline Packet
+<span class="lineNum">     202 </span>            : por(const Packet&amp; a, const Packet&amp; b) { return a | b; }
+<span class="lineNum">     203 </span>            : 
+<span class="lineNum">     204 </span>            : /** \internal \returns the bitwise xor of \a a and \a b */
+<span class="lineNum">     205 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline Packet
+<span class="lineNum">     206 </span>            : pxor(const Packet&amp; a, const Packet&amp; b) { return a ^ b; }
+<span class="lineNum">     207 </span>            : 
+<span class="lineNum">     208 </span>            : /** \internal \returns the bitwise andnot of \a a and \a b */
+<span class="lineNum">     209 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline Packet
+<span class="lineNum">     210 </span>            : pandnot(const Packet&amp; a, const Packet&amp; b) { return a &amp; (!b); }
+<span class="lineNum">     211 </span>            : 
+<span class="lineNum">     212 </span>            : /** \internal \returns a packet version of \a *from, from must be 16 bytes aligned */
+<span class="lineNum">     213 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline Packet
+<span class="lineNum">     214 </span>            : pload(const typename unpacket_traits&lt;Packet&gt;::type* from) { return *from; }
+<span class="lineNum">     215 </span>            : 
+<span class="lineNum">     216 </span>            : /** \internal \returns a packet version of \a *from, (un-aligned load) */
+<span class="lineNum">     217 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline Packet
+<span class="lineNum">     218 </span>            : ploadu(const typename unpacket_traits&lt;Packet&gt;::type* from) { return *from; }
+<span class="lineNum">     219 </span>            : 
+<span class="lineNum">     220 </span>            : /** \internal \returns a packet with constant coefficients \a a, e.g.: (a,a,a,a) */
+<span class="lineNum">     221 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline Packet
+<span class="lineNum">     222 </span>            : pset1(const typename unpacket_traits&lt;Packet&gt;::type&amp; a) { return a; }
+<span class="lineNum">     223 </span>            : 
+<span class="lineNum">     224 </span>            : /** \internal \returns a packet with constant coefficients \a a[0], e.g.: (a[0],a[0],a[0],a[0]) */
+<span class="lineNum">     225 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline Packet
+<span class="lineNum">     226 </span>            : pload1(const typename unpacket_traits&lt;Packet&gt;::type  *a) { return pset1&lt;Packet&gt;(*a); }
+<span class="lineNum">     227 </span>            : 
+<span class="lineNum">     228 </span>            : /** \internal \returns a packet with elements of \a *from duplicated.
+<span class="lineNum">     229 </span>            :   * For instance, for a packet of 8 elements, 4 scalars will be read from \a *from and
+<span class="lineNum">     230 </span>            :   * duplicated to form: {from[0],from[0],from[1],from[1],from[2],from[2],from[3],from[3]}
+<span class="lineNum">     231 </span>            :   * Currently, this function is only used for scalar * complex products.
+<span class="lineNum">     232 </span>            :   */
+<span class="lineNum">     233 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet
+<span class="lineNum">     234 </span>            : ploaddup(const typename unpacket_traits&lt;Packet&gt;::type* from) { return *from; }
+<span class="lineNum">     235 </span>            : 
+<span class="lineNum">     236 </span>            : /** \internal \returns a packet with elements of \a *from quadrupled.
+<span class="lineNum">     237 </span>            :   * For instance, for a packet of 8 elements, 2 scalars will be read from \a *from and
+<span class="lineNum">     238 </span>            :   * replicated to form: {from[0],from[0],from[0],from[0],from[1],from[1],from[1],from[1]}
+<span class="lineNum">     239 </span>            :   * Currently, this function is only used in matrix products.
+<span class="lineNum">     240 </span>            :   * For packet-size smaller or equal to 4, this function is equivalent to pload1 
+<span class="lineNum">     241 </span>            :   */
+<span class="lineNum">     242 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline Packet
+<span class="lineNum">     243 </span>            : ploadquad(const typename unpacket_traits&lt;Packet&gt;::type* from)
+<span class="lineNum">     244 </span>            : { return pload1&lt;Packet&gt;(from); }
+<span class="lineNum">     245 </span>            : 
+<span class="lineNum">     246 </span>            : /** \internal equivalent to
+<span class="lineNum">     247 </span>            :   * \code
+<span class="lineNum">     248 </span>            :   * a0 = pload1(a+0);
+<span class="lineNum">     249 </span>            :   * a1 = pload1(a+1);
+<span class="lineNum">     250 </span>            :   * a2 = pload1(a+2);
+<span class="lineNum">     251 </span>            :   * a3 = pload1(a+3);
+<span class="lineNum">     252 </span>            :   * \endcode
+<span class="lineNum">     253 </span>            :   * \sa pset1, pload1, ploaddup, pbroadcast2
+<span class="lineNum">     254 </span>            :   */
+<span class="lineNum">     255 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC
+<span class="lineNum">     256 </span>            : inline void pbroadcast4(const typename unpacket_traits&lt;Packet&gt;::type *a,
+<span class="lineNum">     257 </span>            :                         Packet&amp; a0, Packet&amp; a1, Packet&amp; a2, Packet&amp; a3)
+<span class="lineNum">     258 </span>            : {
+<span class="lineNum">     259 </span>            :   a0 = pload1&lt;Packet&gt;(a+0);
+<span class="lineNum">     260 </span>            :   a1 = pload1&lt;Packet&gt;(a+1);
+<span class="lineNum">     261 </span>            :   a2 = pload1&lt;Packet&gt;(a+2);
+<span class="lineNum">     262 </span>            :   a3 = pload1&lt;Packet&gt;(a+3);
+<span class="lineNum">     263 </span>            : }
+<span class="lineNum">     264 </span>            : 
+<span class="lineNum">     265 </span>            : /** \internal equivalent to
+<span class="lineNum">     266 </span>            :   * \code
+<span class="lineNum">     267 </span>            :   * a0 = pload1(a+0);
+<span class="lineNum">     268 </span>            :   * a1 = pload1(a+1);
+<span class="lineNum">     269 </span>            :   * \endcode
+<span class="lineNum">     270 </span>            :   * \sa pset1, pload1, ploaddup, pbroadcast4
+<span class="lineNum">     271 </span>            :   */
+<span class="lineNum">     272 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC
+<span class="lineNum">     273 </span>            : inline void pbroadcast2(const typename unpacket_traits&lt;Packet&gt;::type *a,
+<span class="lineNum">     274 </span>            :                         Packet&amp; a0, Packet&amp; a1)
+<span class="lineNum">     275 </span>            : {
+<span class="lineNum">     276 </span>            :   a0 = pload1&lt;Packet&gt;(a+0);
+<span class="lineNum">     277 </span>            :   a1 = pload1&lt;Packet&gt;(a+1);
+<span class="lineNum">     278 </span>            : }
+<span class="lineNum">     279 </span>            : 
+<span class="lineNum">     280 </span>            : /** \internal \brief Returns a packet with coefficients (a,a+1,...,a+packet_size-1). */
+<span class="lineNum">     281 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet
+<span class="lineNum">     282 </span>            : plset(const typename unpacket_traits&lt;Packet&gt;::type&amp; a) { return a; }
+<span class="lineNum">     283 </span>            : 
+<span class="lineNum">     284 </span>            : /** \internal copy the packet \a from to \a *to, \a to must be 16 bytes aligned */
+<span class="lineNum">     285 </span>            : template&lt;typename Scalar, typename Packet&gt; EIGEN_DEVICE_FUNC inline void pstore(Scalar* to, const Packet&amp; from)
+<span class="lineNum">     286 </span>            : { (*to) = from; }
+<span class="lineNum">     287 </span>            : 
+<span class="lineNum">     288 </span>            : /** \internal copy the packet \a from to \a *to, (un-aligned store) */
+<span class="lineNum">     289 </span>            : template&lt;typename Scalar, typename Packet&gt; EIGEN_DEVICE_FUNC inline void pstoreu(Scalar* to, const Packet&amp; from)
+<span class="lineNum">     290 </span>            : {  (*to) = from; }
+<span class="lineNum">     291 </span>            : 
+<span class="lineNum">     292 </span>            :  template&lt;typename Scalar, typename Packet&gt; EIGEN_DEVICE_FUNC inline Packet pgather(const Scalar* from, Index /*stride*/)
+<span class="lineNum">     293 </span>            :  { return ploadu&lt;Packet&gt;(from); }
+<span class="lineNum">     294 </span>            : 
+<span class="lineNum">     295 </span>            :  template&lt;typename Scalar, typename Packet&gt; EIGEN_DEVICE_FUNC inline void pscatter(Scalar* to, const Packet&amp; from, Index /*stride*/)
+<span class="lineNum">     296 </span>            :  { pstore(to, from); }
+<span class="lineNum">     297 </span>            : 
+<span class="lineNum">     298 </span>            : /** \internal tries to do cache prefetching of \a addr */
+<span class="lineNum">     299 </span>            : template&lt;typename Scalar&gt; EIGEN_DEVICE_FUNC inline void prefetch(const Scalar* addr)
+<span class="lineNum">     300 </span>            : {
+<span class="lineNum">     301 </span>            : #ifdef __CUDA_ARCH__
+<span class="lineNum">     302 </span>            : #if defined(__LP64__)
+<span class="lineNum">     303 </span>            :   // 64-bit pointer operand constraint for inlined asm
+<span class="lineNum">     304 </span>            :   asm(&quot; prefetch.L1 [ %1 ];&quot; : &quot;=l&quot;(addr) : &quot;l&quot;(addr));
+<span class="lineNum">     305 </span>            : #else
+<span class="lineNum">     306 </span>            :   // 32-bit pointer operand constraint for inlined asm
+<span class="lineNum">     307 </span>            :   asm(&quot; prefetch.L1 [ %1 ];&quot; : &quot;=r&quot;(addr) : &quot;r&quot;(addr));
+<span class="lineNum">     308 </span>            : #endif
+<span class="lineNum">     309 </span>            : #elif (!EIGEN_COMP_MSVC) &amp;&amp; (EIGEN_COMP_GNUC || EIGEN_COMP_CLANG || EIGEN_COMP_ICC)
+<span class="lineNum">     310 </span>            :   __builtin_prefetch(addr);
+<span class="lineNum">     311 </span>            : #endif
+<span class="lineNum">     312 </span>            : }
+<span class="lineNum">     313 </span>            : 
+<span class="lineNum">     314 </span>            : /** \internal \returns the first element of a packet */
+<span class="lineNum">     315 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline typename unpacket_traits&lt;Packet&gt;::type pfirst(const Packet&amp; a)
+<span class="lineNum">     316 </span>            : { return a; }
+<span class="lineNum">     317 </span>            : 
+<span class="lineNum">     318 </span>            : /** \internal \returns a packet where the element i contains the sum of the packet of \a vec[i] */
+<span class="lineNum">     319 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline Packet
+<span class="lineNum">     320 </span>            : preduxp(const Packet* vecs) { return vecs[0]; }
+<span class="lineNum">     321 </span>            : 
+<span class="lineNum">     322 </span>            : /** \internal \returns the sum of the elements of \a a*/
+<span class="lineNum">     323 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline typename unpacket_traits&lt;Packet&gt;::type predux(const Packet&amp; a)
+<span class="lineNum">     324 </span>            : { return a; }
+<span class="lineNum">     325 </span>            : 
+<span class="lineNum">     326 </span>            : /** \internal \returns the sum of the elements of \a a by block of 4 elements.
+<span class="lineNum">     327 </span>            :   * For a packet {a0, a1, a2, a3, a4, a5, a6, a7}, it returns a half packet {a0+a4, a1+a5, a2+a6, a3+a7}
+<span class="lineNum">     328 </span>            :   * For packet-size smaller or equal to 4, this boils down to a noop.
+<span class="lineNum">     329 </span>            :   */
+<span class="lineNum">     330 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline
+<span class="lineNum">     331 </span>            : typename conditional&lt;(unpacket_traits&lt;Packet&gt;::size%8)==0,typename unpacket_traits&lt;Packet&gt;::half,Packet&gt;::type
+<span class="lineNum">     332 </span>            : predux_downto4(const Packet&amp; a)
+<span class="lineNum">     333 </span>            : { return a; }
+<span class="lineNum">     334 </span>            : 
+<span class="lineNum">     335 </span>            : /** \internal \returns the product of the elements of \a a*/
+<span class="lineNum">     336 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline typename unpacket_traits&lt;Packet&gt;::type predux_mul(const Packet&amp; a)
+<span class="lineNum">     337 </span>            : { return a; }
+<span class="lineNum">     338 </span>            : 
+<span class="lineNum">     339 </span>            : /** \internal \returns the min of the elements of \a a*/
+<span class="lineNum">     340 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline typename unpacket_traits&lt;Packet&gt;::type predux_min(const Packet&amp; a)
+<span class="lineNum">     341 </span>            : { return a; }
+<span class="lineNum">     342 </span>            : 
+<span class="lineNum">     343 </span>            : /** \internal \returns the max of the elements of \a a*/
+<span class="lineNum">     344 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline typename unpacket_traits&lt;Packet&gt;::type predux_max(const Packet&amp; a)
+<span class="lineNum">     345 </span>            : { return a; }
+<span class="lineNum">     346 </span>            : 
+<span class="lineNum">     347 </span>            : /** \internal \returns the reversed elements of \a a*/
+<span class="lineNum">     348 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline Packet preverse(const Packet&amp; a)
+<span class="lineNum">     349 </span>            : { return a; }
+<span class="lineNum">     350 </span>            : 
+<span class="lineNum">     351 </span>            : /** \internal \returns \a a with real and imaginary part flipped (for complex type only) */
+<span class="lineNum">     352 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline Packet pcplxflip(const Packet&amp; a)
+<span class="lineNum">     353 </span>            : {
+<span class="lineNum">     354 </span>            :   // FIXME: uncomment the following in case we drop the internal imag and real functions.
+<span class="lineNum">     355 </span>            : //   using std::imag;
+<span class="lineNum">     356 </span>            : //   using std::real;
+<span class="lineNum">     357 </span>            :   return Packet(imag(a),real(a));
+<span class="lineNum">     358 </span>            : }
+<span class="lineNum">     359 </span>            : 
+<span class="lineNum">     360 </span>            : /**************************
+<span class="lineNum">     361 </span>            : * Special math functions
+<span class="lineNum">     362 </span>            : ***************************/
+<span class="lineNum">     363 </span>            : 
+<span class="lineNum">     364 </span>            : /** \internal \returns the sine of \a a (coeff-wise) */
+<span class="lineNum">     365 </span>            : template&lt;typename Packet&gt; EIGEN_DECLARE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+<span class="lineNum">     366 </span>            : Packet psin(const Packet&amp; a) { using std::sin; return sin(a); }
+<span class="lineNum">     367 </span>            : 
+<span class="lineNum">     368 </span>            : /** \internal \returns the cosine of \a a (coeff-wise) */
+<span class="lineNum">     369 </span>            : template&lt;typename Packet&gt; EIGEN_DECLARE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+<span class="lineNum">     370 </span>            : Packet pcos(const Packet&amp; a) { using std::cos; return cos(a); }
+<span class="lineNum">     371 </span>            : 
+<span class="lineNum">     372 </span>            : /** \internal \returns the tan of \a a (coeff-wise) */
+<span class="lineNum">     373 </span>            : template&lt;typename Packet&gt; EIGEN_DECLARE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+<span class="lineNum">     374 </span>            : Packet ptan(const Packet&amp; a) { using std::tan; return tan(a); }
+<span class="lineNum">     375 </span>            : 
+<span class="lineNum">     376 </span>            : /** \internal \returns the arc sine of \a a (coeff-wise) */
+<span class="lineNum">     377 </span>            : template&lt;typename Packet&gt; EIGEN_DECLARE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+<span class="lineNum">     378 </span>            : Packet pasin(const Packet&amp; a) { using std::asin; return asin(a); }
+<span class="lineNum">     379 </span>            : 
+<span class="lineNum">     380 </span>            : /** \internal \returns the arc cosine of \a a (coeff-wise) */
+<span class="lineNum">     381 </span>            : template&lt;typename Packet&gt; EIGEN_DECLARE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+<span class="lineNum">     382 </span>            : Packet pacos(const Packet&amp; a) { using std::acos; return acos(a); }
+<span class="lineNum">     383 </span>            : 
+<span class="lineNum">     384 </span>            : /** \internal \returns the arc tangent of \a a (coeff-wise) */
+<span class="lineNum">     385 </span>            : template&lt;typename Packet&gt; EIGEN_DECLARE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+<span class="lineNum">     386 </span>            : Packet patan(const Packet&amp; a) { using std::atan; return atan(a); }
+<span class="lineNum">     387 </span>            : 
+<span class="lineNum">     388 </span>            : /** \internal \returns the hyperbolic sine of \a a (coeff-wise) */
+<span class="lineNum">     389 </span>            : template&lt;typename Packet&gt; EIGEN_DECLARE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+<span class="lineNum">     390 </span>            : Packet psinh(const Packet&amp; a) { using std::sinh; return sinh(a); }
+<span class="lineNum">     391 </span>            : 
+<span class="lineNum">     392 </span>            : /** \internal \returns the hyperbolic cosine of \a a (coeff-wise) */
+<span class="lineNum">     393 </span>            : template&lt;typename Packet&gt; EIGEN_DECLARE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+<span class="lineNum">     394 </span>            : Packet pcosh(const Packet&amp; a) { using std::cosh; return cosh(a); }
+<span class="lineNum">     395 </span>            : 
+<span class="lineNum">     396 </span>            : /** \internal \returns the hyperbolic tan of \a a (coeff-wise) */
+<span class="lineNum">     397 </span>            : template&lt;typename Packet&gt; EIGEN_DECLARE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+<span class="lineNum">     398 </span>            : Packet ptanh(const Packet&amp; a) { using std::tanh; return tanh(a); }
+<span class="lineNum">     399 </span>            : 
+<span class="lineNum">     400 </span>            : /** \internal \returns the exp of \a a (coeff-wise) */
+<span class="lineNum">     401 </span>            : template&lt;typename Packet&gt; EIGEN_DECLARE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+<span class="lineNum">     402 </span>            : Packet pexp(const Packet&amp; a) { using std::exp; return exp(a); }
+<span class="lineNum">     403 </span>            : 
+<span class="lineNum">     404 </span>            : /** \internal \returns the log of \a a (coeff-wise) */
+<span class="lineNum">     405 </span>            : template&lt;typename Packet&gt; EIGEN_DECLARE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+<span class="lineNum">     406 </span>            : Packet plog(const Packet&amp; a) { using std::log; return log(a); }
+<span class="lineNum">     407 </span>            : 
+<span class="lineNum">     408 </span>            : /** \internal \returns the log1p of \a a (coeff-wise) */
+<span class="lineNum">     409 </span>            : template&lt;typename Packet&gt; EIGEN_DECLARE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+<span class="lineNum">     410 </span>            : Packet plog1p(const Packet&amp; a) { return numext::log1p(a); }
+<span class="lineNum">     411 </span>            : 
+<span class="lineNum">     412 </span>            : /** \internal \returns the log10 of \a a (coeff-wise) */
+<span class="lineNum">     413 </span>            : template&lt;typename Packet&gt; EIGEN_DECLARE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+<span class="lineNum">     414 </span>            : Packet plog10(const Packet&amp; a) { using std::log10; return log10(a); }
+<span class="lineNum">     415 </span>            : 
+<span class="lineNum">     416 </span>            : /** \internal \returns the square-root of \a a (coeff-wise) */
+<span class="lineNum">     417 </span>            : template&lt;typename Packet&gt; EIGEN_DECLARE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+<span class="lineNum">     418 </span>            : Packet psqrt(const Packet&amp; a) { using std::sqrt; return sqrt(a); }
+<span class="lineNum">     419 </span>            : 
+<span class="lineNum">     420 </span>            : /** \internal \returns the reciprocal square-root of \a a (coeff-wise) */
+<span class="lineNum">     421 </span>            : template&lt;typename Packet&gt; EIGEN_DECLARE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+<span class="lineNum">     422 </span>            : Packet prsqrt(const Packet&amp; a) {
+<span class="lineNum">     423 </span>            :   return pdiv(pset1&lt;Packet&gt;(1), psqrt(a));
+<span class="lineNum">     424 </span>            : }
+<span class="lineNum">     425 </span>            : 
+<span class="lineNum">     426 </span>            : /** \internal \returns the rounded value of \a a (coeff-wise) */
+<span class="lineNum">     427 </span>            : template&lt;typename Packet&gt; EIGEN_DECLARE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+<span class="lineNum">     428 </span>            : Packet pround(const Packet&amp; a) { using numext::round; return round(a); }
+<span class="lineNum">     429 </span>            : 
+<span class="lineNum">     430 </span>            : /** \internal \returns the floor of \a a (coeff-wise) */
+<span class="lineNum">     431 </span>            : template&lt;typename Packet&gt; EIGEN_DECLARE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+<span class="lineNum">     432 </span>            : Packet pfloor(const Packet&amp; a) { using numext::floor; return floor(a); }
+<span class="lineNum">     433 </span>            : 
+<span class="lineNum">     434 </span>            : /** \internal \returns the ceil of \a a (coeff-wise) */
+<span class="lineNum">     435 </span>            : template&lt;typename Packet&gt; EIGEN_DECLARE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+<span class="lineNum">     436 </span>            : Packet pceil(const Packet&amp; a) { using numext::ceil; return ceil(a); }
+<span class="lineNum">     437 </span>            : 
+<span class="lineNum">     438 </span>            : /***************************************************************************
+<span class="lineNum">     439 </span>            : * The following functions might not have to be overwritten for vectorized types
+<span class="lineNum">     440 </span>            : ***************************************************************************/
+<span class="lineNum">     441 </span>            : 
+<span class="lineNum">     442 </span>            : /** \internal copy a packet with constant coeficient \a a (e.g., [a,a,a,a]) to \a *to. \a to must be 16 bytes aligned */
+<span class="lineNum">     443 </span>            : // NOTE: this function must really be templated on the packet type (think about different packet types for the same scalar type)
+<span class="lineNum">     444 </span>            : template&lt;typename Packet&gt;
+<span class="lineNum">     445 </span>            : inline void pstore1(typename unpacket_traits&lt;Packet&gt;::type* to, const typename unpacket_traits&lt;Packet&gt;::type&amp; a)
+<span class="lineNum">     446 </span>            : {
+<span class="lineNum">     447 </span>            :   pstore(to, pset1&lt;Packet&gt;(a));
+<span class="lineNum">     448 </span>            : }
+<span class="lineNum">     449 </span>            : 
+<a name="450"><span class="lineNum">     450 </span>            : /** \internal \returns a * b + c (coeff-wise) */</a>
+<span class="lineNum">     451 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline Packet
+<span class="lineNum">     452 </span><span class="lineCov">    3134917 : pmadd(const Packet&amp;  a,</span>
+<span class="lineNum">     453 </span>            :          const Packet&amp;  b,
+<span class="lineNum">     454 </span>            :          const Packet&amp;  c)
+<span class="lineNum">     455 </span><span class="lineCov">    3134917 : { return padd(pmul(a, b),c); }</span>
+<span class="lineNum">     456 </span>            : 
+<span class="lineNum">     457 </span>            : /** \internal \returns a packet version of \a *from.
+<span class="lineNum">     458 </span>            :   * The pointer \a from must be aligned on a \a Alignment bytes boundary. */
+<span class="lineNum">     459 </span>            : template&lt;typename Packet, int Alignment&gt;
+<span class="lineNum">     460 </span>            : EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE Packet ploadt(const typename unpacket_traits&lt;Packet&gt;::type* from)
+<span class="lineNum">     461 </span>            : {
+<span class="lineNum">     462 </span>            :   if(Alignment &gt;= unpacket_traits&lt;Packet&gt;::alignment)
+<span class="lineNum">     463 </span><span class="lineCov">    5429038 :     return pload&lt;Packet&gt;(from);</span>
+<span class="lineNum">     464 </span>            :   else
+<span class="lineNum">     465 </span><span class="lineCov">    3073096 :     return ploadu&lt;Packet&gt;(from);</span>
+<span class="lineNum">     466 </span>            : }
+<span class="lineNum">     467 </span>            : 
+<span class="lineNum">     468 </span>            : /** \internal copy the packet \a from to \a *to.
+<span class="lineNum">     469 </span>            :   * The pointer \a from must be aligned on a \a Alignment bytes boundary. */
+<span class="lineNum">     470 </span>            : template&lt;typename Scalar, typename Packet, int Alignment&gt;
+<span class="lineNum">     471 </span>            : EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void pstoret(Scalar* to, const Packet&amp; from)
+<span class="lineNum">     472 </span>            : {
+<span class="lineNum">     473 </span>            :   if(Alignment &gt;= unpacket_traits&lt;Packet&gt;::alignment)
+<span class="lineNum">     474 </span><span class="lineCov">    4270016 :     pstore(to, from);</span>
+<span class="lineNum">     475 </span>            :   else
+<span class="lineNum">     476 </span><span class="lineCov">      82766 :     pstoreu(to, from);</span>
+<span class="lineNum">     477 </span>            : }
+<span class="lineNum">     478 </span>            : 
+<span class="lineNum">     479 </span>            : /** \internal \returns a packet version of \a *from.
+<span class="lineNum">     480 </span>            :   * Unlike ploadt, ploadt_ro takes advantage of the read-only memory path on the
+<span class="lineNum">     481 </span>            :   * hardware if available to speedup the loading of data that won't be modified
+<span class="lineNum">     482 </span>            :   * by the current computation.
+<span class="lineNum">     483 </span>            :   */
+<span class="lineNum">     484 </span>            : template&lt;typename Packet, int LoadMode&gt;
+<span class="lineNum">     485 </span>            : EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE Packet ploadt_ro(const typename unpacket_traits&lt;Packet&gt;::type* from)
+<span class="lineNum">     486 </span>            : {
+<span class="lineNum">     487 </span>            :   return ploadt&lt;Packet, LoadMode&gt;(from);
+<span class="lineNum">     488 </span>            : }
+<span class="lineNum">     489 </span>            : 
+<span class="lineNum">     490 </span>            : /** \internal default implementation of palign() allowing partial specialization */
+<span class="lineNum">     491 </span>            : template&lt;int Offset,typename PacketType&gt;
+<span class="lineNum">     492 </span>            : struct palign_impl
+<span class="lineNum">     493 </span>            : {
+<span class="lineNum">     494 </span>            :   // by default data are aligned, so there is nothing to be done :)
+<span class="lineNum">     495 </span>            :   static inline void run(PacketType&amp;, const PacketType&amp;) {}
+<span class="lineNum">     496 </span>            : };
+<span class="lineNum">     497 </span>            : 
+<span class="lineNum">     498 </span>            : /** \internal update \a first using the concatenation of the packet_size minus \a Offset last elements
+<span class="lineNum">     499 </span>            :   * of \a first and \a Offset first elements of \a second.
+<span class="lineNum">     500 </span>            :   * 
+<span class="lineNum">     501 </span>            :   * This function is currently only used to optimize matrix-vector products on unligned matrices.
+<span class="lineNum">     502 </span>            :   * It takes 2 packets that represent a contiguous memory array, and returns a packet starting
+<span class="lineNum">     503 </span>            :   * at the position \a Offset. For instance, for packets of 4 elements, we have:
+<span class="lineNum">     504 </span>            :   *  Input:
+<span class="lineNum">     505 </span>            :   *  - first = {f0,f1,f2,f3}
+<span class="lineNum">     506 </span>            :   *  - second = {s0,s1,s2,s3}
+<span class="lineNum">     507 </span>            :   * Output: 
+<span class="lineNum">     508 </span>            :   *   - if Offset==0 then {f0,f1,f2,f3}
+<span class="lineNum">     509 </span>            :   *   - if Offset==1 then {f1,f2,f3,s0}
+<span class="lineNum">     510 </span>            :   *   - if Offset==2 then {f2,f3,s0,s1}
+<span class="lineNum">     511 </span>            :   *   - if Offset==3 then {f3,s0,s1,s3}
+<a name="512"><span class="lineNum">     512 </span>            :   */</a>
+<span class="lineNum">     513 </span>            : template&lt;int Offset,typename PacketType&gt;
+<span class="lineNum">     514 </span><span class="lineNoCov">          0 : inline void palign(PacketType&amp; first, const PacketType&amp; second)</span>
+<span class="lineNum">     515 </span>            : {
+<span class="lineNum">     516 </span><span class="lineNoCov">          0 :   palign_impl&lt;Offset,PacketType&gt;::run(first,second);</span>
+<span class="lineNum">     517 </span><span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     518 </span>            : 
+<span class="lineNum">     519 </span>            : /***************************************************************************
+<span class="lineNum">     520 </span>            : * Fast complex products (GCC generates a function call which is very slow)
+<span class="lineNum">     521 </span>            : ***************************************************************************/
+<span class="lineNum">     522 </span>            : 
+<span class="lineNum">     523 </span>            : // Eigen+CUDA does not support complexes.
+<span class="lineNum">     524 </span>            : #ifndef __CUDACC__
+<span class="lineNum">     525 </span>            : 
+<span class="lineNum">     526 </span>            : template&lt;&gt; inline std::complex&lt;float&gt; pmul(const std::complex&lt;float&gt;&amp; a, const std::complex&lt;float&gt;&amp; b)
+<span class="lineNum">     527 </span>            : { return std::complex&lt;float&gt;(real(a)*real(b) - imag(a)*imag(b), imag(a)*real(b) + real(a)*imag(b)); }
+<span class="lineNum">     528 </span>            : 
+<span class="lineNum">     529 </span>            : template&lt;&gt; inline std::complex&lt;double&gt; pmul(const std::complex&lt;double&gt;&amp; a, const std::complex&lt;double&gt;&amp; b)
+<span class="lineNum">     530 </span>            : { return std::complex&lt;double&gt;(real(a)*real(b) - imag(a)*imag(b), imag(a)*real(b) + real(a)*imag(b)); }
+<span class="lineNum">     531 </span>            : 
+<span class="lineNum">     532 </span>            : #endif
+<span class="lineNum">     533 </span>            : 
+<span class="lineNum">     534 </span>            : 
+<span class="lineNum">     535 </span>            : /***************************************************************************
+<span class="lineNum">     536 </span>            :  * PacketBlock, that is a collection of N packets where the number of words
+<span class="lineNum">     537 </span>            :  * in the packet is a multiple of N.
+<span class="lineNum">     538 </span>            : ***************************************************************************/
+<span class="lineNum">     539 </span>            : template &lt;typename Packet,int N=unpacket_traits&lt;Packet&gt;::size&gt; struct PacketBlock {
+<span class="lineNum">     540 </span>            :   Packet packet[N];
+<span class="lineNum">     541 </span>            : };
+<span class="lineNum">     542 </span>            : 
+<span class="lineNum">     543 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline void
+<span class="lineNum">     544 </span>            : ptranspose(PacketBlock&lt;Packet,1&gt;&amp; /*kernel*/) {
+<span class="lineNum">     545 </span>            :   // Nothing to do in the scalar case, i.e. a 1x1 matrix.
+<span class="lineNum">     546 </span>            : }
+<span class="lineNum">     547 </span>            : 
+<span class="lineNum">     548 </span>            : /***************************************************************************
+<span class="lineNum">     549 </span>            :  * Selector, i.e. vector of N boolean values used to select (i.e. blend)
+<span class="lineNum">     550 </span>            :  * words from 2 packets.
+<span class="lineNum">     551 </span>            : ***************************************************************************/
+<span class="lineNum">     552 </span>            : template &lt;size_t N&gt; struct Selector {
+<span class="lineNum">     553 </span>            :   bool select[N];
+<span class="lineNum">     554 </span>            : };
+<span class="lineNum">     555 </span>            : 
+<span class="lineNum">     556 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline Packet
+<span class="lineNum">     557 </span>            : pblend(const Selector&lt;unpacket_traits&lt;Packet&gt;::size&gt;&amp; ifPacket, const Packet&amp; thenPacket, const Packet&amp; elsePacket) {
+<span class="lineNum">     558 </span>            :   return ifPacket.select[0] ? thenPacket : elsePacket;
+<span class="lineNum">     559 </span>            : }
+<span class="lineNum">     560 </span>            : 
+<span class="lineNum">     561 </span>            : /** \internal \returns \a a with the first coefficient replaced by the scalar b */
+<span class="lineNum">     562 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline Packet
+<span class="lineNum">     563 </span>            : pinsertfirst(const Packet&amp; a, typename unpacket_traits&lt;Packet&gt;::type b)
+<span class="lineNum">     564 </span>            : {
+<span class="lineNum">     565 </span>            :   // Default implementation based on pblend.
+<span class="lineNum">     566 </span>            :   // It must be specialized for higher performance.
+<span class="lineNum">     567 </span>            :   Selector&lt;unpacket_traits&lt;Packet&gt;::size&gt; mask;
+<span class="lineNum">     568 </span>            :   mask.select[0] = true;
+<span class="lineNum">     569 </span>            :   // This for loop should be optimized away by the compiler.
+<span class="lineNum">     570 </span>            :   for(Index i=1; i&lt;unpacket_traits&lt;Packet&gt;::size; ++i)
+<span class="lineNum">     571 </span>            :     mask.select[i] = false;
+<span class="lineNum">     572 </span>            :   return pblend(mask, pset1&lt;Packet&gt;(b), a);
+<span class="lineNum">     573 </span>            : }
+<span class="lineNum">     574 </span>            : 
+<span class="lineNum">     575 </span>            : /** \internal \returns \a a with the last coefficient replaced by the scalar b */
+<span class="lineNum">     576 </span>            : template&lt;typename Packet&gt; EIGEN_DEVICE_FUNC inline Packet
+<span class="lineNum">     577 </span>            : pinsertlast(const Packet&amp; a, typename unpacket_traits&lt;Packet&gt;::type b)
+<span class="lineNum">     578 </span>            : {
+<span class="lineNum">     579 </span>            :   // Default implementation based on pblend.
+<span class="lineNum">     580 </span>            :   // It must be specialized for higher performance.
+<span class="lineNum">     581 </span>            :   Selector&lt;unpacket_traits&lt;Packet&gt;::size&gt; mask;
+<span class="lineNum">     582 </span>            :   // This for loop should be optimized away by the compiler.
+<span class="lineNum">     583 </span>            :   for(Index i=0; i&lt;unpacket_traits&lt;Packet&gt;::size-1; ++i)
+<span class="lineNum">     584 </span>            :     mask.select[i] = false;
+<span class="lineNum">     585 </span>            :   mask.select[unpacket_traits&lt;Packet&gt;::size-1] = true;
+<span class="lineNum">     586 </span>            :   return pblend(mask, pset1&lt;Packet&gt;(b), a);
+<span class="lineNum">     587 </span>            : }
+<span class="lineNum">     588 </span>            : 
+<span class="lineNum">     589 </span>            : } // end namespace internal
+<span class="lineNum">     590 </span>            : 
+<span class="lineNum">     591 </span>            : } // end namespace Eigen
+<span class="lineNum">     592 </span>            : 
+<span class="lineNum">     593 </span>            : #endif // EIGEN_GENERIC_PACKET_MATH_H
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

@@ -1,0 +1,416 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - PyHost Code Analysis - /usr/local/include/eigen3/Eigen/src/plugins/ArrayCwiseBinaryOps.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../../index.html">top level</a> - <a href="index.html">usr/local/include/eigen3/Eigen/src/plugins</a> - ArrayCwiseBinaryOps.h<span style="font-size: 80%;"> (source / <a href="ArrayCwiseBinaryOps.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">PyHost Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 17:04:23</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : </a>
+<span class="lineNum">       2 </span>            : /** \returns an expression of the coefficient wise product of \c *this and \a other
+<span class="lineNum">       3 </span>            :   *
+<span class="lineNum">       4 </span>            :   * \sa MatrixBase::cwiseProduct
+<span class="lineNum">       5 </span>            :   */
+<span class="lineNum">       6 </span>            : template&lt;typename OtherDerived&gt;
+<span class="lineNum">       7 </span>            : EIGEN_DEVICE_FUNC
+<span class="lineNum">       8 </span>            : EIGEN_STRONG_INLINE const EIGEN_CWISE_BINARY_RETURN_TYPE(Derived,OtherDerived,product)
+<span class="lineNum">       9 </span>            : operator*(const EIGEN_CURRENT_STORAGE_BASE_CLASS&lt;OtherDerived&gt; &amp;other) const
+<span class="lineNum">      10 </span>            : {
+<span class="lineNum">      11 </span>            :   return EIGEN_CWISE_BINARY_RETURN_TYPE(Derived,OtherDerived,product)(derived(), other.derived());
+<span class="lineNum">      12 </span>            : }
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span>            : /** \returns an expression of the coefficient wise quotient of \c *this and \a other
+<span class="lineNum">      15 </span>            :   *
+<span class="lineNum">      16 </span>            :   * \sa MatrixBase::cwiseQuotient
+<span class="lineNum">      17 </span>            :   */
+<span class="lineNum">      18 </span>            : template&lt;typename OtherDerived&gt;
+<span class="lineNum">      19 </span>            : EIGEN_DEVICE_FUNC
+<span class="lineNum">      20 </span>            : EIGEN_STRONG_INLINE const CwiseBinaryOp&lt;internal::scalar_quotient_op&lt;Scalar,typename OtherDerived::Scalar&gt;, const Derived, const OtherDerived&gt;
+<span class="lineNum">      21 </span>            : operator/(const EIGEN_CURRENT_STORAGE_BASE_CLASS&lt;OtherDerived&gt; &amp;other) const
+<span class="lineNum">      22 </span>            : {
+<span class="lineNum">      23 </span>            :   return CwiseBinaryOp&lt;internal::scalar_quotient_op&lt;Scalar,typename OtherDerived::Scalar&gt;, const Derived, const OtherDerived&gt;(derived(), other.derived());
+<span class="lineNum">      24 </span>            : }
+<span class="lineNum">      25 </span>            : 
+<span class="lineNum">      26 </span>            : /** \returns an expression of the coefficient-wise min of \c *this and \a other
+<span class="lineNum">      27 </span>            :   *
+<span class="lineNum">      28 </span>            :   * Example: \include Cwise_min.cpp
+<span class="lineNum">      29 </span>            :   * Output: \verbinclude Cwise_min.out
+<span class="lineNum">      30 </span>            :   *
+<span class="lineNum">      31 </span>            :   * \sa max()
+<span class="lineNum">      32 </span>            :   */
+<span class="lineNum">      33 </span>            : EIGEN_MAKE_CWISE_BINARY_OP(min,min)
+<span class="lineNum">      34 </span>            : 
+<span class="lineNum">      35 </span>            : /** \returns an expression of the coefficient-wise min of \c *this and scalar \a other
+<span class="lineNum">      36 </span>            :   *
+<span class="lineNum">      37 </span>            :   * \sa max()
+<span class="lineNum">      38 </span>            :   */
+<span class="lineNum">      39 </span>            : EIGEN_DEVICE_FUNC
+<span class="lineNum">      40 </span>            : EIGEN_STRONG_INLINE const CwiseBinaryOp&lt;internal::scalar_min_op&lt;Scalar,Scalar&gt;, const Derived,
+<span class="lineNum">      41 </span>            :                                         const CwiseNullaryOp&lt;internal::scalar_constant_op&lt;Scalar&gt;, PlainObject&gt; &gt;
+<span class="lineNum">      42 </span>            : #ifdef EIGEN_PARSED_BY_DOXYGEN
+<span class="lineNum">      43 </span>            : min
+<span class="lineNum">      44 </span>            : #else
+<span class="lineNum">      45 </span>            : (min)
+<span class="lineNum">      46 </span>            : #endif
+<span class="lineNum">      47 </span>            : (const Scalar &amp;other) const
+<span class="lineNum">      48 </span>            : {
+<span class="lineNum">      49 </span>            :   return (min)(Derived::PlainObject::Constant(rows(), cols(), other));
+<span class="lineNum">      50 </span>            : }
+<span class="lineNum">      51 </span>            : 
+<span class="lineNum">      52 </span>            : /** \returns an expression of the coefficient-wise max of \c *this and \a other
+<span class="lineNum">      53 </span>            :   *
+<span class="lineNum">      54 </span>            :   * Example: \include Cwise_max.cpp
+<span class="lineNum">      55 </span>            :   * Output: \verbinclude Cwise_max.out
+<span class="lineNum">      56 </span>            :   *
+<span class="lineNum">      57 </span>            :   * \sa min()
+<span class="lineNum">      58 </span>            :   */
+<span class="lineNum">      59 </span>            : EIGEN_MAKE_CWISE_BINARY_OP(max,max)
+<span class="lineNum">      60 </span>            : 
+<span class="lineNum">      61 </span>            : /** \returns an expression of the coefficient-wise max of \c *this and scalar \a other
+<span class="lineNum">      62 </span>            :   *
+<span class="lineNum">      63 </span>            :   * \sa min()
+<span class="lineNum">      64 </span>            :   */
+<span class="lineNum">      65 </span>            : EIGEN_DEVICE_FUNC
+<span class="lineNum">      66 </span>            : EIGEN_STRONG_INLINE const CwiseBinaryOp&lt;internal::scalar_max_op&lt;Scalar,Scalar&gt;, const Derived,
+<span class="lineNum">      67 </span>            :                                         const CwiseNullaryOp&lt;internal::scalar_constant_op&lt;Scalar&gt;, PlainObject&gt; &gt;
+<span class="lineNum">      68 </span>            : #ifdef EIGEN_PARSED_BY_DOXYGEN
+<span class="lineNum">      69 </span>            : max
+<span class="lineNum">      70 </span>            : #else
+<span class="lineNum">      71 </span>            : (max)
+<span class="lineNum">      72 </span>            : #endif
+<span class="lineNum">      73 </span>            : (const Scalar &amp;other) const
+<span class="lineNum">      74 </span>            : {
+<span class="lineNum">      75 </span>            :   return (max)(Derived::PlainObject::Constant(rows(), cols(), other));
+<span class="lineNum">      76 </span>            : }
+<span class="lineNum">      77 </span>            : 
+<span class="lineNum">      78 </span>            : /** \returns an expression of the coefficient-wise power of \c *this to the given array of \a exponents.
+<span class="lineNum">      79 </span>            :   *
+<span class="lineNum">      80 </span>            :   * This function computes the coefficient-wise power.
+<span class="lineNum">      81 </span>            :   *
+<span class="lineNum">      82 </span>            :   * Example: \include Cwise_array_power_array.cpp
+<span class="lineNum">      83 </span>            :   * Output: \verbinclude Cwise_array_power_array.out
+<span class="lineNum">      84 </span>            :   */
+<span class="lineNum">      85 </span>            : EIGEN_MAKE_CWISE_BINARY_OP(pow,pow)
+<span class="lineNum">      86 </span>            : 
+<span class="lineNum">      87 </span>            : #ifndef EIGEN_PARSED_BY_DOXYGEN
+<span class="lineNum">      88 </span>            : EIGEN_MAKE_SCALAR_BINARY_OP_ONTHERIGHT(pow,pow)
+<span class="lineNum">      89 </span>            : #else
+<span class="lineNum">      90 </span>            : /** \returns an expression of the coefficients of \c *this rasied to the constant power \a exponent
+<span class="lineNum">      91 </span>            :   *
+<span class="lineNum">      92 </span>            :   * \tparam T is the scalar type of \a exponent. It must be compatible with the scalar type of the given expression.
+<span class="lineNum">      93 </span>            :   *
+<span class="lineNum">      94 </span>            :   * This function computes the coefficient-wise power. The function MatrixBase::pow() in the
+<span class="lineNum">      95 </span>            :   * unsupported module MatrixFunctions computes the matrix power.
+<span class="lineNum">      96 </span>            :   *
+<span class="lineNum">      97 </span>            :   * Example: \include Cwise_pow.cpp
+<span class="lineNum">      98 </span>            :   * Output: \verbinclude Cwise_pow.out
+<span class="lineNum">      99 </span>            :   *
+<span class="lineNum">     100 </span>            :   * \sa ArrayBase::pow(ArrayBase), square(), cube(), exp(), log()
+<span class="lineNum">     101 </span>            :   */
+<span class="lineNum">     102 </span>            : template&lt;typename T&gt;
+<span class="lineNum">     103 </span>            : const CwiseBinaryOp&lt;internal::scalar_pow_op&lt;Scalar,T&gt;,Derived,Constant&lt;T&gt; &gt; pow(const T&amp; exponent) const;
+<span class="lineNum">     104 </span>            : #endif
+<span class="lineNum">     105 </span>            : 
+<span class="lineNum">     106 </span>            : 
+<span class="lineNum">     107 </span>            : // TODO code generating macros could be moved to Macros.h and could include generation of documentation
+<span class="lineNum">     108 </span>            : #define EIGEN_MAKE_CWISE_COMP_OP(OP, COMPARATOR) \
+<span class="lineNum">     109 </span>            : template&lt;typename OtherDerived&gt; \
+<span class="lineNum">     110 </span>            : EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const CwiseBinaryOp&lt;internal::scalar_cmp_op&lt;Scalar, typename OtherDerived::Scalar, internal::cmp_ ## COMPARATOR&gt;, const Derived, const OtherDerived&gt; \
+<span class="lineNum">     111 </span>            : OP(const EIGEN_CURRENT_STORAGE_BASE_CLASS&lt;OtherDerived&gt; &amp;other) const \
+<span class="lineNum">     112 </span>            : { \
+<span class="lineNum">     113 </span>            :   return CwiseBinaryOp&lt;internal::scalar_cmp_op&lt;Scalar, typename OtherDerived::Scalar, internal::cmp_ ## COMPARATOR&gt;, const Derived, const OtherDerived&gt;(derived(), other.derived()); \
+<span class="lineNum">     114 </span>            : }\
+<span class="lineNum">     115 </span>            : typedef CwiseBinaryOp&lt;internal::scalar_cmp_op&lt;Scalar,Scalar, internal::cmp_ ## COMPARATOR&gt;, const Derived, const CwiseNullaryOp&lt;internal::scalar_constant_op&lt;Scalar&gt;, PlainObject&gt; &gt; Cmp ## COMPARATOR ## ReturnType; \
+<span class="lineNum">     116 </span>            : typedef CwiseBinaryOp&lt;internal::scalar_cmp_op&lt;Scalar,Scalar, internal::cmp_ ## COMPARATOR&gt;, const CwiseNullaryOp&lt;internal::scalar_constant_op&lt;Scalar&gt;, PlainObject&gt;, const Derived &gt; RCmp ## COMPARATOR ## ReturnType; \
+<span class="lineNum">     117 </span>            : EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Cmp ## COMPARATOR ## ReturnType \
+<span class="lineNum">     118 </span>            : OP(const Scalar&amp; s) const { \
+<span class="lineNum">     119 </span>            :   return this-&gt;OP(Derived::PlainObject::Constant(rows(), cols(), s)); \
+<span class="lineNum">     120 </span>            : } \
+<span class="lineNum">     121 </span>            : EIGEN_DEVICE_FUNC friend EIGEN_STRONG_INLINE const RCmp ## COMPARATOR ## ReturnType \
+<span class="lineNum">     122 </span>            : OP(const Scalar&amp; s, const Derived&amp; d) { \
+<span class="lineNum">     123 </span>            :   return Derived::PlainObject::Constant(d.rows(), d.cols(), s).OP(d); \
+<span class="lineNum">     124 </span>            : }
+<span class="lineNum">     125 </span>            : 
+<span class="lineNum">     126 </span>            : #define EIGEN_MAKE_CWISE_COMP_R_OP(OP, R_OP, RCOMPARATOR) \
+<span class="lineNum">     127 </span>            : template&lt;typename OtherDerived&gt; \
+<span class="lineNum">     128 </span>            : EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const CwiseBinaryOp&lt;internal::scalar_cmp_op&lt;typename OtherDerived::Scalar, Scalar, internal::cmp_##RCOMPARATOR&gt;, const OtherDerived, const Derived&gt; \
+<span class="lineNum">     129 </span>            : OP(const EIGEN_CURRENT_STORAGE_BASE_CLASS&lt;OtherDerived&gt; &amp;other) const \
+<span class="lineNum">     130 </span>            : { \
+<span class="lineNum">     131 </span>            :   return CwiseBinaryOp&lt;internal::scalar_cmp_op&lt;typename OtherDerived::Scalar, Scalar, internal::cmp_##RCOMPARATOR&gt;, const OtherDerived, const Derived&gt;(other.derived(), derived()); \
+<span class="lineNum">     132 </span>            : } \
+<span class="lineNum">     133 </span>            : EIGEN_DEVICE_FUNC \
+<span class="lineNum">     134 </span>            : inline const RCmp ## RCOMPARATOR ## ReturnType \
+<span class="lineNum">     135 </span>            : OP(const Scalar&amp; s) const { \
+<span class="lineNum">     136 </span>            :   return Derived::PlainObject::Constant(rows(), cols(), s).R_OP(*this); \
+<span class="lineNum">     137 </span>            : } \
+<span class="lineNum">     138 </span>            : friend inline const Cmp ## RCOMPARATOR ## ReturnType \
+<span class="lineNum">     139 </span>            : OP(const Scalar&amp; s, const Derived&amp; d) { \
+<span class="lineNum">     140 </span>            :   return d.R_OP(Derived::PlainObject::Constant(d.rows(), d.cols(), s)); \
+<span class="lineNum">     141 </span>            : }
+<span class="lineNum">     142 </span>            : 
+<span class="lineNum">     143 </span>            : 
+<span class="lineNum">     144 </span>            : 
+<span class="lineNum">     145 </span>            : /** \returns an expression of the coefficient-wise \&lt; operator of *this and \a other
+<span class="lineNum">     146 </span>            :   *
+<span class="lineNum">     147 </span>            :   * Example: \include Cwise_less.cpp
+<span class="lineNum">     148 </span>            :   * Output: \verbinclude Cwise_less.out
+<span class="lineNum">     149 </span>            :   *
+<span class="lineNum">     150 </span>            :   * \sa all(), any(), operator&gt;(), operator&lt;=()
+<span class="lineNum">     151 </span>            :   */
+<span class="lineNum">     152 </span>            : EIGEN_MAKE_CWISE_COMP_OP(operator&lt;, LT)
+<span class="lineNum">     153 </span>            : 
+<span class="lineNum">     154 </span>            : /** \returns an expression of the coefficient-wise \&lt;= operator of *this and \a other
+<span class="lineNum">     155 </span>            :   *
+<span class="lineNum">     156 </span>            :   * Example: \include Cwise_less_equal.cpp
+<span class="lineNum">     157 </span>            :   * Output: \verbinclude Cwise_less_equal.out
+<span class="lineNum">     158 </span>            :   *
+<span class="lineNum">     159 </span>            :   * \sa all(), any(), operator&gt;=(), operator&lt;()
+<span class="lineNum">     160 </span>            :   */
+<span class="lineNum">     161 </span>            : EIGEN_MAKE_CWISE_COMP_OP(operator&lt;=, LE)
+<span class="lineNum">     162 </span>            : 
+<span class="lineNum">     163 </span>            : /** \returns an expression of the coefficient-wise \&gt; operator of *this and \a other
+<span class="lineNum">     164 </span>            :   *
+<span class="lineNum">     165 </span>            :   * Example: \include Cwise_greater.cpp
+<span class="lineNum">     166 </span>            :   * Output: \verbinclude Cwise_greater.out
+<span class="lineNum">     167 </span>            :   *
+<span class="lineNum">     168 </span>            :   * \sa all(), any(), operator&gt;=(), operator&lt;()
+<span class="lineNum">     169 </span>            :   */
+<span class="lineNum">     170 </span>            : EIGEN_MAKE_CWISE_COMP_R_OP(operator&gt;, operator&lt;, LT)
+<span class="lineNum">     171 </span>            : 
+<span class="lineNum">     172 </span>            : /** \returns an expression of the coefficient-wise \&gt;= operator of *this and \a other
+<span class="lineNum">     173 </span>            :   *
+<span class="lineNum">     174 </span>            :   * Example: \include Cwise_greater_equal.cpp
+<span class="lineNum">     175 </span>            :   * Output: \verbinclude Cwise_greater_equal.out
+<span class="lineNum">     176 </span>            :   *
+<span class="lineNum">     177 </span>            :   * \sa all(), any(), operator&gt;(), operator&lt;=()
+<span class="lineNum">     178 </span>            :   */
+<span class="lineNum">     179 </span>            : EIGEN_MAKE_CWISE_COMP_R_OP(operator&gt;=, operator&lt;=, LE)
+<span class="lineNum">     180 </span>            : 
+<span class="lineNum">     181 </span>            : /** \returns an expression of the coefficient-wise == operator of *this and \a other
+<span class="lineNum">     182 </span>            :   *
+<span class="lineNum">     183 </span>            :   * \warning this performs an exact comparison, which is generally a bad idea with floating-point types.
+<span class="lineNum">     184 </span>            :   * In order to check for equality between two vectors or matrices with floating-point coefficients, it is
+<span class="lineNum">     185 </span>            :   * generally a far better idea to use a fuzzy comparison as provided by isApprox() and
+<span class="lineNum">     186 </span>            :   * isMuchSmallerThan().
+<span class="lineNum">     187 </span>            :   *
+<span class="lineNum">     188 </span>            :   * Example: \include Cwise_equal_equal.cpp
+<span class="lineNum">     189 </span>            :   * Output: \verbinclude Cwise_equal_equal.out
+<span class="lineNum">     190 </span>            :   *
+<a name="191"><span class="lineNum">     191 </span>            :   * \sa all(), any(), isApprox(), isMuchSmallerThan()</a>
+<span class="lineNum">     192 </span>            :   */
+<span class="lineNum">     193 </span><span class="lineNoCov">          0 : EIGEN_MAKE_CWISE_COMP_OP(operator==, EQ)</span>
+<span class="lineNum">     194 </span>            : 
+<span class="lineNum">     195 </span>            : /** \returns an expression of the coefficient-wise != operator of *this and \a other
+<span class="lineNum">     196 </span>            :   *
+<span class="lineNum">     197 </span>            :   * \warning this performs an exact comparison, which is generally a bad idea with floating-point types.
+<span class="lineNum">     198 </span>            :   * In order to check for equality between two vectors or matrices with floating-point coefficients, it is
+<span class="lineNum">     199 </span>            :   * generally a far better idea to use a fuzzy comparison as provided by isApprox() and
+<span class="lineNum">     200 </span>            :   * isMuchSmallerThan().
+<span class="lineNum">     201 </span>            :   *
+<span class="lineNum">     202 </span>            :   * Example: \include Cwise_not_equal.cpp
+<span class="lineNum">     203 </span>            :   * Output: \verbinclude Cwise_not_equal.out
+<span class="lineNum">     204 </span>            :   *
+<span class="lineNum">     205 </span>            :   * \sa all(), any(), isApprox(), isMuchSmallerThan()
+<span class="lineNum">     206 </span>            :   */
+<span class="lineNum">     207 </span>            : EIGEN_MAKE_CWISE_COMP_OP(operator!=, NEQ)
+<span class="lineNum">     208 </span>            : 
+<span class="lineNum">     209 </span>            : 
+<span class="lineNum">     210 </span>            : #undef EIGEN_MAKE_CWISE_COMP_OP
+<span class="lineNum">     211 </span>            : #undef EIGEN_MAKE_CWISE_COMP_R_OP
+<span class="lineNum">     212 </span>            : 
+<span class="lineNum">     213 </span>            : // scalar addition
+<span class="lineNum">     214 </span>            : #ifndef EIGEN_PARSED_BY_DOXYGEN
+<span class="lineNum">     215 </span>            : EIGEN_MAKE_SCALAR_BINARY_OP(operator+,sum)
+<span class="lineNum">     216 </span>            : #else
+<span class="lineNum">     217 </span>            : /** \returns an expression of \c *this with each coeff incremented by the constant \a scalar
+<span class="lineNum">     218 </span>            :   *
+<span class="lineNum">     219 </span>            :   * \tparam T is the scalar type of \a scalar. It must be compatible with the scalar type of the given expression.
+<span class="lineNum">     220 </span>            :   *
+<span class="lineNum">     221 </span>            :   * Example: \include Cwise_plus.cpp
+<span class="lineNum">     222 </span>            :   * Output: \verbinclude Cwise_plus.out
+<span class="lineNum">     223 </span>            :   *
+<span class="lineNum">     224 </span>            :   * \sa operator+=(), operator-()
+<span class="lineNum">     225 </span>            :   */
+<span class="lineNum">     226 </span>            : template&lt;typename T&gt;
+<span class="lineNum">     227 </span>            : const CwiseBinaryOp&lt;internal::scalar_sum_op&lt;Scalar,T&gt;,Derived,Constant&lt;T&gt; &gt; operator+(const T&amp; scalar) const;
+<span class="lineNum">     228 </span>            : /** \returns an expression of \a expr with each coeff incremented by the constant \a scalar
+<span class="lineNum">     229 </span>            :   *
+<span class="lineNum">     230 </span>            :   * \tparam T is the scalar type of \a scalar. It must be compatible with the scalar type of the given expression.
+<span class="lineNum">     231 </span>            :   */
+<span class="lineNum">     232 </span>            : template&lt;typename T&gt; friend
+<span class="lineNum">     233 </span>            : const CwiseBinaryOp&lt;internal::scalar_sum_op&lt;T,Scalar&gt;,Constant&lt;T&gt;,Derived&gt; operator+(const T&amp; scalar, const StorageBaseType&amp; expr);
+<span class="lineNum">     234 </span>            : #endif
+<span class="lineNum">     235 </span>            : 
+<span class="lineNum">     236 </span>            : #ifndef EIGEN_PARSED_BY_DOXYGEN
+<span class="lineNum">     237 </span>            : EIGEN_MAKE_SCALAR_BINARY_OP(operator-,difference)
+<span class="lineNum">     238 </span>            : #else
+<span class="lineNum">     239 </span>            : /** \returns an expression of \c *this with each coeff decremented by the constant \a scalar
+<span class="lineNum">     240 </span>            :   *
+<span class="lineNum">     241 </span>            :   * \tparam T is the scalar type of \a scalar. It must be compatible with the scalar type of the given expression.
+<span class="lineNum">     242 </span>            :   *
+<span class="lineNum">     243 </span>            :   * Example: \include Cwise_minus.cpp
+<span class="lineNum">     244 </span>            :   * Output: \verbinclude Cwise_minus.out
+<span class="lineNum">     245 </span>            :   *
+<span class="lineNum">     246 </span>            :   * \sa operator+=(), operator-()
+<span class="lineNum">     247 </span>            :   */
+<span class="lineNum">     248 </span>            : template&lt;typename T&gt;
+<span class="lineNum">     249 </span>            : const CwiseBinaryOp&lt;internal::scalar_difference_op&lt;Scalar,T&gt;,Derived,Constant&lt;T&gt; &gt; operator-(const T&amp; scalar) const;
+<span class="lineNum">     250 </span>            : /** \returns an expression of the constant matrix of value \a scalar decremented by the coefficients of \a expr
+<span class="lineNum">     251 </span>            :   *
+<span class="lineNum">     252 </span>            :   * \tparam T is the scalar type of \a scalar. It must be compatible with the scalar type of the given expression.
+<span class="lineNum">     253 </span>            :   */
+<span class="lineNum">     254 </span>            : template&lt;typename T&gt; friend
+<span class="lineNum">     255 </span>            : const CwiseBinaryOp&lt;internal::scalar_difference_op&lt;T,Scalar&gt;,Constant&lt;T&gt;,Derived&gt; operator-(const T&amp; scalar, const StorageBaseType&amp; expr);
+<span class="lineNum">     256 </span>            : #endif
+<span class="lineNum">     257 </span>            : 
+<span class="lineNum">     258 </span>            : 
+<span class="lineNum">     259 </span>            : #ifndef EIGEN_PARSED_BY_DOXYGEN
+<span class="lineNum">     260 </span>            :   EIGEN_MAKE_SCALAR_BINARY_OP_ONTHELEFT(operator/,quotient)
+<span class="lineNum">     261 </span>            : #else
+<span class="lineNum">     262 </span>            :   /**
+<span class="lineNum">     263 </span>            :     * \brief Component-wise division of the scalar \a s by array elements of \a a.
+<span class="lineNum">     264 </span>            :     *
+<span class="lineNum">     265 </span>            :     * \tparam Scalar is the scalar type of \a x. It must be compatible with the scalar type of the given array expression (\c Derived::Scalar).
+<span class="lineNum">     266 </span>            :     */
+<span class="lineNum">     267 </span>            :   template&lt;typename T&gt; friend
+<span class="lineNum">     268 </span>            :   inline const CwiseBinaryOp&lt;internal::scalar_quotient_op&lt;T,Scalar&gt;,Constant&lt;T&gt;,Derived&gt;
+<span class="lineNum">     269 </span>            :   operator/(const T&amp; s,const StorageBaseType&amp; a);
+<span class="lineNum">     270 </span>            : #endif
+<span class="lineNum">     271 </span>            : 
+<span class="lineNum">     272 </span>            : /** \returns an expression of the coefficient-wise ^ operator of *this and \a other
+<span class="lineNum">     273 </span>            :  *
+<span class="lineNum">     274 </span>            :  * \warning this operator is for expression of bool only.
+<span class="lineNum">     275 </span>            :  *
+<span class="lineNum">     276 </span>            :  * Example: \include Cwise_boolean_xor.cpp
+<span class="lineNum">     277 </span>            :  * Output: \verbinclude Cwise_boolean_xor.out
+<span class="lineNum">     278 </span>            :  *
+<span class="lineNum">     279 </span>            :  * \sa operator&amp;&amp;(), select()
+<span class="lineNum">     280 </span>            :  */
+<span class="lineNum">     281 </span>            : template&lt;typename OtherDerived&gt;
+<span class="lineNum">     282 </span>            : EIGEN_DEVICE_FUNC
+<span class="lineNum">     283 </span>            : inline const CwiseBinaryOp&lt;internal::scalar_boolean_xor_op, const Derived, const OtherDerived&gt;
+<span class="lineNum">     284 </span>            : operator^(const EIGEN_CURRENT_STORAGE_BASE_CLASS&lt;OtherDerived&gt; &amp;other) const
+<span class="lineNum">     285 </span>            : {
+<span class="lineNum">     286 </span>            :   EIGEN_STATIC_ASSERT((internal::is_same&lt;bool,Scalar&gt;::value &amp;&amp; internal::is_same&lt;bool,typename OtherDerived::Scalar&gt;::value),
+<span class="lineNum">     287 </span>            :                       THIS_METHOD_IS_ONLY_FOR_EXPRESSIONS_OF_BOOL);
+<span class="lineNum">     288 </span>            :   return CwiseBinaryOp&lt;internal::scalar_boolean_xor_op, const Derived, const OtherDerived&gt;(derived(),other.derived());
+<span class="lineNum">     289 </span>            : }
+<span class="lineNum">     290 </span>            : 
+<span class="lineNum">     291 </span>            : // NOTE disabled until we agree on argument order
+<span class="lineNum">     292 </span>            : #if 0
+<span class="lineNum">     293 </span>            : /** \cpp11 \returns an expression of the coefficient-wise polygamma function.
+<span class="lineNum">     294 </span>            :   *
+<span class="lineNum">     295 </span>            :   * \specialfunctions_module
+<span class="lineNum">     296 </span>            :   *
+<span class="lineNum">     297 </span>            :   * It returns the \a n -th derivative of the digamma(psi) evaluated at \c *this.
+<span class="lineNum">     298 </span>            :   *
+<span class="lineNum">     299 </span>            :   * \warning Be careful with the order of the parameters: x.polygamma(n) is equivalent to polygamma(n,x)
+<span class="lineNum">     300 </span>            :   *
+<span class="lineNum">     301 </span>            :   * \sa Eigen::polygamma()
+<span class="lineNum">     302 </span>            :   */
+<span class="lineNum">     303 </span>            : template&lt;typename DerivedN&gt;
+<span class="lineNum">     304 </span>            : inline const CwiseBinaryOp&lt;internal::scalar_polygamma_op&lt;Scalar&gt;, const DerivedN, const Derived&gt;
+<span class="lineNum">     305 </span>            : polygamma(const EIGEN_CURRENT_STORAGE_BASE_CLASS&lt;DerivedN&gt; &amp;n) const
+<span class="lineNum">     306 </span>            : {
+<span class="lineNum">     307 </span>            :   return CwiseBinaryOp&lt;internal::scalar_polygamma_op&lt;Scalar&gt;, const DerivedN, const Derived&gt;(n.derived(), this-&gt;derived());
+<span class="lineNum">     308 </span>            : }
+<span class="lineNum">     309 </span>            : #endif
+<span class="lineNum">     310 </span>            : 
+<span class="lineNum">     311 </span>            : /** \returns an expression of the coefficient-wise zeta function.
+<span class="lineNum">     312 </span>            :   *
+<span class="lineNum">     313 </span>            :   * \specialfunctions_module
+<span class="lineNum">     314 </span>            :   *
+<span class="lineNum">     315 </span>            :   * It returns the Riemann zeta function of two arguments \c *this and \a q:
+<span class="lineNum">     316 </span>            :   *
+<span class="lineNum">     317 </span>            :   * \param *this is the exposent, it must be &gt; 1
+<span class="lineNum">     318 </span>            :   * \param q is the shift, it must be &gt; 0
+<span class="lineNum">     319 </span>            :   *
+<span class="lineNum">     320 </span>            :   * \note This function supports only float and double scalar types. To support other scalar types, the user has
+<span class="lineNum">     321 </span>            :   * to provide implementations of zeta(T,T) for any scalar type T to be supported.
+<span class="lineNum">     322 </span>            :   *
+<span class="lineNum">     323 </span>            :   * This method is an alias for zeta(*this,q);
+<span class="lineNum">     324 </span>            :   *
+<span class="lineNum">     325 </span>            :   * \sa Eigen::zeta()
+<span class="lineNum">     326 </span>            :   */
+<span class="lineNum">     327 </span>            : template&lt;typename DerivedQ&gt;
+<span class="lineNum">     328 </span>            : inline const CwiseBinaryOp&lt;internal::scalar_zeta_op&lt;Scalar&gt;, const Derived, const DerivedQ&gt;
+<span class="lineNum">     329 </span>            : zeta(const EIGEN_CURRENT_STORAGE_BASE_CLASS&lt;DerivedQ&gt; &amp;q) const
+<span class="lineNum">     330 </span>            : {
+<span class="lineNum">     331 </span>            :   return CwiseBinaryOp&lt;internal::scalar_zeta_op&lt;Scalar&gt;, const Derived, const DerivedQ&gt;(this-&gt;derived(), q.derived());
+<span class="lineNum">     332 </span>            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

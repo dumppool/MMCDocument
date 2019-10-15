@@ -1,0 +1,652 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - PyHost Code Analysis - DeepMimicCore/sim/CtController.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">DeepMimicCore/sim</a> - CtController.cpp<span style="font-size: 80%;"> (source / <a href="CtController.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">PyHost Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">266</td>
+            <td class="headerCovTableEntry">339</td>
+            <td class="headerCovTableEntryMed">78.5 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 17:04:23</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">35</td>
+            <td class="headerCovTableEntry">47</td>
+            <td class="headerCovTableEntryLo">74.5 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : #include &quot;CtController.h&quot;</a>
+<span class="lineNum">       2 </span>            : #include &quot;sim/SimCharacter.h&quot;
+<span class="lineNum">       3 </span>            : #include &quot;util/FileUtil.h&quot;
+<a name="4"><span class="lineNum">       4 </span>            : #include &quot;util/JsonUtil.h&quot;</a>
+<span class="lineNum">       5 </span>            : 
+<span class="lineNum">       6 </span><span class="lineCov">          1 : cCtController::cCtController() : cDeepMimicCharController()</span>
+<span class="lineNum">       7 </span>            : {
+<span class="lineNum">       8 </span><span class="lineCov">          1 :         mUpdateRate = 30.0;</span>
+<span class="lineNum">       9 </span><span class="lineCov">          1 :         mCyclePeriod = 1;</span>
+<span class="lineNum">      10 </span><span class="lineCov">          1 :         mEnablePhaseInput = false;</span>
+<span class="lineNum">      11 </span><span class="lineCov">          1 :         mEnablePhaseAction = false;</span>
+<span class="lineNum">      12 </span><span class="lineCov">          1 :         mRecordWorldRootPos = false;</span>
+<span class="lineNum">      13 </span><span class="lineCov">          1 :         mRecordWorldRootRot = false;</span>
+<span class="lineNum">      14 </span><span class="lineCov">          1 :         SetViewDistMax(1);</span>
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span><span class="lineCov">          1 :         mPhaseOffset = 0;</span>
+<span class="lineNum">      17 </span><span class="lineCov">          1 :         mInitTimeOffset = 0;</span>
+<a name="18"><span class="lineNum">      18 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span><span class="lineCov">          1 : cCtController::~cCtController()</span>
+<span class="lineNum">      21 </span>            : {
+<a name="22"><span class="lineNum">      22 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">      23 </span>            : 
+<span class="lineNum">      24 </span><span class="lineNoCov">          0 : void cCtController::SetUpdateRate(double rate)</span>
+<span class="lineNum">      25 </span>            : {
+<span class="lineNum">      26 </span><span class="lineNoCov">          0 :         mUpdateRate = rate;</span>
+<a name="27"><span class="lineNum">      27 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      28 </span>            : 
+<span class="lineNum">      29 </span><span class="lineNoCov">          0 : double cCtController::GetUpdateRate() const</span>
+<span class="lineNum">      30 </span>            : {
+<span class="lineNum">      31 </span><span class="lineNoCov">          0 :         return mUpdateRate;</span>
+<a name="32"><span class="lineNum">      32 </span>            : }</a>
+<span class="lineNum">      33 </span>            : 
+<span class="lineNum">      34 </span><span class="lineCov">        470 : void cCtController::UpdateCalcTau(double timestep, Eigen::VectorXd&amp; out_tau)</span>
+<span class="lineNum">      35 </span>            : {
+<span class="lineNum">      36 </span>            :         // use unnormalized phase
+<span class="lineNum">      37 </span><span class="lineCov">        470 :         double prev_phase = 0;</span>
+<span class="lineNum">      38 </span><span class="lineCov">        470 :         if (mEnablePhaseAction)</span>
+<span class="lineNum">      39 </span>            :         {
+<span class="lineNum">      40 </span><span class="lineNoCov">          0 :                 prev_phase = mTime / mCyclePeriod;</span>
+<span class="lineNum">      41 </span><span class="lineNoCov">          0 :                 prev_phase += mPhaseOffset;</span>
+<span class="lineNum">      42 </span>            :         }
+<span class="lineNum">      43 </span>            : 
+<span class="lineNum">      44 </span><span class="lineCov">        470 :         cDeepMimicCharController::UpdateCalcTau(timestep, out_tau);</span>
+<span class="lineNum">      45 </span>            : 
+<span class="lineNum">      46 </span><span class="lineCov">        470 :         if (mEnablePhaseAction)</span>
+<span class="lineNum">      47 </span>            :         {
+<span class="lineNum">      48 </span><span class="lineNoCov">          0 :                 double phase_rate = GetPhaseRate();</span>
+<span class="lineNum">      49 </span><span class="lineNoCov">          0 :                 double tar_phase = prev_phase + timestep * phase_rate;</span>
+<span class="lineNum">      50 </span><span class="lineNoCov">          0 :                 mPhaseOffset = tar_phase - mTime / mCyclePeriod;</span>
+<span class="lineNum">      51 </span><span class="lineNoCov">          0 :                 mPhaseOffset = std::fmod(mPhaseOffset, 1.0);</span>
+<span class="lineNum">      52 </span>            :         }
+<span class="lineNum">      53 </span>            : 
+<span class="lineNum">      54 </span><span class="lineCov">        470 :         UpdateBuildTau(timestep, out_tau);</span>
+<a name="55"><span class="lineNum">      55 </span><span class="lineCov">        470 : }</span></a>
+<span class="lineNum">      56 </span>            : 
+<span class="lineNum">      57 </span><span class="lineCov">         78 : int cCtController::GetStateSize() const</span>
+<span class="lineNum">      58 </span>            : {
+<span class="lineNum">      59 </span><span class="lineCov">         78 :         int state_size = cDeepMimicCharController::GetStateSize();</span>
+<span class="lineNum">      60 </span><span class="lineCov">         78 :         state_size += GetStatePhaseSize();</span>
+<span class="lineNum">      61 </span><span class="lineCov">         78 :         return state_size;</span>
+<a name="62"><span class="lineNum">      62 </span>            : }</a>
+<span class="lineNum">      63 </span>            : 
+<span class="lineNum">      64 </span><span class="lineCov">         33 : int cCtController::GetActionSize() const</span>
+<span class="lineNum">      65 </span>            : {
+<span class="lineNum">      66 </span><span class="lineCov">         33 :         int a_size = 0;</span>
+<span class="lineNum">      67 </span><span class="lineCov">         33 :         a_size += GetActionPhaseSize();</span>
+<span class="lineNum">      68 </span><span class="lineCov">         33 :         a_size += GetActionCtrlSize();</span>
+<span class="lineNum">      69 </span><span class="lineCov">         33 :         return a_size;</span>
+<a name="70"><span class="lineNum">      70 </span>            : }</a>
+<span class="lineNum">      71 </span>            : 
+<span class="lineNum">      72 </span><span class="lineCov">          2 : void cCtController::BuildStateOffsetScale(Eigen::VectorXd&amp; out_offset, Eigen::VectorXd&amp; out_scale) const</span>
+<span class="lineNum">      73 </span>            : {
+<span class="lineNum">      74 </span><span class="lineCov">          2 :         cDeepMimicCharController::BuildStateOffsetScale(out_offset, out_scale);</span>
+<span class="lineNum">      75 </span>            :         
+<span class="lineNum">      76 </span><span class="lineCov">          2 :         if (mEnablePhaseInput)</span>
+<span class="lineNum">      77 </span>            :         {
+<span class="lineNum">      78 </span><span class="lineCov">          4 :                 Eigen::VectorXd phase_offset;</span>
+<span class="lineNum">      79 </span><span class="lineCov">          4 :                 Eigen::VectorXd phase_scale;</span>
+<span class="lineNum">      80 </span><span class="lineCov">          2 :                 BuildStatePhaseOffsetScale(phase_offset, phase_scale);</span>
+<span class="lineNum">      81 </span>            :                 
+<span class="lineNum">      82 </span><span class="lineCov">          2 :                 int phase_idx = GetStatePhaseOffset();</span>
+<span class="lineNum">      83 </span><span class="lineCov">          2 :                 int phase_size = GetStatePhaseSize();</span>
+<span class="lineNum">      84 </span><span class="lineCov">          2 :                 out_offset.segment(phase_idx, phase_size) = phase_offset;</span>
+<span class="lineNum">      85 </span><span class="lineCov">          2 :                 out_scale.segment(phase_idx, phase_size) = phase_scale;</span>
+<span class="lineNum">      86 </span>            :         }
+<a name="87"><span class="lineNum">      87 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">      88 </span>            : 
+<span class="lineNum">      89 </span><span class="lineCov">          2 : void cCtController::BuildActionBounds(Eigen::VectorXd&amp; out_min, Eigen::VectorXd&amp; out_max) const</span>
+<span class="lineNum">      90 </span>            : {
+<span class="lineNum">      91 </span><span class="lineCov">          2 :         int action_size = GetActionSize();</span>
+<span class="lineNum">      92 </span><span class="lineCov">          2 :         out_min = Eigen::VectorXd::Zero(action_size);</span>
+<span class="lineNum">      93 </span><span class="lineCov">          2 :         out_max = Eigen::VectorXd::Zero(action_size);</span>
+<span class="lineNum">      94 </span>            : 
+<span class="lineNum">      95 </span><span class="lineCov">          2 :         int root_id = mChar-&gt;GetRootID();</span>
+<span class="lineNum">      96 </span><span class="lineCov">          2 :         int root_size = mChar-&gt;GetParamSize(root_id);</span>
+<span class="lineNum">      97 </span><span class="lineCov">          2 :         int num_joints = mChar-&gt;GetNumJoints();</span>
+<span class="lineNum">      98 </span><span class="lineCov">          2 :         int ctrl_offset = GetActionCtrlOffset();</span>
+<span class="lineNum">      99 </span>            : 
+<span class="lineNum">     100 </span><span class="lineCov">          2 :         if (mEnablePhaseAction)</span>
+<span class="lineNum">     101 </span>            :         {
+<span class="lineNum">     102 </span><span class="lineNoCov">          0 :                 int phase_offset = GetActionPhaseOffset();</span>
+<span class="lineNum">     103 </span><span class="lineNoCov">          0 :                 out_min[phase_offset] = -5;</span>
+<span class="lineNum">     104 </span><span class="lineNoCov">          0 :                 out_max[phase_offset] = 5;</span>
+<span class="lineNum">     105 </span>            :         }
+<span class="lineNum">     106 </span>            : 
+<span class="lineNum">     107 </span><span class="lineCov">         30 :         for (int j = root_id + 1; j &lt; num_joints; ++j)</span>
+<span class="lineNum">     108 </span>            :         {
+<span class="lineNum">     109 </span><span class="lineCov">         28 :                 const cSimBodyJoint&amp; joint = mChar-&gt;GetJoint(j);</span>
+<span class="lineNum">     110 </span><span class="lineCov">         28 :                 if (joint.IsValid())</span>
+<span class="lineNum">     111 </span>            :                 {
+<span class="lineNum">     112 </span><span class="lineCov">         28 :                         int param_offset = mChar-&gt;GetParamOffset(j);</span>
+<span class="lineNum">     113 </span><span class="lineCov">         28 :                         int param_size = mChar-&gt;GetParamSize(j);</span>
+<span class="lineNum">     114 </span>            : 
+<span class="lineNum">     115 </span><span class="lineCov">         28 :                         if (param_size &gt; 0)</span>
+<span class="lineNum">     116 </span>            :                         {
+<span class="lineNum">     117 </span><span class="lineCov">         48 :                                 Eigen::VectorXd lim_min;</span>
+<span class="lineNum">     118 </span><span class="lineCov">         48 :                                 Eigen::VectorXd lim_max;</span>
+<span class="lineNum">     119 </span><span class="lineCov">         24 :                                 BuildJointActionBounds(j, lim_min, lim_max);</span>
+<span class="lineNum">     120 </span><span class="lineCov">         24 :                                 assert(lim_min.size() == param_size);</span>
+<span class="lineNum">     121 </span><span class="lineCov">         24 :                                 assert(lim_max.size() == param_size);</span>
+<span class="lineNum">     122 </span>            : 
+<span class="lineNum">     123 </span><span class="lineCov">         24 :                                 param_offset -= root_size;</span>
+<span class="lineNum">     124 </span><span class="lineCov">         24 :                                 param_offset += ctrl_offset;</span>
+<span class="lineNum">     125 </span><span class="lineCov">         24 :                                 out_min.segment(param_offset, param_size) = lim_min;</span>
+<span class="lineNum">     126 </span><span class="lineCov">         24 :                                 out_max.segment(param_offset, param_size) = lim_max;</span>
+<span class="lineNum">     127 </span>            :                         }
+<span class="lineNum">     128 </span>            :                 }
+<span class="lineNum">     129 </span>            :         }
+<a name="130"><span class="lineNum">     130 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     131 </span>            : 
+<span class="lineNum">     132 </span><span class="lineCov">          2 : void cCtController::ResetParams()</span>
+<span class="lineNum">     133 </span>            : {
+<span class="lineNum">     134 </span><span class="lineCov">          2 :         cDeepMimicCharController::ResetParams();</span>
+<span class="lineNum">     135 </span><span class="lineCov">          2 :         mPhaseOffset = 0;</span>
+<span class="lineNum">     136 </span><span class="lineCov">          2 :         mInitTimeOffset = 0;</span>
+<a name="137"><span class="lineNum">     137 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     138 </span>            : 
+<span class="lineNum">     139 </span><span class="lineCov">        324 : int cCtController::GetPosFeatureDim() const</span>
+<span class="lineNum">     140 </span>            : {
+<span class="lineNum">     141 </span><span class="lineCov">        324 :         int pos_dim = cKinTree::gPosDim;</span>
+<span class="lineNum">     142 </span><span class="lineCov">        324 :         return pos_dim;</span>
+<a name="143"><span class="lineNum">     143 </span>            : }</a>
+<span class="lineNum">     144 </span>            : 
+<span class="lineNum">     145 </span><span class="lineCov">        324 : int cCtController::GetRotFeatureDim() const</span>
+<span class="lineNum">     146 </span>            : {
+<span class="lineNum">     147 </span><span class="lineCov">        324 :         int rot_dim = cKinTree::gRotDim;</span>
+<span class="lineNum">     148 </span><span class="lineCov">        324 :         return rot_dim;</span>
+<a name="149"><span class="lineNum">     149 </span>            : }</a>
+<span class="lineNum">     150 </span>            : 
+<span class="lineNum">     151 </span><span class="lineNoCov">          0 : double cCtController::GetCyclePeriod() const</span>
+<span class="lineNum">     152 </span>            : {
+<span class="lineNum">     153 </span><span class="lineNoCov">          0 :         return mCyclePeriod;</span>
+<a name="154"><span class="lineNum">     154 </span>            : }</a>
+<span class="lineNum">     155 </span>            : 
+<span class="lineNum">     156 </span><span class="lineCov">          1 : void cCtController::SetCyclePeriod(double period)</span>
+<span class="lineNum">     157 </span>            : {
+<span class="lineNum">     158 </span><span class="lineCov">          1 :         mCyclePeriod = period;</span>
+<a name="159"><span class="lineNum">     159 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     160 </span>            : 
+<span class="lineNum">     161 </span><span class="lineCov">          1 : void cCtController::SetInitTime(double time)</span>
+<span class="lineNum">     162 </span>            : {
+<span class="lineNum">     163 </span><span class="lineCov">          1 :         mTime = time;</span>
+<span class="lineNum">     164 </span><span class="lineCov">          1 :         mPrevActionTime = time;</span>
+<span class="lineNum">     165 </span><span class="lineCov">          1 :         mPhaseOffset = 0;</span>
+<span class="lineNum">     166 </span><span class="lineCov">          1 :         mInitTimeOffset = -mTime;</span>
+<a name="167"><span class="lineNum">     167 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     168 </span>            : 
+<span class="lineNum">     169 </span><span class="lineCov">         24 : double cCtController::GetPhase() const</span>
+<span class="lineNum">     170 </span>            : {
+<span class="lineNum">     171 </span><span class="lineCov">         24 :         double phase = mTime / mCyclePeriod;</span>
+<span class="lineNum">     172 </span><span class="lineCov">         24 :         phase += mPhaseOffset;</span>
+<span class="lineNum">     173 </span><span class="lineCov">         24 :         phase = std::fmod(phase, 1.0);</span>
+<span class="lineNum">     174 </span><span class="lineCov">         24 :         phase = (phase &lt; 0) ? (1 + phase) : phase;</span>
+<span class="lineNum">     175 </span><span class="lineCov">         24 :         return phase;</span>
+<a name="176"><span class="lineNum">     176 </span>            : }</a>
+<span class="lineNum">     177 </span>            : 
+<span class="lineNum">     178 </span><span class="lineCov">          1 : bool cCtController::ParseParams(const Json::Value&amp; json)</span>
+<span class="lineNum">     179 </span>            : {
+<span class="lineNum">     180 </span><span class="lineCov">          1 :         bool succ = cDeepMimicCharController::ParseParams(json);</span>
+<span class="lineNum">     181 </span>            : 
+<span class="lineNum">     182 </span><span class="lineCov">          1 :         mUpdateRate = json.get(&quot;QueryRate&quot;, mUpdateRate).asDouble();</span>
+<span class="lineNum">     183 </span><span class="lineCov">          1 :         mCyclePeriod = json.get(&quot;CyclePeriod&quot;, mCyclePeriod).asDouble();</span>
+<span class="lineNum">     184 </span><span class="lineCov">          1 :         mEnablePhaseInput = json.get(&quot;EnablePhaseInput&quot;, mEnablePhaseInput).asBool();</span>
+<span class="lineNum">     185 </span><span class="lineCov">          1 :         mEnablePhaseAction = json.get(&quot;EnablePhaseAction&quot;, mEnablePhaseAction).asBool();</span>
+<span class="lineNum">     186 </span><span class="lineCov">          1 :         mRecordWorldRootPos = json.get(&quot;RecordWorldRootPos&quot;, mRecordWorldRootPos).asBool();</span>
+<span class="lineNum">     187 </span><span class="lineCov">          1 :         mRecordWorldRootRot = json.get(&quot;RecordWorldRootRot&quot;, mRecordWorldRootRot).asBool();</span>
+<span class="lineNum">     188 </span>            : 
+<span class="lineNum">     189 </span><span class="lineCov">          1 :         return succ;</span>
+<a name="190"><span class="lineNum">     190 </span>            : }</a>
+<span class="lineNum">     191 </span>            : 
+<span class="lineNum">     192 </span><span class="lineNoCov">          0 : void cCtController::UpdateBuildTau(double time_step, Eigen::VectorXd&amp; out_tau)</span>
+<span class="lineNum">     193 </span>            : {
+<span class="lineNum">     194 </span><span class="lineNoCov">          0 :         out_tau = Eigen::VectorXd::Zero(mChar-&gt;GetNumDof());</span>
+<span class="lineNum">     195 </span>            :         
+<span class="lineNum">     196 </span><span class="lineNoCov">          0 :         int root_id = mChar-&gt;GetRootID();</span>
+<span class="lineNum">     197 </span><span class="lineNoCov">          0 :         int root_size = mChar-&gt;GetParamSize(root_id);</span>
+<span class="lineNum">     198 </span><span class="lineNoCov">          0 :         int num_joints = mChar-&gt;GetNumJoints();</span>
+<span class="lineNum">     199 </span><span class="lineNoCov">          0 :         int ctrl_offset = GetActionCtrlOffset();</span>
+<span class="lineNum">     200 </span>            : 
+<span class="lineNum">     201 </span><span class="lineNoCov">          0 :         for (int j = root_id + 1; j &lt; num_joints; ++j)</span>
+<span class="lineNum">     202 </span>            :         {
+<span class="lineNum">     203 </span><span class="lineNoCov">          0 :                 int retarget_joint = RetargetJointID(j);</span>
+<span class="lineNum">     204 </span><span class="lineNoCov">          0 :                 int param_offset = mChar-&gt;GetParamOffset(j);</span>
+<span class="lineNum">     205 </span><span class="lineNoCov">          0 :                 int param_size = mChar-&gt;GetParamSize(j);</span>
+<span class="lineNum">     206 </span><span class="lineNoCov">          0 :                 int retarget_offset = mChar-&gt;GetParamOffset(retarget_joint);</span>
+<span class="lineNum">     207 </span><span class="lineNoCov">          0 :                 int retarget_size = mChar-&gt;GetParamSize(retarget_joint);</span>
+<span class="lineNum">     208 </span><span class="lineNoCov">          0 :                 assert(param_size == retarget_size);</span>
+<span class="lineNum">     209 </span>            : 
+<span class="lineNum">     210 </span><span class="lineNoCov">          0 :                 retarget_offset -= root_size;</span>
+<span class="lineNum">     211 </span><span class="lineNoCov">          0 :                 retarget_offset += ctrl_offset;</span>
+<span class="lineNum">     212 </span><span class="lineNoCov">          0 :                 out_tau.segment(param_offset, param_size) = mAction.segment(retarget_offset, retarget_size);</span>
+<span class="lineNum">     213 </span>            :         }
+<a name="214"><span class="lineNum">     214 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     215 </span>            : 
+<span class="lineNum">     216 </span><span class="lineCov">        470 : bool cCtController::CheckNeedNewAction(double timestep) const</span>
+<span class="lineNum">     217 </span>            : {
+<span class="lineNum">     218 </span><span class="lineCov">        470 :         double curr_time = mTime;</span>
+<span class="lineNum">     219 </span><span class="lineCov">        470 :         curr_time += mInitTimeOffset;</span>
+<span class="lineNum">     220 </span><span class="lineCov">        470 :         bool new_action = cMathUtil::CheckNextInterval(timestep, curr_time, 1 / mUpdateRate);</span>
+<span class="lineNum">     221 </span><span class="lineCov">        470 :         return new_action;</span>
+<a name="222"><span class="lineNum">     222 </span>            : }</a>
+<span class="lineNum">     223 </span>            : 
+<span class="lineNum">     224 </span><span class="lineCov">         23 : void cCtController::NewActionUpdate()</span>
+<span class="lineNum">     225 </span>            : {
+<span class="lineNum">     226 </span><span class="lineCov">         23 :         cDeepMimicCharController::NewActionUpdate();</span>
+<a name="227"><span class="lineNum">     227 </span><span class="lineCov">         23 : }</span></a>
+<span class="lineNum">     228 </span>            : 
+<span class="lineNum">     229 </span><span class="lineCov">          2 : void cCtController::BuildActionOffsetScale(Eigen::VectorXd&amp; out_offset, Eigen::VectorXd&amp; out_scale) const</span>
+<span class="lineNum">     230 </span>            : {
+<span class="lineNum">     231 </span><span class="lineCov">          2 :         int action_size = GetActionSize();</span>
+<span class="lineNum">     232 </span><span class="lineCov">          2 :         out_offset = Eigen::VectorXd::Zero(action_size);</span>
+<span class="lineNum">     233 </span><span class="lineCov">          2 :         out_scale = Eigen::VectorXd::Ones(action_size);</span>
+<span class="lineNum">     234 </span>            : 
+<span class="lineNum">     235 </span><span class="lineCov">          2 :         int root_id = mChar-&gt;GetRootID();</span>
+<span class="lineNum">     236 </span><span class="lineCov">          2 :         int root_size = mChar-&gt;GetParamSize(mChar-&gt;GetRootID());</span>
+<span class="lineNum">     237 </span><span class="lineCov">          2 :         int num_joints = mChar-&gt;GetNumJoints();</span>
+<span class="lineNum">     238 </span><span class="lineCov">          2 :         int ctrl_offset = GetActionCtrlOffset();</span>
+<span class="lineNum">     239 </span>            : 
+<span class="lineNum">     240 </span><span class="lineCov">          2 :         if (mEnablePhaseAction)</span>
+<span class="lineNum">     241 </span>            :         {
+<span class="lineNum">     242 </span><span class="lineNoCov">          0 :                 int phase_offset = GetActionPhaseOffset();</span>
+<span class="lineNum">     243 </span><span class="lineNoCov">          0 :                 out_offset[phase_offset] = -1 / mCyclePeriod;</span>
+<span class="lineNum">     244 </span><span class="lineNoCov">          0 :                 out_scale[phase_offset] = 1;</span>
+<span class="lineNum">     245 </span>            :         }
+<span class="lineNum">     246 </span>            : 
+<span class="lineNum">     247 </span><span class="lineCov">         30 :         for (int j = root_id + 1; j &lt; num_joints; ++j)</span>
+<span class="lineNum">     248 </span>            :         {
+<span class="lineNum">     249 </span><span class="lineCov">         28 :                 const cSimBodyJoint&amp; joint = mChar-&gt;GetJoint(j);</span>
+<span class="lineNum">     250 </span><span class="lineCov">         28 :                 if (joint.IsValid())</span>
+<span class="lineNum">     251 </span>            :                 {
+<span class="lineNum">     252 </span><span class="lineCov">         28 :                         int param_offset = mChar-&gt;GetParamOffset(j);</span>
+<span class="lineNum">     253 </span><span class="lineCov">         28 :                         int param_size = mChar-&gt;GetParamSize(j);</span>
+<span class="lineNum">     254 </span>            : 
+<span class="lineNum">     255 </span><span class="lineCov">         28 :                         if (param_size &gt; 0)</span>
+<span class="lineNum">     256 </span>            :                         {
+<span class="lineNum">     257 </span><span class="lineCov">         48 :                                 Eigen::VectorXd curr_offset;</span>
+<span class="lineNum">     258 </span><span class="lineCov">         48 :                                 Eigen::VectorXd curr_scale;</span>
+<span class="lineNum">     259 </span><span class="lineCov">         24 :                                 BuildJointActionOffsetScale(j, curr_offset, curr_scale);</span>
+<span class="lineNum">     260 </span><span class="lineCov">         24 :                                 assert(curr_offset.size() == param_size);</span>
+<span class="lineNum">     261 </span><span class="lineCov">         24 :                                 assert(curr_scale.size() == param_size);</span>
+<span class="lineNum">     262 </span>            : 
+<span class="lineNum">     263 </span><span class="lineCov">         24 :                                 param_offset -= root_size;</span>
+<span class="lineNum">     264 </span><span class="lineCov">         24 :                                 param_offset += ctrl_offset;</span>
+<span class="lineNum">     265 </span><span class="lineCov">         24 :                                 out_offset.segment(param_offset, param_size) = curr_offset;</span>
+<span class="lineNum">     266 </span><span class="lineCov">         24 :                                 out_scale.segment(param_offset, param_size) = curr_scale;</span>
+<span class="lineNum">     267 </span>            :                         }
+<span class="lineNum">     268 </span>            :                 }
+<span class="lineNum">     269 </span>            :         }
+<a name="270"><span class="lineNum">     270 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     271 </span>            : 
+<span class="lineNum">     272 </span><span class="lineCov">          1 : void cCtController::BuildStateNormGroups(Eigen::VectorXi&amp; out_groups) const</span>
+<span class="lineNum">     273 </span>            : {
+<span class="lineNum">     274 </span><span class="lineCov">          1 :         cDeepMimicCharController::BuildStateNormGroups(out_groups);</span>
+<span class="lineNum">     275 </span>            : 
+<span class="lineNum">     276 </span><span class="lineCov">          1 :         if (mEnablePhaseInput)</span>
+<span class="lineNum">     277 </span>            :         {
+<span class="lineNum">     278 </span><span class="lineCov">          1 :                 int phase_group = gNormGroupNone;</span>
+<span class="lineNum">     279 </span><span class="lineCov">          1 :                 int phase_offset = GetStatePhaseOffset();</span>
+<span class="lineNum">     280 </span><span class="lineCov">          1 :                 int phase_size = GetStatePhaseSize();</span>
+<span class="lineNum">     281 </span><span class="lineCov">          1 :                 out_groups.segment(phase_offset, phase_size) = phase_group * Eigen::VectorXi::Ones(phase_size);</span>
+<span class="lineNum">     282 </span>            :         }
+<a name="283"><span class="lineNum">     283 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     284 </span>            : 
+<span class="lineNum">     285 </span><span class="lineCov">         24 : void cCtController::RecordState(Eigen::VectorXd&amp; out_state)</span>
+<span class="lineNum">     286 </span>            : {
+<span class="lineNum">     287 </span><span class="lineCov">         48 :         Eigen::VectorXd phase_state;</span>
+<span class="lineNum">     288 </span><span class="lineCov">         24 :         cDeepMimicCharController::RecordState(out_state);</span>
+<span class="lineNum">     289 </span>            : 
+<span class="lineNum">     290 </span><span class="lineCov">         24 :         if (mEnablePhaseInput)</span>
+<span class="lineNum">     291 </span>            :         {
+<span class="lineNum">     292 </span><span class="lineCov">         24 :                 int phase_offset = GetStatePhaseOffset();</span>
+<span class="lineNum">     293 </span><span class="lineCov">         24 :                 int phase_size = GetStatePhaseSize();</span>
+<span class="lineNum">     294 </span><span class="lineCov">         24 :                 BuildStatePhase(phase_state);</span>
+<span class="lineNum">     295 </span><span class="lineCov">         24 :                 out_state.segment(phase_offset, phase_size) = phase_state;</span>
+<span class="lineNum">     296 </span>            :         }
+<a name="297"><span class="lineNum">     297 </span><span class="lineCov">         24 : }</span></a>
+<span class="lineNum">     298 </span>            : 
+<span class="lineNum">     299 </span><span class="lineNoCov">          0 : std::string cCtController::GetName() const</span>
+<span class="lineNum">     300 </span>            : {
+<span class="lineNum">     301 </span><span class="lineNoCov">          0 :         return &quot;ct&quot;;</span>
+<a name="302"><span class="lineNum">     302 </span>            : }</a>
+<span class="lineNum">     303 </span>            : 
+<span class="lineNum">     304 </span><span class="lineCov">        150 : int cCtController::GetStatePoseSize() const</span>
+<span class="lineNum">     305 </span>            : {
+<span class="lineNum">     306 </span><span class="lineCov">        150 :         int pos_dim = GetPosFeatureDim();</span>
+<span class="lineNum">     307 </span><span class="lineCov">        150 :         int rot_dim = GetRotFeatureDim();</span>
+<span class="lineNum">     308 </span><span class="lineCov">        150 :         int size = mChar-&gt;GetNumBodyParts() * (pos_dim + rot_dim) + 1; // +1 for root y</span>
+<span class="lineNum">     309 </span>            : 
+<span class="lineNum">     310 </span><span class="lineCov">        150 :         return size;</span>
+<a name="311"><span class="lineNum">     311 </span>            : }</a>
+<span class="lineNum">     312 </span>            : 
+<span class="lineNum">     313 </span><span class="lineCov">        126 : int cCtController::GetStateVelSize() const</span>
+<span class="lineNum">     314 </span>            : {
+<span class="lineNum">     315 </span><span class="lineCov">        126 :         int pos_dim = GetPosFeatureDim();</span>
+<span class="lineNum">     316 </span><span class="lineCov">        126 :         int rot_dim = GetRotFeatureDim();</span>
+<span class="lineNum">     317 </span><span class="lineCov">        126 :         int size = mChar-&gt;GetNumBodyParts() * (pos_dim + rot_dim - 1);</span>
+<span class="lineNum">     318 </span><span class="lineCov">        126 :         return size;</span>
+<a name="319"><span class="lineNum">     319 </span>            : }</a>
+<span class="lineNum">     320 </span>            : 
+<span class="lineNum">     321 </span><span class="lineCov">         48 : int cCtController::GetStatePoseOffset() const</span>
+<span class="lineNum">     322 </span>            : {
+<span class="lineNum">     323 </span><span class="lineCov">         48 :         return cDeepMimicCharController::GetStatePoseOffset() + GetStatePhaseSize();</span>
+<a name="324"><span class="lineNum">     324 </span>            : }</a>
+<span class="lineNum">     325 </span>            : 
+<span class="lineNum">     326 </span><span class="lineCov">        179 : int cCtController::GetStatePhaseSize() const</span>
+<span class="lineNum">     327 </span>            : {
+<span class="lineNum">     328 </span><span class="lineCov">        179 :         return (mEnablePhaseInput) ? 1 : 0;</span>
+<a name="329"><span class="lineNum">     329 </span>            : }</a>
+<span class="lineNum">     330 </span>            : 
+<span class="lineNum">     331 </span><span class="lineCov">         27 : int cCtController::GetStatePhaseOffset() const</span>
+<span class="lineNum">     332 </span>            : {
+<span class="lineNum">     333 </span><span class="lineCov">         27 :         return 0;</span>
+<a name="334"><span class="lineNum">     334 </span>            : }</a>
+<span class="lineNum">     335 </span>            : 
+<span class="lineNum">     336 </span><span class="lineNoCov">          0 : int cCtController::GetActionPhaseOffset() const</span>
+<span class="lineNum">     337 </span>            : {
+<span class="lineNum">     338 </span><span class="lineNoCov">          0 :         return 0;</span>
+<a name="339"><span class="lineNum">     339 </span>            : }</a>
+<span class="lineNum">     340 </span>            : 
+<span class="lineNum">     341 </span><span class="lineCov">         61 : int cCtController::GetActionPhaseSize() const</span>
+<span class="lineNum">     342 </span>            : {
+<span class="lineNum">     343 </span><span class="lineCov">         61 :         return (mEnablePhaseAction) ? 1 : 0;</span>
+<a name="344"><span class="lineNum">     344 </span>            : }</a>
+<span class="lineNum">     345 </span>            : 
+<span class="lineNum">     346 </span><span class="lineCov">         28 : int cCtController::GetActionCtrlOffset() const</span>
+<span class="lineNum">     347 </span>            : {
+<span class="lineNum">     348 </span><span class="lineCov">         28 :         return GetActionPhaseSize();</span>
+<a name="349"><span class="lineNum">     349 </span>            : }</a>
+<span class="lineNum">     350 </span>            : 
+<span class="lineNum">     351 </span><span class="lineCov">         33 : int cCtController::GetActionCtrlSize() const</span>
+<span class="lineNum">     352 </span>            : {
+<span class="lineNum">     353 </span><span class="lineCov">         33 :         int ctrl_size = mChar-&gt;GetNumDof();</span>
+<span class="lineNum">     354 </span><span class="lineCov">         33 :         int root_size = mChar-&gt;GetParamSize(mChar-&gt;GetRootID());</span>
+<span class="lineNum">     355 </span><span class="lineCov">         33 :         ctrl_size -= root_size;</span>
+<span class="lineNum">     356 </span><span class="lineCov">         33 :         return ctrl_size;</span>
+<a name="357"><span class="lineNum">     357 </span>            : }</a>
+<span class="lineNum">     358 </span>            : 
+<span class="lineNum">     359 </span><span class="lineCov">          2 : void cCtController::BuildStatePhaseOffsetScale(Eigen::VectorXd&amp; phase_offset, Eigen::VectorXd&amp; phase_scale) const</span>
+<span class="lineNum">     360 </span>            : {
+<span class="lineNum">     361 </span><span class="lineCov">          2 :         double offset = -0.5;</span>
+<span class="lineNum">     362 </span><span class="lineCov">          2 :         double scale = 2;</span>
+<span class="lineNum">     363 </span><span class="lineCov">          2 :         int phase_size = GetStatePhaseSize();</span>
+<span class="lineNum">     364 </span><span class="lineCov">          2 :         phase_offset = offset * Eigen::VectorXd::Ones(phase_size);</span>
+<span class="lineNum">     365 </span><span class="lineCov">          2 :         phase_scale = scale * Eigen::VectorXd::Ones(phase_size);</span>
+<a name="366"><span class="lineNum">     366 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     367 </span>            : 
+<span class="lineNum">     368 </span><span class="lineCov">         24 : void cCtController::BuildStatePose(Eigen::VectorXd&amp; out_pose) const</span>
+<span class="lineNum">     369 </span>            : {
+<span class="lineNum">     370 </span><span class="lineCov">         24 :         tMatrix origin_trans = mChar-&gt;BuildOriginTrans();</span>
+<span class="lineNum">     371 </span><span class="lineCov">         24 :         tQuaternion origin_quat = cMathUtil::RotMatToQuaternion(origin_trans);</span>
+<span class="lineNum">     372 </span>            : 
+<span class="lineNum">     373 </span><span class="lineCov">         24 :         bool flip_stance = FlipStance();</span>
+<span class="lineNum">     374 </span><span class="lineCov">         24 :         if (flip_stance)</span>
+<span class="lineNum">     375 </span>            :         {
+<span class="lineNum">     376 </span><span class="lineNoCov">          0 :                 origin_trans.row(2) *= -1; // reflect z</span>
+<span class="lineNum">     377 </span>            :         }
+<span class="lineNum">     378 </span>            : 
+<span class="lineNum">     379 </span><span class="lineCov">         24 :         tVector root_pos = mChar-&gt;GetRootPos();</span>
+<span class="lineNum">     380 </span><span class="lineCov">         24 :         tVector root_pos_rel = root_pos;</span>
+<span class="lineNum">     381 </span>            : 
+<span class="lineNum">     382 </span><span class="lineCov">         24 :         root_pos_rel[3] = 1;</span>
+<span class="lineNum">     383 </span><span class="lineCov">         24 :         root_pos_rel = origin_trans * root_pos_rel;</span>
+<span class="lineNum">     384 </span><span class="lineCov">         24 :         root_pos_rel[3] = 0;</span>
+<span class="lineNum">     385 </span>            : 
+<span class="lineNum">     386 </span><span class="lineCov">         24 :         out_pose = Eigen::VectorXd::Zero(GetStatePoseSize());</span>
+<span class="lineNum">     387 </span><span class="lineCov">         24 :         out_pose[0] = root_pos_rel[1];</span>
+<span class="lineNum">     388 </span><span class="lineCov">         24 :         int num_parts = mChar-&gt;GetNumBodyParts();</span>
+<span class="lineNum">     389 </span><span class="lineCov">         24 :         int root_id = mChar-&gt;GetRootID();</span>
+<span class="lineNum">     390 </span>            : 
+<span class="lineNum">     391 </span><span class="lineCov">         24 :         int pos_dim = GetPosFeatureDim();</span>
+<span class="lineNum">     392 </span><span class="lineCov">         24 :         int rot_dim = GetRotFeatureDim();</span>
+<span class="lineNum">     393 </span>            : 
+<span class="lineNum">     394 </span><span class="lineCov">         24 :         tQuaternion mirror_inv_origin_quat = origin_quat.conjugate();</span>
+<span class="lineNum">     395 </span><span class="lineCov">         24 :         mirror_inv_origin_quat = cMathUtil::MirrorQuaternion(mirror_inv_origin_quat, cMathUtil::eAxisZ);</span>
+<span class="lineNum">     396 </span>            : 
+<span class="lineNum">     397 </span><span class="lineCov">         24 :         int idx = 1;</span>
+<span class="lineNum">     398 </span><span class="lineCov">        384 :         for (int i = 0; i &lt; num_parts; ++i)</span>
+<span class="lineNum">     399 </span>            :         {
+<span class="lineNum">     400 </span><span class="lineCov">        360 :                 int part_id = RetargetJointID(i);</span>
+<span class="lineNum">     401 </span><span class="lineCov">        360 :                 if (mChar-&gt;IsValidBodyPart(part_id))</span>
+<span class="lineNum">     402 </span>            :                 {
+<span class="lineNum">     403 </span><span class="lineCov">        360 :                         const auto&amp; curr_part = mChar-&gt;GetBodyPart(part_id);</span>
+<span class="lineNum">     404 </span><span class="lineCov">        360 :                         tVector curr_pos = curr_part-&gt;GetPos();</span>
+<span class="lineNum">     405 </span>            : 
+<span class="lineNum">     406 </span><span class="lineCov">        360 :                         if (mRecordWorldRootPos &amp;&amp; i == root_id)</span>
+<span class="lineNum">     407 </span>            :                         {
+<span class="lineNum">     408 </span><span class="lineNoCov">          0 :                                 if (flip_stance)</span>
+<span class="lineNum">     409 </span>            :                                 {
+<span class="lineNum">     410 </span><span class="lineNoCov">          0 :                                         curr_pos = cMathUtil::QuatRotVec(origin_quat, curr_pos);</span>
+<span class="lineNum">     411 </span><span class="lineNoCov">          0 :                                         curr_pos[2] = -curr_pos[2];</span>
+<span class="lineNum">     412 </span><span class="lineNoCov">          0 :                                         curr_pos = cMathUtil::QuatRotVec(mirror_inv_origin_quat, curr_pos);</span>
+<span class="lineNum">     413 </span>            :                                 }
+<span class="lineNum">     414 </span>            :                         }
+<span class="lineNum">     415 </span>            :                         else
+<span class="lineNum">     416 </span>            :                         {
+<span class="lineNum">     417 </span><span class="lineCov">        360 :                                 curr_pos[3] = 1;</span>
+<span class="lineNum">     418 </span><span class="lineCov">        360 :                                 curr_pos = origin_trans * curr_pos;</span>
+<span class="lineNum">     419 </span><span class="lineCov">        360 :                                 curr_pos -= root_pos_rel;</span>
+<span class="lineNum">     420 </span><span class="lineCov">        360 :                                 curr_pos[3] = 0;</span>
+<span class="lineNum">     421 </span>            :                         }
+<span class="lineNum">     422 </span>            : 
+<span class="lineNum">     423 </span><span class="lineCov">        360 :                         out_pose.segment(idx, pos_dim) = curr_pos.segment(0, pos_dim);</span>
+<span class="lineNum">     424 </span><span class="lineCov">        360 :                         idx += pos_dim;</span>
+<span class="lineNum">     425 </span>            : 
+<span class="lineNum">     426 </span><span class="lineCov">        360 :                         tQuaternion curr_quat = curr_part-&gt;GetRotation();</span>
+<span class="lineNum">     427 </span><span class="lineCov">        360 :                         if (mRecordWorldRootRot &amp;&amp; i == root_id)</span>
+<span class="lineNum">     428 </span>            :                         {
+<span class="lineNum">     429 </span><span class="lineCov">         48 :                                 if (flip_stance)</span>
+<span class="lineNum">     430 </span>            :                                 {
+<span class="lineNum">     431 </span><span class="lineNoCov">          0 :                                         curr_quat = origin_quat * curr_quat;</span>
+<span class="lineNum">     432 </span><span class="lineNoCov">          0 :                                         curr_quat = cMathUtil::MirrorQuaternion(curr_quat, cMathUtil::eAxisZ);</span>
+<span class="lineNum">     433 </span><span class="lineNoCov">          0 :                                         curr_quat = mirror_inv_origin_quat * curr_quat;</span>
+<span class="lineNum">     434 </span>            :                                 }
+<span class="lineNum">     435 </span>            :                         }
+<span class="lineNum">     436 </span>            :                         else
+<span class="lineNum">     437 </span>            :                         {
+<span class="lineNum">     438 </span><span class="lineCov">        336 :                                 curr_quat = origin_quat * curr_quat;</span>
+<span class="lineNum">     439 </span><span class="lineCov">        336 :                                 if (flip_stance)</span>
+<span class="lineNum">     440 </span>            :                                 {
+<span class="lineNum">     441 </span><span class="lineNoCov">          0 :                                         curr_quat = cMathUtil::MirrorQuaternion(curr_quat, cMathUtil::eAxisZ);</span>
+<span class="lineNum">     442 </span>            :                                 }
+<span class="lineNum">     443 </span>            :                         }
+<span class="lineNum">     444 </span>            : 
+<span class="lineNum">     445 </span><span class="lineCov">        360 :                         if (curr_quat.w() &lt; 0)</span>
+<span class="lineNum">     446 </span>            :                         {
+<span class="lineNum">     447 </span><span class="lineCov">        146 :                                 curr_quat.w() *= -1;</span>
+<span class="lineNum">     448 </span><span class="lineCov">        146 :                                 curr_quat.x() *= -1;</span>
+<span class="lineNum">     449 </span><span class="lineCov">        146 :                                 curr_quat.y() *= -1;</span>
+<span class="lineNum">     450 </span><span class="lineCov">        146 :                                 curr_quat.z() *= -1;</span>
+<span class="lineNum">     451 </span>            :                         }
+<span class="lineNum">     452 </span><span class="lineCov">        360 :                         out_pose.segment(idx, rot_dim) = cMathUtil::QuatToVec(curr_quat).segment(0, rot_dim);</span>
+<span class="lineNum">     453 </span><span class="lineCov">        360 :                         idx += rot_dim;</span>
+<span class="lineNum">     454 </span>            :                 }
+<span class="lineNum">     455 </span>            :         }
+<a name="456"><span class="lineNum">     456 </span><span class="lineCov">         24 : }</span></a>
+<span class="lineNum">     457 </span>            : 
+<span class="lineNum">     458 </span><span class="lineCov">         24 : void cCtController::BuildStateVel(Eigen::VectorXd&amp; out_vel) const</span>
+<span class="lineNum">     459 </span>            : {
+<span class="lineNum">     460 </span><span class="lineCov">         24 :         int num_parts = mChar-&gt;GetNumBodyParts();</span>
+<span class="lineNum">     461 </span><span class="lineCov">         24 :         tMatrix origin_trans = mChar-&gt;BuildOriginTrans();</span>
+<span class="lineNum">     462 </span><span class="lineCov">         24 :         tQuaternion origin_quat = cMathUtil::RotMatToQuaternion(origin_trans);</span>
+<span class="lineNum">     463 </span>            : 
+<span class="lineNum">     464 </span><span class="lineCov">         24 :         bool flip_stance = FlipStance();</span>
+<span class="lineNum">     465 </span><span class="lineCov">         24 :         if (flip_stance)</span>
+<span class="lineNum">     466 </span>            :         {
+<span class="lineNum">     467 </span><span class="lineNoCov">          0 :                 origin_trans.row(2) *= -1; // reflect z</span>
+<span class="lineNum">     468 </span>            :         }
+<span class="lineNum">     469 </span>            : 
+<span class="lineNum">     470 </span><span class="lineCov">         24 :         int pos_dim = GetPosFeatureDim();</span>
+<span class="lineNum">     471 </span><span class="lineCov">         24 :         int rot_dim = GetRotFeatureDim();</span>
+<span class="lineNum">     472 </span>            : 
+<span class="lineNum">     473 </span><span class="lineCov">         24 :         out_vel = Eigen::VectorXd::Zero(GetStateVelSize());</span>
+<span class="lineNum">     474 </span>            : 
+<span class="lineNum">     475 </span><span class="lineCov">         24 :         tQuaternion mirror_inv_origin_quat = origin_quat.conjugate();</span>
+<span class="lineNum">     476 </span><span class="lineCov">         24 :         mirror_inv_origin_quat = cMathUtil::MirrorQuaternion(mirror_inv_origin_quat, cMathUtil::eAxisZ);</span>
+<span class="lineNum">     477 </span>            :         
+<span class="lineNum">     478 </span><span class="lineCov">         24 :         int idx = 0;</span>
+<span class="lineNum">     479 </span><span class="lineCov">        384 :         for (int i = 0; i &lt; num_parts; ++i)</span>
+<span class="lineNum">     480 </span>            :         {
+<span class="lineNum">     481 </span><span class="lineCov">        360 :                 int part_id = RetargetJointID(i);</span>
+<span class="lineNum">     482 </span><span class="lineCov">        360 :                 int root_id = mChar-&gt;GetRootID();</span>
+<span class="lineNum">     483 </span>            : 
+<span class="lineNum">     484 </span><span class="lineCov">        360 :                 const auto&amp; curr_part = mChar-&gt;GetBodyPart(part_id);</span>
+<span class="lineNum">     485 </span><span class="lineCov">        360 :                 tVector curr_vel = curr_part-&gt;GetLinearVelocity();</span>
+<span class="lineNum">     486 </span>            : 
+<span class="lineNum">     487 </span><span class="lineCov">        360 :                 if (mRecordWorldRootRot &amp;&amp; i == root_id)</span>
+<span class="lineNum">     488 </span>            :                 {
+<span class="lineNum">     489 </span><span class="lineCov">         48 :                         if (flip_stance)</span>
+<span class="lineNum">     490 </span>            :                         {
+<span class="lineNum">     491 </span><span class="lineNoCov">          0 :                                 curr_vel = cMathUtil::QuatRotVec(origin_quat, curr_vel);</span>
+<span class="lineNum">     492 </span><span class="lineNoCov">          0 :                                 curr_vel[2] = -curr_vel[2];</span>
+<span class="lineNum">     493 </span><span class="lineNoCov">          0 :                                 curr_vel = cMathUtil::QuatRotVec(mirror_inv_origin_quat, curr_vel);</span>
+<span class="lineNum">     494 </span>            :                         }
+<span class="lineNum">     495 </span>            :                 }
+<span class="lineNum">     496 </span>            :                 else
+<span class="lineNum">     497 </span>            :                 {
+<span class="lineNum">     498 </span><span class="lineCov">        336 :                         curr_vel = origin_trans * curr_vel;</span>
+<span class="lineNum">     499 </span>            :                 }
+<span class="lineNum">     500 </span>            : 
+<span class="lineNum">     501 </span><span class="lineCov">        360 :                 out_vel.segment(idx, pos_dim) = curr_vel.segment(0, pos_dim);</span>
+<span class="lineNum">     502 </span><span class="lineCov">        360 :                 idx += pos_dim;</span>
+<span class="lineNum">     503 </span>            : 
+<span class="lineNum">     504 </span><span class="lineCov">        360 :                 tVector curr_ang_vel = curr_part-&gt;GetAngularVelocity();</span>
+<span class="lineNum">     505 </span><span class="lineCov">        360 :                 if (mRecordWorldRootRot &amp;&amp; i == root_id)</span>
+<span class="lineNum">     506 </span>            :                 {
+<span class="lineNum">     507 </span><span class="lineCov">         48 :                         if (flip_stance)</span>
+<span class="lineNum">     508 </span>            :                         {
+<span class="lineNum">     509 </span><span class="lineNoCov">          0 :                                 curr_ang_vel = cMathUtil::QuatRotVec(origin_quat, curr_ang_vel);</span>
+<span class="lineNum">     510 </span><span class="lineNoCov">          0 :                                 curr_ang_vel[2] = -curr_ang_vel[2];</span>
+<span class="lineNum">     511 </span><span class="lineNoCov">          0 :                                 curr_ang_vel = -curr_ang_vel;</span>
+<span class="lineNum">     512 </span><span class="lineNoCov">          0 :                                 curr_ang_vel = cMathUtil::QuatRotVec(mirror_inv_origin_quat, curr_ang_vel);</span>
+<span class="lineNum">     513 </span>            :                         }
+<span class="lineNum">     514 </span>            :                 }
+<span class="lineNum">     515 </span>            :                 else
+<span class="lineNum">     516 </span>            :                 {
+<span class="lineNum">     517 </span><span class="lineCov">        336 :                         curr_ang_vel = origin_trans * curr_ang_vel;</span>
+<span class="lineNum">     518 </span><span class="lineCov">        336 :                         if (flip_stance)</span>
+<span class="lineNum">     519 </span>            :                         {
+<span class="lineNum">     520 </span><span class="lineNoCov">          0 :                                 curr_ang_vel = -curr_ang_vel;</span>
+<span class="lineNum">     521 </span>            :                         }
+<span class="lineNum">     522 </span>            :                 }
+<span class="lineNum">     523 </span>            : 
+<span class="lineNum">     524 </span><span class="lineCov">        360 :                 out_vel.segment(idx, rot_dim - 1) = curr_ang_vel.segment(0, rot_dim - 1);</span>
+<span class="lineNum">     525 </span><span class="lineCov">        360 :                 idx += rot_dim - 1;</span>
+<span class="lineNum">     526 </span>            :         }
+<a name="527"><span class="lineNum">     527 </span><span class="lineCov">         24 : }</span></a>
+<span class="lineNum">     528 </span>            : 
+<span class="lineNum">     529 </span><span class="lineCov">         24 : void cCtController::BuildStatePhase(Eigen::VectorXd&amp; out_phase) const</span>
+<span class="lineNum">     530 </span>            : {
+<span class="lineNum">     531 </span><span class="lineCov">         24 :         double phase = GetPhase();</span>
+<span class="lineNum">     532 </span><span class="lineCov">         24 :         out_phase = Eigen::VectorXd::Zero(GetStatePhaseSize());</span>
+<span class="lineNum">     533 </span><span class="lineCov">         24 :         out_phase[0] = phase;</span>
+<a name="534"><span class="lineNum">     534 </span><span class="lineCov">         24 : }</span></a>
+<span class="lineNum">     535 </span>            : 
+<span class="lineNum">     536 </span><span class="lineNoCov">          0 : void cCtController::BuildJointActionBounds(int joint_id, Eigen::VectorXd&amp; out_min, Eigen::VectorXd&amp; out_max) const</span>
+<span class="lineNum">     537 </span>            : {
+<span class="lineNum">     538 </span><span class="lineNoCov">          0 :         const Eigen::MatrixXd&amp; joint_mat = mChar-&gt;GetJointMat();</span>
+<span class="lineNum">     539 </span><span class="lineNoCov">          0 :         cCtCtrlUtil::BuildBoundsTorque(joint_mat, joint_id, out_min, out_max);</span>
+<a name="540"><span class="lineNum">     540 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     541 </span>            : 
+<span class="lineNum">     542 </span><span class="lineNoCov">          0 : void cCtController::BuildJointActionOffsetScale(int joint_id, Eigen::VectorXd&amp; out_offset, Eigen::VectorXd&amp; out_scale) const</span>
+<span class="lineNum">     543 </span>            : {
+<span class="lineNum">     544 </span><span class="lineNoCov">          0 :         const Eigen::MatrixXd&amp; joint_mat = mChar-&gt;GetJointMat();</span>
+<span class="lineNum">     545 </span><span class="lineNoCov">          0 :         cCtCtrlUtil::BuildOffsetScaleTorque(joint_mat, joint_id, out_offset, out_scale);</span>
+<a name="546"><span class="lineNum">     546 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     547 </span>            : 
+<span class="lineNum">     548 </span><span class="lineCov">        240 : bool cCtController::FlipStance() const</span>
+<span class="lineNum">     549 </span>            : {
+<span class="lineNum">     550 </span><span class="lineCov">        240 :         return false;</span>
+<a name="551"><span class="lineNum">     551 </span>            : }</a>
+<span class="lineNum">     552 </span>            : 
+<span class="lineNum">     553 </span><span class="lineCov">       1056 : int cCtController::RetargetJointID(int joint_id) const</span>
+<span class="lineNum">     554 </span>            : {
+<span class="lineNum">     555 </span><span class="lineCov">       1056 :         return joint_id;</span>
+<a name="556"><span class="lineNum">     556 </span>            : }</a>
+<span class="lineNum">     557 </span>            : 
+<span class="lineNum">     558 </span><span class="lineNoCov">          0 : double cCtController::GetPhaseRate() const</span>
+<span class="lineNum">     559 </span>            : {
+<span class="lineNum">     560 </span><span class="lineNoCov">          0 :         assert(mEnablePhaseAction);</span>
+<span class="lineNum">     561 </span><span class="lineNoCov">          0 :         double phase_rate = 0;</span>
+<span class="lineNum">     562 </span><span class="lineNoCov">          0 :         if (mEnablePhaseAction)</span>
+<span class="lineNum">     563 </span>            :         {
+<span class="lineNum">     564 </span><span class="lineNoCov">          0 :                 int phase_offset = GetActionPhaseOffset();</span>
+<span class="lineNum">     565 </span><span class="lineNoCov">          0 :                 phase_rate = mAction[phase_offset];</span>
+<a name="566"><span class="lineNum">     566 </span>            :         }</a>
+<span class="lineNum">     567 </span><span class="lineNoCov">          0 :         return phase_rate;</span>
+<span class="lineNum">     568 </span><span class="lineCov">          3 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

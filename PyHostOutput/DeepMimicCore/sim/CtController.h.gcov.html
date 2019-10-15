@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - PyHost Code Analysis - DeepMimicCore/sim/CtController.h</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">DeepMimicCore/sim</a> - CtController.h<span style="font-size: 80%;"> (source / <a href="CtController.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">PyHost Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 17:04:23</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : #pragma once</a>
+<span class="lineNum">       2 </span>            : 
+<span class="lineNum">       3 </span>            : #include &quot;sim/DeepMimicCharController.h&quot;
+<span class="lineNum">       4 </span>            : #include &quot;sim/CtCtrlUtil.h&quot;
+<span class="lineNum">       5 </span>            : 
+<span class="lineNum">       6 </span>            : class cCtController : public virtual cDeepMimicCharController
+<a name="7"><span class="lineNum">       7 </span>            : {</a>
+<span class="lineNum">       8 </span>            : public:
+<span class="lineNum">       9 </span><span class="lineNoCov">          0 :         EIGEN_MAKE_ALIGNED_OPERATOR_NEW</span>
+<span class="lineNum">      10 </span>            : 
+<span class="lineNum">      11 </span>            :         cCtController();
+<span class="lineNum">      12 </span>            :         virtual ~cCtController();
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span>            :         virtual void SetUpdateRate(double rate);
+<span class="lineNum">      15 </span>            :         virtual double GetUpdateRate() const;
+<span class="lineNum">      16 </span>            : 
+<span class="lineNum">      17 </span>            :         virtual void UpdateCalcTau(double timestep, Eigen::VectorXd&amp; out_tau);
+<span class="lineNum">      18 </span>            :         
+<span class="lineNum">      19 </span>            :         virtual double GetCyclePeriod() const;
+<span class="lineNum">      20 </span>            :         virtual void SetCyclePeriod(double period);
+<span class="lineNum">      21 </span>            :         virtual void SetInitTime(double time);
+<span class="lineNum">      22 </span>            :         virtual double GetPhase() const;
+<span class="lineNum">      23 </span>            : 
+<span class="lineNum">      24 </span>            :         virtual int GetStateSize() const;
+<span class="lineNum">      25 </span>            :         virtual int GetActionSize() const;
+<span class="lineNum">      26 </span>            :         virtual void BuildStateOffsetScale(Eigen::VectorXd&amp; out_offset, Eigen::VectorXd&amp; out_scale) const;
+<span class="lineNum">      27 </span>            :         virtual void BuildActionBounds(Eigen::VectorXd&amp; out_min, Eigen::VectorXd&amp; out_max) const;
+<span class="lineNum">      28 </span>            :         virtual void BuildActionOffsetScale(Eigen::VectorXd&amp; out_offset, Eigen::VectorXd&amp; out_scale) const;
+<span class="lineNum">      29 </span>            : 
+<span class="lineNum">      30 </span>            :         virtual void BuildStateNormGroups(Eigen::VectorXi&amp; out_groups) const;
+<span class="lineNum">      31 </span>            :         
+<span class="lineNum">      32 </span>            :         virtual void RecordState(Eigen::VectorXd&amp; out_state);
+<span class="lineNum">      33 </span>            : 
+<span class="lineNum">      34 </span>            :         virtual std::string GetName() const;
+<span class="lineNum">      35 </span>            : 
+<span class="lineNum">      36 </span>            : protected:
+<span class="lineNum">      37 </span>            :         
+<span class="lineNum">      38 </span>            :         double mUpdateRate;
+<span class="lineNum">      39 </span>            :         double mCyclePeriod;
+<span class="lineNum">      40 </span>            :         bool mEnablePhaseInput;
+<span class="lineNum">      41 </span>            :         bool mEnablePhaseAction;
+<span class="lineNum">      42 </span>            :         bool mRecordWorldRootPos;
+<span class="lineNum">      43 </span>            :         bool mRecordWorldRootRot;
+<span class="lineNum">      44 </span>            : 
+<span class="lineNum">      45 </span>            :         double mPhaseOffset;
+<span class="lineNum">      46 </span>            :         double mInitTimeOffset;
+<span class="lineNum">      47 </span>            : 
+<span class="lineNum">      48 </span>            :         Eigen::VectorXd mActionBoundMin;
+<span class="lineNum">      49 </span>            :         Eigen::VectorXd mActionBoundMax;
+<span class="lineNum">      50 </span>            : 
+<span class="lineNum">      51 </span>            :         virtual void ResetParams();
+<span class="lineNum">      52 </span>            :         virtual int GetPosFeatureDim() const;
+<span class="lineNum">      53 </span>            :         virtual int GetRotFeatureDim() const;
+<span class="lineNum">      54 </span>            : 
+<span class="lineNum">      55 </span>            :         virtual bool ParseParams(const Json::Value&amp; json);
+<span class="lineNum">      56 </span>            : 
+<span class="lineNum">      57 </span>            :         virtual void UpdateBuildTau(double time_step, Eigen::VectorXd&amp; out_tau);
+<span class="lineNum">      58 </span>            :         virtual bool CheckNeedNewAction(double timestep) const;
+<span class="lineNum">      59 </span>            :         virtual void NewActionUpdate();
+<span class="lineNum">      60 </span>            :         
+<span class="lineNum">      61 </span>            :         virtual int GetStatePoseSize() const;
+<span class="lineNum">      62 </span>            :         virtual int GetStateVelSize() const;
+<span class="lineNum">      63 </span>            :         virtual int GetStatePoseOffset() const;
+<span class="lineNum">      64 </span>            :         virtual int GetStatePhaseSize() const;
+<span class="lineNum">      65 </span>            :         virtual int GetStatePhaseOffset() const;
+<span class="lineNum">      66 </span>            : 
+<span class="lineNum">      67 </span>            :         virtual int GetActionPhaseOffset() const;
+<span class="lineNum">      68 </span>            :         virtual int GetActionPhaseSize() const;
+<span class="lineNum">      69 </span>            :         virtual int GetActionCtrlOffset() const;
+<span class="lineNum">      70 </span>            :         virtual int GetActionCtrlSize() const;
+<span class="lineNum">      71 </span>            : 
+<span class="lineNum">      72 </span>            :         virtual void BuildStatePhaseOffsetScale(Eigen::VectorXd&amp; phase_offset, Eigen::VectorXd&amp; phase_scale) const;
+<span class="lineNum">      73 </span>            : 
+<span class="lineNum">      74 </span>            :         virtual void BuildStatePose(Eigen::VectorXd&amp; out_pose) const;
+<span class="lineNum">      75 </span>            :         virtual void BuildStateVel(Eigen::VectorXd&amp; out_vel) const;
+<span class="lineNum">      76 </span>            :         virtual void BuildStatePhase(Eigen::VectorXd&amp; out_phase) const;
+<span class="lineNum">      77 </span>            : 
+<span class="lineNum">      78 </span>            :         virtual void BuildJointActionBounds(int joint_id, Eigen::VectorXd&amp; out_min, Eigen::VectorXd&amp; out_max) const;
+<span class="lineNum">      79 </span>            :         virtual void BuildJointActionOffsetScale(int joint_id, Eigen::VectorXd&amp; out_offset, Eigen::VectorXd&amp; out_scale) const;
+<span class="lineNum">      80 </span>            : 
+<span class="lineNum">      81 </span>            :         virtual bool FlipStance() const;
+<span class="lineNum">      82 </span>            :         virtual int RetargetJointID(int joint_id) const;
+<span class="lineNum">      83 </span>            :         virtual double GetPhaseRate() const;
+<span class="lineNum">      84 </span>            : };
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

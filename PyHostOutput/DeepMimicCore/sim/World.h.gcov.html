@@ -1,0 +1,227 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - PyHost Code Analysis - DeepMimicCore/sim/World.h</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">DeepMimicCore/sim</a> - World.h<span style="font-size: 80%;"> (source / <a href="World.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">PyHost Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntryLo">50.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 17:04:23</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntryLo">20.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : #pragma once</a>
+<span class="lineNum">       2 </span>            : 
+<span class="lineNum">       3 </span>            : #include &lt;memory&gt;
+<span class="lineNum">       4 </span>            : 
+<span class="lineNum">       5 </span>            : #include &quot;btBulletDynamicsCommon.h&quot;
+<span class="lineNum">       6 </span>            : #include &quot;BulletDynamics/Featherstone/btMultiBodyDynamicsWorld.h&quot;
+<span class="lineNum">       7 </span>            : 
+<span class="lineNum">       8 </span>            : #include &quot;sim/MultiBody.h&quot;
+<span class="lineNum">       9 </span>            : #include &quot;sim/ContactManager.h&quot;
+<span class="lineNum">      10 </span>            : #include &quot;sim/PerturbManager.h&quot;
+<span class="lineNum">      11 </span>            : #include &quot;anim/KinTree.h&quot;
+<span class="lineNum">      12 </span>            : #include &quot;util/MathUtil.h&quot;
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span>            : class cSimObj;
+<span class="lineNum">      15 </span>            : class cSimJoint;
+<span class="lineNum">      16 </span>            : class cSimBodyLink;
+<span class="lineNum">      17 </span>            : class cSimRigidBody;
+<span class="lineNum">      18 </span>            : class cSimBox;
+<span class="lineNum">      19 </span>            : class cSimCapsule;
+<span class="lineNum">      20 </span>            : class cSimPlane;
+<span class="lineNum">      21 </span>            : class cSimSphere;
+<span class="lineNum">      22 </span>            : class cSimCharacter;
+<span class="lineNum">      23 </span>            : 
+<span class="lineNum">      24 </span>            : class cWorld : public std::enable_shared_from_this&lt;cWorld&gt;
+<span class="lineNum">      25 </span>            : {
+<span class="lineNum">      26 </span>            : public:
+<span class="lineNum">      27 </span>            :         enum eContactFlag
+<span class="lineNum">      28 </span>            :         {
+<span class="lineNum">      29 </span>            :                 eContactFlagNone = 0,
+<span class="lineNum">      30 </span>            :                 eContactFlagCharacter = 0x1,
+<span class="lineNum">      31 </span>            :                 eContactFlagEnvironment = 0x1 &lt;&lt; 1,
+<span class="lineNum">      32 </span>            :                 eContactFlagObject = 0x1 &lt;&lt; 2,
+<span class="lineNum">      33 </span>            :                 eContactFlagAll = cContactManager::gFlagAll
+<a name="34"><span class="lineNum">      34 </span>            :         };</a>
+<span class="lineNum">      35 </span>            : 
+<span class="lineNum">      36 </span><span class="lineCov">          1 :         struct tParams</span>
+<span class="lineNum">      37 </span>            :         {
+<span class="lineNum">      38 </span>            :                 EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+<span class="lineNum">      39 </span>            : 
+<span class="lineNum">      40 </span>            :                 tParams();
+<span class="lineNum">      41 </span>            :                 int mNumSubsteps;
+<span class="lineNum">      42 </span>            :                 double mScale;
+<span class="lineNum">      43 </span>            :                 tVector mGravity;
+<span class="lineNum">      44 </span>            :         };
+<span class="lineNum">      45 </span>            : 
+<span class="lineNum">      46 </span>            :         struct tConstraintHandle
+<span class="lineNum">      47 </span>            :         {
+<span class="lineNum">      48 </span>            :                 tConstraintHandle();
+<span class="lineNum">      49 </span>            :                 bool IsValid() const;
+<span class="lineNum">      50 </span>            :                 void Clear();
+<span class="lineNum">      51 </span>            :                 btTypedConstraint* mCons;
+<a name="52"><span class="lineNum">      52 </span>            :         };</a>
+<span class="lineNum">      53 </span>            : 
+<span class="lineNum">      54 </span><span class="lineNoCov">          0 :         struct tRayTestResult</span>
+<span class="lineNum">      55 </span>            :         {
+<span class="lineNum">      56 </span>            :                 EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+<span class="lineNum">      57 </span>            : 
+<span class="lineNum">      58 </span>            :                 cSimObj* mObj;
+<span class="lineNum">      59 </span>            :                 tVector mHitPos;
+<span class="lineNum">      60 </span>            :         };
+<span class="lineNum">      61 </span>            :         typedef tEigenArr&lt;tRayTestResult&gt; tRayTestResults;
+<span class="lineNum">      62 </span>            : 
+<span class="lineNum">      63 </span>            :         cWorld();
+<span class="lineNum">      64 </span>            :         virtual ~cWorld();
+<span class="lineNum">      65 </span>            :         virtual void Init(const tParams&amp; params);
+<span class="lineNum">      66 </span>            :         virtual void Reset();
+<span class="lineNum">      67 </span>            :         virtual void Update(double time_elapsed);
+<span class="lineNum">      68 </span>            : 
+<span class="lineNum">      69 </span>            :         virtual void AddRigidBody(cSimRigidBody&amp; obj);
+<span class="lineNum">      70 </span>            :         virtual void RemoveRigidBody(cSimRigidBody&amp; obj);
+<span class="lineNum">      71 </span>            : 
+<span class="lineNum">      72 </span>            :         virtual void AddCollisionObject(btCollisionObject* col_obj, int col_filter_group, int col_filter_mask);
+<span class="lineNum">      73 </span>            :         virtual void RemoveCollisionObject(btCollisionObject* col_obj);
+<span class="lineNum">      74 </span>            :         virtual void AddCharacter(cSimCharacter&amp; sim_char);
+<span class="lineNum">      75 </span>            :         virtual void RemoveCharacter(cSimCharacter&amp; sim_char);
+<span class="lineNum">      76 </span>            : 
+<span class="lineNum">      77 </span>            :         virtual void Constrain(cSimRigidBody&amp; obj);
+<span class="lineNum">      78 </span>            :         virtual void Constrain(cSimRigidBody&amp; obj, const tVector&amp; linear_factor, const tVector&amp; angular_factor);
+<span class="lineNum">      79 </span>            :         virtual void RemoveConstraint(tConstraintHandle&amp; handle);
+<span class="lineNum">      80 </span>            :         virtual void AddJoint(const cSimJoint&amp; joint);
+<span class="lineNum">      81 </span>            :         virtual void RemoveJoint(cSimJoint&amp; joint);
+<span class="lineNum">      82 </span>            : 
+<span class="lineNum">      83 </span>            :         virtual void SetGravity(const tVector&amp; gravity);
+<span class="lineNum">      84 </span>            : 
+<span class="lineNum">      85 </span>            :         virtual cContactManager::tContactHandle RegisterContact(int contact_flags, int filter_flags);
+<span class="lineNum">      86 </span>            :         virtual void UpdateContact(const cContactManager::tContactHandle&amp; handle);
+<span class="lineNum">      87 </span>            :         virtual bool IsInContact(const cContactManager::tContactHandle&amp; handle) const;
+<span class="lineNum">      88 </span>            :         virtual const tEigenArr&lt;cContactManager::tContactPt&gt;&amp; GetContactPts(const cContactManager::tContactHandle&amp; handle) const;
+<span class="lineNum">      89 </span>            :         virtual const cContactManager&amp; GetContactManager() const;
+<span class="lineNum">      90 </span>            : 
+<span class="lineNum">      91 </span>            :         virtual void RayTest(const tVector&amp; beg, const tVector&amp; end, tRayTestResults&amp; results) const;
+<span class="lineNum">      92 </span>            :         virtual void AddPerturb(const tPerturb&amp; perturb);
+<span class="lineNum">      93 </span>            :         virtual const cPerturbManager&amp; GetPerturbManager() const;
+<span class="lineNum">      94 </span>            : 
+<span class="lineNum">      95 </span>            :         virtual tVector GetGravity() const;
+<span class="lineNum">      96 </span>            :         virtual double GetScale() const;
+<span class="lineNum">      97 </span>            :         virtual double GetTimeStep() const;
+<span class="lineNum">      98 </span>            :         virtual void SetDefaultLinearDamping(double damping);
+<span class="lineNum">      99 </span>            :         virtual double GetDefaultLinearDamping() const;
+<span class="lineNum">     100 </span>            :         virtual void SetDefaultAngularDamping(double damping);
+<span class="lineNum">     101 </span>            :         virtual double GetDefaultAngularDamping() const;
+<span class="lineNum">     102 </span>            : 
+<span class="lineNum">     103 </span>            :         // yuck, avoid using this
+<span class="lineNum">     104 </span>            :         std::unique_ptr&lt;btMultiBodyDynamicsWorld&gt;&amp; GetInternalWorld();
+<span class="lineNum">     105 </span>            :         const std::unique_ptr&lt;btMultiBodyDynamicsWorld&gt;&amp; GetInternalWorld() const;
+<span class="lineNum">     106 </span>            : 
+<span class="lineNum">     107 </span>            :         // object interface
+<span class="lineNum">     108 </span>            :         virtual btBoxShape* BuildBoxShape(const tVector&amp; box_sizee) const;
+<span class="lineNum">     109 </span>            :         virtual btCapsuleShape* BuildCapsuleShape(double radius, double height) const;
+<span class="lineNum">     110 </span>            :         virtual btStaticPlaneShape* BuildPlaneShape(const tVector&amp; normal, const tVector&amp; origin) const;
+<span class="lineNum">     111 </span>            :         virtual btSphereShape* BuildSphereShape(double radius) const;
+<span class="lineNum">     112 </span>            :         virtual btCylinderShape* BuildCylinderShape(double radius, double height) const;
+<span class="lineNum">     113 </span>            : 
+<span class="lineNum">     114 </span>            :         virtual tVector GetSizeBox(const cSimObj&amp; obj) const;
+<span class="lineNum">     115 </span>            :         virtual tVector GetSizeCapsule(const cSimObj&amp; obj) const;
+<span class="lineNum">     116 </span>            :         virtual tVector GetSizePlane(const cSimObj&amp; obj) const;
+<span class="lineNum">     117 </span>            :         virtual tVector GetSizeSphere(const cSimObj&amp; obj) const;
+<span class="lineNum">     118 </span>            :         virtual tVector GetSizeCylinder(const cSimObj&amp; obj) const;
+<span class="lineNum">     119 </span>            :         
+<span class="lineNum">     120 </span>            : protected:
+<span class="lineNum">     121 </span>            :         struct tConstraintEntry
+<span class="lineNum">     122 </span>            :         {
+<span class="lineNum">     123 </span>            :                 cSimObj* mObj0;
+<span class="lineNum">     124 </span>            :                 cSimObj* mObj1;
+<span class="lineNum">     125 </span>            :         };
+<span class="lineNum">     126 </span>            : 
+<span class="lineNum">     127 </span>            :         tParams mParams;
+<span class="lineNum">     128 </span>            :         double mTimeStep;
+<span class="lineNum">     129 </span>            :         double mDefaultLinearDamping;
+<span class="lineNum">     130 </span>            :         double mDefaultAngularDamping;
+<span class="lineNum">     131 </span>            :         std::unique_ptr&lt;btMultiBodyDynamicsWorld&gt; mSimWorld;
+<span class="lineNum">     132 </span>            : 
+<span class="lineNum">     133 </span>            :         std::unique_ptr&lt;btConstraintSolver&gt; mSolver;
+<span class="lineNum">     134 </span>            :         std::unique_ptr&lt;btCollisionDispatcher&gt; mCollisionDispatcher;
+<span class="lineNum">     135 </span>            :         std::unique_ptr&lt;btDefaultCollisionConfiguration&gt; mCollisionConfig;
+<span class="lineNum">     136 </span>            :         std::unique_ptr&lt;btBroadphaseInterface&gt; mBroadPhase;
+<span class="lineNum">     137 </span>            : 
+<span class="lineNum">     138 </span>            :         cContactManager mContactManager;
+<span class="lineNum">     139 </span>            :         cPerturbManager mPerturbManager;
+<span class="lineNum">     140 </span>            :         
+<span class="lineNum">     141 </span>            :         virtual int GetNumConstriants() const;
+<span class="lineNum">     142 </span>            :         virtual void BuildConsFactor(tVector&amp; out_linear_factor, tVector&amp; out_angular_factor);
+<span class="lineNum">     143 </span>            : };
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Main Call Code Analysis - /usr/local/include/eigen3/Eigen/src/Core/functors/AssignmentFunctors.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../../../index.html">top level</a> - <a href="index.html">usr/local/include/eigen3/Eigen/src/Core/functors</a> - AssignmentFunctors.h<span style="font-size: 80%;"> (source / <a href="AssignmentFunctors.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Main Call Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">23</td>
+            <td class="headerCovTableEntry">24</td>
+            <td class="headerCovTableEntryHi">95.8 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 16:51:56</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">21</td>
+            <td class="headerCovTableEntry">25</td>
+            <td class="headerCovTableEntryMed">84.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // This file is part of Eigen, a lightweight C++ template library</a>
+<span class="lineNum">       2 </span>            : // for linear algebra.
+<span class="lineNum">       3 </span>            : //
+<span class="lineNum">       4 </span>            : // Copyright (C) 2008-2010 Gael Guennebaud &lt;gael.guennebaud@inria.fr&gt;
+<span class="lineNum">       5 </span>            : //
+<span class="lineNum">       6 </span>            : // This Source Code Form is subject to the terms of the Mozilla
+<span class="lineNum">       7 </span>            : // Public License v. 2.0. If a copy of the MPL was not distributed
+<span class="lineNum">       8 </span>            : // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+<span class="lineNum">       9 </span>            : 
+<span class="lineNum">      10 </span>            : #ifndef EIGEN_ASSIGNMENT_FUNCTORS_H
+<span class="lineNum">      11 </span>            : #define EIGEN_ASSIGNMENT_FUNCTORS_H
+<span class="lineNum">      12 </span>            : 
+<span class="lineNum">      13 </span>            : namespace Eigen {
+<span class="lineNum">      14 </span>            : 
+<span class="lineNum">      15 </span>            : namespace internal {
+<span class="lineNum">      16 </span>            :   
+<span class="lineNum">      17 </span>            : /** \internal
+<span class="lineNum">      18 </span>            :   * \brief Template functor for scalar/packet assignment
+<span class="lineNum">      19 </span>            :   *
+<span class="lineNum">      20 </span>            :   */
+<a name="21"><span class="lineNum">      21 </span>            : template&lt;typename DstScalar,typename SrcScalar&gt; struct assign_op {</a>
+<a name="22"><span class="lineNum">      22 </span>            : </a>
+<span class="lineNum">      23 </span><span class="lineCov">    1137148 :   EIGEN_EMPTY_STRUCT_CTOR(assign_op)</span>
+<span class="lineNum">      24 </span><span class="lineCov">    2073476 :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void assignCoeff(DstScalar&amp; a, const SrcScalar&amp; b) const { a = b; }</span>
+<a name="25"><span class="lineNum">      25 </span>            :   </a>
+<span class="lineNum">      26 </span>            :   template&lt;int Alignment, typename Packet&gt;
+<span class="lineNum">      27 </span><span class="lineCov">    3703956 :   EIGEN_STRONG_INLINE void assignPacket(DstScalar* a, const Packet&amp; b) const</span>
+<span class="lineNum">      28 </span><span class="lineCov">    3703956 :   { internal::pstoret&lt;DstScalar,Packet,Alignment&gt;(a,b); }</span>
+<span class="lineNum">      29 </span>            : };
+<span class="lineNum">      30 </span>            : 
+<span class="lineNum">      31 </span>            : // Empty overload for void type (used by PermutationMatrix)
+<span class="lineNum">      32 </span>            : template&lt;typename DstScalar&gt; struct assign_op&lt;DstScalar,void&gt; {};
+<span class="lineNum">      33 </span>            : 
+<span class="lineNum">      34 </span>            : template&lt;typename DstScalar,typename SrcScalar&gt;
+<span class="lineNum">      35 </span>            : struct functor_traits&lt;assign_op&lt;DstScalar,SrcScalar&gt; &gt; {
+<span class="lineNum">      36 </span>            :   enum {
+<span class="lineNum">      37 </span>            :     Cost = NumTraits&lt;DstScalar&gt;::ReadCost,
+<span class="lineNum">      38 </span>            :     PacketAccess = is_same&lt;DstScalar,SrcScalar&gt;::value &amp;&amp; packet_traits&lt;DstScalar&gt;::Vectorizable &amp;&amp; packet_traits&lt;SrcScalar&gt;::Vectorizable
+<span class="lineNum">      39 </span>            :   };
+<span class="lineNum">      40 </span>            : };
+<span class="lineNum">      41 </span>            : 
+<span class="lineNum">      42 </span>            : /** \internal
+<span class="lineNum">      43 </span>            :   * \brief Template functor for scalar/packet assignment with addition
+<span class="lineNum">      44 </span>            :   *
+<span class="lineNum">      45 </span>            :   */
+<a name="46"><span class="lineNum">      46 </span>            : template&lt;typename DstScalar,typename SrcScalar&gt; struct add_assign_op {</a>
+<a name="47"><span class="lineNum">      47 </span>            : </a>
+<span class="lineNum">      48 </span><span class="lineCov">      26179 :   EIGEN_EMPTY_STRUCT_CTOR(add_assign_op)</span>
+<span class="lineNum">      49 </span><span class="lineCov">      44875 :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void assignCoeff(DstScalar&amp; a, const SrcScalar&amp; b) const { a += b; }</span>
+<a name="50"><span class="lineNum">      50 </span>            :   </a>
+<span class="lineNum">      51 </span>            :   template&lt;int Alignment, typename Packet&gt;
+<span class="lineNum">      52 </span><span class="lineCov">      65453 :   EIGEN_STRONG_INLINE void assignPacket(DstScalar* a, const Packet&amp; b) const</span>
+<span class="lineNum">      53 </span><span class="lineCov">     130906 :   { internal::pstoret&lt;DstScalar,Packet,Alignment&gt;(a,internal::padd(internal::ploadt&lt;Packet,Alignment&gt;(a),b)); }</span>
+<span class="lineNum">      54 </span>            : };
+<span class="lineNum">      55 </span>            : template&lt;typename DstScalar,typename SrcScalar&gt;
+<span class="lineNum">      56 </span>            : struct functor_traits&lt;add_assign_op&lt;DstScalar,SrcScalar&gt; &gt; {
+<span class="lineNum">      57 </span>            :   enum {
+<span class="lineNum">      58 </span>            :     Cost = NumTraits&lt;DstScalar&gt;::ReadCost + NumTraits&lt;DstScalar&gt;::AddCost,
+<span class="lineNum">      59 </span>            :     PacketAccess = is_same&lt;DstScalar,SrcScalar&gt;::value &amp;&amp; packet_traits&lt;DstScalar&gt;::HasAdd
+<span class="lineNum">      60 </span>            :   };
+<span class="lineNum">      61 </span>            : };
+<span class="lineNum">      62 </span>            : 
+<span class="lineNum">      63 </span>            : /** \internal
+<span class="lineNum">      64 </span>            :   * \brief Template functor for scalar/packet assignment with subtraction
+<span class="lineNum">      65 </span>            :   *
+<span class="lineNum">      66 </span>            :   */
+<a name="67"><span class="lineNum">      67 </span>            : template&lt;typename DstScalar,typename SrcScalar&gt; struct sub_assign_op {</a>
+<a name="68"><span class="lineNum">      68 </span>            : </a>
+<span class="lineNum">      69 </span><span class="lineCov">      13410 :   EIGEN_EMPTY_STRUCT_CTOR(sub_assign_op)</span>
+<span class="lineNum">      70 </span><span class="lineCov">       3910 :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void assignCoeff(DstScalar&amp; a, const SrcScalar&amp; b) const { a -= b; }</span>
+<a name="71"><span class="lineNum">      71 </span>            :   </a>
+<span class="lineNum">      72 </span>            :   template&lt;int Alignment, typename Packet&gt;
+<span class="lineNum">      73 </span><span class="lineCov">      10500 :   EIGEN_STRONG_INLINE void assignPacket(DstScalar* a, const Packet&amp; b) const</span>
+<span class="lineNum">      74 </span><span class="lineCov">      21000 :   { internal::pstoret&lt;DstScalar,Packet,Alignment&gt;(a,internal::psub(internal::ploadt&lt;Packet,Alignment&gt;(a),b)); }</span>
+<span class="lineNum">      75 </span>            : };
+<span class="lineNum">      76 </span>            : template&lt;typename DstScalar,typename SrcScalar&gt;
+<span class="lineNum">      77 </span>            : struct functor_traits&lt;sub_assign_op&lt;DstScalar,SrcScalar&gt; &gt; {
+<span class="lineNum">      78 </span>            :   enum {
+<span class="lineNum">      79 </span>            :     Cost = NumTraits&lt;DstScalar&gt;::ReadCost + NumTraits&lt;DstScalar&gt;::AddCost,
+<span class="lineNum">      80 </span>            :     PacketAccess = is_same&lt;DstScalar,SrcScalar&gt;::value &amp;&amp; packet_traits&lt;DstScalar&gt;::HasSub
+<span class="lineNum">      81 </span>            :   };
+<span class="lineNum">      82 </span>            : };
+<span class="lineNum">      83 </span>            : 
+<span class="lineNum">      84 </span>            : /** \internal
+<span class="lineNum">      85 </span>            :   * \brief Template functor for scalar/packet assignment with multiplication
+<span class="lineNum">      86 </span>            :   *
+<span class="lineNum">      87 </span>            :   */
+<span class="lineNum">      88 </span>            : template&lt;typename DstScalar, typename SrcScalar=DstScalar&gt;
+<a name="89"><span class="lineNum">      89 </span>            : struct mul_assign_op {</a>
+<a name="90"><span class="lineNum">      90 </span>            : </a>
+<span class="lineNum">      91 </span><span class="lineCov">      10633 :   EIGEN_EMPTY_STRUCT_CTOR(mul_assign_op)</span>
+<span class="lineNum">      92 </span><span class="lineNoCov">          0 :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void assignCoeff(DstScalar&amp; a, const SrcScalar&amp; b) const { a *= b; }</span>
+<a name="93"><span class="lineNum">      93 </span>            :   </a>
+<span class="lineNum">      94 </span>            :   template&lt;int Alignment, typename Packet&gt;
+<span class="lineNum">      95 </span><span class="lineCov">      21266 :   EIGEN_STRONG_INLINE void assignPacket(DstScalar* a, const Packet&amp; b) const</span>
+<span class="lineNum">      96 </span><span class="lineCov">      42532 :   { internal::pstoret&lt;DstScalar,Packet,Alignment&gt;(a,internal::pmul(internal::ploadt&lt;Packet,Alignment&gt;(a),b)); }</span>
+<span class="lineNum">      97 </span>            : };
+<span class="lineNum">      98 </span>            : template&lt;typename DstScalar, typename SrcScalar&gt;
+<span class="lineNum">      99 </span>            : struct functor_traits&lt;mul_assign_op&lt;DstScalar,SrcScalar&gt; &gt; {
+<span class="lineNum">     100 </span>            :   enum {
+<span class="lineNum">     101 </span>            :     Cost = NumTraits&lt;DstScalar&gt;::ReadCost + NumTraits&lt;DstScalar&gt;::MulCost,
+<span class="lineNum">     102 </span>            :     PacketAccess = is_same&lt;DstScalar,SrcScalar&gt;::value &amp;&amp; packet_traits&lt;DstScalar&gt;::HasMul
+<span class="lineNum">     103 </span>            :   };
+<span class="lineNum">     104 </span>            : };
+<span class="lineNum">     105 </span>            : 
+<span class="lineNum">     106 </span>            : /** \internal
+<span class="lineNum">     107 </span>            :   * \brief Template functor for scalar/packet assignment with diviving
+<span class="lineNum">     108 </span>            :   *
+<span class="lineNum">     109 </span>            :   */
+<a name="110"><span class="lineNum">     110 </span>            : template&lt;typename DstScalar, typename SrcScalar=DstScalar&gt; struct div_assign_op {</a>
+<a name="111"><span class="lineNum">     111 </span>            : </a>
+<span class="lineNum">     112 </span><span class="lineCov">      22705 :   EIGEN_EMPTY_STRUCT_CTOR(div_assign_op)</span>
+<span class="lineNum">     113 </span><span class="lineCov">      20331 :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void assignCoeff(DstScalar&amp; a, const SrcScalar&amp; b) const { a /= b; }</span>
+<a name="114"><span class="lineNum">     114 </span>            :   </a>
+<span class="lineNum">     115 </span>            :   template&lt;int Alignment, typename Packet&gt;
+<span class="lineNum">     116 </span><span class="lineCov">      87015 :   EIGEN_STRONG_INLINE void assignPacket(DstScalar* a, const Packet&amp; b) const</span>
+<span class="lineNum">     117 </span><span class="lineCov">     174030 :   { internal::pstoret&lt;DstScalar,Packet,Alignment&gt;(a,internal::pdiv(internal::ploadt&lt;Packet,Alignment&gt;(a),b)); }</span>
+<span class="lineNum">     118 </span>            : };
+<span class="lineNum">     119 </span>            : template&lt;typename DstScalar, typename SrcScalar&gt;
+<span class="lineNum">     120 </span>            : struct functor_traits&lt;div_assign_op&lt;DstScalar,SrcScalar&gt; &gt; {
+<span class="lineNum">     121 </span>            :   enum {
+<span class="lineNum">     122 </span>            :     Cost = NumTraits&lt;DstScalar&gt;::ReadCost + NumTraits&lt;DstScalar&gt;::MulCost,
+<span class="lineNum">     123 </span>            :     PacketAccess = is_same&lt;DstScalar,SrcScalar&gt;::value &amp;&amp; packet_traits&lt;DstScalar&gt;::HasDiv
+<span class="lineNum">     124 </span>            :   };
+<span class="lineNum">     125 </span>            : };
+<span class="lineNum">     126 </span>            : 
+<span class="lineNum">     127 </span>            : /** \internal
+<span class="lineNum">     128 </span>            :   * \brief Template functor for scalar/packet assignment with swapping
+<span class="lineNum">     129 </span>            :   *
+<span class="lineNum">     130 </span>            :   * It works as follow. For a non-vectorized evaluation loop, we have:
+<span class="lineNum">     131 </span>            :   *   for(i) func(A.coeffRef(i), B.coeff(i));
+<span class="lineNum">     132 </span>            :   * where B is a SwapWrapper expression. The trick is to make SwapWrapper::coeff behaves like a non-const coeffRef.
+<span class="lineNum">     133 </span>            :   * Actually, SwapWrapper might not even be needed since even if B is a plain expression, since it has to be writable
+<span class="lineNum">     134 </span>            :   * B.coeff already returns a const reference to the underlying scalar value.
+<span class="lineNum">     135 </span>            :   * 
+<span class="lineNum">     136 </span>            :   * The case of a vectorized loop is more tricky:
+<span class="lineNum">     137 </span>            :   *   for(i,j) func.assignPacket&lt;A_Align&gt;(&amp;A.coeffRef(i,j), B.packet&lt;B_Align&gt;(i,j));
+<span class="lineNum">     138 </span>            :   * Here, B must be a SwapWrapper whose packet function actually returns a proxy object holding a Scalar*,
+<span class="lineNum">     139 </span>            :   * the actual alignment and Packet type.
+<span class="lineNum">     140 </span>            :   *
+<span class="lineNum">     141 </span>            :   */
+<a name="142"><span class="lineNum">     142 </span>            : template&lt;typename Scalar&gt; struct swap_assign_op {</a>
+<a name="143"><span class="lineNum">     143 </span>            : </a>
+<span class="lineNum">     144 </span><span class="lineCov">      52135 :   EIGEN_EMPTY_STRUCT_CTOR(swap_assign_op)</span>
+<span class="lineNum">     145 </span><span class="lineCov">     139706 :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void assignCoeff(Scalar&amp; a, const Scalar&amp; b) const</span>
+<span class="lineNum">     146 </span>            :   {
+<span class="lineNum">     147 </span>            : #ifdef __CUDACC__
+<span class="lineNum">     148 </span>            :     // FIXME is there some kind of cuda::swap?
+<span class="lineNum">     149 </span>            :     Scalar t=b; const_cast&lt;Scalar&amp;&gt;(b)=a; a=t;
+<span class="lineNum">     150 </span>            : #else
+<span class="lineNum">     151 </span>            :     using std::swap;
+<span class="lineNum">     152 </span><span class="lineCov">     139706 :     swap(a,const_cast&lt;Scalar&amp;&gt;(b));</span>
+<span class="lineNum">     153 </span>            : #endif
+<span class="lineNum">     154 </span><span class="lineCov">     139706 :   }</span>
+<span class="lineNum">     155 </span>            : };
+<span class="lineNum">     156 </span>            : template&lt;typename Scalar&gt;
+<span class="lineNum">     157 </span>            : struct functor_traits&lt;swap_assign_op&lt;Scalar&gt; &gt; {
+<span class="lineNum">     158 </span>            :   enum {
+<span class="lineNum">     159 </span>            :     Cost = 3 * NumTraits&lt;Scalar&gt;::ReadCost,
+<span class="lineNum">     160 </span>            :     PacketAccess = packet_traits&lt;Scalar&gt;::Vectorizable
+<span class="lineNum">     161 </span>            :   };
+<span class="lineNum">     162 </span>            : };
+<span class="lineNum">     163 </span>            : 
+<span class="lineNum">     164 </span>            : } // namespace internal
+<span class="lineNum">     165 </span>            : 
+<span class="lineNum">     166 </span>            : } // namespace Eigen
+<span class="lineNum">     167 </span>            : 
+<span class="lineNum">     168 </span>            : #endif // EIGEN_ASSIGNMENT_FUNCTORS_H
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

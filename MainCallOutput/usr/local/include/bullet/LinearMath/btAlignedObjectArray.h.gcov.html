@@ -1,0 +1,614 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Main Call Code Analysis - /usr/local/include/bullet/LinearMath/btAlignedObjectArray.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../index.html">top level</a> - <a href="index.html">usr/local/include/bullet/LinearMath</a> - btAlignedObjectArray.h<span style="font-size: 80%;"> (source / <a href="btAlignedObjectArray.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Main Call Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">54</td>
+            <td class="headerCovTableEntry">64</td>
+            <td class="headerCovTableEntryMed">84.4 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 16:51:56</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">32</td>
+            <td class="headerCovTableEntry">71</td>
+            <td class="headerCovTableEntryLo">45.1 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /*</a>
+<span class="lineNum">       2 </span>            : Bullet Continuous Collision Detection and Physics Library
+<span class="lineNum">       3 </span>            : Copyright (c) 2003-2006 Erwin Coumans  http://continuousphysics.com/Bullet/
+<span class="lineNum">       4 </span>            : 
+<span class="lineNum">       5 </span>            : This software is provided 'as-is', without any express or implied warranty.
+<span class="lineNum">       6 </span>            : In no event will the authors be held liable for any damages arising from the use of this software.
+<span class="lineNum">       7 </span>            : Permission is granted to anyone to use this software for any purpose, 
+<span class="lineNum">       8 </span>            : including commercial applications, and to alter it and redistribute it freely, 
+<span class="lineNum">       9 </span>            : subject to the following restrictions:
+<span class="lineNum">      10 </span>            : 
+<span class="lineNum">      11 </span>            : 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
+<span class="lineNum">      12 </span>            : 2. Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.
+<span class="lineNum">      13 </span>            : 3. This notice may not be removed or altered from any source distribution.
+<span class="lineNum">      14 </span>            : */
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span>            : 
+<span class="lineNum">      17 </span>            : #ifndef BT_OBJECT_ARRAY__
+<span class="lineNum">      18 </span>            : #define BT_OBJECT_ARRAY__
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span>            : #include &quot;btScalar.h&quot; // has definitions like SIMD_FORCE_INLINE
+<span class="lineNum">      21 </span>            : #include &quot;btAlignedAllocator.h&quot;
+<span class="lineNum">      22 </span>            : 
+<span class="lineNum">      23 </span>            : ///If the platform doesn't support placement new, you can disable BT_USE_PLACEMENT_NEW
+<span class="lineNum">      24 </span>            : ///then the btAlignedObjectArray doesn't support objects with virtual methods, and non-trivial constructors/destructors
+<span class="lineNum">      25 </span>            : ///You can enable BT_USE_MEMCPY, then swapping elements in the array will use memcpy instead of operator=
+<span class="lineNum">      26 </span>            : ///see discussion here: http://continuousphysics.com/Bullet/phpBB2/viewtopic.php?t=1231 and
+<span class="lineNum">      27 </span>            : ///http://www.continuousphysics.com/Bullet/phpBB2/viewtopic.php?t=1240
+<span class="lineNum">      28 </span>            : 
+<span class="lineNum">      29 </span>            : #define BT_USE_PLACEMENT_NEW 1
+<span class="lineNum">      30 </span>            : //#define BT_USE_MEMCPY 1 //disable, because it is cumbersome to find out for each platform where memcpy is defined. It can be in &lt;memory.h&gt; or &lt;string.h&gt; or otherwise...
+<span class="lineNum">      31 </span>            : #define BT_ALLOW_ARRAY_COPY_OPERATOR // enabling this can accidently perform deep copies of data if you are not careful
+<span class="lineNum">      32 </span>            : 
+<span class="lineNum">      33 </span>            : #ifdef BT_USE_MEMCPY
+<span class="lineNum">      34 </span>            : #include &lt;memory.h&gt;
+<span class="lineNum">      35 </span>            : #include &lt;string.h&gt;
+<span class="lineNum">      36 </span>            : #endif //BT_USE_MEMCPY
+<span class="lineNum">      37 </span>            : 
+<span class="lineNum">      38 </span>            : #ifdef BT_USE_PLACEMENT_NEW
+<span class="lineNum">      39 </span>            : #include &lt;new&gt; //for placement new
+<span class="lineNum">      40 </span>            : #endif //BT_USE_PLACEMENT_NEW
+<span class="lineNum">      41 </span>            : 
+<span class="lineNum">      42 </span>            : // The register keyword is deprecated in C++11 so don't use it.
+<span class="lineNum">      43 </span>            : #if __cplusplus &gt; 199711L
+<span class="lineNum">      44 </span>            : #define BT_REGISTER
+<span class="lineNum">      45 </span>            : #else
+<span class="lineNum">      46 </span>            : #define BT_REGISTER register
+<span class="lineNum">      47 </span>            : #endif
+<span class="lineNum">      48 </span>            : 
+<span class="lineNum">      49 </span>            : ///The btAlignedObjectArray template class uses a subset of the stl::vector interface for its methods
+<span class="lineNum">      50 </span>            : ///It is developed to replace stl::vector to avoid portability issues, including STL alignment issues to add SIMD/SSE data
+<span class="lineNum">      51 </span>            : template &lt;typename T&gt; 
+<span class="lineNum">      52 </span>            : //template &lt;class T&gt; 
+<span class="lineNum">      53 </span>            : class btAlignedObjectArray
+<span class="lineNum">      54 </span>            : {
+<span class="lineNum">      55 </span>            :         btAlignedAllocator&lt;T , 16&gt;        m_allocator;
+<span class="lineNum">      56 </span>            : 
+<span class="lineNum">      57 </span>            :         int                                     m_size;
+<span class="lineNum">      58 </span>            :         int                                     m_capacity;
+<span class="lineNum">      59 </span>            :         T*                                      m_data;
+<span class="lineNum">      60 </span>            :         //PCK: added this line
+<span class="lineNum">      61 </span>            :         bool                            m_ownsMemory;
+<span class="lineNum">      62 </span>            : 
+<span class="lineNum">      63 </span>            : #ifdef BT_ALLOW_ARRAY_COPY_OPERATOR
+<span class="lineNum">      64 </span>            : public:
+<span class="lineNum">      65 </span>            :         SIMD_FORCE_INLINE btAlignedObjectArray&lt;T&gt;&amp; operator=(const btAlignedObjectArray&lt;T&gt; &amp;other)
+<span class="lineNum">      66 </span>            :         {
+<span class="lineNum">      67 </span>            :                 copyFromArray(other);
+<span class="lineNum">      68 </span>            :                 return *this;
+<span class="lineNum">      69 </span>            :         }
+<span class="lineNum">      70 </span>            : #else//BT_ALLOW_ARRAY_COPY_OPERATOR
+<span class="lineNum">      71 </span>            : private:
+<span class="lineNum">      72 </span>            :                 SIMD_FORCE_INLINE btAlignedObjectArray&lt;T&gt;&amp; operator=(const btAlignedObjectArray&lt;T&gt; &amp;other);
+<span class="lineNum">      73 </span>            : #endif//BT_ALLOW_ARRAY_COPY_OPERATOR
+<span class="lineNum">      74 </span>            : 
+<span class="lineNum">      75 </span>            : protected:
+<span class="lineNum">      76 </span>            :                 SIMD_FORCE_INLINE       int     allocSize(int size)
+<span class="lineNum">      77 </span>            :                 {
+<a name="78"><span class="lineNum">      78 </span>            :                         return (size ? size*2 : 1);</a>
+<span class="lineNum">      79 </span>            :                 }
+<span class="lineNum">      80 </span><span class="lineCov">          6 :                 SIMD_FORCE_INLINE       void    copy(int start,int end, T* dest) const</span>
+<span class="lineNum">      81 </span>            :                 {
+<span class="lineNum">      82 </span>            :                         int i;
+<span class="lineNum">      83 </span><span class="lineCov">         70 :                         for (i=start;i&lt;end;++i)</span>
+<span class="lineNum">      84 </span>            : #ifdef BT_USE_PLACEMENT_NEW
+<span class="lineNum">      85 </span><span class="lineCov">         64 :                                 new (&amp;dest[i]) T(m_data[i]);</span>
+<span class="lineNum">      86 </span>            : #else
+<span class="lineNum">      87 </span>            :                                 dest[i] = m_data[i];
+<span class="lineNum">      88 </span>            : #endif //BT_USE_PLACEMENT_NEW
+<a name="89"><span class="lineNum">      89 </span><span class="lineCov">          6 :                 }</span></a>
+<span class="lineNum">      90 </span>            : 
+<span class="lineNum">      91 </span><span class="lineCov">         12 :                 SIMD_FORCE_INLINE       void    init()</span>
+<span class="lineNum">      92 </span>            :                 {
+<span class="lineNum">      93 </span>            :                         //PCK: added this line
+<span class="lineNum">      94 </span><span class="lineCov">         12 :                         m_ownsMemory = true;</span>
+<span class="lineNum">      95 </span><span class="lineCov">         12 :                         m_data = 0;</span>
+<span class="lineNum">      96 </span><span class="lineCov">         12 :                         m_size = 0;</span>
+<a name="97"><span class="lineNum">      97 </span><span class="lineCov">         12 :                         m_capacity = 0;</span></a>
+<span class="lineNum">      98 </span><span class="lineCov">         12 :                 }</span>
+<span class="lineNum">      99 </span><span class="lineCov">          6 :                 SIMD_FORCE_INLINE       void    destroy(int first,int last)</span>
+<span class="lineNum">     100 </span>            :                 {
+<span class="lineNum">     101 </span>            :                         int i;
+<span class="lineNum">     102 </span><span class="lineCov">          6 :                         for (i=first; i&lt;last;i++)</span>
+<span class="lineNum">     103 </span>            :                         {
+<span class="lineNum">     104 </span><span class="lineNoCov">          0 :                                 m_data[i].~T();</span>
+<span class="lineNum">     105 </span>            :                         }
+<a name="106"><span class="lineNum">     106 </span><span class="lineCov">          6 :                 }</span></a>
+<span class="lineNum">     107 </span>            : 
+<span class="lineNum">     108 </span><span class="lineCov">          6 :                 SIMD_FORCE_INLINE       void* allocate(int size)</span>
+<span class="lineNum">     109 </span>            :                 {
+<span class="lineNum">     110 </span><span class="lineCov">          6 :                         if (size)</span>
+<span class="lineNum">     111 </span><span class="lineCov">          6 :                                 return m_allocator.allocate(size);</span>
+<span class="lineNum">     112 </span><span class="lineNoCov">          0 :                         return 0;</span>
+<a name="113"><span class="lineNum">     113 </span>            :                 }</a>
+<span class="lineNum">     114 </span>            : 
+<span class="lineNum">     115 </span><span class="lineCov">          6 :                 SIMD_FORCE_INLINE       void    deallocate()</span>
+<span class="lineNum">     116 </span>            :                 {
+<span class="lineNum">     117 </span><span class="lineCov">          6 :                         if(m_data)      {</span>
+<span class="lineNum">     118 </span>            :                                 //PCK: enclosed the deallocation in this block
+<span class="lineNum">     119 </span><span class="lineCov">          2 :                                 if (m_ownsMemory)</span>
+<span class="lineNum">     120 </span>            :                                 {
+<span class="lineNum">     121 </span><span class="lineCov">          2 :                                         m_allocator.deallocate(m_data);</span>
+<span class="lineNum">     122 </span>            :                                 }
+<span class="lineNum">     123 </span><span class="lineCov">          2 :                                 m_data = 0;</span>
+<span class="lineNum">     124 </span>            :                         }
+<span class="lineNum">     125 </span><span class="lineCov">          6 :                 }</span>
+<span class="lineNum">     126 </span>            : 
+<span class="lineNum">     127 </span>            :         
+<span class="lineNum">     128 </span>            : 
+<span class="lineNum">     129 </span>            : 
+<a name="130"><span class="lineNum">     130 </span>            :         public:</a>
+<span class="lineNum">     131 </span>            :                 
+<span class="lineNum">     132 </span><span class="lineCov">         12 :                 btAlignedObjectArray()</span>
+<span class="lineNum">     133 </span><span class="lineCov">         12 :                 {</span>
+<span class="lineNum">     134 </span><span class="lineCov">         12 :                         init();</span>
+<a name="135"><span class="lineNum">     135 </span><span class="lineCov">         12 :                 }</span></a>
+<span class="lineNum">     136 </span>            : 
+<span class="lineNum">     137 </span><span class="lineNoCov">          0 :                 ~btAlignedObjectArray()</span>
+<span class="lineNum">     138 </span>            :                 {
+<span class="lineNum">     139 </span><span class="lineNoCov">          0 :                         clear();</span>
+<span class="lineNum">     140 </span><span class="lineNoCov">          0 :                 }</span>
+<span class="lineNum">     141 </span>            : 
+<span class="lineNum">     142 </span>            :                 ///Generally it is best to avoid using the copy constructor of an btAlignedObjectArray, and use a (const) reference to the array instead.
+<span class="lineNum">     143 </span>            :                 btAlignedObjectArray(const btAlignedObjectArray&amp; otherArray)
+<span class="lineNum">     144 </span>            :                 {
+<span class="lineNum">     145 </span>            :                         init();
+<span class="lineNum">     146 </span>            : 
+<span class="lineNum">     147 </span>            :                         int otherSize = otherArray.size();
+<span class="lineNum">     148 </span>            :                         resize (otherSize);
+<span class="lineNum">     149 </span>            :                         otherArray.copy(0, otherSize, m_data);
+<span class="lineNum">     150 </span>            :                 }
+<span class="lineNum">     151 </span>            : 
+<span class="lineNum">     152 </span>            :                 
+<a name="153"><span class="lineNum">     153 </span>            :                 </a>
+<span class="lineNum">     154 </span>            :                 /// return the number of elements in the array
+<span class="lineNum">     155 </span><span class="lineCov">       9169 :                 SIMD_FORCE_INLINE       int size() const</span>
+<span class="lineNum">     156 </span>            :                 {       
+<span class="lineNum">     157 </span><span class="lineCov">       9169 :                         return m_size;</span>
+<span class="lineNum">     158 </span>            :                 }
+<span class="lineNum">     159 </span>            :                 
+<span class="lineNum">     160 </span>            :                 SIMD_FORCE_INLINE const T&amp; at(int n) const
+<span class="lineNum">     161 </span>            :                 {
+<span class="lineNum">     162 </span>            :                         btAssert(n&gt;=0);
+<span class="lineNum">     163 </span>            :                         btAssert(n&lt;size());
+<span class="lineNum">     164 </span>            :                         return m_data[n];
+<span class="lineNum">     165 </span>            :                 }
+<span class="lineNum">     166 </span>            : 
+<span class="lineNum">     167 </span>            :                 SIMD_FORCE_INLINE T&amp; at(int n)
+<span class="lineNum">     168 </span>            :                 {
+<span class="lineNum">     169 </span>            :                         btAssert(n&gt;=0);
+<span class="lineNum">     170 </span>            :                         btAssert(n&lt;size());
+<span class="lineNum">     171 </span>            :                         return m_data[n];
+<a name="172"><span class="lineNum">     172 </span>            :                 }</a>
+<span class="lineNum">     173 </span>            : 
+<span class="lineNum">     174 </span><span class="lineCov">       3759 :                 SIMD_FORCE_INLINE const T&amp; operator[](int n) const</span>
+<span class="lineNum">     175 </span>            :                 {
+<span class="lineNum">     176 </span>            :                         btAssert(n&gt;=0);
+<span class="lineNum">     177 </span>            :                         btAssert(n&lt;size());
+<span class="lineNum">     178 </span><span class="lineCov">       3759 :                         return m_data[n];</span>
+<a name="179"><span class="lineNum">     179 </span>            :                 }</a>
+<span class="lineNum">     180 </span>            : 
+<span class="lineNum">     181 </span><span class="lineCov">      21345 :                 SIMD_FORCE_INLINE T&amp; operator[](int n)</span>
+<span class="lineNum">     182 </span>            :                 {
+<span class="lineNum">     183 </span>            :                         btAssert(n&gt;=0);
+<span class="lineNum">     184 </span>            :                         btAssert(n&lt;size());
+<span class="lineNum">     185 </span><span class="lineCov">      21345 :                         return m_data[n];</span>
+<span class="lineNum">     186 </span>            :                 }
+<span class="lineNum">     187 </span>            :                 
+<a name="188"><span class="lineNum">     188 </span>            : </a>
+<span class="lineNum">     189 </span>            :                 ///clear the array, deallocated memory. Generally it is better to use array.resize(0), to reduce performance overhead of run-time memory (de)allocations.
+<span class="lineNum">     190 </span><span class="lineNoCov">          0 :                 SIMD_FORCE_INLINE       void    clear()</span>
+<span class="lineNum">     191 </span>            :                 {
+<span class="lineNum">     192 </span><span class="lineNoCov">          0 :                         destroy(0,size());</span>
+<span class="lineNum">     193 </span>            :                         
+<span class="lineNum">     194 </span><span class="lineNoCov">          0 :                         deallocate();</span>
+<span class="lineNum">     195 </span>            :                         
+<span class="lineNum">     196 </span><span class="lineNoCov">          0 :                         init();</span>
+<span class="lineNum">     197 </span><span class="lineNoCov">          0 :                 }</span>
+<span class="lineNum">     198 </span>            : 
+<span class="lineNum">     199 </span>            :                 SIMD_FORCE_INLINE       void    pop_back()
+<span class="lineNum">     200 </span>            :                 {
+<span class="lineNum">     201 </span>            :                         btAssert(m_size&gt;0);
+<span class="lineNum">     202 </span>            :                         m_size--;
+<span class="lineNum">     203 </span>            :                         m_data[m_size].~T();
+<span class="lineNum">     204 </span>            :                 }
+<span class="lineNum">     205 </span>            : 
+<span class="lineNum">     206 </span>            : 
+<span class="lineNum">     207 </span>            :                 ///resize changes the number of elements in the array. If the new size is larger, the new elements will be constructed using the optional second argument.
+<span class="lineNum">     208 </span>            :                 ///when the new number of elements is smaller, the destructor will be called, but memory will not be freed, to reduce performance overhead of run-time memory (de)allocations.
+<span class="lineNum">     209 </span>            :                 SIMD_FORCE_INLINE       void    resizeNoInitialize(int newsize)
+<span class="lineNum">     210 </span>            :                 {
+<span class="lineNum">     211 </span>            :                         if (newsize &gt; size())
+<span class="lineNum">     212 </span>            :                         {
+<span class="lineNum">     213 </span>            :                                 reserve(newsize);
+<span class="lineNum">     214 </span>            :                         }
+<span class="lineNum">     215 </span>            :                         m_size = newsize;
+<a name="216"><span class="lineNum">     216 </span>            :                 }</a>
+<span class="lineNum">     217 </span>            :         
+<span class="lineNum">     218 </span><span class="lineCov">       8975 :                 SIMD_FORCE_INLINE       void    resize(int newsize, const T&amp; fillData=T())</span>
+<span class="lineNum">     219 </span>            :                 {
+<span class="lineNum">     220 </span><span class="lineCov">       8975 :                         const BT_REGISTER int curSize = size();</span>
+<span class="lineNum">     221 </span>            : 
+<span class="lineNum">     222 </span><span class="lineCov">       8975 :                         if (newsize &lt; curSize)</span>
+<span class="lineNum">     223 </span>            :                         {
+<span class="lineNum">     224 </span><span class="lineCov">       4145 :                                 for(int i = newsize; i &lt; curSize; i++)</span>
+<span class="lineNum">     225 </span>            :                                 {
+<span class="lineNum">     226 </span>            :                                         m_data[i].~T();
+<span class="lineNum">     227 </span>            :                                 }
+<span class="lineNum">     228 </span>            :                         } else
+<span class="lineNum">     229 </span>            :                         {
+<span class="lineNum">     230 </span><span class="lineCov">       4830 :                                 if (newsize &gt; curSize)</span>
+<span class="lineNum">     231 </span>            :                                 {
+<span class="lineNum">     232 </span><span class="lineCov">       4830 :                                         reserve(newsize);</span>
+<span class="lineNum">     233 </span>            :                                 }
+<span class="lineNum">     234 </span>            : #ifdef BT_USE_PLACEMENT_NEW
+<span class="lineNum">     235 </span><span class="lineCov">     146062 :                                 for (int i=curSize;i&lt;newsize;i++)</span>
+<span class="lineNum">     236 </span>            :                                 {
+<span class="lineNum">     237 </span><span class="lineCov">     141232 :                                         new ( &amp;m_data[i]) T(fillData);</span>
+<span class="lineNum">     238 </span>            :                                 }
+<span class="lineNum">     239 </span>            : #endif //BT_USE_PLACEMENT_NEW
+<span class="lineNum">     240 </span>            : 
+<span class="lineNum">     241 </span>            :                         }
+<span class="lineNum">     242 </span>            : 
+<span class="lineNum">     243 </span><span class="lineCov">       8975 :                         m_size = newsize;</span>
+<span class="lineNum">     244 </span><span class="lineCov">       8975 :                 }</span>
+<span class="lineNum">     245 </span>            :                 SIMD_FORCE_INLINE       T&amp;  expandNonInitializing( )
+<span class="lineNum">     246 </span>            :                 {       
+<span class="lineNum">     247 </span>            :                         const BT_REGISTER int sz = size();
+<span class="lineNum">     248 </span>            :                         if( sz == capacity() )
+<span class="lineNum">     249 </span>            :                         {
+<span class="lineNum">     250 </span>            :                                 reserve( allocSize(size()) );
+<span class="lineNum">     251 </span>            :                         }
+<span class="lineNum">     252 </span>            :                         m_size++;
+<span class="lineNum">     253 </span>            : 
+<span class="lineNum">     254 </span>            :                         return m_data[sz];              
+<span class="lineNum">     255 </span>            :                 }
+<span class="lineNum">     256 </span>            : 
+<span class="lineNum">     257 </span>            : 
+<span class="lineNum">     258 </span>            :                 SIMD_FORCE_INLINE       T&amp;  expand( const T&amp; fillValue=T())
+<span class="lineNum">     259 </span>            :                 {       
+<span class="lineNum">     260 </span>            :                         const BT_REGISTER int sz = size();
+<span class="lineNum">     261 </span>            :                         if( sz == capacity() )
+<span class="lineNum">     262 </span>            :                         {
+<span class="lineNum">     263 </span>            :                                 reserve( allocSize(size()) );
+<span class="lineNum">     264 </span>            :                         }
+<span class="lineNum">     265 </span>            :                         m_size++;
+<span class="lineNum">     266 </span>            : #ifdef BT_USE_PLACEMENT_NEW
+<span class="lineNum">     267 </span>            :                         new (&amp;m_data[sz]) T(fillValue); //use the in-place new (not really allocating heap memory)
+<span class="lineNum">     268 </span>            : #endif
+<span class="lineNum">     269 </span>            : 
+<span class="lineNum">     270 </span>            :                         return m_data[sz];              
+<span class="lineNum">     271 </span>            :                 }
+<span class="lineNum">     272 </span>            : 
+<span class="lineNum">     273 </span>            : 
+<span class="lineNum">     274 </span>            :                 SIMD_FORCE_INLINE       void push_back(const T&amp; _Val)
+<span class="lineNum">     275 </span>            :                 {       
+<span class="lineNum">     276 </span>            :                         const BT_REGISTER int sz = size();
+<span class="lineNum">     277 </span>            :                         if( sz == capacity() )
+<span class="lineNum">     278 </span>            :                         {
+<span class="lineNum">     279 </span>            :                                 reserve( allocSize(size()) );
+<span class="lineNum">     280 </span>            :                         }
+<span class="lineNum">     281 </span>            :                         
+<span class="lineNum">     282 </span>            : #ifdef BT_USE_PLACEMENT_NEW
+<span class="lineNum">     283 </span>            :                         new ( &amp;m_data[m_size] ) T(_Val);
+<span class="lineNum">     284 </span>            : #else
+<span class="lineNum">     285 </span>            :                         m_data[size()] = _Val;                  
+<span class="lineNum">     286 </span>            : #endif //BT_USE_PLACEMENT_NEW
+<span class="lineNum">     287 </span>            : 
+<span class="lineNum">     288 </span>            :                         m_size++;
+<span class="lineNum">     289 </span>            :                 }
+<span class="lineNum">     290 </span>            : 
+<a name="291"><span class="lineNum">     291 </span>            :         </a>
+<span class="lineNum">     292 </span>            :                 /// return the pre-allocated (reserved) elements, this is at least as large as the total number of elements,see size() and reserve()
+<span class="lineNum">     293 </span><span class="lineCov">       4830 :                 SIMD_FORCE_INLINE       int capacity() const</span>
+<span class="lineNum">     294 </span>            :                 {       
+<span class="lineNum">     295 </span><span class="lineCov">       4830 :                         return m_capacity;</span>
+<a name="296"><span class="lineNum">     296 </span>            :                 }</a>
+<span class="lineNum">     297 </span>            :                 
+<span class="lineNum">     298 </span><span class="lineCov">       4830 :                 SIMD_FORCE_INLINE       void reserve(int _Count)</span>
+<span class="lineNum">     299 </span>            :                 {       // determine new minimum length of allocated storage
+<span class="lineNum">     300 </span><span class="lineCov">       4830 :                         if (capacity() &lt; _Count)</span>
+<span class="lineNum">     301 </span>            :                         {       // not enough room, reallocate
+<span class="lineNum">     302 </span><span class="lineCov">          6 :                                 T*      s = (T*)allocate(_Count);</span>
+<span class="lineNum">     303 </span>            : 
+<span class="lineNum">     304 </span><span class="lineCov">          6 :                                 copy(0, size(), s);</span>
+<span class="lineNum">     305 </span>            : 
+<span class="lineNum">     306 </span><span class="lineCov">          6 :                                 destroy(0,size());</span>
+<span class="lineNum">     307 </span>            : 
+<span class="lineNum">     308 </span><span class="lineCov">          6 :                                 deallocate();</span>
+<span class="lineNum">     309 </span>            :                                 
+<span class="lineNum">     310 </span>            :                                 //PCK: added this line
+<span class="lineNum">     311 </span><span class="lineCov">          6 :                                 m_ownsMemory = true;</span>
+<span class="lineNum">     312 </span>            : 
+<span class="lineNum">     313 </span><span class="lineCov">          6 :                                 m_data = s;</span>
+<span class="lineNum">     314 </span>            :                                 
+<span class="lineNum">     315 </span><span class="lineCov">          6 :                                 m_capacity = _Count;</span>
+<span class="lineNum">     316 </span>            : 
+<span class="lineNum">     317 </span>            :                         }
+<span class="lineNum">     318 </span><span class="lineCov">       4830 :                 }</span>
+<span class="lineNum">     319 </span>            : 
+<span class="lineNum">     320 </span>            : 
+<span class="lineNum">     321 </span>            :                 class less
+<span class="lineNum">     322 </span>            :                 {
+<span class="lineNum">     323 </span>            :                         public:
+<span class="lineNum">     324 </span>            : 
+<span class="lineNum">     325 </span>            :                                 bool operator() ( const T&amp; a, const T&amp; b ) const
+<span class="lineNum">     326 </span>            :                                 {
+<span class="lineNum">     327 </span>            :                                         return ( a &lt; b );
+<span class="lineNum">     328 </span>            :                                 }
+<span class="lineNum">     329 </span>            :                 };
+<span class="lineNum">     330 </span>            :         
+<span class="lineNum">     331 </span>            : 
+<span class="lineNum">     332 </span>            :                 template &lt;typename L&gt;
+<span class="lineNum">     333 </span>            :                 void quickSortInternal(const L&amp; CompareFunc,int lo, int hi)
+<span class="lineNum">     334 </span>            :                 {
+<span class="lineNum">     335 </span>            :                 //  lo is the lower index, hi is the upper index
+<span class="lineNum">     336 </span>            :                 //  of the region of array a that is to be sorted
+<span class="lineNum">     337 </span>            :                         int i=lo, j=hi;
+<span class="lineNum">     338 </span>            :                         T x=m_data[(lo+hi)/2];
+<span class="lineNum">     339 </span>            : 
+<span class="lineNum">     340 </span>            :                         //  partition
+<span class="lineNum">     341 </span>            :                         do
+<span class="lineNum">     342 </span>            :                         {    
+<span class="lineNum">     343 </span>            :                                 while (CompareFunc(m_data[i],x)) 
+<span class="lineNum">     344 </span>            :                                         i++; 
+<span class="lineNum">     345 </span>            :                                 while (CompareFunc(x,m_data[j])) 
+<span class="lineNum">     346 </span>            :                                         j--;
+<span class="lineNum">     347 </span>            :                                 if (i&lt;=j)
+<span class="lineNum">     348 </span>            :                                 {
+<span class="lineNum">     349 </span>            :                                         swap(i,j);
+<span class="lineNum">     350 </span>            :                                         i++; j--;
+<span class="lineNum">     351 </span>            :                                 }
+<span class="lineNum">     352 </span>            :                         } while (i&lt;=j);
+<span class="lineNum">     353 </span>            : 
+<span class="lineNum">     354 </span>            :                         //  recursion
+<span class="lineNum">     355 </span>            :                         if (lo&lt;j) 
+<span class="lineNum">     356 </span>            :                                 quickSortInternal( CompareFunc, lo, j);
+<span class="lineNum">     357 </span>            :                         if (i&lt;hi) 
+<span class="lineNum">     358 </span>            :                                 quickSortInternal( CompareFunc, i, hi);
+<span class="lineNum">     359 </span>            :                 }
+<span class="lineNum">     360 </span>            : 
+<span class="lineNum">     361 </span>            : 
+<span class="lineNum">     362 </span>            :                 template &lt;typename L&gt;
+<span class="lineNum">     363 </span>            :                 void quickSort(const L&amp; CompareFunc)
+<span class="lineNum">     364 </span>            :                 {
+<span class="lineNum">     365 </span>            :                         //don't sort 0 or 1 elements
+<span class="lineNum">     366 </span>            :                         if (size()&gt;1)
+<span class="lineNum">     367 </span>            :                         {
+<span class="lineNum">     368 </span>            :                                 quickSortInternal(CompareFunc,0,size()-1);
+<span class="lineNum">     369 </span>            :                         }
+<span class="lineNum">     370 </span>            :                 }
+<span class="lineNum">     371 </span>            : 
+<span class="lineNum">     372 </span>            : 
+<span class="lineNum">     373 </span>            :                 ///heap sort from http://www.csse.monash.edu.au/~lloyd/tildeAlgDS/Sort/Heap/
+<span class="lineNum">     374 </span>            :                 template &lt;typename L&gt;
+<span class="lineNum">     375 </span>            :                 void downHeap(T *pArr, int k, int n, const L&amp; CompareFunc)
+<span class="lineNum">     376 </span>            :                 {
+<span class="lineNum">     377 </span>            :                         /*  PRE: a[k+1..N] is a heap */
+<span class="lineNum">     378 </span>            :                         /* POST:  a[k..N]  is a heap */
+<span class="lineNum">     379 </span>            :                         
+<span class="lineNum">     380 </span>            :                         T temp = pArr[k - 1];
+<span class="lineNum">     381 </span>            :                         /* k has child(s) */
+<span class="lineNum">     382 </span>            :                         while (k &lt;= n/2) 
+<span class="lineNum">     383 </span>            :                         {
+<span class="lineNum">     384 </span>            :                                 int child = 2*k;
+<span class="lineNum">     385 </span>            :                                 
+<span class="lineNum">     386 </span>            :                                 if ((child &lt; n) &amp;&amp; CompareFunc(pArr[child - 1] , pArr[child]))
+<span class="lineNum">     387 </span>            :                                 {
+<span class="lineNum">     388 </span>            :                                         child++;
+<span class="lineNum">     389 </span>            :                                 }
+<span class="lineNum">     390 </span>            :                                 /* pick larger child */
+<span class="lineNum">     391 </span>            :                                 if (CompareFunc(temp , pArr[child - 1]))
+<span class="lineNum">     392 </span>            :                                 {
+<span class="lineNum">     393 </span>            :                                         /* move child up */
+<span class="lineNum">     394 </span>            :                                         pArr[k - 1] = pArr[child - 1];
+<span class="lineNum">     395 </span>            :                                         k = child;
+<span class="lineNum">     396 </span>            :                                 }
+<span class="lineNum">     397 </span>            :                                 else
+<span class="lineNum">     398 </span>            :                                 {
+<span class="lineNum">     399 </span>            :                                         break;
+<span class="lineNum">     400 </span>            :                                 }
+<span class="lineNum">     401 </span>            :                         }
+<span class="lineNum">     402 </span>            :                         pArr[k - 1] = temp;
+<span class="lineNum">     403 </span>            :                 } /*downHeap*/
+<span class="lineNum">     404 </span>            : 
+<span class="lineNum">     405 </span>            :                 void    swap(int index0,int index1)
+<span class="lineNum">     406 </span>            :                 {
+<span class="lineNum">     407 </span>            : #ifdef BT_USE_MEMCPY
+<span class="lineNum">     408 </span>            :                         char    temp[sizeof(T)];
+<span class="lineNum">     409 </span>            :                         memcpy(temp,&amp;m_data[index0],sizeof(T));
+<span class="lineNum">     410 </span>            :                         memcpy(&amp;m_data[index0],&amp;m_data[index1],sizeof(T));
+<span class="lineNum">     411 </span>            :                         memcpy(&amp;m_data[index1],temp,sizeof(T));
+<span class="lineNum">     412 </span>            : #else
+<span class="lineNum">     413 </span>            :                         T temp = m_data[index0];
+<span class="lineNum">     414 </span>            :                         m_data[index0] = m_data[index1];
+<span class="lineNum">     415 </span>            :                         m_data[index1] = temp;
+<span class="lineNum">     416 </span>            : #endif //BT_USE_PLACEMENT_NEW
+<span class="lineNum">     417 </span>            : 
+<span class="lineNum">     418 </span>            :                 }
+<span class="lineNum">     419 </span>            : 
+<span class="lineNum">     420 </span>            :         template &lt;typename L&gt;
+<span class="lineNum">     421 </span>            :         void heapSort(const L&amp; CompareFunc)
+<span class="lineNum">     422 </span>            :         {
+<span class="lineNum">     423 </span>            :                 /* sort a[0..N-1],  N.B. 0 to N-1 */
+<span class="lineNum">     424 </span>            :                 int k;
+<span class="lineNum">     425 </span>            :                 int n = m_size;
+<span class="lineNum">     426 </span>            :                 for (k = n/2; k &gt; 0; k--) 
+<span class="lineNum">     427 </span>            :                 {
+<span class="lineNum">     428 </span>            :                         downHeap(m_data, k, n, CompareFunc);
+<span class="lineNum">     429 </span>            :                 }
+<span class="lineNum">     430 </span>            : 
+<span class="lineNum">     431 </span>            :                 /* a[1..N] is now a heap */
+<span class="lineNum">     432 </span>            :                 while ( n&gt;=1 ) 
+<span class="lineNum">     433 </span>            :                 {
+<span class="lineNum">     434 </span>            :                         swap(0,n-1); /* largest of a[0..n-1] */
+<span class="lineNum">     435 </span>            : 
+<span class="lineNum">     436 </span>            : 
+<span class="lineNum">     437 </span>            :                         n = n - 1;
+<span class="lineNum">     438 </span>            :                         /* restore a[1..i-1] heap */
+<span class="lineNum">     439 </span>            :                         downHeap(m_data, 1, n, CompareFunc);
+<span class="lineNum">     440 </span>            :                 } 
+<span class="lineNum">     441 </span>            :         }
+<span class="lineNum">     442 </span>            : 
+<span class="lineNum">     443 </span>            :         ///non-recursive binary search, assumes sorted array
+<span class="lineNum">     444 </span>            :         int     findBinarySearch(const T&amp; key) const
+<span class="lineNum">     445 </span>            :         {
+<span class="lineNum">     446 </span>            :                 int first = 0;
+<span class="lineNum">     447 </span>            :                 int last = size()-1;
+<span class="lineNum">     448 </span>            : 
+<span class="lineNum">     449 </span>            :                 //assume sorted array
+<span class="lineNum">     450 </span>            :                 while (first &lt;= last) {
+<span class="lineNum">     451 </span>            :                         int mid = (first + last) / 2;  // compute mid point.
+<span class="lineNum">     452 </span>            :                         if (key &gt; m_data[mid]) 
+<span class="lineNum">     453 </span>            :                                 first = mid + 1;  // repeat search in top half.
+<span class="lineNum">     454 </span>            :                         else if (key &lt; m_data[mid]) 
+<span class="lineNum">     455 </span>            :                                 last = mid - 1; // repeat search in bottom half.
+<span class="lineNum">     456 </span>            :                         else
+<span class="lineNum">     457 </span>            :                                 return mid;     // found it. return position /////
+<span class="lineNum">     458 </span>            :                 }
+<span class="lineNum">     459 </span>            :                 return size();    // failed to find key
+<span class="lineNum">     460 </span>            :         }
+<span class="lineNum">     461 </span>            : 
+<span class="lineNum">     462 </span>            : 
+<span class="lineNum">     463 </span>            :         int     findLinearSearch(const T&amp; key) const
+<span class="lineNum">     464 </span>            :         {
+<span class="lineNum">     465 </span>            :                 int index=size();
+<span class="lineNum">     466 </span>            :                 int i;
+<span class="lineNum">     467 </span>            : 
+<span class="lineNum">     468 </span>            :                 for (i=0;i&lt;size();i++)
+<span class="lineNum">     469 </span>            :                 {
+<span class="lineNum">     470 </span>            :                         if (m_data[i] == key)
+<span class="lineNum">     471 </span>            :                         {
+<span class="lineNum">     472 </span>            :                                 index = i;
+<span class="lineNum">     473 </span>            :                                 break;
+<span class="lineNum">     474 </span>            :                         }
+<span class="lineNum">     475 </span>            :                 }
+<span class="lineNum">     476 </span>            :                 return index;
+<span class="lineNum">     477 </span>            :         }
+<span class="lineNum">     478 </span>            :     
+<span class="lineNum">     479 </span>            :     // If the key is not in the array, return -1 instead of 0,
+<span class="lineNum">     480 </span>            :     // since 0 also means the first element in the array.
+<span class="lineNum">     481 </span>            :     int findLinearSearch2(const T&amp; key) const
+<span class="lineNum">     482 </span>            :     {
+<span class="lineNum">     483 </span>            :         int index=-1;
+<span class="lineNum">     484 </span>            :         int i;
+<span class="lineNum">     485 </span>            :         
+<span class="lineNum">     486 </span>            :         for (i=0;i&lt;size();i++)
+<span class="lineNum">     487 </span>            :         {
+<span class="lineNum">     488 </span>            :             if (m_data[i] == key)
+<span class="lineNum">     489 </span>            :             {
+<span class="lineNum">     490 </span>            :                 index = i;
+<span class="lineNum">     491 </span>            :                 break;
+<span class="lineNum">     492 </span>            :             }
+<span class="lineNum">     493 </span>            :         }
+<span class="lineNum">     494 </span>            :         return index;
+<span class="lineNum">     495 </span>            :     }
+<span class="lineNum">     496 </span>            : 
+<span class="lineNum">     497 </span>            :     void removeAtIndex(int index)
+<span class="lineNum">     498 </span>            :     {
+<span class="lineNum">     499 </span>            :         if (index&lt;size())
+<span class="lineNum">     500 </span>            :         {
+<span class="lineNum">     501 </span>            :             swap( index,size()-1);
+<span class="lineNum">     502 </span>            :             pop_back();
+<span class="lineNum">     503 </span>            :         }
+<span class="lineNum">     504 </span>            :     }
+<span class="lineNum">     505 </span>            :         void    remove(const T&amp; key)
+<span class="lineNum">     506 </span>            :         {
+<span class="lineNum">     507 </span>            :                 int findIndex = findLinearSearch(key);
+<span class="lineNum">     508 </span>            :         removeAtIndex(findIndex);
+<span class="lineNum">     509 </span>            :         }
+<span class="lineNum">     510 </span>            : 
+<span class="lineNum">     511 </span>            :         //PCK: whole function
+<span class="lineNum">     512 </span>            :         void initializeFromBuffer(void *buffer, int size, int capacity)
+<span class="lineNum">     513 </span>            :         {
+<span class="lineNum">     514 </span>            :                 clear();
+<span class="lineNum">     515 </span>            :                 m_ownsMemory = false;
+<span class="lineNum">     516 </span>            :                 m_data = (T*)buffer;
+<span class="lineNum">     517 </span>            :                 m_size = size;
+<span class="lineNum">     518 </span>            :                 m_capacity = capacity;
+<span class="lineNum">     519 </span>            :         }
+<span class="lineNum">     520 </span>            : 
+<span class="lineNum">     521 </span>            :         void copyFromArray(const btAlignedObjectArray&amp; otherArray)
+<span class="lineNum">     522 </span>            :         {
+<span class="lineNum">     523 </span>            :                 int otherSize = otherArray.size();
+<span class="lineNum">     524 </span>            :                 resize (otherSize);
+<span class="lineNum">     525 </span>            :                 otherArray.copy(0, otherSize, m_data);
+<span class="lineNum">     526 </span>            :         }
+<span class="lineNum">     527 </span>            : 
+<span class="lineNum">     528 </span>            : };
+<span class="lineNum">     529 </span>            : 
+<span class="lineNum">     530 </span>            : #endif //BT_OBJECT_ARRAY__
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

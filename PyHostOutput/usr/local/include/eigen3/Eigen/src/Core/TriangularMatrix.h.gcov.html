@@ -1,0 +1,1067 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - PyHost Code Analysis - /usr/local/include/eigen3/Eigen/src/Core/TriangularMatrix.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../../index.html">top level</a> - <a href="index.html">usr/local/include/eigen3/Eigen/src/Core</a> - TriangularMatrix.h<span style="font-size: 80%;"> (source / <a href="TriangularMatrix.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">PyHost Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">10</td>
+            <td class="headerCovTableEntry">68</td>
+            <td class="headerCovTableEntryLo">14.7 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 17:04:23</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">16</td>
+            <td class="headerCovTableEntry">123</td>
+            <td class="headerCovTableEntryLo">13.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // This file is part of Eigen, a lightweight C++ template library</a>
+<span class="lineNum">       2 </span>            : // for linear algebra.
+<span class="lineNum">       3 </span>            : //
+<span class="lineNum">       4 </span>            : // Copyright (C) 2008 Benoit Jacob &lt;jacob.benoit.1@gmail.com&gt;
+<span class="lineNum">       5 </span>            : // Copyright (C) 2008-2009 Gael Guennebaud &lt;gael.guennebaud@inria.fr&gt;
+<span class="lineNum">       6 </span>            : //
+<span class="lineNum">       7 </span>            : // This Source Code Form is subject to the terms of the Mozilla
+<span class="lineNum">       8 </span>            : // Public License v. 2.0. If a copy of the MPL was not distributed
+<span class="lineNum">       9 </span>            : // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+<span class="lineNum">      10 </span>            : 
+<span class="lineNum">      11 </span>            : #ifndef EIGEN_TRIANGULARMATRIX_H
+<span class="lineNum">      12 </span>            : #define EIGEN_TRIANGULARMATRIX_H
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span>            : namespace Eigen { 
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span>            : namespace internal {
+<span class="lineNum">      17 </span>            :   
+<span class="lineNum">      18 </span>            : template&lt;int Side, typename TriangularType, typename Rhs&gt; struct triangular_solve_retval;
+<span class="lineNum">      19 </span>            :   
+<span class="lineNum">      20 </span>            : }
+<span class="lineNum">      21 </span>            : 
+<span class="lineNum">      22 </span>            : /** \class TriangularBase
+<span class="lineNum">      23 </span>            :   * \ingroup Core_Module
+<span class="lineNum">      24 </span>            :   *
+<span class="lineNum">      25 </span>            :   * \brief Base class for triangular part in a matrix
+<span class="lineNum">      26 </span>            :   */
+<span class="lineNum">      27 </span>            : template&lt;typename Derived&gt; class TriangularBase : public EigenBase&lt;Derived&gt;
+<span class="lineNum">      28 </span>            : {
+<span class="lineNum">      29 </span>            :   public:
+<span class="lineNum">      30 </span>            : 
+<span class="lineNum">      31 </span>            :     enum {
+<span class="lineNum">      32 </span>            :       Mode = internal::traits&lt;Derived&gt;::Mode,
+<span class="lineNum">      33 </span>            :       RowsAtCompileTime = internal::traits&lt;Derived&gt;::RowsAtCompileTime,
+<span class="lineNum">      34 </span>            :       ColsAtCompileTime = internal::traits&lt;Derived&gt;::ColsAtCompileTime,
+<span class="lineNum">      35 </span>            :       MaxRowsAtCompileTime = internal::traits&lt;Derived&gt;::MaxRowsAtCompileTime,
+<span class="lineNum">      36 </span>            :       MaxColsAtCompileTime = internal::traits&lt;Derived&gt;::MaxColsAtCompileTime,
+<span class="lineNum">      37 </span>            :       
+<span class="lineNum">      38 </span>            :       SizeAtCompileTime = (internal::size_at_compile_time&lt;internal::traits&lt;Derived&gt;::RowsAtCompileTime,
+<span class="lineNum">      39 </span>            :                                                    internal::traits&lt;Derived&gt;::ColsAtCompileTime&gt;::ret),
+<span class="lineNum">      40 </span>            :       /**&lt; This is equal to the number of coefficients, i.e. the number of
+<span class="lineNum">      41 </span>            :           * rows times the number of columns, or to \a Dynamic if this is not
+<span class="lineNum">      42 </span>            :           * known at compile-time. \sa RowsAtCompileTime, ColsAtCompileTime */
+<span class="lineNum">      43 </span>            :       
+<span class="lineNum">      44 </span>            :       MaxSizeAtCompileTime = (internal::size_at_compile_time&lt;internal::traits&lt;Derived&gt;::MaxRowsAtCompileTime,
+<span class="lineNum">      45 </span>            :                                                    internal::traits&lt;Derived&gt;::MaxColsAtCompileTime&gt;::ret)
+<span class="lineNum">      46 </span>            :         
+<span class="lineNum">      47 </span>            :     };
+<span class="lineNum">      48 </span>            :     typedef typename internal::traits&lt;Derived&gt;::Scalar Scalar;
+<span class="lineNum">      49 </span>            :     typedef typename internal::traits&lt;Derived&gt;::StorageKind StorageKind;
+<span class="lineNum">      50 </span>            :     typedef typename internal::traits&lt;Derived&gt;::StorageIndex StorageIndex;
+<span class="lineNum">      51 </span>            :     typedef typename internal::traits&lt;Derived&gt;::FullMatrixType DenseMatrixType;
+<span class="lineNum">      52 </span>            :     typedef DenseMatrixType DenseType;
+<span class="lineNum">      53 </span>            :     typedef Derived const&amp; Nested;
+<a name="54"><span class="lineNum">      54 </span>            : </a>
+<span class="lineNum">      55 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">      56 </span><span class="lineCov">        940 :     inline TriangularBase() { eigen_assert(!((Mode&amp;UnitDiag) &amp;&amp; (Mode&amp;ZeroDiag))); }</span>
+<a name="57"><span class="lineNum">      57 </span>            : </a>
+<span class="lineNum">      58 </span>            :     EIGEN_DEVICE_FUNC
+<a name="59"><span class="lineNum">      59 </span><span class="lineNoCov">          0 :     inline Index rows() const { return derived().rows(); }</span></a>
+<span class="lineNum">      60 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">      61 </span><span class="lineNoCov">          0 :     inline Index cols() const { return derived().cols(); }</span>
+<span class="lineNum">      62 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">      63 </span>            :     inline Index outerStride() const { return derived().outerStride(); }
+<span class="lineNum">      64 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">      65 </span>            :     inline Index innerStride() const { return derived().innerStride(); }
+<a name="66"><span class="lineNum">      66 </span>            :     </a>
+<span class="lineNum">      67 </span>            :     // dummy resize function
+<span class="lineNum">      68 </span><span class="lineNoCov">          0 :     void resize(Index rows, Index cols)</span>
+<span class="lineNum">      69 </span>            :     {
+<span class="lineNum">      70 </span><span class="lineNoCov">          0 :       EIGEN_UNUSED_VARIABLE(rows);</span>
+<span class="lineNum">      71 </span><span class="lineNoCov">          0 :       EIGEN_UNUSED_VARIABLE(cols);</span>
+<span class="lineNum">      72 </span><span class="lineNoCov">          0 :       eigen_assert(rows==this-&gt;rows() &amp;&amp; cols==this-&gt;cols());</span>
+<span class="lineNum">      73 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">      74 </span>            : 
+<span class="lineNum">      75 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">      76 </span>            :     inline Scalar coeff(Index row, Index col) const  { return derived().coeff(row,col); }
+<span class="lineNum">      77 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">      78 </span>            :     inline Scalar&amp; coeffRef(Index row, Index col) { return derived().coeffRef(row,col); }
+<span class="lineNum">      79 </span>            : 
+<span class="lineNum">      80 </span>            :     /** \see MatrixBase::copyCoeff(row,col)
+<span class="lineNum">      81 </span>            :       */
+<span class="lineNum">      82 </span>            :     template&lt;typename Other&gt;
+<span class="lineNum">      83 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">      84 </span>            :     EIGEN_STRONG_INLINE void copyCoeff(Index row, Index col, Other&amp; other)
+<span class="lineNum">      85 </span>            :     {
+<span class="lineNum">      86 </span>            :       derived().coeffRef(row, col) = other.coeff(row, col);
+<span class="lineNum">      87 </span>            :     }
+<span class="lineNum">      88 </span>            : 
+<span class="lineNum">      89 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">      90 </span>            :     inline Scalar operator()(Index row, Index col) const
+<span class="lineNum">      91 </span>            :     {
+<span class="lineNum">      92 </span>            :       check_coordinates(row, col);
+<span class="lineNum">      93 </span>            :       return coeff(row,col);
+<span class="lineNum">      94 </span>            :     }
+<span class="lineNum">      95 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">      96 </span>            :     inline Scalar&amp; operator()(Index row, Index col)
+<span class="lineNum">      97 </span>            :     {
+<span class="lineNum">      98 </span>            :       check_coordinates(row, col);
+<span class="lineNum">      99 </span>            :       return coeffRef(row,col);
+<span class="lineNum">     100 </span>            :     }
+<span class="lineNum">     101 </span>            : 
+<a name="102"><span class="lineNum">     102 </span>            :     #ifndef EIGEN_PARSED_BY_DOXYGEN</a>
+<span class="lineNum">     103 </span>            :     EIGEN_DEVICE_FUNC
+<a name="104"><span class="lineNum">     104 </span><span class="lineCov">       4700 :     inline const Derived&amp; derived() const { return *static_cast&lt;const Derived*&gt;(this); }</span></a>
+<span class="lineNum">     105 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     106 </span><span class="lineNoCov">          0 :     inline Derived&amp; derived() { return *static_cast&lt;Derived*&gt;(this); }</span>
+<span class="lineNum">     107 </span>            :     #endif // not EIGEN_PARSED_BY_DOXYGEN
+<span class="lineNum">     108 </span>            : 
+<span class="lineNum">     109 </span>            :     template&lt;typename DenseDerived&gt;
+<span class="lineNum">     110 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     111 </span>            :     void evalTo(MatrixBase&lt;DenseDerived&gt; &amp;other) const;
+<span class="lineNum">     112 </span>            :     template&lt;typename DenseDerived&gt;
+<span class="lineNum">     113 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     114 </span>            :     void evalToLazy(MatrixBase&lt;DenseDerived&gt; &amp;other) const;
+<span class="lineNum">     115 </span>            : 
+<span class="lineNum">     116 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     117 </span>            :     DenseMatrixType toDenseMatrix() const
+<span class="lineNum">     118 </span>            :     {
+<span class="lineNum">     119 </span>            :       DenseMatrixType res(rows(), cols());
+<span class="lineNum">     120 </span>            :       evalToLazy(res);
+<span class="lineNum">     121 </span>            :       return res;
+<span class="lineNum">     122 </span>            :     }
+<span class="lineNum">     123 </span>            : 
+<span class="lineNum">     124 </span>            :   protected:
+<span class="lineNum">     125 </span>            : 
+<span class="lineNum">     126 </span>            :     void check_coordinates(Index row, Index col) const
+<span class="lineNum">     127 </span>            :     {
+<span class="lineNum">     128 </span>            :       EIGEN_ONLY_USED_FOR_DEBUG(row);
+<span class="lineNum">     129 </span>            :       EIGEN_ONLY_USED_FOR_DEBUG(col);
+<span class="lineNum">     130 </span>            :       eigen_assert(col&gt;=0 &amp;&amp; col&lt;cols() &amp;&amp; row&gt;=0 &amp;&amp; row&lt;rows());
+<span class="lineNum">     131 </span>            :       const int mode = int(Mode) &amp; ~SelfAdjoint;
+<span class="lineNum">     132 </span>            :       EIGEN_ONLY_USED_FOR_DEBUG(mode);
+<span class="lineNum">     133 </span>            :       eigen_assert((mode==Upper &amp;&amp; col&gt;=row)
+<span class="lineNum">     134 </span>            :                 || (mode==Lower &amp;&amp; col&lt;=row)
+<span class="lineNum">     135 </span>            :                 || ((mode==StrictlyUpper || mode==UnitUpper) &amp;&amp; col&gt;row)
+<span class="lineNum">     136 </span>            :                 || ((mode==StrictlyLower || mode==UnitLower) &amp;&amp; col&lt;row));
+<span class="lineNum">     137 </span>            :     }
+<span class="lineNum">     138 </span>            : 
+<span class="lineNum">     139 </span>            :     #ifdef EIGEN_INTERNAL_DEBUGGING
+<span class="lineNum">     140 </span>            :     void check_coordinates_internal(Index row, Index col) const
+<span class="lineNum">     141 </span>            :     {
+<span class="lineNum">     142 </span>            :       check_coordinates(row, col);
+<span class="lineNum">     143 </span>            :     }
+<span class="lineNum">     144 </span>            :     #else
+<span class="lineNum">     145 </span>            :     void check_coordinates_internal(Index , Index ) const {}
+<span class="lineNum">     146 </span>            :     #endif
+<span class="lineNum">     147 </span>            : 
+<span class="lineNum">     148 </span>            : };
+<span class="lineNum">     149 </span>            : 
+<span class="lineNum">     150 </span>            : /** \class TriangularView
+<span class="lineNum">     151 </span>            :   * \ingroup Core_Module
+<span class="lineNum">     152 </span>            :   *
+<span class="lineNum">     153 </span>            :   * \brief Expression of a triangular part in a matrix
+<span class="lineNum">     154 </span>            :   *
+<span class="lineNum">     155 </span>            :   * \param MatrixType the type of the object in which we are taking the triangular part
+<span class="lineNum">     156 </span>            :   * \param Mode the kind of triangular matrix expression to construct. Can be #Upper,
+<span class="lineNum">     157 </span>            :   *             #Lower, #UnitUpper, #UnitLower, #StrictlyUpper, or #StrictlyLower.
+<span class="lineNum">     158 </span>            :   *             This is in fact a bit field; it must have either #Upper or #Lower, 
+<span class="lineNum">     159 </span>            :   *             and additionally it may have #UnitDiag or #ZeroDiag or neither.
+<span class="lineNum">     160 </span>            :   *
+<span class="lineNum">     161 </span>            :   * This class represents a triangular part of a matrix, not necessarily square. Strictly speaking, for rectangular
+<span class="lineNum">     162 </span>            :   * matrices one should speak of &quot;trapezoid&quot; parts. This class is the return type
+<span class="lineNum">     163 </span>            :   * of MatrixBase::triangularView() and SparseMatrixBase::triangularView(), and most of the time this is the only way it is used.
+<span class="lineNum">     164 </span>            :   *
+<span class="lineNum">     165 </span>            :   * \sa MatrixBase::triangularView()
+<span class="lineNum">     166 </span>            :   */
+<span class="lineNum">     167 </span>            : namespace internal {
+<span class="lineNum">     168 </span>            : template&lt;typename MatrixType, unsigned int _Mode&gt;
+<span class="lineNum">     169 </span>            : struct traits&lt;TriangularView&lt;MatrixType, _Mode&gt; &gt; : traits&lt;MatrixType&gt;
+<span class="lineNum">     170 </span>            : {
+<span class="lineNum">     171 </span>            :   typedef typename ref_selector&lt;MatrixType&gt;::non_const_type MatrixTypeNested;
+<span class="lineNum">     172 </span>            :   typedef typename remove_reference&lt;MatrixTypeNested&gt;::type MatrixTypeNestedNonRef;
+<span class="lineNum">     173 </span>            :   typedef typename remove_all&lt;MatrixTypeNested&gt;::type MatrixTypeNestedCleaned;
+<span class="lineNum">     174 </span>            :   typedef typename MatrixType::PlainObject FullMatrixType;
+<span class="lineNum">     175 </span>            :   typedef MatrixType ExpressionType;
+<span class="lineNum">     176 </span>            :   enum {
+<span class="lineNum">     177 </span>            :     Mode = _Mode,
+<span class="lineNum">     178 </span>            :     FlagsLvalueBit = is_lvalue&lt;MatrixType&gt;::value ? LvalueBit : 0,
+<span class="lineNum">     179 </span>            :     Flags = (MatrixTypeNestedCleaned::Flags &amp; (HereditaryBits | FlagsLvalueBit) &amp; (~(PacketAccessBit | DirectAccessBit | LinearAccessBit)))
+<span class="lineNum">     180 </span>            :   };
+<span class="lineNum">     181 </span>            : };
+<span class="lineNum">     182 </span>            : }
+<span class="lineNum">     183 </span>            : 
+<span class="lineNum">     184 </span>            : template&lt;typename _MatrixType, unsigned int _Mode, typename StorageKind&gt; class TriangularViewImpl;
+<span class="lineNum">     185 </span>            : 
+<span class="lineNum">     186 </span>            : template&lt;typename _MatrixType, unsigned int _Mode&gt; class TriangularView
+<span class="lineNum">     187 </span>            :   : public TriangularViewImpl&lt;_MatrixType, _Mode, typename internal::traits&lt;_MatrixType&gt;::StorageKind &gt;
+<span class="lineNum">     188 </span>            : {
+<span class="lineNum">     189 </span>            :   public:
+<span class="lineNum">     190 </span>            : 
+<span class="lineNum">     191 </span>            :     typedef TriangularViewImpl&lt;_MatrixType, _Mode, typename internal::traits&lt;_MatrixType&gt;::StorageKind &gt; Base;
+<span class="lineNum">     192 </span>            :     typedef typename internal::traits&lt;TriangularView&gt;::Scalar Scalar;
+<span class="lineNum">     193 </span>            :     typedef _MatrixType MatrixType;
+<span class="lineNum">     194 </span>            : 
+<span class="lineNum">     195 </span>            :   protected:
+<span class="lineNum">     196 </span>            :     typedef typename internal::traits&lt;TriangularView&gt;::MatrixTypeNested MatrixTypeNested;
+<span class="lineNum">     197 </span>            :     typedef typename internal::traits&lt;TriangularView&gt;::MatrixTypeNestedNonRef MatrixTypeNestedNonRef;
+<span class="lineNum">     198 </span>            : 
+<span class="lineNum">     199 </span>            :     typedef typename internal::remove_all&lt;typename MatrixType::ConjugateReturnType&gt;::type MatrixConjugateReturnType;
+<span class="lineNum">     200 </span>            :     
+<span class="lineNum">     201 </span>            :   public:
+<span class="lineNum">     202 </span>            : 
+<span class="lineNum">     203 </span>            :     typedef typename internal::traits&lt;TriangularView&gt;::StorageKind StorageKind;
+<span class="lineNum">     204 </span>            :     typedef typename internal::traits&lt;TriangularView&gt;::MatrixTypeNestedCleaned NestedExpression;
+<span class="lineNum">     205 </span>            : 
+<span class="lineNum">     206 </span>            :     enum {
+<span class="lineNum">     207 </span>            :       Mode = _Mode,
+<span class="lineNum">     208 </span>            :       Flags = internal::traits&lt;TriangularView&gt;::Flags,
+<span class="lineNum">     209 </span>            :       TransposeMode = (Mode &amp; Upper ? Lower : 0)
+<span class="lineNum">     210 </span>            :                     | (Mode &amp; Lower ? Upper : 0)
+<span class="lineNum">     211 </span>            :                     | (Mode &amp; (UnitDiag))
+<span class="lineNum">     212 </span>            :                     | (Mode &amp; (ZeroDiag)),
+<span class="lineNum">     213 </span>            :       IsVectorAtCompileTime = false
+<span class="lineNum">     214 </span>            :     };
+<a name="215"><span class="lineNum">     215 </span>            : </a>
+<span class="lineNum">     216 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     217 </span><span class="lineCov">        940 :     explicit inline TriangularView(MatrixType&amp; matrix) : m_matrix(matrix)</span>
+<span class="lineNum">     218 </span><span class="lineCov">        940 :     {}</span>
+<span class="lineNum">     219 </span>            :     
+<span class="lineNum">     220 </span>            :     using Base::operator=;
+<span class="lineNum">     221 </span>            :     TriangularView&amp; operator=(const TriangularView &amp;other)
+<span class="lineNum">     222 </span>            :     { return Base::operator=(other); }
+<span class="lineNum">     223 </span>            : 
+<a name="224"><span class="lineNum">     224 </span>            :     /** \copydoc EigenBase::rows() */</a>
+<span class="lineNum">     225 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     226 </span><span class="lineCov">        940 :     inline Index rows() const { return m_matrix.rows(); }</span>
+<a name="227"><span class="lineNum">     227 </span>            :     /** \copydoc EigenBase::cols() */</a>
+<span class="lineNum">     228 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     229 </span><span class="lineCov">       2820 :     inline Index cols() const { return m_matrix.cols(); }</span>
+<span class="lineNum">     230 </span>            : 
+<a name="231"><span class="lineNum">     231 </span>            :     /** \returns a const reference to the nested expression */</a>
+<span class="lineNum">     232 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     233 </span><span class="lineCov">        940 :     const NestedExpression&amp; nestedExpression() const { return m_matrix; }</span>
+<span class="lineNum">     234 </span>            : 
+<span class="lineNum">     235 </span>            :     /** \returns a reference to the nested expression */
+<span class="lineNum">     236 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     237 </span>            :     NestedExpression&amp; nestedExpression() { return m_matrix; }
+<span class="lineNum">     238 </span>            :     
+<span class="lineNum">     239 </span>            :     typedef TriangularView&lt;const MatrixConjugateReturnType,Mode&gt; ConjugateReturnType;
+<span class="lineNum">     240 </span>            :     /** \sa MatrixBase::conjugate() const */
+<span class="lineNum">     241 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     242 </span>            :     inline const ConjugateReturnType conjugate() const
+<span class="lineNum">     243 </span>            :     { return ConjugateReturnType(m_matrix.conjugate()); }
+<span class="lineNum">     244 </span>            : 
+<span class="lineNum">     245 </span>            :     typedef TriangularView&lt;const typename MatrixType::AdjointReturnType,TransposeMode&gt; AdjointReturnType;
+<a name="246"><span class="lineNum">     246 </span>            :     /** \sa MatrixBase::adjoint() const */</a>
+<span class="lineNum">     247 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     248 </span><span class="lineNoCov">          0 :     inline const AdjointReturnType adjoint() const</span>
+<span class="lineNum">     249 </span><span class="lineNoCov">          0 :     { return AdjointReturnType(m_matrix.adjoint()); }</span>
+<span class="lineNum">     250 </span>            : 
+<span class="lineNum">     251 </span>            :     typedef TriangularView&lt;typename MatrixType::TransposeReturnType,TransposeMode&gt; TransposeReturnType;
+<span class="lineNum">     252 </span>            :      /** \sa MatrixBase::transpose() */
+<span class="lineNum">     253 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     254 </span>            :     inline TransposeReturnType transpose()
+<span class="lineNum">     255 </span>            :     {
+<span class="lineNum">     256 </span>            :       EIGEN_STATIC_ASSERT_LVALUE(MatrixType)
+<span class="lineNum">     257 </span>            :       typename MatrixType::TransposeReturnType tmp(m_matrix);
+<span class="lineNum">     258 </span>            :       return TransposeReturnType(tmp);
+<span class="lineNum">     259 </span>            :     }
+<span class="lineNum">     260 </span>            :     
+<span class="lineNum">     261 </span>            :     typedef TriangularView&lt;const typename MatrixType::ConstTransposeReturnType,TransposeMode&gt; ConstTransposeReturnType;
+<span class="lineNum">     262 </span>            :     /** \sa MatrixBase::transpose() const */
+<span class="lineNum">     263 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     264 </span>            :     inline const ConstTransposeReturnType transpose() const
+<span class="lineNum">     265 </span>            :     {
+<span class="lineNum">     266 </span>            :       return ConstTransposeReturnType(m_matrix.transpose());
+<span class="lineNum">     267 </span>            :     }
+<span class="lineNum">     268 </span>            : 
+<span class="lineNum">     269 </span>            :     template&lt;typename Other&gt;
+<span class="lineNum">     270 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     271 </span>            :     inline const Solve&lt;TriangularView, Other&gt; 
+<span class="lineNum">     272 </span>            :     solve(const MatrixBase&lt;Other&gt;&amp; other) const
+<span class="lineNum">     273 </span>            :     { return Solve&lt;TriangularView, Other&gt;(*this, other.derived()); }
+<span class="lineNum">     274 </span>            :     
+<span class="lineNum">     275 </span>            :   // workaround MSVC ICE
+<span class="lineNum">     276 </span>            :   #if EIGEN_COMP_MSVC
+<span class="lineNum">     277 </span>            :     template&lt;int Side, typename Other&gt;
+<span class="lineNum">     278 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     279 </span>            :     inline const internal::triangular_solve_retval&lt;Side,TriangularView, Other&gt;
+<span class="lineNum">     280 </span>            :     solve(const MatrixBase&lt;Other&gt;&amp; other) const
+<span class="lineNum">     281 </span>            :     { return Base::template solve&lt;Side&gt;(other); }
+<span class="lineNum">     282 </span>            :   #else
+<span class="lineNum">     283 </span>            :     using Base::solve;
+<span class="lineNum">     284 </span>            :   #endif
+<span class="lineNum">     285 </span>            : 
+<span class="lineNum">     286 </span>            :     /** \returns a selfadjoint view of the referenced triangular part which must be either \c #Upper or \c #Lower.
+<span class="lineNum">     287 </span>            :       *
+<span class="lineNum">     288 </span>            :       * This is a shortcut for \code this-&gt;nestedExpression().selfadjointView&lt;(*this)::Mode&gt;() \endcode
+<span class="lineNum">     289 </span>            :       * \sa MatrixBase::selfadjointView() */
+<span class="lineNum">     290 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     291 </span>            :     SelfAdjointView&lt;MatrixTypeNestedNonRef,Mode&gt; selfadjointView()
+<span class="lineNum">     292 </span>            :     {
+<span class="lineNum">     293 </span>            :       EIGEN_STATIC_ASSERT((Mode&amp;(UnitDiag|ZeroDiag))==0,PROGRAMMING_ERROR);
+<span class="lineNum">     294 </span>            :       return SelfAdjointView&lt;MatrixTypeNestedNonRef,Mode&gt;(m_matrix);
+<span class="lineNum">     295 </span>            :     }
+<span class="lineNum">     296 </span>            : 
+<span class="lineNum">     297 </span>            :     /** This is the const version of selfadjointView() */
+<span class="lineNum">     298 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     299 </span>            :     const SelfAdjointView&lt;MatrixTypeNestedNonRef,Mode&gt; selfadjointView() const
+<span class="lineNum">     300 </span>            :     {
+<span class="lineNum">     301 </span>            :       EIGEN_STATIC_ASSERT((Mode&amp;(UnitDiag|ZeroDiag))==0,PROGRAMMING_ERROR);
+<span class="lineNum">     302 </span>            :       return SelfAdjointView&lt;MatrixTypeNestedNonRef,Mode&gt;(m_matrix);
+<span class="lineNum">     303 </span>            :     }
+<span class="lineNum">     304 </span>            : 
+<span class="lineNum">     305 </span>            : 
+<span class="lineNum">     306 </span>            :     /** \returns the determinant of the triangular matrix
+<span class="lineNum">     307 </span>            :       * \sa MatrixBase::determinant() */
+<span class="lineNum">     308 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     309 </span>            :     Scalar determinant() const
+<span class="lineNum">     310 </span>            :     {
+<span class="lineNum">     311 </span>            :       if (Mode &amp; UnitDiag)
+<span class="lineNum">     312 </span>            :         return 1;
+<span class="lineNum">     313 </span>            :       else if (Mode &amp; ZeroDiag)
+<span class="lineNum">     314 </span>            :         return 0;
+<span class="lineNum">     315 </span>            :       else
+<span class="lineNum">     316 </span>            :         return m_matrix.diagonal().prod();
+<span class="lineNum">     317 </span>            :     }
+<span class="lineNum">     318 </span>            :       
+<span class="lineNum">     319 </span>            :   protected:
+<span class="lineNum">     320 </span>            : 
+<span class="lineNum">     321 </span>            :     MatrixTypeNested m_matrix;
+<span class="lineNum">     322 </span>            : };
+<span class="lineNum">     323 </span>            : 
+<span class="lineNum">     324 </span>            : /** \ingroup Core_Module
+<span class="lineNum">     325 </span>            :   *
+<span class="lineNum">     326 </span>            :   * \brief Base class for a triangular part in a \b dense matrix
+<span class="lineNum">     327 </span>            :   *
+<span class="lineNum">     328 </span>            :   * This class is an abstract base class of class TriangularView, and objects of type TriangularViewImpl cannot be instantiated.
+<span class="lineNum">     329 </span>            :   * It extends class TriangularView with additional methods which available for dense expressions only.
+<span class="lineNum">     330 </span>            :   *
+<a name="331"><span class="lineNum">     331 </span>            :   * \sa class TriangularView, MatrixBase::triangularView()</a>
+<span class="lineNum">     332 </span>            :   */
+<span class="lineNum">     333 </span><span class="lineCov">        940 : template&lt;typename _MatrixType, unsigned int _Mode&gt; class TriangularViewImpl&lt;_MatrixType,_Mode,Dense&gt;</span>
+<span class="lineNum">     334 </span>            :   : public TriangularBase&lt;TriangularView&lt;_MatrixType, _Mode&gt; &gt;
+<span class="lineNum">     335 </span>            : {
+<span class="lineNum">     336 </span>            :   public:
+<span class="lineNum">     337 </span>            : 
+<span class="lineNum">     338 </span>            :     typedef TriangularView&lt;_MatrixType, _Mode&gt; TriangularViewType;
+<span class="lineNum">     339 </span>            :     typedef TriangularBase&lt;TriangularViewType&gt; Base;
+<span class="lineNum">     340 </span>            :     typedef typename internal::traits&lt;TriangularViewType&gt;::Scalar Scalar;
+<span class="lineNum">     341 </span>            : 
+<span class="lineNum">     342 </span>            :     typedef _MatrixType MatrixType;
+<span class="lineNum">     343 </span>            :     typedef typename MatrixType::PlainObject DenseMatrixType;
+<span class="lineNum">     344 </span>            :     typedef DenseMatrixType PlainObject;
+<span class="lineNum">     345 </span>            : 
+<span class="lineNum">     346 </span>            :   public:
+<span class="lineNum">     347 </span>            :     using Base::evalToLazy;
+<span class="lineNum">     348 </span>            :     using Base::derived;
+<span class="lineNum">     349 </span>            : 
+<span class="lineNum">     350 </span>            :     typedef typename internal::traits&lt;TriangularViewType&gt;::StorageKind StorageKind;
+<span class="lineNum">     351 </span>            : 
+<span class="lineNum">     352 </span>            :     enum {
+<span class="lineNum">     353 </span>            :       Mode = _Mode,
+<span class="lineNum">     354 </span>            :       Flags = internal::traits&lt;TriangularViewType&gt;::Flags
+<span class="lineNum">     355 </span>            :     };
+<span class="lineNum">     356 </span>            : 
+<span class="lineNum">     357 </span>            :     /** \returns the outer-stride of the underlying dense matrix
+<span class="lineNum">     358 </span>            :       * \sa DenseCoeffsBase::outerStride() */
+<span class="lineNum">     359 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     360 </span>            :     inline Index outerStride() const { return derived().nestedExpression().outerStride(); }
+<span class="lineNum">     361 </span>            :     /** \returns the inner-stride of the underlying dense matrix
+<span class="lineNum">     362 </span>            :       * \sa DenseCoeffsBase::innerStride() */
+<span class="lineNum">     363 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     364 </span>            :     inline Index innerStride() const { return derived().nestedExpression().innerStride(); }
+<span class="lineNum">     365 </span>            : 
+<span class="lineNum">     366 </span>            :     /** \sa MatrixBase::operator+=() */
+<span class="lineNum">     367 </span>            :     template&lt;typename Other&gt;
+<span class="lineNum">     368 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     369 </span>            :     TriangularViewType&amp;  operator+=(const DenseBase&lt;Other&gt;&amp; other) {
+<span class="lineNum">     370 </span>            :       internal::call_assignment_no_alias(derived(), other.derived(), internal::add_assign_op&lt;Scalar,typename Other::Scalar&gt;());
+<span class="lineNum">     371 </span>            :       return derived();
+<span class="lineNum">     372 </span>            :     }
+<span class="lineNum">     373 </span>            :     /** \sa MatrixBase::operator-=() */
+<span class="lineNum">     374 </span>            :     template&lt;typename Other&gt;
+<span class="lineNum">     375 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     376 </span>            :     TriangularViewType&amp;  operator-=(const DenseBase&lt;Other&gt;&amp; other) {
+<span class="lineNum">     377 </span>            :       internal::call_assignment_no_alias(derived(), other.derived(), internal::sub_assign_op&lt;Scalar,typename Other::Scalar&gt;());
+<span class="lineNum">     378 </span>            :       return derived();
+<span class="lineNum">     379 </span>            :     }
+<span class="lineNum">     380 </span>            :     
+<span class="lineNum">     381 </span>            :     /** \sa MatrixBase::operator*=() */
+<span class="lineNum">     382 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     383 </span>            :     TriangularViewType&amp;  operator*=(const typename internal::traits&lt;MatrixType&gt;::Scalar&amp; other) { return *this = derived().nestedExpression() * other; }
+<span class="lineNum">     384 </span>            :     /** \sa DenseBase::operator/=() */
+<span class="lineNum">     385 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     386 </span>            :     TriangularViewType&amp;  operator/=(const typename internal::traits&lt;MatrixType&gt;::Scalar&amp; other) { return *this = derived().nestedExpression() / other; }
+<span class="lineNum">     387 </span>            : 
+<span class="lineNum">     388 </span>            :     /** \sa MatrixBase::fill() */
+<span class="lineNum">     389 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     390 </span>            :     void fill(const Scalar&amp; value) { setConstant(value); }
+<a name="391"><span class="lineNum">     391 </span>            :     /** \sa MatrixBase::setConstant() */</a>
+<span class="lineNum">     392 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     393 </span><span class="lineNoCov">          0 :     TriangularViewType&amp; setConstant(const Scalar&amp; value)</span>
+<span class="lineNum">     394 </span><span class="lineNoCov">          0 :     { return *this = MatrixType::Constant(derived().rows(), derived().cols(), value); }</span>
+<a name="395"><span class="lineNum">     395 </span>            :     /** \sa MatrixBase::setZero() */</a>
+<span class="lineNum">     396 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     397 </span><span class="lineNoCov">          0 :     TriangularViewType&amp; setZero() { return setConstant(Scalar(0)); }</span>
+<span class="lineNum">     398 </span>            :     /** \sa MatrixBase::setOnes() */
+<span class="lineNum">     399 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     400 </span>            :     TriangularViewType&amp; setOnes() { return setConstant(Scalar(1)); }
+<span class="lineNum">     401 </span>            : 
+<span class="lineNum">     402 </span>            :     /** \sa MatrixBase::coeff()
+<span class="lineNum">     403 </span>            :       * \warning the coordinates must fit into the referenced triangular part
+<span class="lineNum">     404 </span>            :       */
+<span class="lineNum">     405 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     406 </span>            :     inline Scalar coeff(Index row, Index col) const
+<span class="lineNum">     407 </span>            :     {
+<span class="lineNum">     408 </span>            :       Base::check_coordinates_internal(row, col);
+<span class="lineNum">     409 </span>            :       return derived().nestedExpression().coeff(row, col);
+<span class="lineNum">     410 </span>            :     }
+<span class="lineNum">     411 </span>            : 
+<span class="lineNum">     412 </span>            :     /** \sa MatrixBase::coeffRef()
+<span class="lineNum">     413 </span>            :       * \warning the coordinates must fit into the referenced triangular part
+<span class="lineNum">     414 </span>            :       */
+<span class="lineNum">     415 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     416 </span>            :     inline Scalar&amp; coeffRef(Index row, Index col)
+<span class="lineNum">     417 </span>            :     {
+<span class="lineNum">     418 </span>            :       EIGEN_STATIC_ASSERT_LVALUE(TriangularViewType);
+<span class="lineNum">     419 </span>            :       Base::check_coordinates_internal(row, col);
+<span class="lineNum">     420 </span>            :       return derived().nestedExpression().coeffRef(row, col);
+<span class="lineNum">     421 </span>            :     }
+<span class="lineNum">     422 </span>            : 
+<span class="lineNum">     423 </span>            :     /** Assigns a triangular matrix to a triangular part of a dense matrix */
+<span class="lineNum">     424 </span>            :     template&lt;typename OtherDerived&gt;
+<span class="lineNum">     425 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     426 </span>            :     TriangularViewType&amp; operator=(const TriangularBase&lt;OtherDerived&gt;&amp; other);
+<span class="lineNum">     427 </span>            : 
+<span class="lineNum">     428 </span>            :     /** Shortcut for\code *this = other.other.triangularView&lt;(*this)::Mode&gt;() \endcode */
+<span class="lineNum">     429 </span>            :     template&lt;typename OtherDerived&gt;
+<span class="lineNum">     430 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     431 </span>            :     TriangularViewType&amp; operator=(const MatrixBase&lt;OtherDerived&gt;&amp; other);
+<span class="lineNum">     432 </span>            : 
+<span class="lineNum">     433 </span>            : #ifndef EIGEN_PARSED_BY_DOXYGEN
+<span class="lineNum">     434 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     435 </span>            :     TriangularViewType&amp; operator=(const TriangularViewImpl&amp; other)
+<span class="lineNum">     436 </span>            :     { return *this = other.derived().nestedExpression(); }
+<span class="lineNum">     437 </span>            : 
+<span class="lineNum">     438 </span>            :     /** \deprecated */
+<span class="lineNum">     439 </span>            :     template&lt;typename OtherDerived&gt;
+<span class="lineNum">     440 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     441 </span>            :     void lazyAssign(const TriangularBase&lt;OtherDerived&gt;&amp; other);
+<span class="lineNum">     442 </span>            : 
+<span class="lineNum">     443 </span>            :     /** \deprecated */
+<span class="lineNum">     444 </span>            :     template&lt;typename OtherDerived&gt;
+<span class="lineNum">     445 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     446 </span>            :     void lazyAssign(const MatrixBase&lt;OtherDerived&gt;&amp; other);
+<span class="lineNum">     447 </span>            : #endif
+<span class="lineNum">     448 </span>            : 
+<span class="lineNum">     449 </span>            :     /** Efficient triangular matrix times vector/matrix product */
+<span class="lineNum">     450 </span>            :     template&lt;typename OtherDerived&gt;
+<a name="451"><span class="lineNum">     451 </span>            :     EIGEN_DEVICE_FUNC</a>
+<span class="lineNum">     452 </span>            :     const Product&lt;TriangularViewType,OtherDerived&gt;
+<span class="lineNum">     453 </span><span class="lineNoCov">          0 :     operator*(const MatrixBase&lt;OtherDerived&gt;&amp; rhs) const</span>
+<span class="lineNum">     454 </span>            :     {
+<span class="lineNum">     455 </span><span class="lineNoCov">          0 :       return Product&lt;TriangularViewType,OtherDerived&gt;(derived(), rhs.derived());</span>
+<span class="lineNum">     456 </span>            :     }
+<span class="lineNum">     457 </span>            : 
+<span class="lineNum">     458 </span>            :     /** Efficient vector/matrix times triangular matrix product */
+<span class="lineNum">     459 </span>            :     template&lt;typename OtherDerived&gt; friend
+<a name="460"><span class="lineNum">     460 </span>            :     EIGEN_DEVICE_FUNC</a>
+<span class="lineNum">     461 </span>            :     const Product&lt;OtherDerived,TriangularViewType&gt;
+<span class="lineNum">     462 </span><span class="lineNoCov">          0 :     operator*(const MatrixBase&lt;OtherDerived&gt;&amp; lhs, const TriangularViewImpl&amp; rhs)</span>
+<span class="lineNum">     463 </span>            :     {
+<span class="lineNum">     464 </span><span class="lineNoCov">          0 :       return Product&lt;OtherDerived,TriangularViewType&gt;(lhs.derived(),rhs.derived());</span>
+<span class="lineNum">     465 </span>            :     }
+<span class="lineNum">     466 </span>            : 
+<span class="lineNum">     467 </span>            :     /** \returns the product of the inverse of \c *this with \a other, \a *this being triangular.
+<span class="lineNum">     468 </span>            :       *
+<span class="lineNum">     469 </span>            :       * This function computes the inverse-matrix matrix product inverse(\c *this) * \a other if
+<span class="lineNum">     470 </span>            :       * \a Side==OnTheLeft (the default), or the right-inverse-multiply  \a other * inverse(\c *this) if
+<span class="lineNum">     471 </span>            :       * \a Side==OnTheRight.
+<span class="lineNum">     472 </span>            :       *
+<span class="lineNum">     473 </span>            :       * Note that the template parameter \c Side can be ommitted, in which case \c Side==OnTheLeft
+<span class="lineNum">     474 </span>            :       *
+<span class="lineNum">     475 </span>            :       * The matrix \c *this must be triangular and invertible (i.e., all the coefficients of the
+<span class="lineNum">     476 </span>            :       * diagonal must be non zero). It works as a forward (resp. backward) substitution if \c *this
+<span class="lineNum">     477 </span>            :       * is an upper (resp. lower) triangular matrix.
+<span class="lineNum">     478 </span>            :       *
+<span class="lineNum">     479 </span>            :       * Example: \include Triangular_solve.cpp
+<span class="lineNum">     480 </span>            :       * Output: \verbinclude Triangular_solve.out
+<span class="lineNum">     481 </span>            :       *
+<span class="lineNum">     482 </span>            :       * This function returns an expression of the inverse-multiply and can works in-place if it is assigned
+<span class="lineNum">     483 </span>            :       * to the same matrix or vector \a other.
+<span class="lineNum">     484 </span>            :       *
+<span class="lineNum">     485 </span>            :       * For users coming from BLAS, this function (and more specifically solveInPlace()) offer
+<span class="lineNum">     486 </span>            :       * all the operations supported by the \c *TRSV and \c *TRSM BLAS routines.
+<span class="lineNum">     487 </span>            :       *
+<span class="lineNum">     488 </span>            :       * \sa TriangularView::solveInPlace()
+<span class="lineNum">     489 </span>            :       */
+<span class="lineNum">     490 </span>            :     template&lt;int Side, typename Other&gt;
+<span class="lineNum">     491 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     492 </span>            :     inline const internal::triangular_solve_retval&lt;Side,TriangularViewType, Other&gt;
+<span class="lineNum">     493 </span>            :     solve(const MatrixBase&lt;Other&gt;&amp; other) const;
+<span class="lineNum">     494 </span>            : 
+<span class="lineNum">     495 </span>            :     /** &quot;in-place&quot; version of TriangularView::solve() where the result is written in \a other
+<span class="lineNum">     496 </span>            :       *
+<span class="lineNum">     497 </span>            :       * \warning The parameter is only marked 'const' to make the C++ compiler accept a temporary expression here.
+<span class="lineNum">     498 </span>            :       * This function will const_cast it, so constness isn't honored here.
+<span class="lineNum">     499 </span>            :       *
+<span class="lineNum">     500 </span>            :       * Note that the template parameter \c Side can be ommitted, in which case \c Side==OnTheLeft
+<span class="lineNum">     501 </span>            :       *
+<span class="lineNum">     502 </span>            :       * See TriangularView:solve() for the details.
+<span class="lineNum">     503 </span>            :       */
+<span class="lineNum">     504 </span>            :     template&lt;int Side, typename OtherDerived&gt;
+<span class="lineNum">     505 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     506 </span>            :     void solveInPlace(const MatrixBase&lt;OtherDerived&gt;&amp; other) const;
+<span class="lineNum">     507 </span>            : 
+<a name="508"><span class="lineNum">     508 </span>            :     template&lt;typename OtherDerived&gt;</a>
+<span class="lineNum">     509 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     510 </span><span class="lineCov">        940 :     void solveInPlace(const MatrixBase&lt;OtherDerived&gt;&amp; other) const</span>
+<span class="lineNum">     511 </span><span class="lineCov">        940 :     { return solveInPlace&lt;OnTheLeft&gt;(other); }</span>
+<span class="lineNum">     512 </span>            : 
+<span class="lineNum">     513 </span>            :     /** Swaps the coefficients of the common triangular parts of two matrices */
+<span class="lineNum">     514 </span>            :     template&lt;typename OtherDerived&gt;
+<span class="lineNum">     515 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     516 </span>            : #ifdef EIGEN_PARSED_BY_DOXYGEN
+<span class="lineNum">     517 </span>            :     void swap(TriangularBase&lt;OtherDerived&gt; &amp;other)
+<span class="lineNum">     518 </span>            : #else
+<span class="lineNum">     519 </span>            :     void swap(TriangularBase&lt;OtherDerived&gt; const &amp; other)
+<span class="lineNum">     520 </span>            : #endif
+<span class="lineNum">     521 </span>            :     {
+<span class="lineNum">     522 </span>            :       EIGEN_STATIC_ASSERT_LVALUE(OtherDerived);
+<span class="lineNum">     523 </span>            :       call_assignment(derived(), other.const_cast_derived(), internal::swap_assign_op&lt;Scalar&gt;());
+<span class="lineNum">     524 </span>            :     }
+<span class="lineNum">     525 </span>            : 
+<span class="lineNum">     526 </span>            :     /** \deprecated
+<span class="lineNum">     527 </span>            :       * Shortcut for \code (*this).swap(other.triangularView&lt;(*this)::Mode&gt;()) \endcode */
+<span class="lineNum">     528 </span>            :     template&lt;typename OtherDerived&gt;
+<span class="lineNum">     529 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     530 </span>            :     void swap(MatrixBase&lt;OtherDerived&gt; const &amp; other)
+<span class="lineNum">     531 </span>            :     {
+<span class="lineNum">     532 </span>            :       EIGEN_STATIC_ASSERT_LVALUE(OtherDerived);
+<span class="lineNum">     533 </span>            :       call_assignment(derived(), other.const_cast_derived(), internal::swap_assign_op&lt;Scalar&gt;());
+<span class="lineNum">     534 </span>            :     }
+<span class="lineNum">     535 </span>            : 
+<span class="lineNum">     536 </span>            :     template&lt;typename RhsType, typename DstType&gt;
+<span class="lineNum">     537 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     538 </span>            :     EIGEN_STRONG_INLINE void _solve_impl(const RhsType &amp;rhs, DstType &amp;dst) const {
+<span class="lineNum">     539 </span>            :       if(!internal::is_same_dense(dst,rhs))
+<span class="lineNum">     540 </span>            :         dst = rhs;
+<span class="lineNum">     541 </span>            :       this-&gt;solveInPlace(dst);
+<span class="lineNum">     542 </span>            :     }
+<span class="lineNum">     543 </span>            : 
+<span class="lineNum">     544 </span>            :     template&lt;typename ProductType&gt;
+<span class="lineNum">     545 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     546 </span>            :     EIGEN_STRONG_INLINE TriangularViewType&amp; _assignProduct(const ProductType&amp; prod, const Scalar&amp; alpha, bool beta);
+<span class="lineNum">     547 </span>            : };
+<span class="lineNum">     548 </span>            : 
+<span class="lineNum">     549 </span>            : /***************************************************************************
+<span class="lineNum">     550 </span>            : * Implementation of triangular evaluation/assignment
+<span class="lineNum">     551 </span>            : ***************************************************************************/
+<span class="lineNum">     552 </span>            : 
+<span class="lineNum">     553 </span>            : #ifndef EIGEN_PARSED_BY_DOXYGEN
+<span class="lineNum">     554 </span>            : // FIXME should we keep that possibility
+<span class="lineNum">     555 </span>            : template&lt;typename MatrixType, unsigned int Mode&gt;
+<a name="556"><span class="lineNum">     556 </span>            : template&lt;typename OtherDerived&gt;</a>
+<span class="lineNum">     557 </span>            : inline TriangularView&lt;MatrixType, Mode&gt;&amp;
+<span class="lineNum">     558 </span><span class="lineNoCov">          0 : TriangularViewImpl&lt;MatrixType, Mode, Dense&gt;::operator=(const MatrixBase&lt;OtherDerived&gt;&amp; other)</span>
+<span class="lineNum">     559 </span>            : {
+<span class="lineNum">     560 </span><span class="lineNoCov">          0 :   internal::call_assignment_no_alias(derived(), other.derived(), internal::assign_op&lt;Scalar,typename OtherDerived::Scalar&gt;());</span>
+<span class="lineNum">     561 </span><span class="lineNoCov">          0 :   return derived();</span>
+<span class="lineNum">     562 </span>            : }
+<span class="lineNum">     563 </span>            : 
+<span class="lineNum">     564 </span>            : // FIXME should we keep that possibility
+<span class="lineNum">     565 </span>            : template&lt;typename MatrixType, unsigned int Mode&gt;
+<span class="lineNum">     566 </span>            : template&lt;typename OtherDerived&gt;
+<span class="lineNum">     567 </span>            : void TriangularViewImpl&lt;MatrixType, Mode, Dense&gt;::lazyAssign(const MatrixBase&lt;OtherDerived&gt;&amp; other)
+<span class="lineNum">     568 </span>            : {
+<span class="lineNum">     569 </span>            :   internal::call_assignment_no_alias(derived(), other.template triangularView&lt;Mode&gt;());
+<span class="lineNum">     570 </span>            : }
+<span class="lineNum">     571 </span>            : 
+<span class="lineNum">     572 </span>            : 
+<span class="lineNum">     573 </span>            : 
+<span class="lineNum">     574 </span>            : template&lt;typename MatrixType, unsigned int Mode&gt;
+<span class="lineNum">     575 </span>            : template&lt;typename OtherDerived&gt;
+<span class="lineNum">     576 </span>            : inline TriangularView&lt;MatrixType, Mode&gt;&amp;
+<span class="lineNum">     577 </span>            : TriangularViewImpl&lt;MatrixType, Mode, Dense&gt;::operator=(const TriangularBase&lt;OtherDerived&gt;&amp; other)
+<span class="lineNum">     578 </span>            : {
+<span class="lineNum">     579 </span>            :   eigen_assert(Mode == int(OtherDerived::Mode));
+<span class="lineNum">     580 </span>            :   internal::call_assignment(derived(), other.derived());
+<span class="lineNum">     581 </span>            :   return derived();
+<span class="lineNum">     582 </span>            : }
+<span class="lineNum">     583 </span>            : 
+<span class="lineNum">     584 </span>            : template&lt;typename MatrixType, unsigned int Mode&gt;
+<span class="lineNum">     585 </span>            : template&lt;typename OtherDerived&gt;
+<span class="lineNum">     586 </span>            : void TriangularViewImpl&lt;MatrixType, Mode, Dense&gt;::lazyAssign(const TriangularBase&lt;OtherDerived&gt;&amp; other)
+<span class="lineNum">     587 </span>            : {
+<span class="lineNum">     588 </span>            :   eigen_assert(Mode == int(OtherDerived::Mode));
+<span class="lineNum">     589 </span>            :   internal::call_assignment_no_alias(derived(), other.derived());
+<span class="lineNum">     590 </span>            : }
+<span class="lineNum">     591 </span>            : #endif
+<span class="lineNum">     592 </span>            : 
+<span class="lineNum">     593 </span>            : /***************************************************************************
+<span class="lineNum">     594 </span>            : * Implementation of TriangularBase methods
+<span class="lineNum">     595 </span>            : ***************************************************************************/
+<span class="lineNum">     596 </span>            : 
+<span class="lineNum">     597 </span>            : /** Assigns a triangular or selfadjoint matrix to a dense matrix.
+<span class="lineNum">     598 </span>            :   * If the matrix is triangular, the opposite part is set to zero. */
+<span class="lineNum">     599 </span>            : template&lt;typename Derived&gt;
+<span class="lineNum">     600 </span>            : template&lt;typename DenseDerived&gt;
+<span class="lineNum">     601 </span>            : void TriangularBase&lt;Derived&gt;::evalTo(MatrixBase&lt;DenseDerived&gt; &amp;other) const
+<span class="lineNum">     602 </span>            : {
+<span class="lineNum">     603 </span>            :   evalToLazy(other.derived());
+<span class="lineNum">     604 </span>            : }
+<span class="lineNum">     605 </span>            : 
+<span class="lineNum">     606 </span>            : /***************************************************************************
+<span class="lineNum">     607 </span>            : * Implementation of TriangularView methods
+<span class="lineNum">     608 </span>            : ***************************************************************************/
+<span class="lineNum">     609 </span>            : 
+<span class="lineNum">     610 </span>            : /***************************************************************************
+<span class="lineNum">     611 </span>            : * Implementation of MatrixBase methods
+<span class="lineNum">     612 </span>            : ***************************************************************************/
+<span class="lineNum">     613 </span>            : 
+<span class="lineNum">     614 </span>            : /**
+<span class="lineNum">     615 </span>            :   * \returns an expression of a triangular view extracted from the current matrix
+<span class="lineNum">     616 </span>            :   *
+<span class="lineNum">     617 </span>            :   * The parameter \a Mode can have the following values: \c #Upper, \c #StrictlyUpper, \c #UnitUpper,
+<span class="lineNum">     618 </span>            :   * \c #Lower, \c #StrictlyLower, \c #UnitLower.
+<span class="lineNum">     619 </span>            :   *
+<span class="lineNum">     620 </span>            :   * Example: \include MatrixBase_triangularView.cpp
+<span class="lineNum">     621 </span>            :   * Output: \verbinclude MatrixBase_triangularView.out
+<span class="lineNum">     622 </span>            :   *
+<span class="lineNum">     623 </span>            :   * \sa class TriangularView
+<span class="lineNum">     624 </span>            :   */
+<span class="lineNum">     625 </span>            : template&lt;typename Derived&gt;
+<a name="626"><span class="lineNum">     626 </span>            : template&lt;unsigned int Mode&gt;</a>
+<span class="lineNum">     627 </span>            : typename MatrixBase&lt;Derived&gt;::template TriangularViewReturnType&lt;Mode&gt;::Type
+<span class="lineNum">     628 </span><span class="lineNoCov">          0 : MatrixBase&lt;Derived&gt;::triangularView()</span>
+<span class="lineNum">     629 </span>            : {
+<span class="lineNum">     630 </span><span class="lineNoCov">          0 :   return typename TriangularViewReturnType&lt;Mode&gt;::Type(derived());</span>
+<span class="lineNum">     631 </span>            : }
+<span class="lineNum">     632 </span>            : 
+<span class="lineNum">     633 </span>            : /** This is the const version of MatrixBase::triangularView() */
+<span class="lineNum">     634 </span>            : template&lt;typename Derived&gt;
+<a name="635"><span class="lineNum">     635 </span>            : template&lt;unsigned int Mode&gt;</a>
+<span class="lineNum">     636 </span>            : typename MatrixBase&lt;Derived&gt;::template ConstTriangularViewReturnType&lt;Mode&gt;::Type
+<span class="lineNum">     637 </span><span class="lineNoCov">          0 : MatrixBase&lt;Derived&gt;::triangularView() const</span>
+<span class="lineNum">     638 </span>            : {
+<span class="lineNum">     639 </span><span class="lineNoCov">          0 :   return typename ConstTriangularViewReturnType&lt;Mode&gt;::Type(derived());</span>
+<span class="lineNum">     640 </span>            : }
+<span class="lineNum">     641 </span>            : 
+<span class="lineNum">     642 </span>            : /** \returns true if *this is approximately equal to an upper triangular matrix,
+<span class="lineNum">     643 </span>            :   *          within the precision given by \a prec.
+<span class="lineNum">     644 </span>            :   *
+<span class="lineNum">     645 </span>            :   * \sa isLowerTriangular()
+<span class="lineNum">     646 </span>            :   */
+<span class="lineNum">     647 </span>            : template&lt;typename Derived&gt;
+<span class="lineNum">     648 </span>            : bool MatrixBase&lt;Derived&gt;::isUpperTriangular(const RealScalar&amp; prec) const
+<span class="lineNum">     649 </span>            : {
+<span class="lineNum">     650 </span>            :   RealScalar maxAbsOnUpperPart = static_cast&lt;RealScalar&gt;(-1);
+<span class="lineNum">     651 </span>            :   for(Index j = 0; j &lt; cols(); ++j)
+<span class="lineNum">     652 </span>            :   {
+<span class="lineNum">     653 </span>            :     Index maxi = numext::mini(j, rows()-1);
+<span class="lineNum">     654 </span>            :     for(Index i = 0; i &lt;= maxi; ++i)
+<span class="lineNum">     655 </span>            :     {
+<span class="lineNum">     656 </span>            :       RealScalar absValue = numext::abs(coeff(i,j));
+<span class="lineNum">     657 </span>            :       if(absValue &gt; maxAbsOnUpperPart) maxAbsOnUpperPart = absValue;
+<span class="lineNum">     658 </span>            :     }
+<span class="lineNum">     659 </span>            :   }
+<span class="lineNum">     660 </span>            :   RealScalar threshold = maxAbsOnUpperPart * prec;
+<span class="lineNum">     661 </span>            :   for(Index j = 0; j &lt; cols(); ++j)
+<span class="lineNum">     662 </span>            :     for(Index i = j+1; i &lt; rows(); ++i)
+<span class="lineNum">     663 </span>            :       if(numext::abs(coeff(i, j)) &gt; threshold) return false;
+<span class="lineNum">     664 </span>            :   return true;
+<span class="lineNum">     665 </span>            : }
+<span class="lineNum">     666 </span>            : 
+<span class="lineNum">     667 </span>            : /** \returns true if *this is approximately equal to a lower triangular matrix,
+<span class="lineNum">     668 </span>            :   *          within the precision given by \a prec.
+<span class="lineNum">     669 </span>            :   *
+<span class="lineNum">     670 </span>            :   * \sa isUpperTriangular()
+<span class="lineNum">     671 </span>            :   */
+<span class="lineNum">     672 </span>            : template&lt;typename Derived&gt;
+<span class="lineNum">     673 </span>            : bool MatrixBase&lt;Derived&gt;::isLowerTriangular(const RealScalar&amp; prec) const
+<span class="lineNum">     674 </span>            : {
+<span class="lineNum">     675 </span>            :   RealScalar maxAbsOnLowerPart = static_cast&lt;RealScalar&gt;(-1);
+<span class="lineNum">     676 </span>            :   for(Index j = 0; j &lt; cols(); ++j)
+<span class="lineNum">     677 </span>            :     for(Index i = j; i &lt; rows(); ++i)
+<span class="lineNum">     678 </span>            :     {
+<span class="lineNum">     679 </span>            :       RealScalar absValue = numext::abs(coeff(i,j));
+<span class="lineNum">     680 </span>            :       if(absValue &gt; maxAbsOnLowerPart) maxAbsOnLowerPart = absValue;
+<span class="lineNum">     681 </span>            :     }
+<span class="lineNum">     682 </span>            :   RealScalar threshold = maxAbsOnLowerPart * prec;
+<span class="lineNum">     683 </span>            :   for(Index j = 1; j &lt; cols(); ++j)
+<span class="lineNum">     684 </span>            :   {
+<span class="lineNum">     685 </span>            :     Index maxi = numext::mini(j, rows()-1);
+<span class="lineNum">     686 </span>            :     for(Index i = 0; i &lt; maxi; ++i)
+<span class="lineNum">     687 </span>            :       if(numext::abs(coeff(i, j)) &gt; threshold) return false;
+<span class="lineNum">     688 </span>            :   }
+<span class="lineNum">     689 </span>            :   return true;
+<span class="lineNum">     690 </span>            : }
+<span class="lineNum">     691 </span>            : 
+<span class="lineNum">     692 </span>            : 
+<span class="lineNum">     693 </span>            : /***************************************************************************
+<span class="lineNum">     694 </span>            : ****************************************************************************
+<span class="lineNum">     695 </span>            : * Evaluators and Assignment of triangular expressions
+<span class="lineNum">     696 </span>            : ***************************************************************************
+<span class="lineNum">     697 </span>            : ***************************************************************************/
+<span class="lineNum">     698 </span>            : 
+<span class="lineNum">     699 </span>            : namespace internal {
+<span class="lineNum">     700 </span>            : 
+<span class="lineNum">     701 </span>            :   
+<span class="lineNum">     702 </span>            : // TODO currently a triangular expression has the form TriangularView&lt;.,.&gt;
+<span class="lineNum">     703 </span>            : //      in the future triangular-ness should be defined by the expression traits
+<span class="lineNum">     704 </span>            : //      such that Transpose&lt;TriangularView&lt;.,.&gt; &gt; is valid. (currently TriangularBase::transpose() is overloaded to make it work)
+<span class="lineNum">     705 </span>            : template&lt;typename MatrixType, unsigned int Mode&gt;
+<span class="lineNum">     706 </span>            : struct evaluator_traits&lt;TriangularView&lt;MatrixType,Mode&gt; &gt;
+<span class="lineNum">     707 </span>            : {
+<span class="lineNum">     708 </span>            :   typedef typename storage_kind_to_evaluator_kind&lt;typename MatrixType::StorageKind&gt;::Kind Kind;
+<span class="lineNum">     709 </span>            :   typedef typename glue_shapes&lt;typename evaluator_traits&lt;MatrixType&gt;::Shape, TriangularShape&gt;::type Shape;
+<span class="lineNum">     710 </span>            : };
+<a name="711"><span class="lineNum">     711 </span>            : </a>
+<span class="lineNum">     712 </span>            : template&lt;typename MatrixType, unsigned int Mode&gt;
+<span class="lineNum">     713 </span><span class="lineNoCov">          0 : struct unary_evaluator&lt;TriangularView&lt;MatrixType,Mode&gt;, IndexBased&gt;</span>
+<span class="lineNum">     714 </span>            :  : evaluator&lt;typename internal::remove_all&lt;MatrixType&gt;::type&gt;
+<span class="lineNum">     715 </span>            : {
+<a name="716"><span class="lineNum">     716 </span>            :   typedef TriangularView&lt;MatrixType,Mode&gt; XprType;</a>
+<span class="lineNum">     717 </span>            :   typedef evaluator&lt;typename internal::remove_all&lt;MatrixType&gt;::type&gt; Base;
+<span class="lineNum">     718 </span><span class="lineNoCov">          0 :   unary_evaluator(const XprType &amp;xpr) : Base(xpr.nestedExpression()) {}</span>
+<span class="lineNum">     719 </span>            : };
+<span class="lineNum">     720 </span>            : 
+<span class="lineNum">     721 </span>            : // Additional assignment kinds:
+<span class="lineNum">     722 </span>            : struct Triangular2Triangular    {};
+<span class="lineNum">     723 </span>            : struct Triangular2Dense         {};
+<span class="lineNum">     724 </span>            : struct Dense2Triangular         {};
+<span class="lineNum">     725 </span>            : 
+<span class="lineNum">     726 </span>            : 
+<span class="lineNum">     727 </span>            : template&lt;typename Kernel, unsigned int Mode, int UnrollCount, bool ClearOpposite&gt; struct triangular_assignment_loop;
+<span class="lineNum">     728 </span>            : 
+<span class="lineNum">     729 </span>            :  
+<span class="lineNum">     730 </span>            : /** \internal Specialization of the dense assignment kernel for triangular matrices.
+<span class="lineNum">     731 </span>            :   * The main difference is that the triangular, diagonal, and opposite parts are processed through three different functions.
+<span class="lineNum">     732 </span>            :   * \tparam UpLo must be either Lower or Upper
+<span class="lineNum">     733 </span>            :   * \tparam Mode must be either 0, UnitDiag, ZeroDiag, or SelfAdjoint
+<span class="lineNum">     734 </span>            :   */
+<span class="lineNum">     735 </span>            : template&lt;int UpLo, int Mode, int SetOpposite, typename DstEvaluatorTypeT, typename SrcEvaluatorTypeT, typename Functor, int Version = Specialized&gt;
+<span class="lineNum">     736 </span>            : class triangular_dense_assignment_kernel : public generic_dense_assignment_kernel&lt;DstEvaluatorTypeT, SrcEvaluatorTypeT, Functor, Version&gt;
+<span class="lineNum">     737 </span>            : {
+<span class="lineNum">     738 </span>            : protected:
+<span class="lineNum">     739 </span>            :   typedef generic_dense_assignment_kernel&lt;DstEvaluatorTypeT, SrcEvaluatorTypeT, Functor, Version&gt; Base;
+<span class="lineNum">     740 </span>            :   typedef typename Base::DstXprType DstXprType;
+<span class="lineNum">     741 </span>            :   typedef typename Base::SrcXprType SrcXprType;
+<span class="lineNum">     742 </span>            :   using Base::m_dst;
+<span class="lineNum">     743 </span>            :   using Base::m_src;
+<span class="lineNum">     744 </span>            :   using Base::m_functor;
+<span class="lineNum">     745 </span>            : public:
+<span class="lineNum">     746 </span>            :   
+<span class="lineNum">     747 </span>            :   typedef typename Base::DstEvaluatorType DstEvaluatorType;
+<span class="lineNum">     748 </span>            :   typedef typename Base::SrcEvaluatorType SrcEvaluatorType;
+<span class="lineNum">     749 </span>            :   typedef typename Base::Scalar Scalar;
+<span class="lineNum">     750 </span>            :   typedef typename Base::AssignmentTraits AssignmentTraits;
+<a name="751"><span class="lineNum">     751 </span>            :   </a>
+<span class="lineNum">     752 </span>            :   
+<span class="lineNum">     753 </span><span class="lineNoCov">          0 :   EIGEN_DEVICE_FUNC triangular_dense_assignment_kernel(DstEvaluatorType &amp;dst, const SrcEvaluatorType &amp;src, const Functor &amp;func, DstXprType&amp; dstExpr)</span>
+<span class="lineNum">     754 </span><span class="lineNoCov">          0 :     : Base(dst, src, func, dstExpr)</span>
+<span class="lineNum">     755 </span><span class="lineNoCov">          0 :   {}</span>
+<span class="lineNum">     756 </span>            :   
+<span class="lineNum">     757 </span>            : #ifdef EIGEN_INTERNAL_DEBUGGING
+<span class="lineNum">     758 </span>            :   EIGEN_DEVICE_FUNC void assignCoeff(Index row, Index col)
+<span class="lineNum">     759 </span>            :   {
+<span class="lineNum">     760 </span>            :     eigen_internal_assert(row!=col);
+<span class="lineNum">     761 </span>            :     Base::assignCoeff(row,col);
+<span class="lineNum">     762 </span>            :   }
+<span class="lineNum">     763 </span>            : #else
+<span class="lineNum">     764 </span>            :   using Base::assignCoeff;
+<a name="765"><span class="lineNum">     765 </span>            : #endif</a>
+<span class="lineNum">     766 </span>            :   
+<span class="lineNum">     767 </span><span class="lineNoCov">          0 :   EIGEN_DEVICE_FUNC void assignDiagonalCoeff(Index id)</span>
+<span class="lineNum">     768 </span>            :   {
+<span class="lineNum">     769 </span>            :          if(Mode==UnitDiag &amp;&amp; SetOpposite) m_functor.assignCoeff(m_dst.coeffRef(id,id), Scalar(1));
+<span class="lineNum">     770 </span>            :     else if(Mode==ZeroDiag &amp;&amp; SetOpposite) m_functor.assignCoeff(m_dst.coeffRef(id,id), Scalar(0));
+<span class="lineNum">     771 </span><span class="lineNoCov">          0 :     else if(Mode==0)                       Base::assignCoeff(id,id);</span>
+<a name="772"><span class="lineNum">     772 </span><span class="lineNoCov">          0 :   }</span></a>
+<span class="lineNum">     773 </span>            :   
+<span class="lineNum">     774 </span><span class="lineNoCov">          0 :   EIGEN_DEVICE_FUNC void assignOppositeCoeff(Index row, Index col)</span>
+<span class="lineNum">     775 </span>            :   { 
+<span class="lineNum">     776 </span>            :     eigen_internal_assert(row!=col);
+<span class="lineNum">     777 </span>            :     if(SetOpposite)
+<span class="lineNum">     778 </span><span class="lineNoCov">          0 :       m_functor.assignCoeff(m_dst.coeffRef(row,col), Scalar(0));</span>
+<span class="lineNum">     779 </span><span class="lineNoCov">          0 :   }</span>
+<span class="lineNum">     780 </span>            : };
+<span class="lineNum">     781 </span>            : 
+<a name="782"><span class="lineNum">     782 </span>            : template&lt;int Mode, bool SetOpposite, typename DstXprType, typename SrcXprType, typename Functor&gt;</a>
+<span class="lineNum">     783 </span>            : EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     784 </span><span class="lineNoCov">          0 : void call_triangular_assignment_loop(DstXprType&amp; dst, const SrcXprType&amp; src, const Functor &amp;func)</span>
+<span class="lineNum">     785 </span>            : {
+<span class="lineNum">     786 </span>            :   typedef evaluator&lt;DstXprType&gt; DstEvaluatorType;
+<span class="lineNum">     787 </span>            :   typedef evaluator&lt;SrcXprType&gt; SrcEvaluatorType;
+<span class="lineNum">     788 </span>            : 
+<span class="lineNum">     789 </span><span class="lineNoCov">          0 :   SrcEvaluatorType srcEvaluator(src);</span>
+<span class="lineNum">     790 </span>            : 
+<span class="lineNum">     791 </span><span class="lineNoCov">          0 :   Index dstRows = src.rows();</span>
+<span class="lineNum">     792 </span><span class="lineNoCov">          0 :   Index dstCols = src.cols();</span>
+<span class="lineNum">     793 </span><span class="lineNoCov">          0 :   if((dst.rows()!=dstRows) || (dst.cols()!=dstCols))</span>
+<span class="lineNum">     794 </span><span class="lineNoCov">          0 :     dst.resize(dstRows, dstCols);</span>
+<span class="lineNum">     795 </span><span class="lineNoCov">          0 :   DstEvaluatorType dstEvaluator(dst);</span>
+<span class="lineNum">     796 </span>            :     
+<span class="lineNum">     797 </span>            :   typedef triangular_dense_assignment_kernel&lt; Mode&amp;(Lower|Upper),Mode&amp;(UnitDiag|ZeroDiag|SelfAdjoint),SetOpposite,
+<span class="lineNum">     798 </span>            :                                               DstEvaluatorType,SrcEvaluatorType,Functor&gt; Kernel;
+<span class="lineNum">     799 </span><span class="lineNoCov">          0 :   Kernel kernel(dstEvaluator, srcEvaluator, func, dst.const_cast_derived());</span>
+<span class="lineNum">     800 </span>            :   
+<span class="lineNum">     801 </span>            :   enum {
+<span class="lineNum">     802 </span>            :       unroll = DstXprType::SizeAtCompileTime != Dynamic
+<span class="lineNum">     803 </span>            :             &amp;&amp; SrcEvaluatorType::CoeffReadCost &lt; HugeCost
+<span class="lineNum">     804 </span>            :             &amp;&amp; DstXprType::SizeAtCompileTime * (DstEvaluatorType::CoeffReadCost+SrcEvaluatorType::CoeffReadCost) / 2 &lt;= EIGEN_UNROLLING_LIMIT
+<span class="lineNum">     805 </span>            :     };
+<span class="lineNum">     806 </span>            :   
+<span class="lineNum">     807 </span><span class="lineNoCov">          0 :   triangular_assignment_loop&lt;Kernel, Mode, unroll ? int(DstXprType::SizeAtCompileTime) : Dynamic, SetOpposite&gt;::run(kernel);</span>
+<span class="lineNum">     808 </span><span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     809 </span>            : 
+<span class="lineNum">     810 </span>            : template&lt;int Mode, bool SetOpposite, typename DstXprType, typename SrcXprType&gt;
+<span class="lineNum">     811 </span>            : EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     812 </span>            : void call_triangular_assignment_loop(DstXprType&amp; dst, const SrcXprType&amp; src)
+<span class="lineNum">     813 </span>            : {
+<span class="lineNum">     814 </span>            :   call_triangular_assignment_loop&lt;Mode,SetOpposite&gt;(dst, src, internal::assign_op&lt;typename DstXprType::Scalar,typename SrcXprType::Scalar&gt;());
+<span class="lineNum">     815 </span>            : }
+<span class="lineNum">     816 </span>            : 
+<span class="lineNum">     817 </span>            : template&lt;&gt; struct AssignmentKind&lt;TriangularShape,TriangularShape&gt; { typedef Triangular2Triangular Kind; };
+<span class="lineNum">     818 </span>            : template&lt;&gt; struct AssignmentKind&lt;DenseShape,TriangularShape&gt;      { typedef Triangular2Dense      Kind; };
+<span class="lineNum">     819 </span>            : template&lt;&gt; struct AssignmentKind&lt;TriangularShape,DenseShape&gt;      { typedef Dense2Triangular      Kind; };
+<span class="lineNum">     820 </span>            : 
+<span class="lineNum">     821 </span>            : 
+<span class="lineNum">     822 </span>            : template&lt; typename DstXprType, typename SrcXprType, typename Functor&gt;
+<span class="lineNum">     823 </span>            : struct Assignment&lt;DstXprType, SrcXprType, Functor, Triangular2Triangular&gt;
+<span class="lineNum">     824 </span>            : {
+<span class="lineNum">     825 </span>            :   EIGEN_DEVICE_FUNC static void run(DstXprType &amp;dst, const SrcXprType &amp;src, const Functor &amp;func)
+<span class="lineNum">     826 </span>            :   {
+<span class="lineNum">     827 </span>            :     eigen_assert(int(DstXprType::Mode) == int(SrcXprType::Mode));
+<span class="lineNum">     828 </span>            :     
+<span class="lineNum">     829 </span>            :     call_triangular_assignment_loop&lt;DstXprType::Mode, false&gt;(dst, src, func);  
+<span class="lineNum">     830 </span>            :   }
+<span class="lineNum">     831 </span>            : };
+<span class="lineNum">     832 </span>            : 
+<span class="lineNum">     833 </span>            : template&lt; typename DstXprType, typename SrcXprType, typename Functor&gt;
+<a name="834"><span class="lineNum">     834 </span>            : struct Assignment&lt;DstXprType, SrcXprType, Functor, Triangular2Dense&gt;</a>
+<span class="lineNum">     835 </span>            : {
+<span class="lineNum">     836 </span><span class="lineNoCov">          0 :   EIGEN_DEVICE_FUNC static void run(DstXprType &amp;dst, const SrcXprType &amp;src, const Functor &amp;func)</span>
+<span class="lineNum">     837 </span>            :   {
+<span class="lineNum">     838 </span><span class="lineNoCov">          0 :     call_triangular_assignment_loop&lt;SrcXprType::Mode, (SrcXprType::Mode&amp;SelfAdjoint)==0&gt;(dst, src, func);  </span>
+<span class="lineNum">     839 </span><span class="lineNoCov">          0 :   }</span>
+<span class="lineNum">     840 </span>            : };
+<span class="lineNum">     841 </span>            : 
+<span class="lineNum">     842 </span>            : template&lt; typename DstXprType, typename SrcXprType, typename Functor&gt;
+<a name="843"><span class="lineNum">     843 </span>            : struct Assignment&lt;DstXprType, SrcXprType, Functor, Dense2Triangular&gt;</a>
+<span class="lineNum">     844 </span>            : {
+<span class="lineNum">     845 </span><span class="lineNoCov">          0 :   EIGEN_DEVICE_FUNC static void run(DstXprType &amp;dst, const SrcXprType &amp;src, const Functor &amp;func)</span>
+<span class="lineNum">     846 </span>            :   {
+<span class="lineNum">     847 </span><span class="lineNoCov">          0 :     call_triangular_assignment_loop&lt;DstXprType::Mode, false&gt;(dst, src, func);  </span>
+<span class="lineNum">     848 </span><span class="lineNoCov">          0 :   }</span>
+<span class="lineNum">     849 </span>            : };
+<span class="lineNum">     850 </span>            : 
+<span class="lineNum">     851 </span>            : 
+<span class="lineNum">     852 </span>            : template&lt;typename Kernel, unsigned int Mode, int UnrollCount, bool SetOpposite&gt;
+<span class="lineNum">     853 </span>            : struct triangular_assignment_loop
+<span class="lineNum">     854 </span>            : {
+<span class="lineNum">     855 </span>            :   // FIXME: this is not very clean, perhaps this information should be provided by the kernel?
+<span class="lineNum">     856 </span>            :   typedef typename Kernel::DstEvaluatorType DstEvaluatorType;
+<span class="lineNum">     857 </span>            :   typedef typename DstEvaluatorType::XprType DstXprType;
+<span class="lineNum">     858 </span>            :   
+<span class="lineNum">     859 </span>            :   enum {
+<span class="lineNum">     860 </span>            :     col = (UnrollCount-1) / DstXprType::RowsAtCompileTime,
+<span class="lineNum">     861 </span>            :     row = (UnrollCount-1) % DstXprType::RowsAtCompileTime
+<span class="lineNum">     862 </span>            :   };
+<span class="lineNum">     863 </span>            :   
+<span class="lineNum">     864 </span>            :   typedef typename Kernel::Scalar Scalar;
+<a name="865"><span class="lineNum">     865 </span>            : </a>
+<span class="lineNum">     866 </span>            :   EIGEN_DEVICE_FUNC
+<span class="lineNum">     867 </span><span class="lineNoCov">          0 :   static inline void run(Kernel &amp;kernel)</span>
+<span class="lineNum">     868 </span>            :   {
+<span class="lineNum">     869 </span><span class="lineNoCov">          0 :     triangular_assignment_loop&lt;Kernel, Mode, UnrollCount-1, SetOpposite&gt;::run(kernel);</span>
+<span class="lineNum">     870 </span>            :     
+<span class="lineNum">     871 </span>            :     if(row==col)
+<span class="lineNum">     872 </span><span class="lineNoCov">          0 :       kernel.assignDiagonalCoeff(row);</span>
+<span class="lineNum">     873 </span>            :     else if( ((Mode&amp;Lower) &amp;&amp; row&gt;col) || ((Mode&amp;Upper) &amp;&amp; row&lt;col) )
+<span class="lineNum">     874 </span><span class="lineNoCov">          0 :       kernel.assignCoeff(row,col);</span>
+<span class="lineNum">     875 </span>            :     else if(SetOpposite)
+<span class="lineNum">     876 </span><span class="lineNoCov">          0 :       kernel.assignOppositeCoeff(row,col);</span>
+<span class="lineNum">     877 </span><span class="lineNoCov">          0 :   }</span>
+<span class="lineNum">     878 </span>            : };
+<span class="lineNum">     879 </span>            : 
+<span class="lineNum">     880 </span>            : // prevent buggy user code from causing an infinite recursion
+<span class="lineNum">     881 </span>            : template&lt;typename Kernel, unsigned int Mode, bool SetOpposite&gt;
+<span class="lineNum">     882 </span>            : struct triangular_assignment_loop&lt;Kernel, Mode, 0, SetOpposite&gt;
+<a name="883"><span class="lineNum">     883 </span>            : {</a>
+<span class="lineNum">     884 </span>            :   EIGEN_DEVICE_FUNC
+<span class="lineNum">     885 </span><span class="lineNoCov">          0 :   static inline void run(Kernel &amp;) {}</span>
+<span class="lineNum">     886 </span>            : };
+<span class="lineNum">     887 </span>            : 
+<span class="lineNum">     888 </span>            : 
+<span class="lineNum">     889 </span>            : 
+<span class="lineNum">     890 </span>            : // TODO: experiment with a recursive assignment procedure splitting the current
+<span class="lineNum">     891 </span>            : //       triangular part into one rectangular and two triangular parts.
+<span class="lineNum">     892 </span>            : 
+<span class="lineNum">     893 </span>            : 
+<span class="lineNum">     894 </span>            : template&lt;typename Kernel, unsigned int Mode, bool SetOpposite&gt;
+<span class="lineNum">     895 </span>            : struct triangular_assignment_loop&lt;Kernel, Mode, Dynamic, SetOpposite&gt;
+<span class="lineNum">     896 </span>            : {
+<span class="lineNum">     897 </span>            :   typedef typename Kernel::Scalar Scalar;
+<span class="lineNum">     898 </span>            :   EIGEN_DEVICE_FUNC
+<span class="lineNum">     899 </span>            :   static inline void run(Kernel &amp;kernel)
+<span class="lineNum">     900 </span>            :   {
+<span class="lineNum">     901 </span>            :     for(Index j = 0; j &lt; kernel.cols(); ++j)
+<span class="lineNum">     902 </span>            :     {
+<span class="lineNum">     903 </span>            :       Index maxi = numext::mini(j, kernel.rows());
+<span class="lineNum">     904 </span>            :       Index i = 0;
+<span class="lineNum">     905 </span>            :       if (((Mode&amp;Lower) &amp;&amp; SetOpposite) || (Mode&amp;Upper))
+<span class="lineNum">     906 </span>            :       {
+<span class="lineNum">     907 </span>            :         for(; i &lt; maxi; ++i)
+<span class="lineNum">     908 </span>            :           if(Mode&amp;Upper) kernel.assignCoeff(i, j);
+<span class="lineNum">     909 </span>            :           else           kernel.assignOppositeCoeff(i, j);
+<span class="lineNum">     910 </span>            :       }
+<span class="lineNum">     911 </span>            :       else
+<span class="lineNum">     912 </span>            :         i = maxi;
+<span class="lineNum">     913 </span>            :       
+<span class="lineNum">     914 </span>            :       if(i&lt;kernel.rows()) // then i==j
+<span class="lineNum">     915 </span>            :         kernel.assignDiagonalCoeff(i++);
+<span class="lineNum">     916 </span>            :       
+<span class="lineNum">     917 </span>            :       if (((Mode&amp;Upper) &amp;&amp; SetOpposite) || (Mode&amp;Lower))
+<span class="lineNum">     918 </span>            :       {
+<span class="lineNum">     919 </span>            :         for(; i &lt; kernel.rows(); ++i)
+<span class="lineNum">     920 </span>            :           if(Mode&amp;Lower) kernel.assignCoeff(i, j);
+<span class="lineNum">     921 </span>            :           else           kernel.assignOppositeCoeff(i, j);
+<span class="lineNum">     922 </span>            :       }
+<span class="lineNum">     923 </span>            :     }
+<span class="lineNum">     924 </span>            :   }
+<span class="lineNum">     925 </span>            : };
+<span class="lineNum">     926 </span>            : 
+<span class="lineNum">     927 </span>            : } // end namespace internal
+<span class="lineNum">     928 </span>            : 
+<span class="lineNum">     929 </span>            : /** Assigns a triangular or selfadjoint matrix to a dense matrix.
+<span class="lineNum">     930 </span>            :   * If the matrix is triangular, the opposite part is set to zero. */
+<span class="lineNum">     931 </span>            : template&lt;typename Derived&gt;
+<span class="lineNum">     932 </span>            : template&lt;typename DenseDerived&gt;
+<span class="lineNum">     933 </span>            : void TriangularBase&lt;Derived&gt;::evalToLazy(MatrixBase&lt;DenseDerived&gt; &amp;other) const
+<span class="lineNum">     934 </span>            : {
+<span class="lineNum">     935 </span>            :   other.derived().resize(this-&gt;rows(), this-&gt;cols());
+<span class="lineNum">     936 </span>            :   internal::call_triangular_assignment_loop&lt;Derived::Mode,(Derived::Mode&amp;SelfAdjoint)==0 /* SetOpposite */&gt;(other.derived(), derived().nestedExpression());
+<span class="lineNum">     937 </span>            : }
+<span class="lineNum">     938 </span>            : 
+<span class="lineNum">     939 </span>            : namespace internal {
+<span class="lineNum">     940 </span>            :   
+<span class="lineNum">     941 </span>            : // Triangular = Product
+<span class="lineNum">     942 </span>            : template&lt; typename DstXprType, typename Lhs, typename Rhs, typename Scalar&gt;
+<span class="lineNum">     943 </span>            : struct Assignment&lt;DstXprType, Product&lt;Lhs,Rhs,DefaultProduct&gt;, internal::assign_op&lt;Scalar,typename Product&lt;Lhs,Rhs,DefaultProduct&gt;::Scalar&gt;, Dense2Triangular&gt;
+<span class="lineNum">     944 </span>            : {
+<span class="lineNum">     945 </span>            :   typedef Product&lt;Lhs,Rhs,DefaultProduct&gt; SrcXprType;
+<span class="lineNum">     946 </span>            :   static void run(DstXprType &amp;dst, const SrcXprType &amp;src, const internal::assign_op&lt;Scalar,typename SrcXprType::Scalar&gt; &amp;)
+<span class="lineNum">     947 </span>            :   {
+<span class="lineNum">     948 </span>            :     Index dstRows = src.rows();
+<span class="lineNum">     949 </span>            :     Index dstCols = src.cols();
+<span class="lineNum">     950 </span>            :     if((dst.rows()!=dstRows) || (dst.cols()!=dstCols))
+<span class="lineNum">     951 </span>            :       dst.resize(dstRows, dstCols);
+<span class="lineNum">     952 </span>            : 
+<span class="lineNum">     953 </span>            :     dst._assignProduct(src, 1, 0);
+<span class="lineNum">     954 </span>            :   }
+<span class="lineNum">     955 </span>            : };
+<span class="lineNum">     956 </span>            : 
+<span class="lineNum">     957 </span>            : // Triangular += Product
+<span class="lineNum">     958 </span>            : template&lt; typename DstXprType, typename Lhs, typename Rhs, typename Scalar&gt;
+<span class="lineNum">     959 </span>            : struct Assignment&lt;DstXprType, Product&lt;Lhs,Rhs,DefaultProduct&gt;, internal::add_assign_op&lt;Scalar,typename Product&lt;Lhs,Rhs,DefaultProduct&gt;::Scalar&gt;, Dense2Triangular&gt;
+<span class="lineNum">     960 </span>            : {
+<span class="lineNum">     961 </span>            :   typedef Product&lt;Lhs,Rhs,DefaultProduct&gt; SrcXprType;
+<span class="lineNum">     962 </span>            :   static void run(DstXprType &amp;dst, const SrcXprType &amp;src, const internal::add_assign_op&lt;Scalar,typename SrcXprType::Scalar&gt; &amp;)
+<span class="lineNum">     963 </span>            :   {
+<span class="lineNum">     964 </span>            :     dst._assignProduct(src, 1, 1);
+<span class="lineNum">     965 </span>            :   }
+<span class="lineNum">     966 </span>            : };
+<span class="lineNum">     967 </span>            : 
+<span class="lineNum">     968 </span>            : // Triangular -= Product
+<span class="lineNum">     969 </span>            : template&lt; typename DstXprType, typename Lhs, typename Rhs, typename Scalar&gt;
+<span class="lineNum">     970 </span>            : struct Assignment&lt;DstXprType, Product&lt;Lhs,Rhs,DefaultProduct&gt;, internal::sub_assign_op&lt;Scalar,typename Product&lt;Lhs,Rhs,DefaultProduct&gt;::Scalar&gt;, Dense2Triangular&gt;
+<span class="lineNum">     971 </span>            : {
+<span class="lineNum">     972 </span>            :   typedef Product&lt;Lhs,Rhs,DefaultProduct&gt; SrcXprType;
+<span class="lineNum">     973 </span>            :   static void run(DstXprType &amp;dst, const SrcXprType &amp;src, const internal::sub_assign_op&lt;Scalar,typename SrcXprType::Scalar&gt; &amp;)
+<span class="lineNum">     974 </span>            :   {
+<span class="lineNum">     975 </span>            :     dst._assignProduct(src, -1, 1);
+<span class="lineNum">     976 </span>            :   }
+<span class="lineNum">     977 </span>            : };
+<span class="lineNum">     978 </span>            : 
+<span class="lineNum">     979 </span>            : } // end namespace internal
+<span class="lineNum">     980 </span>            : 
+<span class="lineNum">     981 </span>            : } // end namespace Eigen
+<span class="lineNum">     982 </span>            : 
+<span class="lineNum">     983 </span>            : #endif // EIGEN_TRIANGULARMATRIX_H
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

@@ -1,0 +1,584 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Main Call Code Analysis - DeepMimicCore/scenes/SceneImitate.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">DeepMimicCore/scenes</a> - SceneImitate.cpp<span style="font-size: 80%;"> (source / <a href="SceneImitate.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Main Call Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">239</td>
+            <td class="headerCovTableEntry">317</td>
+            <td class="headerCovTableEntryMed">75.4 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 16:51:56</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">25</td>
+            <td class="headerCovTableEntry">39</td>
+            <td class="headerCovTableEntryLo">64.1 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : #include &quot;SceneImitate.h&quot;</a>
+<span class="lineNum">       2 </span>            : #include &quot;sim/RBDUtil.h&quot;
+<span class="lineNum">       3 </span>            : #include &quot;sim/CtController.h&quot;
+<span class="lineNum">       4 </span>            : #include &quot;util/FileUtil.h&quot;
+<a name="5"><span class="lineNum">       5 </span>            : #include &quot;util/JsonUtil.h&quot;</a>
+<span class="lineNum">       6 </span>            : 
+<span class="lineNum">       7 </span><span class="lineCov">          9 : double cSceneImitate::CalcRewardImitate(const cSimCharacter&amp; sim_char, const cKinCharacter&amp; kin_char) const</span>
+<span class="lineNum">       8 </span>            : {
+<span class="lineNum">       9 </span><span class="lineCov">          9 :         double pose_w = 0.5;</span>
+<span class="lineNum">      10 </span><span class="lineCov">          9 :         double vel_w = 0.05;</span>
+<span class="lineNum">      11 </span><span class="lineCov">          9 :         double end_eff_w = 0.15;</span>
+<span class="lineNum">      12 </span><span class="lineCov">          9 :         double root_w = 0.2;</span>
+<span class="lineNum">      13 </span><span class="lineCov">          9 :         double com_w = 0.1;</span>
+<span class="lineNum">      14 </span>            : 
+<span class="lineNum">      15 </span><span class="lineCov">          9 :         double total_w = pose_w + vel_w + end_eff_w + root_w + com_w;</span>
+<span class="lineNum">      16 </span><span class="lineCov">          9 :         pose_w /= total_w;</span>
+<span class="lineNum">      17 </span><span class="lineCov">          9 :         vel_w /= total_w;</span>
+<span class="lineNum">      18 </span><span class="lineCov">          9 :         end_eff_w /= total_w;</span>
+<span class="lineNum">      19 </span><span class="lineCov">          9 :         root_w /= total_w;</span>
+<span class="lineNum">      20 </span><span class="lineCov">          9 :         com_w /= total_w;</span>
+<span class="lineNum">      21 </span>            : 
+<span class="lineNum">      22 </span><span class="lineCov">          9 :         const double pose_scale = 2;</span>
+<span class="lineNum">      23 </span><span class="lineCov">          9 :         const double vel_scale = 0.1;</span>
+<span class="lineNum">      24 </span><span class="lineCov">          9 :         const double end_eff_scale = 40;</span>
+<span class="lineNum">      25 </span><span class="lineCov">          9 :         const double root_scale = 5;</span>
+<span class="lineNum">      26 </span><span class="lineCov">          9 :         const double com_scale = 10;</span>
+<span class="lineNum">      27 </span><span class="lineCov">          9 :         const double err_scale = 1;</span>
+<span class="lineNum">      28 </span>            : 
+<span class="lineNum">      29 </span><span class="lineCov">          9 :         const auto&amp; joint_mat = sim_char.GetJointMat();</span>
+<span class="lineNum">      30 </span><span class="lineCov">          9 :         const auto&amp; body_defs = sim_char.GetBodyDefs();</span>
+<span class="lineNum">      31 </span><span class="lineCov">          9 :         double reward = 0;</span>
+<span class="lineNum">      32 </span>            : 
+<span class="lineNum">      33 </span><span class="lineCov">          9 :         const Eigen::VectorXd&amp; pose0 = sim_char.GetPose();</span>
+<span class="lineNum">      34 </span><span class="lineCov">          9 :         const Eigen::VectorXd&amp; vel0 = sim_char.GetVel();</span>
+<span class="lineNum">      35 </span><span class="lineCov">          9 :         const Eigen::VectorXd&amp; pose1 = kin_char.GetPose();</span>
+<span class="lineNum">      36 </span><span class="lineCov">          9 :         const Eigen::VectorXd&amp; vel1 = kin_char.GetVel();</span>
+<span class="lineNum">      37 </span><span class="lineCov">          9 :         tMatrix origin_trans = sim_char.BuildOriginTrans();</span>
+<span class="lineNum">      38 </span><span class="lineCov">          9 :         tMatrix kin_origin_trans = kin_char.BuildOriginTrans();</span>
+<span class="lineNum">      39 </span>            : 
+<span class="lineNum">      40 </span><span class="lineCov">          9 :         tVector com0_world = sim_char.CalcCOM();</span>
+<span class="lineNum">      41 </span><span class="lineCov">          9 :         tVector com_vel0_world = sim_char.CalcCOMVel();</span>
+<span class="lineNum">      42 </span><span class="lineCov">          9 :         tVector com1_world;</span>
+<span class="lineNum">      43 </span><span class="lineCov">          9 :         tVector com_vel1_world;</span>
+<span class="lineNum">      44 </span><span class="lineCov">          9 :         cRBDUtil::CalcCoM(joint_mat, body_defs, pose1, vel1, com1_world, com_vel1_world);</span>
+<span class="lineNum">      45 </span>            : 
+<span class="lineNum">      46 </span><span class="lineCov">          9 :         int root_id = sim_char.GetRootID();</span>
+<span class="lineNum">      47 </span><span class="lineCov">          9 :         tVector root_pos0 = cKinTree::GetRootPos(joint_mat, pose0);</span>
+<span class="lineNum">      48 </span><span class="lineCov">          9 :         tVector root_pos1 = cKinTree::GetRootPos(joint_mat, pose1);</span>
+<span class="lineNum">      49 </span><span class="lineCov">          9 :         tQuaternion root_rot0 = cKinTree::GetRootRot(joint_mat, pose0);</span>
+<span class="lineNum">      50 </span><span class="lineCov">          9 :         tQuaternion root_rot1 = cKinTree::GetRootRot(joint_mat, pose1);</span>
+<span class="lineNum">      51 </span><span class="lineCov">          9 :         tVector root_vel0 = cKinTree::GetRootVel(joint_mat, vel0);</span>
+<span class="lineNum">      52 </span><span class="lineCov">          9 :         tVector root_vel1 = cKinTree::GetRootVel(joint_mat, vel1);</span>
+<span class="lineNum">      53 </span><span class="lineCov">          9 :         tVector root_ang_vel0 = cKinTree::GetRootAngVel(joint_mat, vel0);</span>
+<span class="lineNum">      54 </span><span class="lineCov">          9 :         tVector root_ang_vel1 = cKinTree::GetRootAngVel(joint_mat, vel1);</span>
+<span class="lineNum">      55 </span>            : 
+<span class="lineNum">      56 </span><span class="lineCov">          9 :         double pose_err = 0;</span>
+<span class="lineNum">      57 </span><span class="lineCov">          9 :         double vel_err = 0;</span>
+<span class="lineNum">      58 </span><span class="lineCov">          9 :         double end_eff_err = 0;</span>
+<span class="lineNum">      59 </span><span class="lineCov">          9 :         double root_err = 0;</span>
+<span class="lineNum">      60 </span><span class="lineCov">          9 :         double com_err = 0;</span>
+<span class="lineNum">      61 </span><span class="lineCov">          9 :         double heading_err = 0;</span>
+<span class="lineNum">      62 </span>            : 
+<span class="lineNum">      63 </span><span class="lineCov">          9 :         int num_end_effs = 0;</span>
+<span class="lineNum">      64 </span><span class="lineCov">          9 :         int num_joints = sim_char.GetNumJoints();</span>
+<span class="lineNum">      65 </span><span class="lineCov">          9 :         assert(num_joints == mJointWeights.size());</span>
+<span class="lineNum">      66 </span>            : 
+<span class="lineNum">      67 </span><span class="lineCov">          9 :         double root_rot_w = mJointWeights[root_id];</span>
+<span class="lineNum">      68 </span><span class="lineCov">          9 :         pose_err += root_rot_w * cKinTree::CalcRootRotErr(joint_mat, pose0, pose1);</span>
+<span class="lineNum">      69 </span><span class="lineCov">          9 :         vel_err += root_rot_w * cKinTree::CalcRootAngVelErr(joint_mat, vel0, vel1);</span>
+<span class="lineNum">      70 </span>            : 
+<span class="lineNum">      71 </span><span class="lineCov">        135 :         for (int j = root_id + 1; j &lt; num_joints; ++j)</span>
+<span class="lineNum">      72 </span>            :         {
+<span class="lineNum">      73 </span><span class="lineCov">        126 :                 double w = mJointWeights[j];</span>
+<span class="lineNum">      74 </span><span class="lineCov">        126 :                 double curr_pose_err = cKinTree::CalcPoseErr(joint_mat, j, pose0, pose1);</span>
+<span class="lineNum">      75 </span><span class="lineCov">        126 :                 double curr_vel_err = cKinTree::CalcVelErr(joint_mat, j, vel0, vel1);</span>
+<span class="lineNum">      76 </span><span class="lineCov">        126 :                 pose_err += w * curr_pose_err;</span>
+<span class="lineNum">      77 </span><span class="lineCov">        126 :                 vel_err += w * curr_vel_err;</span>
+<span class="lineNum">      78 </span>            : 
+<span class="lineNum">      79 </span><span class="lineCov">        126 :                 bool is_end_eff = sim_char.IsEndEffector(j);</span>
+<span class="lineNum">      80 </span><span class="lineCov">        126 :                 if (is_end_eff)</span>
+<span class="lineNum">      81 </span>            :                 {
+<span class="lineNum">      82 </span><span class="lineCov">         36 :                         tVector pos0 = sim_char.CalcJointPos(j);</span>
+<span class="lineNum">      83 </span><span class="lineCov">         36 :                         tVector pos1 = cKinTree::CalcJointWorldPos(joint_mat, pose1, j);</span>
+<span class="lineNum">      84 </span><span class="lineCov">         36 :                         double ground_h0 = mGround-&gt;SampleHeight(pos0);</span>
+<span class="lineNum">      85 </span><span class="lineCov">         36 :                         double ground_h1 = kin_char.GetOriginPos()[1];</span>
+<span class="lineNum">      86 </span>            : 
+<span class="lineNum">      87 </span><span class="lineCov">         36 :                         tVector pos_rel0 = pos0 - root_pos0;</span>
+<span class="lineNum">      88 </span><span class="lineCov">         36 :                         tVector pos_rel1 = pos1 - root_pos1;</span>
+<span class="lineNum">      89 </span><span class="lineCov">         36 :                         pos_rel0[1] = pos0[1] - ground_h0;</span>
+<span class="lineNum">      90 </span><span class="lineCov">         36 :                         pos_rel1[1] = pos1[1] - ground_h1;</span>
+<span class="lineNum">      91 </span>            : 
+<span class="lineNum">      92 </span><span class="lineCov">         36 :                         pos_rel0 = origin_trans * pos_rel0;</span>
+<span class="lineNum">      93 </span><span class="lineCov">         36 :                         pos_rel1 = kin_origin_trans * pos_rel1;</span>
+<span class="lineNum">      94 </span>            : 
+<span class="lineNum">      95 </span><span class="lineCov">         36 :                         double curr_end_err = (pos_rel1 - pos_rel0).squaredNorm();</span>
+<span class="lineNum">      96 </span><span class="lineCov">         36 :                         end_eff_err += curr_end_err;</span>
+<span class="lineNum">      97 </span><span class="lineCov">         36 :                         ++num_end_effs;</span>
+<span class="lineNum">      98 </span>            :                 }
+<span class="lineNum">      99 </span>            :         }
+<span class="lineNum">     100 </span>            : 
+<span class="lineNum">     101 </span><span class="lineCov">          9 :         if (num_end_effs &gt; 0)</span>
+<span class="lineNum">     102 </span>            :         {
+<span class="lineNum">     103 </span><span class="lineCov">          9 :                 end_eff_err /= num_end_effs;</span>
+<span class="lineNum">     104 </span>            :         }
+<span class="lineNum">     105 </span>            : 
+<span class="lineNum">     106 </span><span class="lineCov">          9 :         double root_ground_h0 = mGround-&gt;SampleHeight(sim_char.GetRootPos());</span>
+<span class="lineNum">     107 </span><span class="lineCov">          9 :         double root_ground_h1 = kin_char.GetOriginPos()[1];</span>
+<span class="lineNum">     108 </span><span class="lineCov">          9 :         root_pos0[1] -= root_ground_h0;</span>
+<span class="lineNum">     109 </span><span class="lineCov">          9 :         root_pos1[1] -= root_ground_h1;</span>
+<span class="lineNum">     110 </span><span class="lineCov">          9 :         double root_pos_err = (root_pos0 - root_pos1).squaredNorm();</span>
+<span class="lineNum">     111 </span>            :         
+<span class="lineNum">     112 </span><span class="lineCov">          9 :         double root_rot_err = cMathUtil::QuatDiffTheta(root_rot0, root_rot1);</span>
+<span class="lineNum">     113 </span><span class="lineCov">          9 :         root_rot_err *= root_rot_err;</span>
+<span class="lineNum">     114 </span>            : 
+<span class="lineNum">     115 </span><span class="lineCov">          9 :         double root_vel_err = (root_vel1 - root_vel0).squaredNorm();</span>
+<span class="lineNum">     116 </span><span class="lineCov">          9 :         double root_ang_vel_err = (root_ang_vel1 - root_ang_vel0).squaredNorm();</span>
+<span class="lineNum">     117 </span>            : 
+<span class="lineNum">     118 </span>            :         root_err = root_pos_err
+<span class="lineNum">     119 </span><span class="lineCov">          9 :                         + 0.1 * root_rot_err</span>
+<span class="lineNum">     120 </span><span class="lineCov">          9 :                         + 0.01 * root_vel_err</span>
+<span class="lineNum">     121 </span><span class="lineCov">          9 :                         + 0.001 * root_ang_vel_err;</span>
+<span class="lineNum">     122 </span><span class="lineCov">          9 :         com_err = 0.1 * (com_vel1_world - com_vel0_world).squaredNorm();</span>
+<span class="lineNum">     123 </span>            : 
+<span class="lineNum">     124 </span><span class="lineCov">          9 :         double pose_reward = exp(-err_scale * pose_scale * pose_err);</span>
+<span class="lineNum">     125 </span><span class="lineCov">          9 :         double vel_reward = exp(-err_scale * vel_scale * vel_err);</span>
+<span class="lineNum">     126 </span><span class="lineCov">          9 :         double end_eff_reward = exp(-err_scale * end_eff_scale * end_eff_err);</span>
+<span class="lineNum">     127 </span><span class="lineCov">          9 :         double root_reward = exp(-err_scale * root_scale * root_err);</span>
+<span class="lineNum">     128 </span><span class="lineCov">          9 :         double com_reward = exp(-err_scale * com_scale * com_err);</span>
+<span class="lineNum">     129 </span>            : 
+<span class="lineNum">     130 </span><span class="lineCov">          9 :         reward = pose_w * pose_reward + vel_w * vel_reward + end_eff_w * end_eff_reward</span>
+<span class="lineNum">     131 </span><span class="lineCov">          9 :                 + root_w * root_reward + com_w * com_reward;</span>
+<span class="lineNum">     132 </span>            : 
+<span class="lineNum">     133 </span><span class="lineCov">          9 :         return reward;</span>
+<a name="134"><span class="lineNum">     134 </span>            : }</a>
+<span class="lineNum">     135 </span>            : 
+<span class="lineNum">     136 </span><span class="lineCov">          1 : cSceneImitate::cSceneImitate()</span>
+<span class="lineNum">     137 </span>            : {
+<span class="lineNum">     138 </span><span class="lineCov">          1 :         mEnableRandRotReset = false;</span>
+<span class="lineNum">     139 </span><span class="lineCov">          1 :         mSyncCharRootPos = true;</span>
+<span class="lineNum">     140 </span><span class="lineCov">          1 :         mSyncCharRootRot = false;</span>
+<span class="lineNum">     141 </span><span class="lineCov">          1 :         mMotionFile = &quot;&quot;;</span>
+<span class="lineNum">     142 </span><span class="lineCov">          1 :         mEnableRootRotFail = false;</span>
+<span class="lineNum">     143 </span><span class="lineCov">          1 :         mHoldEndFrame = 0;</span>
+<a name="144"><span class="lineNum">     144 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     145 </span>            : 
+<span class="lineNum">     146 </span><span class="lineNoCov">          0 : cSceneImitate::~cSceneImitate()</span>
+<span class="lineNum">     147 </span>            : {
+<a name="148"><span class="lineNum">     148 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     149 </span>            : 
+<span class="lineNum">     150 </span><span class="lineCov">          1 : void cSceneImitate::ParseArgs(const std::shared_ptr&lt;cArgParser&gt;&amp; parser)</span>
+<span class="lineNum">     151 </span>            : {
+<span class="lineNum">     152 </span><span class="lineCov">          1 :         cRLSceneSimChar::ParseArgs(parser);</span>
+<span class="lineNum">     153 </span><span class="lineCov">          1 :         parser-&gt;ParseString(&quot;motion_file&quot;, mMotionFile);</span>
+<span class="lineNum">     154 </span><span class="lineCov">          1 :         parser-&gt;ParseBool(&quot;enable_rand_rot_reset&quot;, mEnableRandRotReset);</span>
+<span class="lineNum">     155 </span><span class="lineCov">          1 :         parser-&gt;ParseBool(&quot;sync_char_root_pos&quot;, mSyncCharRootPos);</span>
+<span class="lineNum">     156 </span><span class="lineCov">          1 :         parser-&gt;ParseBool(&quot;sync_char_root_rot&quot;, mSyncCharRootRot);</span>
+<span class="lineNum">     157 </span><span class="lineCov">          1 :         parser-&gt;ParseBool(&quot;enable_root_rot_fail&quot;, mEnableRootRotFail);</span>
+<span class="lineNum">     158 </span><span class="lineCov">          1 :         parser-&gt;ParseDouble(&quot;hold_end_frame&quot;, mHoldEndFrame);</span>
+<a name="159"><span class="lineNum">     159 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     160 </span>            : 
+<span class="lineNum">     161 </span><span class="lineCov">          1 : void cSceneImitate::Init()</span>
+<span class="lineNum">     162 </span>            : {
+<span class="lineNum">     163 </span><span class="lineCov">          1 :         mKinChar.reset();</span>
+<span class="lineNum">     164 </span><span class="lineCov">          1 :         BuildKinChar();</span>
+<span class="lineNum">     165 </span>            : 
+<span class="lineNum">     166 </span><span class="lineCov">          1 :         cRLSceneSimChar::Init();</span>
+<span class="lineNum">     167 </span><span class="lineCov">          1 :         InitJointWeights();</span>
+<a name="168"><span class="lineNum">     168 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     169 </span>            : 
+<span class="lineNum">     170 </span><span class="lineCov">          9 : double cSceneImitate::CalcReward(int agent_id) const</span>
+<span class="lineNum">     171 </span>            : {
+<span class="lineNum">     172 </span><span class="lineCov">          9 :         const cSimCharacter* sim_char = GetAgentChar(agent_id);</span>
+<span class="lineNum">     173 </span><span class="lineCov">          9 :         bool fallen = HasFallen(*sim_char);</span>
+<span class="lineNum">     174 </span>            : 
+<span class="lineNum">     175 </span><span class="lineCov">          9 :         double r = 0;</span>
+<span class="lineNum">     176 </span><span class="lineCov">          9 :         int max_id = 0;</span>
+<span class="lineNum">     177 </span><span class="lineCov">          9 :         if (!fallen)</span>
+<span class="lineNum">     178 </span>            :         {
+<span class="lineNum">     179 </span><span class="lineCov">          9 :                 r = CalcRewardImitate(*sim_char, *mKinChar);</span>
+<span class="lineNum">     180 </span>            :         }
+<span class="lineNum">     181 </span><span class="lineCov">          9 :         return r;</span>
+<a name="182"><span class="lineNum">     182 </span>            : }</a>
+<span class="lineNum">     183 </span>            : 
+<span class="lineNum">     184 </span><span class="lineCov">        346 : const std::shared_ptr&lt;cKinCharacter&gt;&amp; cSceneImitate::GetKinChar() const</span>
+<span class="lineNum">     185 </span>            : {
+<span class="lineNum">     186 </span><span class="lineCov">        346 :         return mKinChar;</span>
+<a name="187"><span class="lineNum">     187 </span>            : }</a>
+<span class="lineNum">     188 </span>            : 
+<span class="lineNum">     189 </span><span class="lineNoCov">          0 : void cSceneImitate::EnableRandRotReset(bool enable)</span>
+<span class="lineNum">     190 </span>            : {
+<span class="lineNum">     191 </span><span class="lineNoCov">          0 :         mEnableRandRotReset = enable;</span>
+<a name="192"><span class="lineNum">     192 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     193 </span>            : 
+<span class="lineNum">     194 </span><span class="lineNoCov">          0 : bool cSceneImitate::EnabledRandRotReset() const</span>
+<span class="lineNum">     195 </span>            : {
+<span class="lineNum">     196 </span><span class="lineNoCov">          0 :         bool enable = mEnableRandRotReset;</span>
+<span class="lineNum">     197 </span><span class="lineNoCov">          0 :         return enable;</span>
+<a name="198"><span class="lineNum">     198 </span>            : }</a>
+<span class="lineNum">     199 </span>            : 
+<span class="lineNum">     200 </span><span class="lineCov">        170 : cSceneImitate::eTerminate cSceneImitate::CheckTerminate(int agent_id) const</span>
+<span class="lineNum">     201 </span>            : {
+<span class="lineNum">     202 </span><span class="lineCov">        170 :         eTerminate terminated = cRLSceneSimChar::CheckTerminate(agent_id);</span>
+<span class="lineNum">     203 </span><span class="lineCov">        170 :         if (terminated == eTerminateNull)</span>
+<span class="lineNum">     204 </span>            :         {
+<span class="lineNum">     205 </span><span class="lineCov">        170 :                 bool end_motion = false;</span>
+<span class="lineNum">     206 </span><span class="lineCov">        170 :                 const auto&amp; kin_char = GetKinChar();</span>
+<span class="lineNum">     207 </span><span class="lineCov">        170 :                 const cMotion&amp; motion = kin_char-&gt;GetMotion();</span>
+<span class="lineNum">     208 </span>            : 
+<span class="lineNum">     209 </span><span class="lineCov">        170 :                 if (motion.GetLoop() == cMotion::eLoopNone)</span>
+<span class="lineNum">     210 </span>            :                 {
+<span class="lineNum">     211 </span><span class="lineNoCov">          0 :                         double dur = motion.GetDuration();</span>
+<span class="lineNum">     212 </span><span class="lineNoCov">          0 :                         double kin_time = kin_char-&gt;GetTime();</span>
+<span class="lineNum">     213 </span><span class="lineNoCov">          0 :                         end_motion = kin_time &gt; dur + mHoldEndFrame;</span>
+<span class="lineNum">     214 </span>            :                 }
+<span class="lineNum">     215 </span>            :                 else
+<span class="lineNum">     216 </span>            :                 {
+<span class="lineNum">     217 </span><span class="lineCov">        170 :                         end_motion = kin_char-&gt;IsMotionOver();</span>
+<span class="lineNum">     218 </span>            :                 }
+<span class="lineNum">     219 </span>            : 
+<span class="lineNum">     220 </span><span class="lineCov">        170 :                 terminated = (end_motion) ? eTerminateFail : terminated;</span>
+<span class="lineNum">     221 </span>            :         }
+<span class="lineNum">     222 </span><span class="lineCov">        170 :         return terminated;</span>
+<a name="223"><span class="lineNum">     223 </span>            : }</a>
+<span class="lineNum">     224 </span>            : 
+<span class="lineNum">     225 </span><span class="lineCov">          1 : std::string cSceneImitate::GetName() const</span>
+<span class="lineNum">     226 </span>            : {
+<span class="lineNum">     227 </span><span class="lineCov">          1 :         return &quot;Imitate&quot;;</span>
+<a name="228"><span class="lineNum">     228 </span>            : }</a>
+<span class="lineNum">     229 </span>            : 
+<span class="lineNum">     230 </span><span class="lineCov">          1 : bool cSceneImitate::BuildCharacters()</span>
+<span class="lineNum">     231 </span>            : {
+<span class="lineNum">     232 </span><span class="lineCov">          1 :         bool succ = cRLSceneSimChar::BuildCharacters();</span>
+<span class="lineNum">     233 </span><span class="lineCov">          1 :         if (EnableSyncChar())</span>
+<span class="lineNum">     234 </span>            :         {
+<span class="lineNum">     235 </span><span class="lineCov">          1 :                 SyncCharacters();</span>
+<span class="lineNum">     236 </span>            :         }
+<span class="lineNum">     237 </span><span class="lineCov">          1 :         return succ;</span>
+<a name="238"><span class="lineNum">     238 </span>            : }</a>
+<span class="lineNum">     239 </span>            : 
+<span class="lineNum">     240 </span><span class="lineCov">          1 : void cSceneImitate::CalcJointWeights(const std::shared_ptr&lt;cSimCharacter&gt;&amp; character, Eigen::VectorXd&amp; out_weights) const</span>
+<span class="lineNum">     241 </span>            : {
+<span class="lineNum">     242 </span><span class="lineCov">          1 :         int num_joints = character-&gt;GetNumJoints();</span>
+<span class="lineNum">     243 </span><span class="lineCov">          1 :         out_weights = Eigen::VectorXd::Ones(num_joints);</span>
+<span class="lineNum">     244 </span><span class="lineCov">         16 :         for (int j = 0; j &lt; num_joints; ++j)</span>
+<span class="lineNum">     245 </span>            :         {
+<span class="lineNum">     246 </span><span class="lineCov">         15 :                 double curr_w = character-&gt;GetJointDiffWeight(j);</span>
+<span class="lineNum">     247 </span><span class="lineCov">         15 :                 out_weights[j] = curr_w;</span>
+<span class="lineNum">     248 </span>            :         }
+<span class="lineNum">     249 </span>            : 
+<span class="lineNum">     250 </span><span class="lineCov">          1 :         double sum = out_weights.lpNorm&lt;1&gt;();</span>
+<span class="lineNum">     251 </span><span class="lineCov">          1 :         out_weights /= sum;</span>
+<a name="252"><span class="lineNum">     252 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     253 </span>            : 
+<span class="lineNum">     254 </span><span class="lineCov">          1 : bool cSceneImitate::BuildController(const cCtrlBuilder::tCtrlParams&amp; ctrl_params, std::shared_ptr&lt;cCharController&gt;&amp; out_ctrl)</span>
+<span class="lineNum">     255 </span>            : {
+<span class="lineNum">     256 </span><span class="lineCov">          1 :         bool succ = cSceneSimChar::BuildController(ctrl_params, out_ctrl);</span>
+<span class="lineNum">     257 </span><span class="lineCov">          1 :         if (succ)</span>
+<span class="lineNum">     258 </span>            :         {
+<span class="lineNum">     259 </span><span class="lineCov">          1 :                 auto ct_ctrl = dynamic_cast&lt;cCtController*&gt;(out_ctrl.get());</span>
+<span class="lineNum">     260 </span><span class="lineCov">          1 :                 if (ct_ctrl != nullptr)</span>
+<span class="lineNum">     261 </span>            :                 {
+<span class="lineNum">     262 </span><span class="lineCov">          1 :                         const auto&amp; kin_char = GetKinChar();</span>
+<span class="lineNum">     263 </span><span class="lineCov">          1 :                         double cycle_dur = kin_char-&gt;GetMotionDuration();</span>
+<span class="lineNum">     264 </span><span class="lineCov">          1 :                         ct_ctrl-&gt;SetCyclePeriod(cycle_dur);</span>
+<span class="lineNum">     265 </span>            :                 }
+<span class="lineNum">     266 </span>            :         }
+<span class="lineNum">     267 </span><span class="lineCov">          1 :         return succ;</span>
+<a name="268"><span class="lineNum">     268 </span>            : }</a>
+<span class="lineNum">     269 </span>            : 
+<span class="lineNum">     270 </span><span class="lineCov">          1 : void cSceneImitate::BuildKinChar()</span>
+<span class="lineNum">     271 </span>            : {
+<span class="lineNum">     272 </span><span class="lineCov">          1 :         bool succ = BuildKinCharacter(0, mKinChar);</span>
+<span class="lineNum">     273 </span><span class="lineCov">          1 :         if (!succ)</span>
+<span class="lineNum">     274 </span>            :         {
+<span class="lineNum">     275 </span><span class="lineNoCov">          0 :                 printf(&quot;Failed to build kin character\n&quot;);</span>
+<span class="lineNum">     276 </span><span class="lineNoCov">          0 :                 assert(false);</span>
+<span class="lineNum">     277 </span>            :         }
+<a name="278"><span class="lineNum">     278 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     279 </span>            : 
+<span class="lineNum">     280 </span><span class="lineCov">          1 : bool cSceneImitate::BuildKinCharacter(int id, std::shared_ptr&lt;cKinCharacter&gt;&amp; out_char) const</span>
+<span class="lineNum">     281 </span>            : {
+<span class="lineNum">     282 </span><span class="lineCov">          2 :         auto kin_char = std::shared_ptr&lt;cKinCharacter&gt;(new cKinCharacter());</span>
+<span class="lineNum">     283 </span><span class="lineCov">          1 :         const cSimCharacter::tParams&amp; sim_char_params = mCharParams[0];</span>
+<span class="lineNum">     284 </span><span class="lineCov">          2 :         cKinCharacter::tParams kin_char_params;</span>
+<span class="lineNum">     285 </span>            : 
+<span class="lineNum">     286 </span><span class="lineCov">          1 :         kin_char_params.mID = id;</span>
+<span class="lineNum">     287 </span><span class="lineCov">          1 :         kin_char_params.mCharFile = sim_char_params.mCharFile;</span>
+<span class="lineNum">     288 </span><span class="lineCov">          1 :         kin_char_params.mOrigin = sim_char_params.mInitPos;</span>
+<span class="lineNum">     289 </span><span class="lineCov">          1 :         kin_char_params.mLoadDrawShapes = false;</span>
+<span class="lineNum">     290 </span><span class="lineCov">          1 :         kin_char_params.mMotionFile = mMotionFile;</span>
+<span class="lineNum">     291 </span>            : 
+<span class="lineNum">     292 </span><span class="lineCov">          1 :         bool succ = kin_char-&gt;Init(kin_char_params);</span>
+<span class="lineNum">     293 </span><span class="lineCov">          1 :         if (succ)</span>
+<span class="lineNum">     294 </span>            :         {
+<span class="lineNum">     295 </span><span class="lineCov">          1 :                 out_char = kin_char;</span>
+<span class="lineNum">     296 </span>            :         }
+<span class="lineNum">     297 </span><span class="lineCov">          2 :         return succ;</span>
+<a name="298"><span class="lineNum">     298 </span>            : }</a>
+<span class="lineNum">     299 </span>            : 
+<span class="lineNum">     300 </span><span class="lineCov">        170 : void cSceneImitate::UpdateCharacters(double timestep)</span>
+<span class="lineNum">     301 </span>            : {
+<span class="lineNum">     302 </span><span class="lineCov">        170 :         UpdateKinChar(timestep);</span>
+<span class="lineNum">     303 </span><span class="lineCov">        170 :         cRLSceneSimChar::UpdateCharacters(timestep);</span>
+<a name="304"><span class="lineNum">     304 </span><span class="lineCov">        170 : }</span></a>
+<span class="lineNum">     305 </span>            : 
+<span class="lineNum">     306 </span><span class="lineCov">        170 : void cSceneImitate::UpdateKinChar(double timestep)</span>
+<span class="lineNum">     307 </span>            : {
+<span class="lineNum">     308 </span><span class="lineCov">        170 :         const auto&amp; kin_char = GetKinChar();</span>
+<span class="lineNum">     309 </span><span class="lineCov">        170 :         double prev_phase = kin_char-&gt;GetPhase();</span>
+<span class="lineNum">     310 </span><span class="lineCov">        170 :         kin_char-&gt;Update(timestep);</span>
+<span class="lineNum">     311 </span><span class="lineCov">        170 :         double curr_phase = kin_char-&gt;GetPhase();</span>
+<span class="lineNum">     312 </span>            : 
+<span class="lineNum">     313 </span><span class="lineCov">        170 :         if (curr_phase &lt; prev_phase)</span>
+<span class="lineNum">     314 </span>            :         {
+<span class="lineNum">     315 </span><span class="lineNoCov">          0 :                 const auto&amp; sim_char = GetCharacter();</span>
+<span class="lineNum">     316 </span><span class="lineNoCov">          0 :                 SyncKinCharNewCycle(*sim_char, *kin_char);</span>
+<span class="lineNum">     317 </span>            :         }
+<a name="318"><span class="lineNum">     318 </span><span class="lineCov">        170 : }</span></a>
+<span class="lineNum">     319 </span>            : 
+<span class="lineNum">     320 </span><span class="lineNoCov">          0 : void cSceneImitate::ResetCharacters()</span>
+<span class="lineNum">     321 </span>            : {
+<span class="lineNum">     322 </span><span class="lineNoCov">          0 :         cRLSceneSimChar::ResetCharacters();</span>
+<span class="lineNum">     323 </span>            : 
+<span class="lineNum">     324 </span><span class="lineNoCov">          0 :         ResetKinChar();</span>
+<span class="lineNum">     325 </span><span class="lineNoCov">          0 :         if (EnableSyncChar())</span>
+<span class="lineNum">     326 </span>            :         {
+<span class="lineNum">     327 </span><span class="lineNoCov">          0 :                 SyncCharacters();</span>
+<span class="lineNum">     328 </span>            :         }
+<a name="329"><span class="lineNum">     329 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     330 </span>            : 
+<span class="lineNum">     331 </span><span class="lineNoCov">          0 : void cSceneImitate::ResetKinChar()</span>
+<span class="lineNum">     332 </span>            : {
+<span class="lineNum">     333 </span><span class="lineNoCov">          0 :         double rand_time = CalcRandKinResetTime();</span>
+<span class="lineNum">     334 </span>            : 
+<span class="lineNum">     335 </span><span class="lineNoCov">          0 :         const cSimCharacter::tParams&amp; char_params = mCharParams[0];</span>
+<span class="lineNum">     336 </span><span class="lineNoCov">          0 :         const auto&amp; kin_char = GetKinChar();</span>
+<span class="lineNum">     337 </span>            : 
+<span class="lineNum">     338 </span><span class="lineNoCov">          0 :         kin_char-&gt;Reset();</span>
+<span class="lineNum">     339 </span><span class="lineNoCov">          0 :         kin_char-&gt;SetOriginRot(tQuaternion::Identity());</span>
+<span class="lineNum">     340 </span><span class="lineNoCov">          0 :         kin_char-&gt;SetOriginPos(char_params.mInitPos); // reset origin</span>
+<span class="lineNum">     341 </span><span class="lineNoCov">          0 :         kin_char-&gt;SetTime(rand_time);</span>
+<span class="lineNum">     342 </span><span class="lineNoCov">          0 :         kin_char-&gt;Pose(rand_time);</span>
+<span class="lineNum">     343 </span>            : 
+<span class="lineNum">     344 </span><span class="lineNoCov">          0 :         if (EnabledRandRotReset())</span>
+<span class="lineNum">     345 </span>            :         {
+<span class="lineNum">     346 </span><span class="lineNoCov">          0 :                 double rand_theta = mRand.RandDouble(-M_PI, M_PI);</span>
+<span class="lineNum">     347 </span><span class="lineNoCov">          0 :                 kin_char-&gt;RotateOrigin(cMathUtil::EulerToQuaternion(tVector(0, rand_theta, 0, 0)));</span>
+<span class="lineNum">     348 </span>            :         }
+<a name="349"><span class="lineNum">     349 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     350 </span>            : 
+<span class="lineNum">     351 </span><span class="lineCov">          1 : void cSceneImitate::SyncCharacters()</span>
+<span class="lineNum">     352 </span>            : {
+<span class="lineNum">     353 </span><span class="lineCov">          1 :         const auto&amp; kin_char = GetKinChar();</span>
+<span class="lineNum">     354 </span><span class="lineCov">          1 :         const Eigen::VectorXd&amp; pose = kin_char-&gt;GetPose();</span>
+<span class="lineNum">     355 </span><span class="lineCov">          1 :         const Eigen::VectorXd&amp; vel = kin_char-&gt;GetVel();</span>
+<span class="lineNum">     356 </span>            :         
+<span class="lineNum">     357 </span><span class="lineCov">          1 :         const auto&amp; sim_char = GetCharacter();</span>
+<span class="lineNum">     358 </span><span class="lineCov">          1 :         sim_char-&gt;SetPose(pose);</span>
+<span class="lineNum">     359 </span><span class="lineCov">          1 :         sim_char-&gt;SetVel(vel);</span>
+<span class="lineNum">     360 </span>            : 
+<span class="lineNum">     361 </span><span class="lineCov">          1 :         const auto&amp; ctrl = sim_char-&gt;GetController();</span>
+<span class="lineNum">     362 </span><span class="lineCov">          1 :         auto ct_ctrl = dynamic_cast&lt;cCtController*&gt;(ctrl.get());</span>
+<span class="lineNum">     363 </span><span class="lineCov">          1 :         if (ct_ctrl != nullptr)</span>
+<span class="lineNum">     364 </span>            :         {
+<span class="lineNum">     365 </span><span class="lineCov">          1 :                 double kin_time = GetKinTime();</span>
+<span class="lineNum">     366 </span><span class="lineCov">          1 :                 ct_ctrl-&gt;SetInitTime(kin_time);</span>
+<span class="lineNum">     367 </span>            :         }
+<a name="368"><span class="lineNum">     368 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     369 </span>            : 
+<span class="lineNum">     370 </span><span class="lineCov">          2 : bool cSceneImitate::EnableSyncChar() const</span>
+<span class="lineNum">     371 </span>            : {
+<span class="lineNum">     372 </span><span class="lineCov">          2 :         const auto&amp; kin_char = GetKinChar();</span>
+<span class="lineNum">     373 </span><span class="lineCov">          2 :         return kin_char-&gt;HasMotion();</span>
+<a name="374"><span class="lineNum">     374 </span>            : }</a>
+<span class="lineNum">     375 </span>            : 
+<span class="lineNum">     376 </span><span class="lineNoCov">          0 : void cSceneImitate::InitCharacterPosFixed(const std::shared_ptr&lt;cSimCharacter&gt;&amp; out_char)</span>
+<span class="lineNum">     377 </span>            : {
+<span class="lineNum">     378 </span>            :         // nothing to see here
+<a name="379"><span class="lineNum">     379 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     380 </span>            : 
+<span class="lineNum">     381 </span><span class="lineCov">          1 : void cSceneImitate::InitJointWeights()</span>
+<span class="lineNum">     382 </span>            : {
+<span class="lineNum">     383 </span><span class="lineCov">          1 :         CalcJointWeights(GetCharacter(), mJointWeights);</span>
+<a name="384"><span class="lineNum">     384 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     385 </span>            : 
+<span class="lineNum">     386 </span><span class="lineCov">          1 : void cSceneImitate::ResolveCharGroundIntersect()</span>
+<span class="lineNum">     387 </span>            : {
+<span class="lineNum">     388 </span><span class="lineCov">          1 :         cRLSceneSimChar::ResolveCharGroundIntersect();</span>
+<span class="lineNum">     389 </span>            : 
+<span class="lineNum">     390 </span><span class="lineCov">          1 :         if (EnableSyncChar())</span>
+<span class="lineNum">     391 </span>            :         {
+<span class="lineNum">     392 </span><span class="lineCov">          1 :                 SyncKinCharRoot();</span>
+<span class="lineNum">     393 </span>            :         }
+<a name="394"><span class="lineNum">     394 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     395 </span>            : 
+<span class="lineNum">     396 </span><span class="lineCov">          1 : void cSceneImitate::ResolveCharGroundIntersect(const std::shared_ptr&lt;cSimCharacter&gt;&amp; out_char) const</span>
+<span class="lineNum">     397 </span>            : {
+<span class="lineNum">     398 </span><span class="lineCov">          1 :         cRLSceneSimChar::ResolveCharGroundIntersect(out_char);</span>
+<a name="399"><span class="lineNum">     399 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     400 </span>            : 
+<span class="lineNum">     401 </span><span class="lineCov">          1 : void cSceneImitate::SyncKinCharRoot()</span>
+<span class="lineNum">     402 </span>            : {
+<span class="lineNum">     403 </span><span class="lineCov">          1 :         const auto&amp; sim_char = GetCharacter();</span>
+<span class="lineNum">     404 </span><span class="lineCov">          1 :         tVector sim_root_pos = sim_char-&gt;GetRootPos();</span>
+<span class="lineNum">     405 </span><span class="lineCov">          1 :         double sim_heading = sim_char-&gt;CalcHeading();</span>
+<span class="lineNum">     406 </span>            : 
+<span class="lineNum">     407 </span><span class="lineCov">          1 :         const auto&amp; kin_char = GetKinChar();</span>
+<span class="lineNum">     408 </span><span class="lineCov">          1 :         double kin_heading = kin_char-&gt;CalcHeading();</span>
+<span class="lineNum">     409 </span>            : 
+<span class="lineNum">     410 </span><span class="lineCov">          1 :         tQuaternion drot = tQuaternion::Identity();</span>
+<span class="lineNum">     411 </span><span class="lineCov">          1 :         if (mSyncCharRootRot)</span>
+<span class="lineNum">     412 </span>            :         {
+<span class="lineNum">     413 </span><span class="lineNoCov">          0 :                 drot = cMathUtil::AxisAngleToQuaternion(tVector(0, 1, 0, 0), sim_heading - kin_heading);</span>
+<span class="lineNum">     414 </span>            :         }
+<span class="lineNum">     415 </span>            : 
+<span class="lineNum">     416 </span><span class="lineCov">          1 :         kin_char-&gt;RotateRoot(drot);</span>
+<span class="lineNum">     417 </span><span class="lineCov">          1 :         kin_char-&gt;SetRootPos(sim_root_pos);</span>
+<a name="418"><span class="lineNum">     418 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     419 </span>            : 
+<span class="lineNum">     420 </span><span class="lineNoCov">          0 : void cSceneImitate::SyncKinCharNewCycle(const cSimCharacter&amp; sim_char, cKinCharacter&amp; out_kin_char) const</span>
+<span class="lineNum">     421 </span>            : {
+<span class="lineNum">     422 </span><span class="lineNoCov">          0 :         if (mSyncCharRootRot)</span>
+<span class="lineNum">     423 </span>            :         {
+<span class="lineNum">     424 </span><span class="lineNoCov">          0 :                 double sim_heading = sim_char.CalcHeading();</span>
+<span class="lineNum">     425 </span><span class="lineNoCov">          0 :                 double kin_heading = out_kin_char.CalcHeading();</span>
+<span class="lineNum">     426 </span><span class="lineNoCov">          0 :                 tQuaternion drot = cMathUtil::AxisAngleToQuaternion(tVector(0, 1, 0, 0), sim_heading - kin_heading);</span>
+<span class="lineNum">     427 </span><span class="lineNoCov">          0 :                 out_kin_char.RotateRoot(drot);</span>
+<span class="lineNum">     428 </span>            :         }
+<span class="lineNum">     429 </span>            : 
+<span class="lineNum">     430 </span><span class="lineNoCov">          0 :         if (mSyncCharRootPos)</span>
+<span class="lineNum">     431 </span>            :         {
+<span class="lineNum">     432 </span><span class="lineNoCov">          0 :                 tVector sim_root_pos = sim_char.GetRootPos();</span>
+<span class="lineNum">     433 </span><span class="lineNoCov">          0 :                 tVector kin_root_pos = out_kin_char.GetRootPos();</span>
+<span class="lineNum">     434 </span><span class="lineNoCov">          0 :                 kin_root_pos[0] = sim_root_pos[0];</span>
+<span class="lineNum">     435 </span><span class="lineNoCov">          0 :                 kin_root_pos[2] = sim_root_pos[2];</span>
+<span class="lineNum">     436 </span>            : 
+<span class="lineNum">     437 </span><span class="lineNoCov">          0 :                 tVector origin = out_kin_char.GetOriginPos();</span>
+<span class="lineNum">     438 </span><span class="lineNoCov">          0 :                 double dh = kin_root_pos[1] - origin[1];</span>
+<span class="lineNum">     439 </span><span class="lineNoCov">          0 :                 double ground_h = mGround-&gt;SampleHeight(kin_root_pos);</span>
+<span class="lineNum">     440 </span><span class="lineNoCov">          0 :                 kin_root_pos[1] = ground_h + dh;</span>
+<span class="lineNum">     441 </span>            : 
+<span class="lineNum">     442 </span><span class="lineNoCov">          0 :                 out_kin_char.SetRootPos(kin_root_pos);</span>
+<span class="lineNum">     443 </span>            :         }
+<a name="444"><span class="lineNum">     444 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     445 </span>            : 
+<span class="lineNum">     446 </span><span class="lineCov">          1 : double cSceneImitate::GetKinTime() const</span>
+<span class="lineNum">     447 </span>            : {
+<span class="lineNum">     448 </span><span class="lineCov">          1 :         const auto&amp; kin_char = GetKinChar();</span>
+<span class="lineNum">     449 </span><span class="lineCov">          1 :         return kin_char-&gt;GetTime();</span>
+<a name="450"><span class="lineNum">     450 </span>            : }</a>
+<span class="lineNum">     451 </span>            : 
+<span class="lineNum">     452 </span><span class="lineNoCov">          0 : bool cSceneImitate::CheckKinNewCycle(double timestep) const</span>
+<span class="lineNum">     453 </span>            : {
+<span class="lineNum">     454 </span><span class="lineNoCov">          0 :         bool new_cycle = false;</span>
+<span class="lineNum">     455 </span><span class="lineNoCov">          0 :         const auto&amp; kin_char = GetKinChar();</span>
+<span class="lineNum">     456 </span><span class="lineNoCov">          0 :         if (kin_char-&gt;GetMotion().EnableLoop())</span>
+<span class="lineNum">     457 </span>            :         {
+<span class="lineNum">     458 </span><span class="lineNoCov">          0 :                 double cycle_dur = kin_char-&gt;GetMotionDuration();</span>
+<span class="lineNum">     459 </span><span class="lineNoCov">          0 :                 double time = GetKinTime();</span>
+<span class="lineNum">     460 </span><span class="lineNoCov">          0 :                 new_cycle = cMathUtil::CheckNextInterval(timestep, time, cycle_dur);</span>
+<span class="lineNum">     461 </span>            :         }
+<span class="lineNum">     462 </span><span class="lineNoCov">          0 :         return new_cycle;</span>
+<span class="lineNum">     463 </span>            : }
+<a name="464"><span class="lineNum">     464 </span>            : </a>
+<span class="lineNum">     465 </span>            : 
+<span class="lineNum">     466 </span><span class="lineCov">        179 : bool cSceneImitate::HasFallen(const cSimCharacter&amp; sim_char) const</span>
+<span class="lineNum">     467 </span>            : {
+<span class="lineNum">     468 </span><span class="lineCov">        179 :         bool fallen = cRLSceneSimChar::HasFallen(sim_char);</span>
+<span class="lineNum">     469 </span><span class="lineCov">        179 :         if (mEnableRootRotFail)</span>
+<span class="lineNum">     470 </span>            :         {
+<span class="lineNum">     471 </span><span class="lineNoCov">          0 :                 fallen |= CheckRootRotFail(sim_char);</span>
+<span class="lineNum">     472 </span>            :         }
+<span class="lineNum">     473 </span>            : 
+<span class="lineNum">     474 </span><span class="lineCov">        179 :         return fallen;</span>
+<a name="475"><span class="lineNum">     475 </span>            : }</a>
+<span class="lineNum">     476 </span>            : 
+<span class="lineNum">     477 </span><span class="lineNoCov">          0 : bool cSceneImitate::CheckRootRotFail(const cSimCharacter&amp; sim_char) const</span>
+<span class="lineNum">     478 </span>            : {
+<span class="lineNum">     479 </span><span class="lineNoCov">          0 :         const auto&amp; kin_char = GetKinChar();</span>
+<span class="lineNum">     480 </span><span class="lineNoCov">          0 :         bool fail = CheckRootRotFail(sim_char, *kin_char);</span>
+<span class="lineNum">     481 </span><span class="lineNoCov">          0 :         return fail;</span>
+<a name="482"><span class="lineNum">     482 </span>            : }</a>
+<span class="lineNum">     483 </span>            : 
+<span class="lineNum">     484 </span><span class="lineNoCov">          0 : bool cSceneImitate::CheckRootRotFail(const cSimCharacter&amp; sim_char, const cKinCharacter&amp; kin_char) const</span>
+<span class="lineNum">     485 </span>            : {
+<span class="lineNum">     486 </span><span class="lineNoCov">          0 :         const double threshold = 0.5 * M_PI;</span>
+<span class="lineNum">     487 </span>            : 
+<span class="lineNum">     488 </span><span class="lineNoCov">          0 :         tQuaternion sim_rot = sim_char.GetRootRotation();</span>
+<span class="lineNum">     489 </span><span class="lineNoCov">          0 :         tQuaternion kin_rot = kin_char.GetRootRotation();</span>
+<span class="lineNum">     490 </span><span class="lineNoCov">          0 :         double rot_diff = cMathUtil::QuatDiffTheta(sim_rot, kin_rot);</span>
+<span class="lineNum">     491 </span><span class="lineNoCov">          0 :         return rot_diff &gt; threshold;</span>
+<a name="492"><span class="lineNum">     492 </span>            : }</a>
+<span class="lineNum">     493 </span>            : 
+<span class="lineNum">     494 </span><span class="lineNoCov">          0 : double cSceneImitate::CalcRandKinResetTime()</span>
+<span class="lineNum">     495 </span>            : {
+<span class="lineNum">     496 </span><span class="lineNoCov">          0 :         const auto&amp; kin_char = GetKinChar();</span>
+<span class="lineNum">     497 </span><span class="lineNoCov">          0 :         double dur = kin_char-&gt;GetMotionDuration();</span>
+<a name="498"><span class="lineNum">     498 </span><span class="lineNoCov">          0 :         double rand_time = cMathUtil::RandDouble(0, dur);</span></a>
+<span class="lineNum">     499 </span><span class="lineNoCov">          0 :         return rand_time;</span>
+<span class="lineNum">     500 </span><span class="lineCov">          3 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

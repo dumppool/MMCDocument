@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Main Call Code Analysis - DeepMimicCore/anim/KinCharacter.h</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">DeepMimicCore/anim</a> - KinCharacter.h<span style="font-size: 80%;"> (source / <a href="KinCharacter.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Main Call Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 16:51:56</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntryLo">66.7 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : #pragma once</a>
+<span class="lineNum">       2 </span>            : 
+<span class="lineNum">       3 </span>            : #include &quot;anim/Character.h&quot;
+<span class="lineNum">       4 </span>            : #include &quot;anim/Motion.h&quot;
+<span class="lineNum">       5 </span>            : 
+<span class="lineNum">       6 </span>            : class cKinCharacter : public cCharacter
+<a name="7"><span class="lineNum">       7 </span>            : {</a>
+<span class="lineNum">       8 </span>            : public:
+<a name="9"><span class="lineNum">       9 </span><span class="lineCov">          1 :         EIGEN_MAKE_ALIGNED_OPERATOR_NEW</span></a>
+<span class="lineNum">      10 </span>            : 
+<span class="lineNum">      11 </span><span class="lineCov">          1 :         struct tParams</span>
+<span class="lineNum">      12 </span>            :         {
+<span class="lineNum">      13 </span>            :                 EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+<span class="lineNum">      14 </span>            : 
+<span class="lineNum">      15 </span>            :                 tParams();
+<span class="lineNum">      16 </span>            : 
+<span class="lineNum">      17 </span>            :                 int mID;
+<span class="lineNum">      18 </span>            :                 std::string mCharFile;
+<span class="lineNum">      19 </span>            :                 std::string mMotionFile;
+<span class="lineNum">      20 </span>            :                 std::string mStateFile;
+<span class="lineNum">      21 </span>            :                 tVector mOrigin;
+<span class="lineNum">      22 </span>            :                 bool mLoadDrawShapes;
+<span class="lineNum">      23 </span>            :         };
+<span class="lineNum">      24 </span>            : 
+<span class="lineNum">      25 </span>            :         cKinCharacter();
+<span class="lineNum">      26 </span>            :         virtual ~cKinCharacter();
+<span class="lineNum">      27 </span>            : 
+<span class="lineNum">      28 </span>            :         virtual bool Init(const tParams&amp; params);
+<span class="lineNum">      29 </span>            :         virtual void Clear();
+<span class="lineNum">      30 </span>            :         virtual void Update(double time_step);
+<span class="lineNum">      31 </span>            :         virtual void Reset();
+<span class="lineNum">      32 </span>            : 
+<span class="lineNum">      33 </span>            :         virtual bool LoadMotion(const std::string&amp; motion_file);
+<span class="lineNum">      34 </span>            :         virtual const cMotion&amp; GetMotion() const;
+<span class="lineNum">      35 </span>            :         virtual double GetMotionDuration() const;
+<span class="lineNum">      36 </span>            :         virtual void SetMotionDuration(double dur);
+<span class="lineNum">      37 </span>            :         virtual void SetTime(double time);
+<span class="lineNum">      38 </span>            :         virtual double GetTime() const;
+<span class="lineNum">      39 </span>            :         virtual int GetCycle() const;
+<span class="lineNum">      40 </span>            :         virtual double GetPhase() const;
+<span class="lineNum">      41 </span>            : 
+<span class="lineNum">      42 </span>            :         virtual void Pose(double time);
+<span class="lineNum">      43 </span>            :         virtual void BuildAcc(Eigen::VectorXd&amp; out_acc) const;
+<span class="lineNum">      44 </span>            :         
+<span class="lineNum">      45 </span>            :         virtual bool HasMotion() const;
+<span class="lineNum">      46 </span>            : 
+<span class="lineNum">      47 </span>            :         virtual void SetRootPos(const tVector&amp; pos);
+<span class="lineNum">      48 </span>            :         virtual void SetRootRotation(const tQuaternion&amp; q);
+<span class="lineNum">      49 </span>            : 
+<span class="lineNum">      50 </span>            :         virtual const tVector&amp; GetOriginPos() const;
+<span class="lineNum">      51 </span>            :         virtual void SetOriginPos(const tVector&amp; origin);
+<span class="lineNum">      52 </span>            :         virtual void MoveOrigin(const tVector&amp; delta);
+<span class="lineNum">      53 </span>            :         virtual const tQuaternion&amp; GetOriginRot() const;
+<span class="lineNum">      54 </span>            :         virtual void SetOriginRot(const tQuaternion&amp; rot);
+<span class="lineNum">      55 </span>            :         virtual void RotateOrigin(const tQuaternion&amp; rot);
+<span class="lineNum">      56 </span>            : 
+<span class="lineNum">      57 </span>            :         virtual void CalcPose(double time, Eigen::VectorXd&amp; out_pose) const;
+<span class="lineNum">      58 </span>            :         virtual void CalcVel(double time, Eigen::VectorXd&amp; out_vel) const;
+<span class="lineNum">      59 </span>            :         virtual void CalcAcc(double time, Eigen::VectorXd&amp; out_vel) const;
+<span class="lineNum">      60 </span>            : 
+<span class="lineNum">      61 </span>            :         virtual bool IsMotionOver() const;
+<span class="lineNum">      62 </span>            : 
+<span class="lineNum">      63 </span>            :         // motion processing methods
+<span class="lineNum">      64 </span>            :         virtual void BlendFrames(const cMotion::tFrame* a, const cMotion::tFrame* b, double lerp, cMotion::tFrame* out_frame) const;
+<span class="lineNum">      65 </span>            :         virtual void MirrorFrame(const std::vector&lt;int&gt;* right_joints, const std::vector&lt;int&gt;* left_joints, cMotion::tFrame* out_frame) const;
+<span class="lineNum">      66 </span>            :         virtual void CalcFrameVel(const cMotion::tFrame* a, const cMotion::tFrame* b, double timestep, cMotion::tFrame* out_vel) const;
+<span class="lineNum">      67 </span>            :         virtual void PostProcessFrame(cMotion::tFrame* out_frame) const;
+<span class="lineNum">      68 </span>            :         
+<span class="lineNum">      69 </span>            :         virtual tVector GetCycleRootDelta() const;
+<span class="lineNum">      70 </span>            : 
+<span class="lineNum">      71 </span>            : protected:
+<span class="lineNum">      72 </span>            :         double mTime;
+<span class="lineNum">      73 </span>            :         cMotion mMotion;
+<span class="lineNum">      74 </span>            : 
+<span class="lineNum">      75 </span>            :         tVector mCycleRootDelta;
+<span class="lineNum">      76 </span>            :         tVector mOrigin;
+<span class="lineNum">      77 </span>            :         tQuaternion mOriginRot;
+<span class="lineNum">      78 </span>            : 
+<span class="lineNum">      79 </span>            :         virtual void ResetParams();
+<span class="lineNum">      80 </span>            :         virtual tVector CalcCycleRootDelta() const;
+<span class="lineNum">      81 </span>            : };
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

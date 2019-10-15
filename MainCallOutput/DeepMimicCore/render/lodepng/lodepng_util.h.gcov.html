@@ -1,0 +1,235 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Main Call Code Analysis - DeepMimicCore/render/lodepng/lodepng_util.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../index.html">top level</a> - <a href="index.html">DeepMimicCore/render/lodepng</a> - lodepng_util.h<span style="font-size: 80%;"> (source / <a href="lodepng_util.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Main Call Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 16:51:56</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /*</a>
+<span class="lineNum">       2 </span>            : LodePNG Utils
+<span class="lineNum">       3 </span>            : 
+<span class="lineNum">       4 </span>            : Copyright (c) 2005-2014 Lode Vandevenne
+<span class="lineNum">       5 </span>            : 
+<span class="lineNum">       6 </span>            : This software is provided 'as-is', without any express or implied
+<span class="lineNum">       7 </span>            : warranty. In no event will the authors be held liable for any damages
+<span class="lineNum">       8 </span>            : arising from the use of this software.
+<span class="lineNum">       9 </span>            : 
+<span class="lineNum">      10 </span>            : Permission is granted to anyone to use this software for any purpose,
+<span class="lineNum">      11 </span>            : including commercial applications, and to alter it and redistribute it
+<span class="lineNum">      12 </span>            : freely, subject to the following restrictions:
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span>            :     1. The origin of this software must not be misrepresented; you must not
+<span class="lineNum">      15 </span>            :     claim that you wrote the original software. If you use this software
+<span class="lineNum">      16 </span>            :     in a product, an acknowledgment in the product documentation would be
+<span class="lineNum">      17 </span>            :     appreciated but is not required.
+<span class="lineNum">      18 </span>            : 
+<span class="lineNum">      19 </span>            :     2. Altered source versions must be plainly marked as such, and must not be
+<span class="lineNum">      20 </span>            :     misrepresented as being the original software.
+<span class="lineNum">      21 </span>            : 
+<span class="lineNum">      22 </span>            :     3. This notice may not be removed or altered from any source
+<span class="lineNum">      23 </span>            :     distribution.
+<span class="lineNum">      24 </span>            : */
+<span class="lineNum">      25 </span>            : 
+<span class="lineNum">      26 </span>            : /*
+<span class="lineNum">      27 </span>            : Extra C++ utilities for LodePNG, for convenience.
+<span class="lineNum">      28 </span>            : */
+<span class="lineNum">      29 </span>            : 
+<span class="lineNum">      30 </span>            : #include &lt;string&gt;
+<span class="lineNum">      31 </span>            : #include &lt;vector&gt;
+<span class="lineNum">      32 </span>            : #include &quot;lodepng.h&quot;
+<span class="lineNum">      33 </span>            : 
+<span class="lineNum">      34 </span>            : #pragma once
+<span class="lineNum">      35 </span>            : 
+<span class="lineNum">      36 </span>            : namespace lodepng
+<span class="lineNum">      37 </span>            : {
+<span class="lineNum">      38 </span>            : 
+<span class="lineNum">      39 </span>            : /*
+<span class="lineNum">      40 </span>            : Returns info from the header of the PNG by value, purely for convenience.
+<span class="lineNum">      41 </span>            : Does NOT check for errors. Returns bogus info if the PNG has an error.
+<span class="lineNum">      42 </span>            : Does not require cleanup of allocated memory because no palette or text chunk
+<span class="lineNum">      43 </span>            : info is in the LodePNGInfo object after checking only the header of the PNG.
+<span class="lineNum">      44 </span>            : */
+<span class="lineNum">      45 </span>            : LodePNGInfo getPNGHeaderInfo(const std::vector&lt;unsigned char&gt;&amp; png);
+<span class="lineNum">      46 </span>            : 
+<span class="lineNum">      47 </span>            : /*
+<span class="lineNum">      48 </span>            : Get the names and sizes of all chunks in the PNG file.
+<span class="lineNum">      49 </span>            : Returns 0 if ok, non-0 if error happened.
+<span class="lineNum">      50 </span>            : */
+<span class="lineNum">      51 </span>            : unsigned getChunkInfo(std::vector&lt;std::string&gt;&amp; names, std::vector&lt;size_t&gt;&amp; sizes,
+<span class="lineNum">      52 </span>            :                       const std::vector&lt;unsigned char&gt;&amp; png);
+<span class="lineNum">      53 </span>            : 
+<span class="lineNum">      54 </span>            : /*
+<span class="lineNum">      55 </span>            : Returns the names and full chunks (including the name and everything else that
+<span class="lineNum">      56 </span>            : makes up the chunk) for all chunks except IHDR, PLTE, IDAT and IEND.
+<span class="lineNum">      57 </span>            : It separates the chunks into 3 separate lists, representing the chunks between
+<span class="lineNum">      58 </span>            : certain critical chunks: 0: IHDR-PLTE, 1: PLTE-IDAT, 2: IDAT-IEND
+<span class="lineNum">      59 </span>            : Returns 0 if ok, non-0 if error happened.
+<span class="lineNum">      60 </span>            : */
+<span class="lineNum">      61 </span>            : unsigned getChunks(std::vector&lt;std::string&gt; names[3],
+<span class="lineNum">      62 </span>            :                    std::vector&lt;std::vector&lt;unsigned char&gt; &gt; chunks[3],
+<span class="lineNum">      63 </span>            :                    const std::vector&lt;unsigned char&gt;&amp; png);
+<span class="lineNum">      64 </span>            : 
+<span class="lineNum">      65 </span>            : /*
+<span class="lineNum">      66 </span>            : Inserts chunks into the given png file. The chunks must be fully encoded,
+<span class="lineNum">      67 </span>            : including length, type, content and CRC.
+<span class="lineNum">      68 </span>            : The array index determines where it goes:
+<span class="lineNum">      69 </span>            : 0: between IHDR and PLTE, 1: between PLTE and IDAT, 2: between IDAT and IEND.
+<span class="lineNum">      70 </span>            : They're appended at the end of those locations within the PNG.
+<span class="lineNum">      71 </span>            : Returns 0 if ok, non-0 if error happened.
+<span class="lineNum">      72 </span>            : */
+<span class="lineNum">      73 </span>            : unsigned insertChunks(std::vector&lt;unsigned char&gt;&amp; png,
+<span class="lineNum">      74 </span>            :                       const std::vector&lt;std::vector&lt;unsigned char&gt; &gt; chunks[3]);
+<span class="lineNum">      75 </span>            : 
+<span class="lineNum">      76 </span>            : /*
+<span class="lineNum">      77 </span>            : Get the filtertypes of each scanline in this PNG file.
+<span class="lineNum">      78 </span>            : Returns 0 if ok, 1 if PNG decoding error happened.
+<span class="lineNum">      79 </span>            : 
+<span class="lineNum">      80 </span>            : For a non-interlaced PNG, it returns one filtertype per scanline, in order.
+<span class="lineNum">      81 </span>            : 
+<span class="lineNum">      82 </span>            : For interlaced PNGs, it returns a result as if it's not interlaced. It returns
+<span class="lineNum">      83 </span>            : one filtertype per scanline, in order. The values match pass 6 and 7 of the
+<span class="lineNum">      84 </span>            : Adam7 interlacing, alternating between the two, so that the values correspond
+<span class="lineNum">      85 </span>            : the most to their scanlines.
+<span class="lineNum">      86 </span>            : */
+<span class="lineNum">      87 </span>            : unsigned getFilterTypes(std::vector&lt;unsigned char&gt;&amp; filterTypes, const std::vector&lt;unsigned char&gt;&amp; png);
+<span class="lineNum">      88 </span>            : 
+<span class="lineNum">      89 </span>            : /*
+<span class="lineNum">      90 </span>            : Get the filtertypes of each scanline in every interlace pass this PNG file.
+<span class="lineNum">      91 </span>            : Returns 0 if ok, 1 if PNG decoding error happened.
+<span class="lineNum">      92 </span>            : 
+<span class="lineNum">      93 </span>            : For a non-interlaced PNG, it returns one filtertype per scanline, in order, in
+<span class="lineNum">      94 </span>            : a single std::vector in filterTypes.
+<span class="lineNum">      95 </span>            : 
+<span class="lineNum">      96 </span>            : For an interlaced PNG, it returns 7 std::vectors in filterTypes, one for each
+<span class="lineNum">      97 </span>            : Adam7 pass. The amount of values per pass can be calculated as follows, where
+<span class="lineNum">      98 </span>            : w and h are the size of the image and all divisions are integer divisions:
+<span class="lineNum">      99 </span>            : pass 1: (h + 7) / 8
+<span class="lineNum">     100 </span>            : pass 2: w &lt;= 4 ? 0 : (h + 7) / 8
+<span class="lineNum">     101 </span>            : pass 3: h &lt;= 4 ? 0 : (h + 7) / 8
+<span class="lineNum">     102 </span>            : pass 4: w &lt;= 2 ? 0 : (h + 3) / 4
+<span class="lineNum">     103 </span>            : pass 5: h &lt;= 2 ? 0 : (h + 3) / 4
+<span class="lineNum">     104 </span>            : pass 6: w &lt;= 1 ? 0 : (h + 1) / 2
+<span class="lineNum">     105 </span>            : pass 7: h &lt;= 1 ? 0 : (h + 1) / 2
+<span class="lineNum">     106 </span>            : */
+<span class="lineNum">     107 </span>            : unsigned getFilterTypesInterlaced(std::vector&lt;std::vector&lt;unsigned char&gt; &gt;&amp; filterTypes,
+<span class="lineNum">     108 </span>            :                                   const std::vector&lt;unsigned char&gt;&amp; png);
+<span class="lineNum">     109 </span>            : 
+<span class="lineNum">     110 </span>            : /*
+<span class="lineNum">     111 </span>            : Returns the value of the i-th pixel in an image with 1, 2, 4 or 8-bit color.
+<span class="lineNum">     112 </span>            : E.g. if bits is 4 and i is 5, it returns the 5th nibble (4-bit group), which
+<span class="lineNum">     113 </span>            : is the second half of the 3th byte, in big endian (PNG's endian order).
+<span class="lineNum">     114 </span>            : */
+<span class="lineNum">     115 </span>            : int getPaletteValue(const unsigned char* data, size_t i, int bits);
+<span class="lineNum">     116 </span>            : 
+<span class="lineNum">     117 </span>            : /*
+<a name="118"><span class="lineNum">     118 </span>            : The information for extractZlibInfo.</a>
+<span class="lineNum">     119 </span>            : */
+<span class="lineNum">     120 </span><span class="lineNoCov">          0 : struct ZlibBlockInfo</span>
+<span class="lineNum">     121 </span>            : {
+<span class="lineNum">     122 </span>            :   int btype; //block type (0-2)
+<span class="lineNum">     123 </span>            :   size_t compressedbits; //size of compressed block in bits
+<span class="lineNum">     124 </span>            :   size_t uncompressedbytes; //size of uncompressed block in bytes
+<span class="lineNum">     125 </span>            : 
+<span class="lineNum">     126 </span>            :   // only filled in for block type 2
+<span class="lineNum">     127 </span>            :   size_t treebits; //encoded tree size in bits
+<span class="lineNum">     128 </span>            :   int hlit; //the HLIT value that was filled in for this tree
+<span class="lineNum">     129 </span>            :   int hdist; //the HDIST value that was filled in for this tree
+<span class="lineNum">     130 </span>            :   int hclen; //the HCLEN value that was filled in for this tree
+<span class="lineNum">     131 </span>            :   std::vector&lt;int&gt; clcl; //19 code length code lengths (compressed tree's tree)
+<span class="lineNum">     132 </span>            :   std::vector&lt;int&gt; treecodes; //N tree codes, with values 0-18. Values 17 or 18 are followed by the repetition value.
+<span class="lineNum">     133 </span>            :   std::vector&lt;int&gt; litlenlengths; //288 code lengths for lit/len symbols
+<span class="lineNum">     134 </span>            :   std::vector&lt;int&gt; distlengths; //32 code lengths for dist symbols
+<span class="lineNum">     135 </span>            : 
+<span class="lineNum">     136 </span>            :   // only filled in for block types 1 or 2
+<span class="lineNum">     137 </span>            :   std::vector&lt;int&gt; lz77_lcode; //LZ77 codes. 0-255: literals. 256: end symbol. 257-285: length code of length/dist pairs
+<span class="lineNum">     138 </span>            :   // the next vectors have the same size as lz77_lcode, but an element only has meaningful value if lz77_lcode contains a length code.
+<span class="lineNum">     139 </span>            :   std::vector&lt;int&gt; lz77_dcode;
+<span class="lineNum">     140 </span>            :   std::vector&lt;int&gt; lz77_lbits;
+<span class="lineNum">     141 </span>            :   std::vector&lt;int&gt; lz77_dbits;
+<span class="lineNum">     142 </span>            :   std::vector&lt;int&gt; lz77_lvalue;
+<span class="lineNum">     143 </span>            :   std::vector&lt;int&gt; lz77_dvalue;
+<span class="lineNum">     144 </span>            :   size_t numlit; //number of lit codes in this block
+<span class="lineNum">     145 </span>            :   size_t numlen; //number of len codes in this block
+<span class="lineNum">     146 </span>            : };
+<span class="lineNum">     147 </span>            : 
+<span class="lineNum">     148 </span>            : //Extracts all info needed from a PNG file to reconstruct the zlib compression exactly.
+<span class="lineNum">     149 </span>            : void extractZlibInfo(std::vector&lt;ZlibBlockInfo&gt;&amp; zlibinfo, const std::vector&lt;unsigned char&gt;&amp; in);
+<span class="lineNum">     150 </span>            : 
+<span class="lineNum">     151 </span>            : } // namespace lodepng
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

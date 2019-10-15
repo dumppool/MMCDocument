@@ -1,0 +1,589 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Main Call Code Analysis - /usr/local/include/eigen3/Eigen/src/Core/Redux.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../../index.html">top level</a> - <a href="index.html">usr/local/include/eigen3/Eigen/src/Core</a> - Redux.h<span style="font-size: 80%;"> (source / <a href="Redux.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Main Call Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">70</td>
+            <td class="headerCovTableEntry">85</td>
+            <td class="headerCovTableEntryMed">82.4 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 16:51:56</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">191</td>
+            <td class="headerCovTableEntry">435</td>
+            <td class="headerCovTableEntryLo">43.9 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // This file is part of Eigen, a lightweight C++ template library</a>
+<span class="lineNum">       2 </span>            : // for linear algebra.
+<span class="lineNum">       3 </span>            : //
+<span class="lineNum">       4 </span>            : // Copyright (C) 2008 Gael Guennebaud &lt;gael.guennebaud@inria.fr&gt;
+<span class="lineNum">       5 </span>            : // Copyright (C) 2006-2008 Benoit Jacob &lt;jacob.benoit.1@gmail.com&gt;
+<span class="lineNum">       6 </span>            : //
+<span class="lineNum">       7 </span>            : // This Source Code Form is subject to the terms of the Mozilla
+<span class="lineNum">       8 </span>            : // Public License v. 2.0. If a copy of the MPL was not distributed
+<span class="lineNum">       9 </span>            : // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+<span class="lineNum">      10 </span>            : 
+<span class="lineNum">      11 </span>            : #ifndef EIGEN_REDUX_H
+<span class="lineNum">      12 </span>            : #define EIGEN_REDUX_H
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span>            : namespace Eigen { 
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span>            : namespace internal {
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span>            : // TODO
+<span class="lineNum">      19 </span>            : //  * implement other kind of vectorization
+<span class="lineNum">      20 </span>            : //  * factorize code
+<span class="lineNum">      21 </span>            : 
+<span class="lineNum">      22 </span>            : /***************************************************************************
+<span class="lineNum">      23 </span>            : * Part 1 : the logic deciding a strategy for vectorization and unrolling
+<span class="lineNum">      24 </span>            : ***************************************************************************/
+<span class="lineNum">      25 </span>            : 
+<span class="lineNum">      26 </span>            : template&lt;typename Func, typename Derived&gt;
+<span class="lineNum">      27 </span>            : struct redux_traits
+<span class="lineNum">      28 </span>            : {
+<span class="lineNum">      29 </span>            : public:
+<span class="lineNum">      30 </span>            :     typedef typename find_best_packet&lt;typename Derived::Scalar,Derived::SizeAtCompileTime&gt;::type PacketType;
+<span class="lineNum">      31 </span>            :   enum {
+<span class="lineNum">      32 </span>            :     PacketSize = unpacket_traits&lt;PacketType&gt;::size,
+<span class="lineNum">      33 </span>            :     InnerMaxSize = int(Derived::IsRowMajor)
+<span class="lineNum">      34 </span>            :                  ? Derived::MaxColsAtCompileTime
+<span class="lineNum">      35 </span>            :                  : Derived::MaxRowsAtCompileTime
+<span class="lineNum">      36 </span>            :   };
+<span class="lineNum">      37 </span>            : 
+<span class="lineNum">      38 </span>            :   enum {
+<span class="lineNum">      39 </span>            :     MightVectorize = (int(Derived::Flags)&amp;ActualPacketAccessBit)
+<span class="lineNum">      40 </span>            :                   &amp;&amp; (functor_traits&lt;Func&gt;::PacketAccess),
+<span class="lineNum">      41 </span>            :     MayLinearVectorize = bool(MightVectorize) &amp;&amp; (int(Derived::Flags)&amp;LinearAccessBit),
+<span class="lineNum">      42 </span>            :     MaySliceVectorize  = bool(MightVectorize) &amp;&amp; int(InnerMaxSize)&gt;=3*PacketSize
+<span class="lineNum">      43 </span>            :   };
+<span class="lineNum">      44 </span>            : 
+<span class="lineNum">      45 </span>            : public:
+<span class="lineNum">      46 </span>            :   enum {
+<span class="lineNum">      47 </span>            :     Traversal = int(MayLinearVectorize) ? int(LinearVectorizedTraversal)
+<span class="lineNum">      48 </span>            :               : int(MaySliceVectorize)  ? int(SliceVectorizedTraversal)
+<span class="lineNum">      49 </span>            :                                         : int(DefaultTraversal)
+<span class="lineNum">      50 </span>            :   };
+<span class="lineNum">      51 </span>            : 
+<span class="lineNum">      52 </span>            : public:
+<span class="lineNum">      53 </span>            :   enum {
+<span class="lineNum">      54 </span>            :     Cost = Derived::SizeAtCompileTime == Dynamic ? HugeCost
+<span class="lineNum">      55 </span>            :          : Derived::SizeAtCompileTime * Derived::CoeffReadCost + (Derived::SizeAtCompileTime-1) * functor_traits&lt;Func&gt;::Cost,
+<span class="lineNum">      56 </span>            :     UnrollingLimit = EIGEN_UNROLLING_LIMIT * (int(Traversal) == int(DefaultTraversal) ? 1 : int(PacketSize))
+<span class="lineNum">      57 </span>            :   };
+<span class="lineNum">      58 </span>            : 
+<span class="lineNum">      59 </span>            : public:
+<span class="lineNum">      60 </span>            :   enum {
+<span class="lineNum">      61 </span>            :     Unrolling = Cost &lt;= UnrollingLimit ? CompleteUnrolling : NoUnrolling
+<span class="lineNum">      62 </span>            :   };
+<span class="lineNum">      63 </span>            :   
+<span class="lineNum">      64 </span>            : #ifdef EIGEN_DEBUG_ASSIGN
+<span class="lineNum">      65 </span>            :   static void debug()
+<span class="lineNum">      66 </span>            :   {
+<span class="lineNum">      67 </span>            :     std::cerr &lt;&lt; &quot;Xpr: &quot; &lt;&lt; typeid(typename Derived::XprType).name() &lt;&lt; std::endl;
+<span class="lineNum">      68 </span>            :     std::cerr.setf(std::ios::hex, std::ios::basefield);
+<span class="lineNum">      69 </span>            :     EIGEN_DEBUG_VAR(Derived::Flags)
+<span class="lineNum">      70 </span>            :     std::cerr.unsetf(std::ios::hex);
+<span class="lineNum">      71 </span>            :     EIGEN_DEBUG_VAR(InnerMaxSize)
+<span class="lineNum">      72 </span>            :     EIGEN_DEBUG_VAR(PacketSize)
+<span class="lineNum">      73 </span>            :     EIGEN_DEBUG_VAR(MightVectorize)
+<span class="lineNum">      74 </span>            :     EIGEN_DEBUG_VAR(MayLinearVectorize)
+<span class="lineNum">      75 </span>            :     EIGEN_DEBUG_VAR(MaySliceVectorize)
+<span class="lineNum">      76 </span>            :     EIGEN_DEBUG_VAR(Traversal)
+<span class="lineNum">      77 </span>            :     EIGEN_DEBUG_VAR(UnrollingLimit)
+<span class="lineNum">      78 </span>            :     EIGEN_DEBUG_VAR(Unrolling)
+<span class="lineNum">      79 </span>            :     std::cerr &lt;&lt; std::endl;
+<span class="lineNum">      80 </span>            :   }
+<span class="lineNum">      81 </span>            : #endif
+<span class="lineNum">      82 </span>            : };
+<span class="lineNum">      83 </span>            : 
+<span class="lineNum">      84 </span>            : /***************************************************************************
+<span class="lineNum">      85 </span>            : * Part 2 : unrollers
+<span class="lineNum">      86 </span>            : ***************************************************************************/
+<span class="lineNum">      87 </span>            : 
+<span class="lineNum">      88 </span>            : /*** no vectorization ***/
+<span class="lineNum">      89 </span>            : 
+<span class="lineNum">      90 </span>            : template&lt;typename Func, typename Derived, int Start, int Length&gt;
+<span class="lineNum">      91 </span>            : struct redux_novec_unroller
+<span class="lineNum">      92 </span>            : {
+<span class="lineNum">      93 </span>            :   enum {
+<span class="lineNum">      94 </span>            :     HalfLength = Length/2
+<span class="lineNum">      95 </span>            :   };
+<span class="lineNum">      96 </span>            : 
+<span class="lineNum">      97 </span>            :   typedef typename Derived::Scalar Scalar;
+<a name="98"><span class="lineNum">      98 </span>            : </a>
+<span class="lineNum">      99 </span>            :   EIGEN_DEVICE_FUNC
+<span class="lineNum">     100 </span><span class="lineNoCov">          0 :   static EIGEN_STRONG_INLINE Scalar run(const Derived &amp;mat, const Func&amp; func)</span>
+<span class="lineNum">     101 </span>            :   {
+<span class="lineNum">     102 </span><span class="lineNoCov">          0 :     return func(redux_novec_unroller&lt;Func, Derived, Start, HalfLength&gt;::run(mat,func),</span>
+<span class="lineNum">     103 </span><span class="lineNoCov">          0 :                 redux_novec_unroller&lt;Func, Derived, Start+HalfLength, Length-HalfLength&gt;::run(mat,func));</span>
+<span class="lineNum">     104 </span>            :   }
+<span class="lineNum">     105 </span>            : };
+<span class="lineNum">     106 </span>            : 
+<span class="lineNum">     107 </span>            : template&lt;typename Func, typename Derived, int Start&gt;
+<span class="lineNum">     108 </span>            : struct redux_novec_unroller&lt;Func, Derived, Start, 1&gt;
+<span class="lineNum">     109 </span>            : {
+<span class="lineNum">     110 </span>            :   enum {
+<span class="lineNum">     111 </span>            :     outer = Start / Derived::InnerSizeAtCompileTime,
+<span class="lineNum">     112 </span>            :     inner = Start % Derived::InnerSizeAtCompileTime
+<span class="lineNum">     113 </span>            :   };
+<span class="lineNum">     114 </span>            : 
+<span class="lineNum">     115 </span>            :   typedef typename Derived::Scalar Scalar;
+<a name="116"><span class="lineNum">     116 </span>            : </a>
+<span class="lineNum">     117 </span>            :   EIGEN_DEVICE_FUNC
+<span class="lineNum">     118 </span><span class="lineNoCov">          0 :   static EIGEN_STRONG_INLINE Scalar run(const Derived &amp;mat, const Func&amp;)</span>
+<span class="lineNum">     119 </span>            :   {
+<span class="lineNum">     120 </span><span class="lineNoCov">          0 :     return mat.coeffByOuterInner(outer, inner);</span>
+<span class="lineNum">     121 </span>            :   }
+<span class="lineNum">     122 </span>            : };
+<span class="lineNum">     123 </span>            : 
+<span class="lineNum">     124 </span>            : // This is actually dead code and will never be called. It is required
+<span class="lineNum">     125 </span>            : // to prevent false warnings regarding failed inlining though
+<span class="lineNum">     126 </span>            : // for 0 length run() will never be called at all.
+<span class="lineNum">     127 </span>            : template&lt;typename Func, typename Derived, int Start&gt;
+<span class="lineNum">     128 </span>            : struct redux_novec_unroller&lt;Func, Derived, Start, 0&gt;
+<span class="lineNum">     129 </span>            : {
+<span class="lineNum">     130 </span>            :   typedef typename Derived::Scalar Scalar;
+<span class="lineNum">     131 </span>            :   EIGEN_DEVICE_FUNC 
+<span class="lineNum">     132 </span>            :   static EIGEN_STRONG_INLINE Scalar run(const Derived&amp;, const Func&amp;) { return Scalar(); }
+<span class="lineNum">     133 </span>            : };
+<span class="lineNum">     134 </span>            : 
+<span class="lineNum">     135 </span>            : /*** vectorization ***/
+<span class="lineNum">     136 </span>            : 
+<span class="lineNum">     137 </span>            : template&lt;typename Func, typename Derived, int Start, int Length&gt;
+<span class="lineNum">     138 </span>            : struct redux_vec_unroller
+<span class="lineNum">     139 </span>            : {
+<span class="lineNum">     140 </span>            :   enum {
+<span class="lineNum">     141 </span>            :     PacketSize = redux_traits&lt;Func, Derived&gt;::PacketSize,
+<span class="lineNum">     142 </span>            :     HalfLength = Length/2
+<span class="lineNum">     143 </span>            :   };
+<span class="lineNum">     144 </span>            : 
+<span class="lineNum">     145 </span>            :   typedef typename Derived::Scalar Scalar;
+<a name="146"><span class="lineNum">     146 </span>            :   typedef typename redux_traits&lt;Func, Derived&gt;::PacketType PacketScalar;</a>
+<span class="lineNum">     147 </span>            : 
+<span class="lineNum">     148 </span><span class="lineCov">     169113 :   static EIGEN_STRONG_INLINE PacketScalar run(const Derived &amp;mat, const Func&amp; func)</span>
+<span class="lineNum">     149 </span>            :   {
+<span class="lineNum">     150 </span>            :     return func.packetOp(
+<span class="lineNum">     151 </span><span class="lineCov">     169113 :             redux_vec_unroller&lt;Func, Derived, Start, HalfLength&gt;::run(mat,func),</span>
+<span class="lineNum">     152 </span><span class="lineCov">     338226 :             redux_vec_unroller&lt;Func, Derived, Start+HalfLength, Length-HalfLength&gt;::run(mat,func) );</span>
+<span class="lineNum">     153 </span>            :   }
+<span class="lineNum">     154 </span>            : };
+<span class="lineNum">     155 </span>            : 
+<span class="lineNum">     156 </span>            : template&lt;typename Func, typename Derived, int Start&gt;
+<span class="lineNum">     157 </span>            : struct redux_vec_unroller&lt;Func, Derived, Start, 1&gt;
+<span class="lineNum">     158 </span>            : {
+<span class="lineNum">     159 </span>            :   enum {
+<span class="lineNum">     160 </span>            :     index = Start * redux_traits&lt;Func, Derived&gt;::PacketSize,
+<span class="lineNum">     161 </span>            :     outer = index / int(Derived::InnerSizeAtCompileTime),
+<span class="lineNum">     162 </span>            :     inner = index % int(Derived::InnerSizeAtCompileTime),
+<span class="lineNum">     163 </span>            :     alignment = Derived::Alignment
+<span class="lineNum">     164 </span>            :   };
+<span class="lineNum">     165 </span>            : 
+<span class="lineNum">     166 </span>            :   typedef typename Derived::Scalar Scalar;
+<a name="167"><span class="lineNum">     167 </span>            :   typedef typename redux_traits&lt;Func, Derived&gt;::PacketType PacketScalar;</a>
+<span class="lineNum">     168 </span>            : 
+<span class="lineNum">     169 </span><span class="lineCov">     338226 :   static EIGEN_STRONG_INLINE PacketScalar run(const Derived &amp;mat, const Func&amp;)</span>
+<span class="lineNum">     170 </span>            :   {
+<span class="lineNum">     171 </span><span class="lineCov">     338226 :     return mat.template packetByOuterInner&lt;alignment,PacketScalar&gt;(outer, inner);</span>
+<span class="lineNum">     172 </span>            :   }
+<span class="lineNum">     173 </span>            : };
+<span class="lineNum">     174 </span>            : 
+<span class="lineNum">     175 </span>            : /***************************************************************************
+<span class="lineNum">     176 </span>            : * Part 3 : implementation of all cases
+<span class="lineNum">     177 </span>            : ***************************************************************************/
+<span class="lineNum">     178 </span>            : 
+<span class="lineNum">     179 </span>            : template&lt;typename Func, typename Derived,
+<span class="lineNum">     180 </span>            :          int Traversal = redux_traits&lt;Func, Derived&gt;::Traversal,
+<span class="lineNum">     181 </span>            :          int Unrolling = redux_traits&lt;Func, Derived&gt;::Unrolling
+<span class="lineNum">     182 </span>            : &gt;
+<span class="lineNum">     183 </span>            : struct redux_impl;
+<span class="lineNum">     184 </span>            : 
+<span class="lineNum">     185 </span>            : template&lt;typename Func, typename Derived&gt;
+<span class="lineNum">     186 </span>            : struct redux_impl&lt;Func, Derived, DefaultTraversal, NoUnrolling&gt;
+<span class="lineNum">     187 </span>            : {
+<a name="188"><span class="lineNum">     188 </span>            :   typedef typename Derived::Scalar Scalar;</a>
+<span class="lineNum">     189 </span>            :   EIGEN_DEVICE_FUNC
+<span class="lineNum">     190 </span><span class="lineCov">      22200 :   static EIGEN_STRONG_INLINE Scalar run(const Derived &amp;mat, const Func&amp; func)</span>
+<span class="lineNum">     191 </span>            :   {
+<span class="lineNum">     192 </span><span class="lineCov">      22200 :     eigen_assert(mat.rows()&gt;0 &amp;&amp; mat.cols()&gt;0 &amp;&amp; &quot;you are using an empty matrix&quot;);</span>
+<span class="lineNum">     193 </span>            :     Scalar res;
+<span class="lineNum">     194 </span><span class="lineCov">      22200 :     res = mat.coeffByOuterInner(0, 0);</span>
+<span class="lineNum">     195 </span><span class="lineCov">     330780 :     for(Index i = 1; i &lt; mat.innerSize(); ++i)</span>
+<span class="lineNum">     196 </span><span class="lineCov">     308580 :       res = func(res, mat.coeffByOuterInner(0, i));</span>
+<span class="lineNum">     197 </span><span class="lineCov">      22200 :     for(Index i = 1; i &lt; mat.outerSize(); ++i)</span>
+<span class="lineNum">     198 </span><span class="lineNoCov">          0 :       for(Index j = 0; j &lt; mat.innerSize(); ++j)</span>
+<span class="lineNum">     199 </span><span class="lineNoCov">          0 :         res = func(res, mat.coeffByOuterInner(i, j));</span>
+<span class="lineNum">     200 </span><span class="lineCov">      22200 :     return res;</span>
+<span class="lineNum">     201 </span>            :   }
+<span class="lineNum">     202 </span>            : };
+<span class="lineNum">     203 </span>            : 
+<span class="lineNum">     204 </span>            : template&lt;typename Func, typename Derived&gt;
+<span class="lineNum">     205 </span>            : struct redux_impl&lt;Func,Derived, DefaultTraversal, CompleteUnrolling&gt;
+<span class="lineNum">     206 </span>            :   : public redux_novec_unroller&lt;Func,Derived, 0, Derived::SizeAtCompileTime&gt;
+<span class="lineNum">     207 </span>            : {};
+<span class="lineNum">     208 </span>            : 
+<span class="lineNum">     209 </span>            : template&lt;typename Func, typename Derived&gt;
+<span class="lineNum">     210 </span>            : struct redux_impl&lt;Func, Derived, LinearVectorizedTraversal, NoUnrolling&gt;
+<span class="lineNum">     211 </span>            : {
+<span class="lineNum">     212 </span>            :   typedef typename Derived::Scalar Scalar;
+<a name="213"><span class="lineNum">     213 </span>            :   typedef typename redux_traits&lt;Func, Derived&gt;::PacketType PacketScalar;</a>
+<span class="lineNum">     214 </span>            : 
+<span class="lineNum">     215 </span><span class="lineCov">     107759 :   static Scalar run(const Derived &amp;mat, const Func&amp; func)</span>
+<span class="lineNum">     216 </span>            :   {
+<span class="lineNum">     217 </span><span class="lineCov">     107759 :     const Index size = mat.size();</span>
+<span class="lineNum">     218 </span>            :     
+<span class="lineNum">     219 </span><span class="lineCov">     107759 :     const Index packetSize = redux_traits&lt;Func, Derived&gt;::PacketSize;</span>
+<span class="lineNum">     220 </span><span class="lineCov">     107759 :     const int packetAlignment = unpacket_traits&lt;PacketScalar&gt;::alignment;</span>
+<span class="lineNum">     221 </span>            :     enum {
+<span class="lineNum">     222 </span>            :       alignment0 = (bool(Derived::Flags &amp; DirectAccessBit) &amp;&amp; bool(packet_traits&lt;Scalar&gt;::AlignedOnScalar)) ? int(packetAlignment) : int(Unaligned),
+<span class="lineNum">     223 </span>            :       alignment = EIGEN_PLAIN_ENUM_MAX(alignment0, Derived::Alignment)
+<span class="lineNum">     224 </span>            :     };
+<span class="lineNum">     225 </span><span class="lineCov">     107759 :     const Index alignedStart = internal::first_default_aligned(mat.nestedExpression());</span>
+<span class="lineNum">     226 </span><span class="lineCov">     107759 :     const Index alignedSize2 = ((size-alignedStart)/(2*packetSize))*(2*packetSize);</span>
+<span class="lineNum">     227 </span><span class="lineCov">     107759 :     const Index alignedSize = ((size-alignedStart)/(packetSize))*(packetSize);</span>
+<span class="lineNum">     228 </span><span class="lineCov">     107759 :     const Index alignedEnd2 = alignedStart + alignedSize2;</span>
+<span class="lineNum">     229 </span><span class="lineCov">     107759 :     const Index alignedEnd  = alignedStart + alignedSize;</span>
+<span class="lineNum">     230 </span>            :     Scalar res;
+<span class="lineNum">     231 </span><span class="lineCov">     107759 :     if(alignedSize)</span>
+<span class="lineNum">     232 </span>            :     {
+<span class="lineNum">     233 </span><span class="lineCov">     106497 :       PacketScalar packet_res0 = mat.template packet&lt;alignment,PacketScalar&gt;(alignedStart);</span>
+<span class="lineNum">     234 </span><span class="lineCov">     106497 :       if(alignedSize&gt;packetSize) // we have at least two packets to partly unroll the loop</span>
+<span class="lineNum">     235 </span>            :       {
+<span class="lineNum">     236 </span><span class="lineCov">     104287 :         PacketScalar packet_res1 = mat.template packet&lt;alignment,PacketScalar&gt;(alignedStart+packetSize);</span>
+<span class="lineNum">     237 </span><span class="lineCov">     134889 :         for(Index index = alignedStart + 2*packetSize; index &lt; alignedEnd2; index += 2*packetSize)</span>
+<span class="lineNum">     238 </span>            :         {
+<span class="lineNum">     239 </span><span class="lineCov">      30602 :           packet_res0 = func.packetOp(packet_res0, mat.template packet&lt;alignment,PacketScalar&gt;(index));</span>
+<span class="lineNum">     240 </span><span class="lineCov">      30602 :           packet_res1 = func.packetOp(packet_res1, mat.template packet&lt;alignment,PacketScalar&gt;(index+packetSize));</span>
+<span class="lineNum">     241 </span>            :         }
+<span class="lineNum">     242 </span>            : 
+<span class="lineNum">     243 </span><span class="lineCov">     104287 :         packet_res0 = func.packetOp(packet_res0,packet_res1);</span>
+<span class="lineNum">     244 </span><span class="lineCov">     104287 :         if(alignedEnd&gt;alignedEnd2)</span>
+<span class="lineNum">     245 </span><span class="lineCov">      96731 :           packet_res0 = func.packetOp(packet_res0, mat.template packet&lt;alignment,PacketScalar&gt;(alignedEnd2));</span>
+<span class="lineNum">     246 </span>            :       }
+<span class="lineNum">     247 </span><span class="lineCov">     106497 :       res = func.predux(packet_res0);</span>
+<span class="lineNum">     248 </span>            : 
+<span class="lineNum">     249 </span><span class="lineCov">     106497 :       for(Index index = 0; index &lt; alignedStart; ++index)</span>
+<span class="lineNum">     250 </span><span class="lineNoCov">          0 :         res = func(res,mat.coeff(index));</span>
+<span class="lineNum">     251 </span>            : 
+<span class="lineNum">     252 </span><span class="lineCov">     112618 :       for(Index index = alignedEnd; index &lt; size; ++index)</span>
+<span class="lineNum">     253 </span><span class="lineCov">       6121 :         res = func(res,mat.coeff(index));</span>
+<span class="lineNum">     254 </span>            :     }
+<span class="lineNum">     255 </span>            :     else // too small to vectorize anything.
+<span class="lineNum">     256 </span>            :          // since this is dynamic-size hence inefficient anyway for such small sizes, don't try to optimize.
+<span class="lineNum">     257 </span>            :     {
+<span class="lineNum">     258 </span><span class="lineCov">       1262 :       res = mat.coeff(0);</span>
+<span class="lineNum">     259 </span><span class="lineCov">       1262 :       for(Index index = 1; index &lt; size; ++index)</span>
+<span class="lineNum">     260 </span><span class="lineNoCov">          0 :         res = func(res,mat.coeff(index));</span>
+<span class="lineNum">     261 </span>            :     }
+<span class="lineNum">     262 </span>            : 
+<span class="lineNum">     263 </span><span class="lineCov">     107759 :     return res;</span>
+<span class="lineNum">     264 </span>            :   }
+<span class="lineNum">     265 </span>            : };
+<span class="lineNum">     266 </span>            : 
+<span class="lineNum">     267 </span>            : // NOTE: for SliceVectorizedTraversal we simply bypass unrolling
+<span class="lineNum">     268 </span>            : template&lt;typename Func, typename Derived, int Unrolling&gt;
+<span class="lineNum">     269 </span>            : struct redux_impl&lt;Func, Derived, SliceVectorizedTraversal, Unrolling&gt;
+<span class="lineNum">     270 </span>            : {
+<span class="lineNum">     271 </span>            :   typedef typename Derived::Scalar Scalar;
+<span class="lineNum">     272 </span>            :   typedef typename redux_traits&lt;Func, Derived&gt;::PacketType PacketType;
+<span class="lineNum">     273 </span>            : 
+<span class="lineNum">     274 </span>            :   EIGEN_DEVICE_FUNC static Scalar run(const Derived &amp;mat, const Func&amp; func)
+<span class="lineNum">     275 </span>            :   {
+<span class="lineNum">     276 </span>            :     eigen_assert(mat.rows()&gt;0 &amp;&amp; mat.cols()&gt;0 &amp;&amp; &quot;you are using an empty matrix&quot;);
+<span class="lineNum">     277 </span>            :     const Index innerSize = mat.innerSize();
+<span class="lineNum">     278 </span>            :     const Index outerSize = mat.outerSize();
+<span class="lineNum">     279 </span>            :     enum {
+<span class="lineNum">     280 </span>            :       packetSize = redux_traits&lt;Func, Derived&gt;::PacketSize
+<span class="lineNum">     281 </span>            :     };
+<span class="lineNum">     282 </span>            :     const Index packetedInnerSize = ((innerSize)/packetSize)*packetSize;
+<span class="lineNum">     283 </span>            :     Scalar res;
+<span class="lineNum">     284 </span>            :     if(packetedInnerSize)
+<span class="lineNum">     285 </span>            :     {
+<span class="lineNum">     286 </span>            :       PacketType packet_res = mat.template packet&lt;Unaligned,PacketType&gt;(0,0);
+<span class="lineNum">     287 </span>            :       for(Index j=0; j&lt;outerSize; ++j)
+<span class="lineNum">     288 </span>            :         for(Index i=(j==0?packetSize:0); i&lt;packetedInnerSize; i+=Index(packetSize))
+<span class="lineNum">     289 </span>            :           packet_res = func.packetOp(packet_res, mat.template packetByOuterInner&lt;Unaligned,PacketType&gt;(j,i));
+<span class="lineNum">     290 </span>            : 
+<span class="lineNum">     291 </span>            :       res = func.predux(packet_res);
+<span class="lineNum">     292 </span>            :       for(Index j=0; j&lt;outerSize; ++j)
+<span class="lineNum">     293 </span>            :         for(Index i=packetedInnerSize; i&lt;innerSize; ++i)
+<span class="lineNum">     294 </span>            :           res = func(res, mat.coeffByOuterInner(j,i));
+<span class="lineNum">     295 </span>            :     }
+<span class="lineNum">     296 </span>            :     else // too small to vectorize anything.
+<span class="lineNum">     297 </span>            :          // since this is dynamic-size hence inefficient anyway for such small sizes, don't try to optimize.
+<span class="lineNum">     298 </span>            :     {
+<span class="lineNum">     299 </span>            :       res = redux_impl&lt;Func, Derived, DefaultTraversal, NoUnrolling&gt;::run(mat, func);
+<span class="lineNum">     300 </span>            :     }
+<span class="lineNum">     301 </span>            : 
+<span class="lineNum">     302 </span>            :     return res;
+<span class="lineNum">     303 </span>            :   }
+<span class="lineNum">     304 </span>            : };
+<span class="lineNum">     305 </span>            : 
+<span class="lineNum">     306 </span>            : template&lt;typename Func, typename Derived&gt;
+<span class="lineNum">     307 </span>            : struct redux_impl&lt;Func, Derived, LinearVectorizedTraversal, CompleteUnrolling&gt;
+<span class="lineNum">     308 </span>            : {
+<span class="lineNum">     309 </span>            :   typedef typename Derived::Scalar Scalar;
+<span class="lineNum">     310 </span>            : 
+<span class="lineNum">     311 </span>            :   typedef typename redux_traits&lt;Func, Derived&gt;::PacketType PacketScalar;
+<span class="lineNum">     312 </span>            :   enum {
+<span class="lineNum">     313 </span>            :     PacketSize = redux_traits&lt;Func, Derived&gt;::PacketSize,
+<span class="lineNum">     314 </span>            :     Size = Derived::SizeAtCompileTime,
+<a name="315"><span class="lineNum">     315 </span>            :     VectorizedSize = (Size / PacketSize) * PacketSize</a>
+<span class="lineNum">     316 </span>            :   };
+<span class="lineNum">     317 </span><span class="lineCov">     169113 :   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE Scalar run(const Derived &amp;mat, const Func&amp; func)</span>
+<span class="lineNum">     318 </span>            :   {
+<span class="lineNum">     319 </span><span class="lineCov">     169113 :     eigen_assert(mat.rows()&gt;0 &amp;&amp; mat.cols()&gt;0 &amp;&amp; &quot;you are using an empty matrix&quot;);</span>
+<span class="lineNum">     320 </span>            :     if (VectorizedSize &gt; 0) {
+<span class="lineNum">     321 </span><span class="lineCov">     169113 :       Scalar res = func.predux(redux_vec_unroller&lt;Func, Derived, 0, Size / PacketSize&gt;::run(mat,func));</span>
+<span class="lineNum">     322 </span>            :       if (VectorizedSize != Size)
+<span class="lineNum">     323 </span><span class="lineNoCov">          0 :         res = func(res,redux_novec_unroller&lt;Func, Derived, VectorizedSize, Size-VectorizedSize&gt;::run(mat,func));</span>
+<span class="lineNum">     324 </span><span class="lineCov">     169113 :       return res;</span>
+<span class="lineNum">     325 </span>            :     }
+<span class="lineNum">     326 </span>            :     else {
+<span class="lineNum">     327 </span><span class="lineNoCov">          0 :       return redux_novec_unroller&lt;Func, Derived, 0, Size&gt;::run(mat,func);</span>
+<span class="lineNum">     328 </span>            :     }
+<span class="lineNum">     329 </span>            :   }
+<span class="lineNum">     330 </span>            : };
+<span class="lineNum">     331 </span>            : 
+<a name="332"><span class="lineNum">     332 </span>            : // evaluator adaptor</a>
+<span class="lineNum">     333 </span>            : template&lt;typename _XprType&gt;
+<span class="lineNum">     334 </span><span class="lineCov">     299072 : class redux_evaluator</span>
+<span class="lineNum">     335 </span>            : {
+<a name="336"><span class="lineNum">     336 </span>            : public:</a>
+<span class="lineNum">     337 </span>            :   typedef _XprType XprType;
+<span class="lineNum">     338 </span><span class="lineCov">     299072 :   EIGEN_DEVICE_FUNC explicit redux_evaluator(const XprType &amp;xpr) : m_evaluator(xpr), m_xpr(xpr) {}</span>
+<span class="lineNum">     339 </span>            :   
+<span class="lineNum">     340 </span>            :   typedef typename XprType::Scalar Scalar;
+<span class="lineNum">     341 </span>            :   typedef typename XprType::CoeffReturnType CoeffReturnType;
+<span class="lineNum">     342 </span>            :   typedef typename XprType::PacketScalar PacketScalar;
+<span class="lineNum">     343 </span>            :   typedef typename XprType::PacketReturnType PacketReturnType;
+<span class="lineNum">     344 </span>            :   
+<span class="lineNum">     345 </span>            :   enum {
+<span class="lineNum">     346 </span>            :     MaxRowsAtCompileTime = XprType::MaxRowsAtCompileTime,
+<span class="lineNum">     347 </span>            :     MaxColsAtCompileTime = XprType::MaxColsAtCompileTime,
+<span class="lineNum">     348 </span>            :     // TODO we should not remove DirectAccessBit and rather find an elegant way to query the alignment offset at runtime from the evaluator
+<span class="lineNum">     349 </span>            :     Flags = evaluator&lt;XprType&gt;::Flags &amp; ~DirectAccessBit,
+<span class="lineNum">     350 </span>            :     IsRowMajor = XprType::IsRowMajor,
+<span class="lineNum">     351 </span>            :     SizeAtCompileTime = XprType::SizeAtCompileTime,
+<span class="lineNum">     352 </span>            :     InnerSizeAtCompileTime = XprType::InnerSizeAtCompileTime,
+<span class="lineNum">     353 </span>            :     CoeffReadCost = evaluator&lt;XprType&gt;::CoeffReadCost,
+<span class="lineNum">     354 </span>            :     Alignment = evaluator&lt;XprType&gt;::Alignment
+<a name="355"><span class="lineNum">     355 </span>            :   };</a>
+<a name="356"><span class="lineNum">     356 </span>            :   </a>
+<a name="357"><span class="lineNum">     357 </span><span class="lineCov">     191313 :   EIGEN_DEVICE_FUNC Index rows() const { return m_xpr.rows(); }</span></a>
+<a name="358"><span class="lineNum">     358 </span><span class="lineCov">     191313 :   EIGEN_DEVICE_FUNC Index cols() const { return m_xpr.cols(); }</span></a>
+<a name="359"><span class="lineNum">     359 </span><span class="lineCov">     107759 :   EIGEN_DEVICE_FUNC Index size() const { return m_xpr.size(); }</span></a>
+<span class="lineNum">     360 </span><span class="lineCov">     330780 :   EIGEN_DEVICE_FUNC Index innerSize() const { return m_xpr.innerSize(); }</span>
+<span class="lineNum">     361 </span><span class="lineCov">      22200 :   EIGEN_DEVICE_FUNC Index outerSize() const { return m_xpr.outerSize(); }</span>
+<span class="lineNum">     362 </span>            : 
+<span class="lineNum">     363 </span>            :   EIGEN_DEVICE_FUNC
+<span class="lineNum">     364 </span>            :   CoeffReturnType coeff(Index row, Index col) const
+<span class="lineNum">     365 </span>            :   { return m_evaluator.coeff(row, col); }
+<a name="366"><span class="lineNum">     366 </span>            : </a>
+<span class="lineNum">     367 </span>            :   EIGEN_DEVICE_FUNC
+<span class="lineNum">     368 </span><span class="lineCov">       7383 :   CoeffReturnType coeff(Index index) const</span>
+<span class="lineNum">     369 </span><span class="lineCov">       7383 :   { return m_evaluator.coeff(index); }</span>
+<span class="lineNum">     370 </span>            : 
+<span class="lineNum">     371 </span>            :   template&lt;int LoadMode, typename PacketType&gt;
+<span class="lineNum">     372 </span>            :   PacketType packet(Index row, Index col) const
+<span class="lineNum">     373 </span>            :   { return m_evaluator.template packet&lt;LoadMode,PacketType&gt;(row, col); }
+<a name="374"><span class="lineNum">     374 </span>            : </a>
+<span class="lineNum">     375 </span>            :   template&lt;int LoadMode, typename PacketType&gt;
+<span class="lineNum">     376 </span><span class="lineCov">     368719 :   PacketType packet(Index index) const</span>
+<span class="lineNum">     377 </span><span class="lineCov">     368719 :   { return m_evaluator.template packet&lt;LoadMode,PacketType&gt;(index); }</span>
+<a name="378"><span class="lineNum">     378 </span>            :   </a>
+<span class="lineNum">     379 </span>            :   EIGEN_DEVICE_FUNC
+<span class="lineNum">     380 </span><span class="lineCov">     330780 :   CoeffReturnType coeffByOuterInner(Index outer, Index inner) const</span>
+<span class="lineNum">     381 </span><span class="lineCov">     330780 :   { return m_evaluator.coeff(IsRowMajor ? outer : inner, IsRowMajor ? inner : outer); }</span>
+<a name="382"><span class="lineNum">     382 </span>            :   </a>
+<span class="lineNum">     383 </span>            :   template&lt;int LoadMode, typename PacketType&gt;
+<span class="lineNum">     384 </span><span class="lineCov">     338226 :   PacketType packetByOuterInner(Index outer, Index inner) const</span>
+<a name="385"><span class="lineNum">     385 </span><span class="lineCov">     338226 :   { return m_evaluator.template packet&lt;LoadMode,PacketType&gt;(IsRowMajor ? outer : inner, IsRowMajor ? inner : outer); }</span></a>
+<span class="lineNum">     386 </span>            :   
+<span class="lineNum">     387 </span><span class="lineCov">     107759 :   const XprType &amp; nestedExpression() const { return m_xpr; }</span>
+<span class="lineNum">     388 </span>            :   
+<span class="lineNum">     389 </span>            : protected:
+<span class="lineNum">     390 </span>            :   internal::evaluator&lt;XprType&gt; m_evaluator;
+<span class="lineNum">     391 </span>            :   const XprType &amp;m_xpr;
+<span class="lineNum">     392 </span>            : };
+<span class="lineNum">     393 </span>            : 
+<span class="lineNum">     394 </span>            : } // end namespace internal
+<span class="lineNum">     395 </span>            : 
+<span class="lineNum">     396 </span>            : /***************************************************************************
+<span class="lineNum">     397 </span>            : * Part 4 : public API
+<span class="lineNum">     398 </span>            : ***************************************************************************/
+<span class="lineNum">     399 </span>            : 
+<span class="lineNum">     400 </span>            : 
+<span class="lineNum">     401 </span>            : /** \returns the result of a full redux operation on the whole matrix or vector using \a func
+<span class="lineNum">     402 </span>            :   *
+<span class="lineNum">     403 </span>            :   * The template parameter \a BinaryOp is the type of the functor \a func which must be
+<span class="lineNum">     404 </span>            :   * an associative operator. Both current C++98 and C++11 functor styles are handled.
+<span class="lineNum">     405 </span>            :   *
+<span class="lineNum">     406 </span>            :   * \sa DenseBase::sum(), DenseBase::minCoeff(), DenseBase::maxCoeff(), MatrixBase::colwise(), MatrixBase::rowwise()
+<span class="lineNum">     407 </span>            :   */
+<span class="lineNum">     408 </span>            : template&lt;typename Derived&gt;
+<a name="409"><span class="lineNum">     409 </span>            : template&lt;typename Func&gt;</a>
+<span class="lineNum">     410 </span>            : EIGEN_STRONG_INLINE typename internal::traits&lt;Derived&gt;::Scalar
+<span class="lineNum">     411 </span><span class="lineCov">     299072 : DenseBase&lt;Derived&gt;::redux(const Func&amp; func) const</span>
+<span class="lineNum">     412 </span>            : {
+<span class="lineNum">     413 </span><span class="lineCov">     299072 :   eigen_assert(this-&gt;rows()&gt;0 &amp;&amp; this-&gt;cols()&gt;0 &amp;&amp; &quot;you are using an empty matrix&quot;);</span>
+<span class="lineNum">     414 </span>            : 
+<span class="lineNum">     415 </span>            :   typedef typename internal::redux_evaluator&lt;Derived&gt; ThisEvaluator;
+<span class="lineNum">     416 </span><span class="lineCov">     598144 :   ThisEvaluator thisEval(derived());</span>
+<span class="lineNum">     417 </span>            :   
+<span class="lineNum">     418 </span><span class="lineCov">     598144 :   return internal::redux_impl&lt;Func, ThisEvaluator&gt;::run(thisEval, func);</span>
+<span class="lineNum">     419 </span>            : }
+<span class="lineNum">     420 </span>            : 
+<span class="lineNum">     421 </span>            : /** \returns the minimum of all coefficients of \c *this.
+<span class="lineNum">     422 </span>            :   * \warning the result is undefined if \c *this contains NaN.
+<span class="lineNum">     423 </span>            :   */
+<a name="424"><span class="lineNum">     424 </span>            : template&lt;typename Derived&gt;</a>
+<span class="lineNum">     425 </span>            : EIGEN_STRONG_INLINE typename internal::traits&lt;Derived&gt;::Scalar
+<span class="lineNum">     426 </span><span class="lineCov">         32 : DenseBase&lt;Derived&gt;::minCoeff() const</span>
+<span class="lineNum">     427 </span>            : {
+<span class="lineNum">     428 </span><span class="lineCov">         32 :   return derived().redux(Eigen::internal::scalar_min_op&lt;Scalar,Scalar&gt;());</span>
+<span class="lineNum">     429 </span>            : }
+<span class="lineNum">     430 </span>            : 
+<span class="lineNum">     431 </span>            : /** \returns the maximum of all coefficients of \c *this.
+<span class="lineNum">     432 </span>            :   * \warning the result is undefined if \c *this contains NaN.
+<span class="lineNum">     433 </span>            :   */
+<a name="434"><span class="lineNum">     434 </span>            : template&lt;typename Derived&gt;</a>
+<span class="lineNum">     435 </span>            : EIGEN_STRONG_INLINE typename internal::traits&lt;Derived&gt;::Scalar
+<span class="lineNum">     436 </span><span class="lineCov">       5132 : DenseBase&lt;Derived&gt;::maxCoeff() const</span>
+<span class="lineNum">     437 </span>            : {
+<span class="lineNum">     438 </span><span class="lineCov">       5132 :   return derived().redux(Eigen::internal::scalar_max_op&lt;Scalar,Scalar&gt;());</span>
+<span class="lineNum">     439 </span>            : }
+<span class="lineNum">     440 </span>            : 
+<span class="lineNum">     441 </span>            : /** \returns the sum of all coefficients of \c *this
+<span class="lineNum">     442 </span>            :   *
+<span class="lineNum">     443 </span>            :   * If \c *this is empty, then the value 0 is returned.
+<span class="lineNum">     444 </span>            :   *
+<span class="lineNum">     445 </span>            :   * \sa trace(), prod(), mean()
+<span class="lineNum">     446 </span>            :   */
+<a name="447"><span class="lineNum">     447 </span>            : template&lt;typename Derived&gt;</a>
+<span class="lineNum">     448 </span>            : EIGEN_STRONG_INLINE typename internal::traits&lt;Derived&gt;::Scalar
+<span class="lineNum">     449 </span><span class="lineCov">     294114 : DenseBase&lt;Derived&gt;::sum() const</span>
+<span class="lineNum">     450 </span>            : {
+<span class="lineNum">     451 </span><span class="lineCov">     130165 :   if(SizeAtCompileTime==0 || (SizeAtCompileTime==Dynamic &amp;&amp; size()==0))</span>
+<span class="lineNum">     452 </span><span class="lineCov">        206 :     return Scalar(0);</span>
+<span class="lineNum">     453 </span><span class="lineCov">     293908 :   return derived().redux(Eigen::internal::scalar_sum_op&lt;Scalar,Scalar&gt;());</span>
+<span class="lineNum">     454 </span>            : }
+<span class="lineNum">     455 </span>            : 
+<span class="lineNum">     456 </span>            : /** \returns the mean of all coefficients of *this
+<span class="lineNum">     457 </span>            : *
+<span class="lineNum">     458 </span>            : * \sa trace(), prod(), sum()
+<span class="lineNum">     459 </span>            : */
+<span class="lineNum">     460 </span>            : template&lt;typename Derived&gt;
+<span class="lineNum">     461 </span>            : EIGEN_STRONG_INLINE typename internal::traits&lt;Derived&gt;::Scalar
+<span class="lineNum">     462 </span>            : DenseBase&lt;Derived&gt;::mean() const
+<span class="lineNum">     463 </span>            : {
+<span class="lineNum">     464 </span>            : #ifdef __INTEL_COMPILER
+<span class="lineNum">     465 </span>            :   #pragma warning push
+<span class="lineNum">     466 </span>            :   #pragma warning ( disable : 2259 )
+<span class="lineNum">     467 </span>            : #endif
+<span class="lineNum">     468 </span>            :   return Scalar(derived().redux(Eigen::internal::scalar_sum_op&lt;Scalar,Scalar&gt;())) / Scalar(this-&gt;size());
+<span class="lineNum">     469 </span>            : #ifdef __INTEL_COMPILER
+<span class="lineNum">     470 </span>            :   #pragma warning pop
+<span class="lineNum">     471 </span>            : #endif
+<span class="lineNum">     472 </span>            : }
+<span class="lineNum">     473 </span>            : 
+<span class="lineNum">     474 </span>            : /** \returns the product of all coefficients of *this
+<span class="lineNum">     475 </span>            :   *
+<span class="lineNum">     476 </span>            :   * Example: \include MatrixBase_prod.cpp
+<span class="lineNum">     477 </span>            :   * Output: \verbinclude MatrixBase_prod.out
+<span class="lineNum">     478 </span>            :   *
+<span class="lineNum">     479 </span>            :   * \sa sum(), mean(), trace()
+<span class="lineNum">     480 </span>            :   */
+<a name="481"><span class="lineNum">     481 </span>            : template&lt;typename Derived&gt;</a>
+<span class="lineNum">     482 </span>            : EIGEN_STRONG_INLINE typename internal::traits&lt;Derived&gt;::Scalar
+<span class="lineNum">     483 </span><span class="lineNoCov">          0 : DenseBase&lt;Derived&gt;::prod() const</span>
+<span class="lineNum">     484 </span>            : {
+<span class="lineNum">     485 </span><span class="lineNoCov">          0 :   if(SizeAtCompileTime==0 || (SizeAtCompileTime==Dynamic &amp;&amp; size()==0))</span>
+<span class="lineNum">     486 </span><span class="lineNoCov">          0 :     return Scalar(1);</span>
+<span class="lineNum">     487 </span><span class="lineNoCov">          0 :   return derived().redux(Eigen::internal::scalar_product_op&lt;Scalar&gt;());</span>
+<span class="lineNum">     488 </span>            : }
+<span class="lineNum">     489 </span>            : 
+<span class="lineNum">     490 </span>            : /** \returns the trace of \c *this, i.e. the sum of the coefficients on the main diagonal.
+<span class="lineNum">     491 </span>            :   *
+<span class="lineNum">     492 </span>            :   * \c *this can be any matrix, not necessarily square.
+<span class="lineNum">     493 </span>            :   *
+<span class="lineNum">     494 </span>            :   * \sa diagonal(), sum()
+<span class="lineNum">     495 </span>            :   */
+<span class="lineNum">     496 </span>            : template&lt;typename Derived&gt;
+<span class="lineNum">     497 </span>            : EIGEN_STRONG_INLINE typename internal::traits&lt;Derived&gt;::Scalar
+<span class="lineNum">     498 </span>            : MatrixBase&lt;Derived&gt;::trace() const
+<span class="lineNum">     499 </span>            : {
+<span class="lineNum">     500 </span>            :   return derived().diagonal().sum();
+<span class="lineNum">     501 </span>            : }
+<span class="lineNum">     502 </span>            : 
+<span class="lineNum">     503 </span>            : } // end namespace Eigen
+<span class="lineNum">     504 </span>            : 
+<span class="lineNum">     505 </span>            : #endif // EIGEN_REDUX_H
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

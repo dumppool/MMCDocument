@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - PyHost Code Analysis - DeepMimicCore/render/ShadowMap.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">DeepMimicCore/render</a> - ShadowMap.cpp<span style="font-size: 80%;"> (source / <a href="ShadowMap.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">PyHost Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">28</td>
+            <td class="headerCovTableEntry">36</td>
+            <td class="headerCovTableEntryMed">77.8 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 17:04:23</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">6</td>
+            <td class="headerCovTableEntry">7</td>
+            <td class="headerCovTableEntryMed">85.7 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : #include &quot;ShadowMap.h&quot;</a>
+<span class="lineNum">       2 </span>            : 
+<span class="lineNum">       3 </span><span class="lineCov">          1 : cShadowMap::cShadowMap(void)</span>
+<span class="lineNum">       4 </span>            : {
+<a name="5"><span class="lineNum">       5 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">       6 </span>            : 
+<span class="lineNum">       7 </span><span class="lineCov">          1 : bool cShadowMap::Init(unsigned int width, unsigned int height)</span>
+<span class="lineNum">       8 </span>            : {
+<span class="lineNum">       9 </span><span class="lineCov">          1 :         mWidth = width;</span>
+<span class="lineNum">      10 </span><span class="lineCov">          1 :         mHeight = height;</span>
+<span class="lineNum">      11 </span>            : 
+<span class="lineNum">      12 </span><span class="lineCov">          1 :         glEnable(GL_TEXTURE_2D);</span>
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span>            :         // depth buffer
+<span class="lineNum">      15 </span><span class="lineCov">          1 :         glGenTextures(1, &amp;mTexture);</span>
+<span class="lineNum">      16 </span><span class="lineCov">          1 :         glBindTexture(GL_TEXTURE_2D, mTexture);</span>
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span><span class="lineCov">          1 :         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);</span>
+<span class="lineNum">      19 </span><span class="lineCov">          1 :         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);</span>
+<span class="lineNum">      20 </span><span class="lineCov">          1 :         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);</span>
+<span class="lineNum">      21 </span><span class="lineCov">          1 :         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);</span>
+<span class="lineNum">      22 </span><span class="lineCov">          1 :         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_BORDER);</span>
+<span class="lineNum">      23 </span>            : 
+<span class="lineNum">      24 </span><span class="lineCov">          1 :         float border_color[4] = { 1.f, 1.f, 1.f, 1.f };</span>
+<span class="lineNum">      25 </span><span class="lineCov">          1 :         glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, border_color);</span>
+<span class="lineNum">      26 </span>            : 
+<span class="lineNum">      27 </span><span class="lineCov">          1 :         glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16, width, height,</span>
+<span class="lineNum">      28 </span><span class="lineCov">          1 :                 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);</span>
+<span class="lineNum">      29 </span>            : 
+<span class="lineNum">      30 </span>            :         // linked depth stencil and render texture
+<span class="lineNum">      31 </span><span class="lineCov">          1 :         glGenFramebuffers(1, &amp;mObject);</span>
+<span class="lineNum">      32 </span><span class="lineCov">          1 :         glBindFramebuffer(GL_FRAMEBUFFER, mObject);</span>
+<span class="lineNum">      33 </span>            : 
+<span class="lineNum">      34 </span><span class="lineCov">          1 :         glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, mTexture, 0);</span>
+<span class="lineNum">      35 </span>            : 
+<span class="lineNum">      36 </span>            :         //Intel OpenGL driver crashes when using GL_NONE for glDrawBuffer on Linux, so use a workaround
+<span class="lineNum">      37 </span>            : #ifdef _WIN32
+<span class="lineNum">      38 </span>            :         glDrawBuffer(GL_NONE);
+<span class="lineNum">      39 </span>            : #else
+<span class="lineNum">      40 </span><span class="lineCov">          1 :         GLenum drawBuffers[2] = { GL_COLOR_ATTACHMENT0,0 };</span>
+<span class="lineNum">      41 </span><span class="lineCov">          1 :         glDrawBuffers(1, drawBuffers);</span>
+<span class="lineNum">      42 </span>            : #endif
+<span class="lineNum">      43 </span>            : 
+<span class="lineNum">      44 </span>            :         GLenum status;
+<span class="lineNum">      45 </span><span class="lineCov">          1 :         if ((status = glCheckFramebufferStatus(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE) {</span>
+<span class="lineNum">      46 </span><span class="lineNoCov">          0 :                 printf(&quot;texture is incomplete/n&quot;);</span>
+<span class="lineNum">      47 </span>            :         }
+<span class="lineNum">      48 </span>            : 
+<span class="lineNum">      49 </span><span class="lineCov">          1 :         glBindTexture(GL_TEXTURE_2D, 0);</span>
+<span class="lineNum">      50 </span><span class="lineCov">          1 :         glBindFramebuffer(GL_FRAMEBUFFER, 0);</span>
+<span class="lineNum">      51 </span>            : 
+<span class="lineNum">      52 </span><span class="lineCov">          1 :         return true;</span>
+<a name="53"><span class="lineNum">      53 </span>            : }</a>
+<span class="lineNum">      54 </span>            : 
+<span class="lineNum">      55 </span><span class="lineNoCov">          0 : void cShadowMap::Reshape(int w, int h)</span>
+<span class="lineNum">      56 </span>            : {
+<span class="lineNum">      57 </span><span class="lineNoCov">          0 :         mWidth = std::max(1, w);</span>
+<span class="lineNum">      58 </span><span class="lineNoCov">          0 :         mHeight = std::max(1, h);</span>
+<span class="lineNum">      59 </span><span class="lineNoCov">          0 :         if (mObject != 0) // 0 indicates the device's frame buffer, so no need to resize it</span>
+<span class="lineNum">      60 </span>            :         {
+<span class="lineNum">      61 </span><span class="lineNoCov">          0 :                 cTextureUtil::DeleteFrameBuffer(mObject, mTexture, mDepthStencil);</span>
+<span class="lineNum">      62 </span><span class="lineNoCov">          0 :                 Init(w, h);</span>
+<span class="lineNum">      63 </span>            :         }
+<a name="64"><span class="lineNum">      64 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      65 </span>            : 
+<a name="66"><span class="lineNum">      66 </span><span class="lineCov">          2 : cShadowMap::~cShadowMap(void)</span></a>
+<span class="lineNum">      67 </span>            : {
+<span class="lineNum">      68 </span><span class="lineCov">          5 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

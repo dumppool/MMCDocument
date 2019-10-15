@@ -1,0 +1,237 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - PyHost Code Analysis - DeepMimicCore/util/MathUtil.h</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">DeepMimicCore/util</a> - MathUtil.h<span style="font-size: 80%;"> (source / <a href="MathUtil.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">PyHost Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntryLo">33.3 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 17:04:23</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : #pragma once</a>
+<span class="lineNum">       2 </span>            : 
+<span class="lineNum">       3 </span>            : #include &lt;random&gt;
+<span class="lineNum">       4 </span>            : 
+<span class="lineNum">       5 </span>            : #include &quot;Eigen/Dense&quot;
+<span class="lineNum">       6 </span>            : #include &quot;Eigen/StdVector&quot;
+<span class="lineNum">       7 </span>            : #include &quot;Eigen/Geometry&quot;
+<span class="lineNum">       8 </span>            : #include &quot;Rand.h&quot;
+<span class="lineNum">       9 </span>            : 
+<span class="lineNum">      10 </span>            : const int gInvalidIdx = -1;
+<span class="lineNum">      11 </span>            : 
+<span class="lineNum">      12 </span>            : // for convenience define standard vector for rendering
+<span class="lineNum">      13 </span>            : typedef Eigen::Vector4d tVector;
+<span class="lineNum">      14 </span>            : typedef Eigen::Vector4d tVector3;
+<span class="lineNum">      15 </span>            : typedef Eigen::Matrix4d tMatrix;
+<span class="lineNum">      16 </span>            : typedef Eigen::Matrix3d tMatrix3;
+<span class="lineNum">      17 </span>            : typedef Eigen::Quaterniond tQuaternion;
+<span class="lineNum">      18 </span>            : 
+<span class="lineNum">      19 </span>            : template &lt;typename T&gt;
+<span class="lineNum">      20 </span>            : using tEigenArr = std::vector&lt;T, Eigen::aligned_allocator&lt;T&gt;&gt;;
+<span class="lineNum">      21 </span>            : typedef tEigenArr&lt;tVector&gt; tVectorArr;
+<span class="lineNum">      22 </span>            : 
+<span class="lineNum">      23 </span>            : const double gRadiansToDegrees = 57.2957795;
+<span class="lineNum">      24 </span>            : const double gDegreesToRadians = 1.0 / gRadiansToDegrees;
+<span class="lineNum">      25 </span><span class="lineCov">         79 : const tVector gGravity = tVector(0, -9.8, 0, 0);</span>
+<span class="lineNum">      26 </span>            : const double gInchesToMeters = 0.0254;
+<span class="lineNum">      27 </span>            : const double gFeetToMeters = 0.3048;
+<span class="lineNum">      28 </span>            : 
+<span class="lineNum">      29 </span>            : class cMathUtil
+<span class="lineNum">      30 </span>            : {
+<span class="lineNum">      31 </span>            : public:
+<span class="lineNum">      32 </span>            :         enum eAxis
+<span class="lineNum">      33 </span>            :         {
+<span class="lineNum">      34 </span>            :                 eAxisX,
+<span class="lineNum">      35 </span>            :                 eAxisY,
+<span class="lineNum">      36 </span>            :                 eAxisZ,
+<span class="lineNum">      37 </span>            :                 eAxisMax
+<span class="lineNum">      38 </span>            :         };
+<span class="lineNum">      39 </span>            : 
+<span class="lineNum">      40 </span>            :         static int Clamp(int val, int min, int max);
+<span class="lineNum">      41 </span>            :         static void Clamp(const Eigen::VectorXd&amp; min, const Eigen::VectorXd&amp; max, Eigen::VectorXd&amp; out_vec);
+<span class="lineNum">      42 </span>            :         static double Clamp(double val, double min, double max);
+<span class="lineNum">      43 </span>            :         static double Saturate(double val);
+<span class="lineNum">      44 </span>            :         static double Lerp(double t, double val0, double val1);
+<span class="lineNum">      45 </span>            : 
+<span class="lineNum">      46 </span>            :         static double NormalizeAngle(double theta);
+<span class="lineNum">      47 </span>            : 
+<span class="lineNum">      48 </span>            :         // rand number
+<span class="lineNum">      49 </span>            :         static double RandDouble();
+<span class="lineNum">      50 </span>            :         static double RandDouble(double min, double max);
+<span class="lineNum">      51 </span>            :         static double RandDoubleNorm(double mean, double stdev);
+<span class="lineNum">      52 </span>            :         static double RandDoubleExp(double lambda);
+<span class="lineNum">      53 </span>            :         static double RandDoubleSeed(double seed);
+<span class="lineNum">      54 </span>            :         static int RandInt();
+<span class="lineNum">      55 </span>            :         static int RandInt(int min, int max);
+<span class="lineNum">      56 </span>            :         static int RandUint();
+<span class="lineNum">      57 </span>            :         static int RandUint(unsigned int min, unsigned int max);
+<span class="lineNum">      58 </span>            :         static int RandIntExclude(int min, int max, int exc);
+<span class="lineNum">      59 </span>            :         static void SeedRand(unsigned long int seed);
+<span class="lineNum">      60 </span>            :         static int RandSign();
+<span class="lineNum">      61 </span>            :         static bool FlipCoin(double p = 0.5);
+<span class="lineNum">      62 </span>            :         static double SmoothStep(double t);
+<span class="lineNum">      63 </span>            : 
+<span class="lineNum">      64 </span>            :         // matrices
+<span class="lineNum">      65 </span>            :         static tMatrix TranslateMat(const tVector&amp; trans);
+<span class="lineNum">      66 </span>            :         static tMatrix ScaleMat(double scale);
+<span class="lineNum">      67 </span>            :         static tMatrix ScaleMat(const tVector&amp; scale);
+<span class="lineNum">      68 </span>            :         static tMatrix RotateMat(const tVector&amp; euler); // euler angles order rot(Z) * rot(Y) * rot(X)
+<span class="lineNum">      69 </span>            :         static tMatrix RotateMat(const tVector&amp; axis, double theta);
+<span class="lineNum">      70 </span>            :         static tMatrix RotateMat(const tQuaternion&amp; q);
+<span class="lineNum">      71 </span>            :         static tMatrix CrossMat(const tVector&amp; a);
+<span class="lineNum">      72 </span>            :         // inverts a transformation consisting only of rotations and translations
+<span class="lineNum">      73 </span>            :         static tMatrix InvRigidMat(const tMatrix&amp; mat);
+<span class="lineNum">      74 </span>            :         static tVector GetRigidTrans(const tMatrix&amp; mat);
+<span class="lineNum">      75 </span>            :         static tVector InvEuler(const tVector&amp; euler);
+<span class="lineNum">      76 </span>            :         static void RotMatToAxisAngle(const tMatrix&amp; mat, tVector&amp; out_axis, double&amp; out_theta);
+<span class="lineNum">      77 </span>            :         static tVector RotMatToEuler(const tMatrix&amp; mat);
+<span class="lineNum">      78 </span>            :         static tQuaternion RotMatToQuaternion(const tMatrix&amp; mat);
+<span class="lineNum">      79 </span>            :         static void EulerToAxisAngle(const tVector&amp; euler, tVector&amp; out_axis, double&amp; out_theta);
+<span class="lineNum">      80 </span>            :         static tVector AxisAngleToEuler(const tVector&amp; axis, double theta);
+<span class="lineNum">      81 </span>            :         static tMatrix DirToRotMat(const tVector&amp; dir, const tVector&amp; up);
+<span class="lineNum">      82 </span>            : 
+<span class="lineNum">      83 </span>            :         static void DeltaRot(const tVector&amp; axis0, double theta0, const tVector&amp; axis1, double theta1,
+<span class="lineNum">      84 </span>            :                                                         tVector&amp; out_axis, double&amp; out_theta);
+<span class="lineNum">      85 </span>            :         static tMatrix DeltaRot(const tMatrix&amp; R0, const tMatrix&amp; R1);
+<span class="lineNum">      86 </span>            : 
+<span class="lineNum">      87 </span>            :         static tQuaternion EulerToQuaternion(const tVector&amp; euler);
+<span class="lineNum">      88 </span>            :         static tVector QuaternionToEuler(const tQuaternion&amp; q);
+<span class="lineNum">      89 </span>            :         static tQuaternion AxisAngleToQuaternion(const tVector&amp; axis, double theta);
+<span class="lineNum">      90 </span>            :         static void QuaternionToAxisAngle(const tQuaternion&amp; q, tVector&amp; out_axis, double&amp; out_theta);
+<span class="lineNum">      91 </span>            :         static tMatrix BuildQuaternionDiffMat(const tQuaternion&amp; q);
+<span class="lineNum">      92 </span>            :         static tVector CalcQuaternionVel(const tQuaternion&amp; q0, const tQuaternion&amp; q1, double dt);
+<span class="lineNum">      93 </span>            :         static tVector CalcQuaternionVelRel(const tQuaternion&amp; q0, const tQuaternion&amp; q1, double dt);
+<span class="lineNum">      94 </span>            :         static tQuaternion VecToQuat(const tVector&amp; v);
+<span class="lineNum">      95 </span>            :         static tVector QuatToVec(const tQuaternion&amp; q);
+<span class="lineNum">      96 </span>            :         static tQuaternion QuatDiff(const tQuaternion&amp; q0, const tQuaternion&amp; q1);
+<span class="lineNum">      97 </span>            :         static double QuatDiffTheta(const tQuaternion&amp; q0, const tQuaternion&amp; q1);
+<span class="lineNum">      98 </span>            :         static double QuatTheta(const tQuaternion&amp; dq);
+<span class="lineNum">      99 </span>            :         static tQuaternion VecDiffQuat(const tVector&amp; v0, const tVector&amp; v1);
+<span class="lineNum">     100 </span>            :         static tVector QuatRotVec(const tQuaternion&amp; q, const tVector&amp; dir);
+<span class="lineNum">     101 </span>            :         static tQuaternion MirrorQuaternion(const tQuaternion&amp; q, eAxis axis);
+<span class="lineNum">     102 </span>            : 
+<span class="lineNum">     103 </span>            :         static double Sign(double val);
+<span class="lineNum">     104 </span>            :         static int Sign(int val);
+<span class="lineNum">     105 </span>            : 
+<span class="lineNum">     106 </span>            :         static double AddAverage(double avg0, int count0, double avg1, int count1);
+<span class="lineNum">     107 </span>            :         static tVector AddAverage(const tVector&amp; avg0, int count0, const tVector&amp; avg1, int count1);
+<span class="lineNum">     108 </span>            :         static void AddAverage(const Eigen::VectorXd&amp; avg0, int count0, const Eigen::VectorXd&amp; avg1, int count1, Eigen::VectorXd&amp; out_result);
+<span class="lineNum">     109 </span>            :         static void CalcSoftmax(const Eigen::VectorXd&amp; vals, double temp, Eigen::VectorXd&amp; out_prob);
+<span class="lineNum">     110 </span>            :         static double EvalGaussian(const Eigen::VectorXd&amp; mean, const Eigen::VectorXd&amp; covar, const Eigen::VectorXd&amp; sample);
+<span class="lineNum">     111 </span>            :         static double EvalGaussian(double mean, double covar, double sample);
+<span class="lineNum">     112 </span>            :         static double CalcGaussianPartition(const Eigen::VectorXd&amp; covar);
+<span class="lineNum">     113 </span>            :         static double EvalGaussianLogp(double mean, double covar, double sample);
+<span class="lineNum">     114 </span>            :         static double EvalGaussianLogp(const Eigen::VectorXd&amp; mean, const Eigen::VectorXd&amp; covar, const Eigen::VectorXd&amp; sample);
+<span class="lineNum">     115 </span>            :         static double Sigmoid(double x);
+<span class="lineNum">     116 </span>            :         static double Sigmoid(double x, double gamma, double bias);
+<span class="lineNum">     117 </span>            : 
+<span class="lineNum">     118 </span>            :         static int SampleDiscreteProb(const Eigen::VectorXd&amp; probs);
+<span class="lineNum">     119 </span>            :         static tVector CalcBarycentric(const tVector&amp; p, const tVector&amp; a, const tVector&amp; b, const tVector&amp; c);
+<span class="lineNum">     120 </span>            : 
+<span class="lineNum">     121 </span>            :         static bool ContainsAABB(const tVector&amp; pt, const tVector&amp; aabb_min, const tVector&amp; aabb_max);
+<span class="lineNum">     122 </span>            :         static bool ContainsAABB(const tVector&amp; aabb_min0, const tVector&amp; aabb_max0, const tVector&amp; aabb_min1, const tVector&amp; aabb_max1);
+<span class="lineNum">     123 </span>            :         static bool ContainsAABBXZ(const tVector&amp; pt, const tVector&amp; aabb_min, const tVector&amp; aabb_max);
+<span class="lineNum">     124 </span>            :         static bool ContainsAABBXZ(const tVector&amp; aabb_min0, const tVector&amp; aabb_max0, const tVector&amp; aabb_min1, const tVector&amp; aabb_max1);
+<span class="lineNum">     125 </span>            :         static void CalcAABBIntersection(const tVector&amp; aabb_min0, const tVector&amp; aabb_max0, const tVector&amp; aabb_min1, const tVector&amp; aabb_max1,
+<span class="lineNum">     126 </span>            :                                                                         tVector&amp; out_min, tVector&amp; out_max);
+<span class="lineNum">     127 </span>            :         static void CalcAABBUnion(const tVector&amp; aabb_min0, const tVector&amp; aabb_max0, const tVector&amp; aabb_min1, const tVector&amp; aabb_max1,
+<span class="lineNum">     128 </span>            :                                                                 tVector&amp; out_min, tVector&amp; out_max);
+<span class="lineNum">     129 </span>            :         static bool IntersectAABB(const tVector&amp; aabb_min0, const tVector&amp; aabb_max0, const tVector&amp; aabb_min1, const tVector&amp; aabb_max1);
+<span class="lineNum">     130 </span>            :         static bool IntersectAABBXZ(const tVector&amp; aabb_min0, const tVector&amp; aabb_max0, const tVector&amp; aabb_min1, const tVector&amp; aabb_max1);
+<span class="lineNum">     131 </span>            : 
+<span class="lineNum">     132 </span>            :         // check if curr_val and curr_val - delta belong to different intervals
+<span class="lineNum">     133 </span>            :         static bool CheckNextInterval(double delta, double curr_val, double int_size);
+<span class="lineNum">     134 </span>            : 
+<span class="lineNum">     135 </span>            :         static tVector SampleRandPt(const tVector&amp; bound_min, const tVector&amp; bound_max);
+<span class="lineNum">     136 </span>            :         // samples a bound within the given bounds with a benter towards the focus pt
+<span class="lineNum">     137 </span>            :         static tVector SampleRandPtBias(const tVector&amp; bound_min, const tVector&amp; bound_max);
+<span class="lineNum">     138 </span>            :         static tVector SampleRandPtBias(const tVector&amp; bound_min, const tVector&amp; bound_max, const tVector&amp; focus);
+<span class="lineNum">     139 </span>            : 
+<span class="lineNum">     140 </span>            :         static void QuatSwingTwistDecomposition(const tQuaternion&amp; q, const tVector&amp; dir, tQuaternion&amp; out_swing, tQuaternion&amp; out_twist);
+<span class="lineNum">     141 </span>            :         static tQuaternion ProjectQuat(const tQuaternion&amp; q, const tVector&amp; dir);
+<span class="lineNum">     142 </span>            : 
+<span class="lineNum">     143 </span>            :         static void ButterworthFilter(double dt, double cutoff, Eigen::VectorXd&amp; out_x);
+<span class="lineNum">     144 </span>            :         
+<span class="lineNum">     145 </span>            : private:
+<span class="lineNum">     146 </span>            :         static cRand gRand;
+<a name="147"><span class="lineNum">     147 </span>            : </a>
+<span class="lineNum">     148 </span>            :         template &lt;typename T&gt;
+<span class="lineNum">     149 </span><span class="lineNoCov">          0 :         static T SignAux(T val)</span>
+<span class="lineNum">     150 </span>            :         {
+<span class="lineNum">     151 </span><span class="lineNoCov">          0 :                 return (T(0) &lt; val) - (val &lt; T(0));</span>
+<span class="lineNum">     152 </span>            :         }
+<span class="lineNum">     153 </span>            : };
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

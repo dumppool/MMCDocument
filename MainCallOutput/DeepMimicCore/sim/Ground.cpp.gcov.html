@@ -1,0 +1,310 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Main Call Code Analysis - DeepMimicCore/sim/Ground.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">DeepMimicCore/sim</a> - Ground.cpp<span style="font-size: 80%;"> (source / <a href="Ground.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Main Call Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">81</td>
+            <td class="headerCovTableEntry">131</td>
+            <td class="headerCovTableEntryLo">61.8 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 16:51:56</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">18</td>
+            <td class="headerCovTableEntry">31</td>
+            <td class="headerCovTableEntryLo">58.1 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : #include &quot;Ground.h&quot;</a>
+<span class="lineNum">       2 </span>            : 
+<span class="lineNum">       3 </span><span class="lineCov">          2 : std::string gGroundTypeNames[cGround::eTypeMax] =</span>
+<span class="lineNum">       4 </span>            : {
+<span class="lineNum">       5 </span>            :         &quot;plane&quot;
+<span class="lineNum">       6 </span><span class="lineCov">          1 : };</span>
+<span class="lineNum">       7 </span>            : 
+<span class="lineNum">       8 </span><span class="lineCov">          1 : const std::string cGround::gTypeKey = &quot;Type&quot;;</span>
+<span class="lineNum">       9 </span><span class="lineCov">          1 : const std::string cGround::gGroundWidthKey = &quot;GroundWidth&quot;;</span>
+<span class="lineNum">      10 </span><span class="lineCov">          1 : const std::string cGround::gVertSpacingXKey = &quot;VertSpacingX&quot;;</span>
+<span class="lineNum">      11 </span><span class="lineCov">          1 : const std::string cGround::gVertSpacingZKey = &quot;VertSpacingZ&quot;;</span>
+<a name="12"><span class="lineNum">      12 </span><span class="lineCov">          1 : const std::string cGround::gParamsKey = &quot;Params&quot;;</span></a>
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span><span class="lineCov">          2 : cGround::tParams::tParams()</span>
+<span class="lineNum">      15 </span>            : {
+<span class="lineNum">      16 </span><span class="lineCov">          2 :         mType = eTypePlane;</span>
+<span class="lineNum">      17 </span><span class="lineCov">          2 :         mFriction = 0.9;</span>
+<span class="lineNum">      18 </span><span class="lineCov">          2 :         mOrigin.setZero();</span>
+<span class="lineNum">      19 </span><span class="lineCov">          2 :         mBlend = 0;</span>
+<span class="lineNum">      20 </span>            : 
+<span class="lineNum">      21 </span><span class="lineCov">          2 :         mGroundWidth = 20;</span>
+<span class="lineNum">      22 </span><span class="lineCov">          2 :         mVertSpacingX = 0.2;</span>
+<span class="lineNum">      23 </span><span class="lineCov">          2 :         mVertSpacingZ = 0.2;</span>
+<span class="lineNum">      24 </span>            : 
+<span class="lineNum">      25 </span><span class="lineCov">          2 :         mRandSeed = 0;</span>
+<span class="lineNum">      26 </span><span class="lineCov">          2 :         mHasRandSeed = false;</span>
+<a name="27"><span class="lineNum">      27 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">      28 </span>            : 
+<span class="lineNum">      29 </span><span class="lineCov">          1 : cGround::eClass cGround::GetClassFromType(eType ground_type)</span>
+<span class="lineNum">      30 </span>            : {
+<span class="lineNum">      31 </span><span class="lineCov">          1 :         eClass ground_class = eClassInvalid;</span>
+<span class="lineNum">      32 </span><span class="lineCov">          1 :         switch (ground_type)</span>
+<span class="lineNum">      33 </span>            :         {
+<span class="lineNum">      34 </span>            :                 case eTypePlane:
+<span class="lineNum">      35 </span><span class="lineCov">          1 :                         ground_class = eClassPlane;</span>
+<span class="lineNum">      36 </span><span class="lineCov">          1 :                         break;</span>
+<span class="lineNum">      37 </span>            :                 default:
+<span class="lineNum">      38 </span><span class="lineNoCov">          0 :                         ground_class = eClassInvalid;</span>
+<span class="lineNum">      39 </span><span class="lineNoCov">          0 :                         break;</span>
+<span class="lineNum">      40 </span>            :         }
+<span class="lineNum">      41 </span><span class="lineCov">          1 :         return ground_class;</span>
+<a name="42"><span class="lineNum">      42 </span>            : }</a>
+<span class="lineNum">      43 </span>            : 
+<span class="lineNum">      44 </span><span class="lineCov">          1 : void cGround::ParseType(const std::string&amp; str, eType&amp; out_type)</span>
+<span class="lineNum">      45 </span>            : {
+<span class="lineNum">      46 </span><span class="lineCov">          1 :         bool valid = false;</span>
+<span class="lineNum">      47 </span><span class="lineCov">          1 :         for (int i = 0; i &lt; eTypeMax; ++i)</span>
+<span class="lineNum">      48 </span>            :         {
+<span class="lineNum">      49 </span><span class="lineCov">          1 :                 const std::string&amp; curr_name = gGroundTypeNames[i];</span>
+<span class="lineNum">      50 </span><span class="lineCov">          1 :                 if (curr_name == str)</span>
+<span class="lineNum">      51 </span>            :                 {
+<span class="lineNum">      52 </span><span class="lineCov">          1 :                         out_type = static_cast&lt;eType&gt;(i);</span>
+<span class="lineNum">      53 </span><span class="lineCov">          1 :                         valid = true;</span>
+<span class="lineNum">      54 </span><span class="lineCov">          1 :                         break;</span>
+<span class="lineNum">      55 </span>            :                 }
+<span class="lineNum">      56 </span>            :         }
+<span class="lineNum">      57 </span>            :         
+<span class="lineNum">      58 </span><span class="lineCov">          1 :         if (!valid)</span>
+<span class="lineNum">      59 </span>            :         {
+<span class="lineNum">      60 </span><span class="lineNoCov">          0 :                 printf(&quot;Invalid ground Type%s\n&quot;, str.c_str());</span>
+<span class="lineNum">      61 </span><span class="lineNoCov">          0 :                 assert(false);</span>
+<span class="lineNum">      62 </span>            :         }
+<span class="lineNum">      63 </span><span class="lineCov">          1 : }</span>
+<a name="64"><span class="lineNum">      64 </span>            : </a>
+<span class="lineNum">      65 </span>            : 
+<span class="lineNum">      66 </span><span class="lineCov">          1 : cGround::cGround()</span>
+<span class="lineNum">      67 </span>            : {
+<span class="lineNum">      68 </span><span class="lineCov">          1 :         SeedRand(cMathUtil::RandUint());</span>
+<span class="lineNum">      69 </span><span class="lineCov">          1 :         mType = eTypeStatic;</span>
+<span class="lineNum">      70 </span><span class="lineCov">          1 :         mUpdateCount = 0;</span>
+<a name="71"><span class="lineNum">      71 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">      72 </span>            : 
+<span class="lineNum">      73 </span><span class="lineNoCov">          0 : cGround::~cGround()</span>
+<span class="lineNum">      74 </span>            : {
+<a name="75"><span class="lineNum">      75 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      76 </span>            : 
+<span class="lineNum">      77 </span><span class="lineCov">          1 : void cGround::Init(const std::shared_ptr&lt;cWorld&gt;&amp; world, const tParams&amp; params)</span>
+<span class="lineNum">      78 </span>            : {
+<span class="lineNum">      79 </span><span class="lineCov">          1 :         mParams = params;</span>
+<span class="lineNum">      80 </span><span class="lineCov">          1 :         SetupRandGen();</span>
+<span class="lineNum">      81 </span>            : 
+<span class="lineNum">      82 </span><span class="lineCov">          1 :         cSimRigidBody::Init(world);</span>
+<span class="lineNum">      83 </span><span class="lineCov">          1 :         UpdateContact(cWorld::eContactFlagEnvironment, cWorld::eContactFlagAll);</span>
+<span class="lineNum">      84 </span><span class="lineCov">          1 :         SetParamBlend(params.mBlend);</span>
+<span class="lineNum">      85 </span><span class="lineCov">          1 :         mUpdateCount = 0;</span>
+<span class="lineNum">      86 </span><span class="lineCov">          1 :         mTime = 0;</span>
+<span class="lineNum">      87 </span><span class="lineCov">          1 :         FlagUpdate();</span>
+<a name="88"><span class="lineNum">      88 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">      89 </span>            : 
+<span class="lineNum">      90 </span><span class="lineCov">        170 : void cGround::Update(double time_elapsed, const tVector&amp; bound_min, const tVector&amp; bound_max)</span>
+<span class="lineNum">      91 </span>            : {
+<span class="lineNum">      92 </span><span class="lineCov">        170 :         mTime += time_elapsed;</span>
+<a name="93"><span class="lineNum">      93 </span><span class="lineCov">        170 : }</span></a>
+<span class="lineNum">      94 </span>            : 
+<span class="lineNum">      95 </span><span class="lineNoCov">          0 : void cGround::Clear()</span>
+<span class="lineNum">      96 </span>            : {
+<span class="lineNum">      97 </span><span class="lineNoCov">          0 :         mUpdateCount = 0;</span>
+<span class="lineNum">      98 </span><span class="lineNoCov">          0 :         mTime = 0;</span>
+<a name="99"><span class="lineNum">      99 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     100 </span>            : 
+<span class="lineNum">     101 </span><span class="lineCov">        137 : double cGround::SampleHeight(const tVector&amp; pos) const</span>
+<span class="lineNum">     102 </span>            : {
+<span class="lineNum">     103 </span><span class="lineCov">        137 :         bool dummy_valid = true;</span>
+<span class="lineNum">     104 </span><span class="lineCov">        137 :         return SampleHeight(pos, dummy_valid);</span>
+<a name="105"><span class="lineNum">     105 </span>            : }</a>
+<span class="lineNum">     106 </span>            : 
+<span class="lineNum">     107 </span><span class="lineNoCov">          0 : double cGround::SampleHeight(const tVector&amp; pos, bool&amp; out_valid_sample) const</span>
+<span class="lineNum">     108 </span>            : {
+<span class="lineNum">     109 </span><span class="lineNoCov">          0 :         out_valid_sample = true;</span>
+<span class="lineNum">     110 </span><span class="lineNoCov">          0 :         return 0;</span>
+<a name="111"><span class="lineNum">     111 </span>            : }</a>
+<span class="lineNum">     112 </span>            : 
+<span class="lineNum">     113 </span><span class="lineNoCov">          0 : void cGround::SampleHeight(const Eigen::MatrixXd&amp; pos, Eigen::VectorXd&amp; out_h) const</span>
+<span class="lineNum">     114 </span>            : {
+<span class="lineNum">     115 </span><span class="lineNoCov">          0 :         int num_pos = static_cast&lt;int&gt;(pos.rows());</span>
+<span class="lineNum">     116 </span><span class="lineNoCov">          0 :         out_h = Eigen::VectorXd::Zero(num_pos);</span>
+<a name="117"><span class="lineNum">     117 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     118 </span>            : 
+<span class="lineNum">     119 </span><span class="lineNoCov">          0 : void cGround::SampleHeightVel(const tVector&amp; pos, double&amp; out_h, tVector&amp; out_vel,</span>
+<span class="lineNum">     120 </span>            :                                                         bool&amp; out_valid_sample) const
+<span class="lineNum">     121 </span>            : {
+<span class="lineNum">     122 </span><span class="lineNoCov">          0 :         out_h = SampleHeight(pos, out_valid_sample);</span>
+<span class="lineNum">     123 </span><span class="lineNoCov">          0 :         out_vel.setZero();</span>
+<a name="124"><span class="lineNum">     124 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     125 </span>            : 
+<span class="lineNum">     126 </span><span class="lineNoCov">          0 : cGround::eClass cGround::GetGroundClass() const</span>
+<span class="lineNum">     127 </span>            : {
+<span class="lineNum">     128 </span><span class="lineNoCov">          0 :         return eClassInvalid;</span>
+<a name="129"><span class="lineNum">     129 </span>            : }</a>
+<span class="lineNum">     130 </span>            : 
+<span class="lineNum">     131 </span><span class="lineNoCov">          0 : void cGround::SetBlendParams(const Eigen::VectorXd&amp; params)</span>
+<span class="lineNum">     132 </span>            : {
+<span class="lineNum">     133 </span><span class="lineNoCov">          0 :         int blend_param_size = GetBlendParamSize();</span>
+<span class="lineNum">     134 </span><span class="lineNoCov">          0 :         assert(params.size() == blend_param_size);</span>
+<span class="lineNum">     135 </span><span class="lineNoCov">          0 :         mBlendParams = params;</span>
+<a name="136"><span class="lineNum">     136 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     137 </span>            : 
+<span class="lineNum">     138 </span><span class="lineCov">          1 : void cGround::SetParamBlend(double blend)</span>
+<span class="lineNum">     139 </span>            : {
+<span class="lineNum">     140 </span><span class="lineCov">          1 :         mParams.mBlend = blend;</span>
+<span class="lineNum">     141 </span><span class="lineCov">          1 :         CalcBlendParams(blend, mBlendParams);</span>
+<a name="142"><span class="lineNum">     142 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     143 </span>            : 
+<span class="lineNum">     144 </span><span class="lineCov">        171 : size_t cGround::GetUpdateCount() const</span>
+<span class="lineNum">     145 </span>            : {
+<span class="lineNum">     146 </span><span class="lineCov">        171 :         return mUpdateCount;</span>
+<a name="147"><span class="lineNum">     147 </span>            : }</a>
+<span class="lineNum">     148 </span>            : 
+<span class="lineNum">     149 </span><span class="lineCov">          1 : void cGround::SeedRand(unsigned long seed)</span>
+<span class="lineNum">     150 </span>            : {
+<span class="lineNum">     151 </span><span class="lineCov">          1 :         mRand.Seed(seed);</span>
+<a name="152"><span class="lineNum">     152 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     153 </span>            : 
+<span class="lineNum">     154 </span><span class="lineCov">          2 : void cGround::SamplePlacement(const tVector&amp; origin, tVector&amp; out_pos, tQuaternion&amp; out_rot)</span>
+<span class="lineNum">     155 </span>            : {
+<span class="lineNum">     156 </span><span class="lineCov">          2 :         out_pos.setZero();</span>
+<span class="lineNum">     157 </span><span class="lineCov">          2 :         out_pos[1] = SampleHeight(out_pos);</span>
+<span class="lineNum">     158 </span><span class="lineCov">          2 :         out_rot.setIdentity();</span>
+<a name="159"><span class="lineNum">     159 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     160 </span>            : 
+<span class="lineNum">     161 </span><span class="lineNoCov">          0 : tVector cGround::GetSize() const</span>
+<span class="lineNum">     162 </span>            : {
+<span class="lineNum">     163 </span><span class="lineNoCov">          0 :         return tVector::Zero();</span>
+<a name="164"><span class="lineNum">     164 </span>            : }</a>
+<span class="lineNum">     165 </span>            : 
+<span class="lineNum">     166 </span><span class="lineNoCov">          0 : double cGround::GetVertSpacingX() const</span>
+<span class="lineNum">     167 </span>            : {
+<span class="lineNum">     168 </span><span class="lineNoCov">          0 :         return mParams.mVertSpacingX;</span>
+<a name="169"><span class="lineNum">     169 </span>            : }</a>
+<span class="lineNum">     170 </span>            : 
+<span class="lineNum">     171 </span><span class="lineNoCov">          0 : double cGround::GetVertSpacingZ() const</span>
+<span class="lineNum">     172 </span>            : {
+<span class="lineNum">     173 </span><span class="lineNoCov">          0 :         return mParams.mVertSpacingZ;</span>
+<a name="174"><span class="lineNum">     174 </span>            : }</a>
+<span class="lineNum">     175 </span>            : 
+<span class="lineNum">     176 </span><span class="lineNoCov">          0 : bool cGround::Output(const std::string&amp; out_file) const</span>
+<span class="lineNum">     177 </span>            : {
+<span class="lineNum">     178 </span><span class="lineNoCov">          0 :         return false;</span>
+<a name="179"><span class="lineNum">     179 </span>            : }</a>
+<span class="lineNum">     180 </span>            : 
+<span class="lineNum">     181 </span><span class="lineCov">          1 : void cGround::SetupRandGen()</span>
+<span class="lineNum">     182 </span>            : {
+<span class="lineNum">     183 </span><span class="lineCov">          1 :         if (mParams.mHasRandSeed)</span>
+<span class="lineNum">     184 </span>            :         {
+<span class="lineNum">     185 </span><span class="lineNoCov">          0 :                 SeedRand(mParams.mRandSeed);</span>
+<span class="lineNum">     186 </span>            :         }
+<a name="187"><span class="lineNum">     187 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     188 </span>            : 
+<span class="lineNum">     189 </span><span class="lineCov">          1 : void cGround::CalcBlendParams(double blend, Eigen::VectorXd&amp; out_params) const</span>
+<span class="lineNum">     190 </span>            : {
+<span class="lineNum">     191 </span><span class="lineCov">          1 :         int num_params = GetNumParamSets();</span>
+<span class="lineNum">     192 </span><span class="lineCov">          1 :         if (num_params &gt; 0)</span>
+<span class="lineNum">     193 </span>            :         {
+<span class="lineNum">     194 </span><span class="lineNoCov">          0 :                 blend = cMathUtil::Clamp(blend, 0.0, num_params - 1.0);</span>
+<span class="lineNum">     195 </span>            : 
+<span class="lineNum">     196 </span><span class="lineNoCov">          0 :                 int idx0 = static_cast&lt;int&gt;(blend);</span>
+<span class="lineNum">     197 </span><span class="lineNoCov">          0 :                 int idx1 = std::min(idx0 + 1, num_params - 1);</span>
+<span class="lineNum">     198 </span><span class="lineNoCov">          0 :                 blend -= idx0;</span>
+<span class="lineNum">     199 </span>            : 
+<span class="lineNum">     200 </span><span class="lineNoCov">          0 :                 auto params0 = mParams.mParamArr.row(idx0);</span>
+<span class="lineNum">     201 </span><span class="lineNoCov">          0 :                 auto params1 = mParams.mParamArr.row(idx1);</span>
+<span class="lineNum">     202 </span>            : 
+<span class="lineNum">     203 </span><span class="lineNoCov">          0 :                 int blend_param_size = GetBlendParamSize();</span>
+<span class="lineNum">     204 </span><span class="lineNoCov">          0 :                 assert(params0.size() == blend_param_size);</span>
+<span class="lineNum">     205 </span><span class="lineNoCov">          0 :                 assert(params1.size() == blend_param_size);</span>
+<span class="lineNum">     206 </span>            : 
+<span class="lineNum">     207 </span><span class="lineNoCov">          0 :                 Eigen::VectorXd blend_params = (1 - blend) * params0 + blend * params1;</span>
+<span class="lineNum">     208 </span>            : 
+<span class="lineNum">     209 </span><span class="lineNoCov">          0 :                 out_params = blend_params;</span>
+<span class="lineNum">     210 </span>            :         }
+<a name="211"><span class="lineNum">     211 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     212 </span>            : 
+<span class="lineNum">     213 </span><span class="lineCov">          1 : int cGround::GetNumParamSets() const</span>
+<span class="lineNum">     214 </span>            : {
+<span class="lineNum">     215 </span><span class="lineCov">          1 :         return static_cast&lt;int&gt;(mParams.mParamArr.rows());</span>
+<a name="216"><span class="lineNum">     216 </span>            : }</a>
+<span class="lineNum">     217 </span>            : 
+<span class="lineNum">     218 </span><span class="lineNoCov">          0 : int cGround::GetBlendParamSize() const</span>
+<span class="lineNum">     219 </span>            : {
+<span class="lineNum">     220 </span><span class="lineNoCov">          0 :         return 0;</span>
+<a name="221"><span class="lineNum">     221 </span>            : }</a>
+<span class="lineNum">     222 </span>            : 
+<span class="lineNum">     223 </span><span class="lineCov">          1 : void cGround::FlagUpdate()</span>
+<a name="224"><span class="lineNum">     224 </span>            : {</a>
+<span class="lineNum">     225 </span><span class="lineCov">          1 :         ++mUpdateCount;</span>
+<span class="lineNum">     226 </span><span class="lineCov">          4 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - PyHost Code Analysis - /usr/local/include/eigen3/Eigen/src/Core/ArrayWrapper.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../../index.html">top level</a> - <a href="index.html">usr/local/include/eigen3/Eigen/src/Core</a> - ArrayWrapper.h<span style="font-size: 80%;"> (source / <a href="ArrayWrapper.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">PyHost Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">6</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 17:04:23</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">10</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // This file is part of Eigen, a lightweight C++ template library</a>
+<span class="lineNum">       2 </span>            : // for linear algebra.
+<span class="lineNum">       3 </span>            : //
+<span class="lineNum">       4 </span>            : // Copyright (C) 2009-2010 Gael Guennebaud &lt;gael.guennebaud@inria.fr&gt;
+<span class="lineNum">       5 </span>            : //
+<span class="lineNum">       6 </span>            : // This Source Code Form is subject to the terms of the Mozilla
+<span class="lineNum">       7 </span>            : // Public License v. 2.0. If a copy of the MPL was not distributed
+<span class="lineNum">       8 </span>            : // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+<span class="lineNum">       9 </span>            : 
+<span class="lineNum">      10 </span>            : #ifndef EIGEN_ARRAYWRAPPER_H
+<span class="lineNum">      11 </span>            : #define EIGEN_ARRAYWRAPPER_H
+<span class="lineNum">      12 </span>            : 
+<span class="lineNum">      13 </span>            : namespace Eigen { 
+<span class="lineNum">      14 </span>            : 
+<span class="lineNum">      15 </span>            : /** \class ArrayWrapper
+<span class="lineNum">      16 </span>            :   * \ingroup Core_Module
+<span class="lineNum">      17 </span>            :   *
+<span class="lineNum">      18 </span>            :   * \brief Expression of a mathematical vector or matrix as an array object
+<span class="lineNum">      19 </span>            :   *
+<span class="lineNum">      20 </span>            :   * This class is the return type of MatrixBase::array(), and most of the time
+<span class="lineNum">      21 </span>            :   * this is the only way it is use.
+<span class="lineNum">      22 </span>            :   *
+<span class="lineNum">      23 </span>            :   * \sa MatrixBase::array(), class MatrixWrapper
+<span class="lineNum">      24 </span>            :   */
+<span class="lineNum">      25 </span>            : 
+<span class="lineNum">      26 </span>            : namespace internal {
+<span class="lineNum">      27 </span>            : template&lt;typename ExpressionType&gt;
+<span class="lineNum">      28 </span>            : struct traits&lt;ArrayWrapper&lt;ExpressionType&gt; &gt;
+<span class="lineNum">      29 </span>            :   : public traits&lt;typename remove_all&lt;typename ExpressionType::Nested&gt;::type &gt;
+<span class="lineNum">      30 </span>            : {
+<span class="lineNum">      31 </span>            :   typedef ArrayXpr XprKind;
+<span class="lineNum">      32 </span>            :   // Let's remove NestByRefBit
+<span class="lineNum">      33 </span>            :   enum {
+<span class="lineNum">      34 </span>            :     Flags0 = traits&lt;typename remove_all&lt;typename ExpressionType::Nested&gt;::type &gt;::Flags,
+<span class="lineNum">      35 </span>            :     LvalueBitFlag = is_lvalue&lt;ExpressionType&gt;::value ? LvalueBit : 0,
+<span class="lineNum">      36 </span>            :     Flags = (Flags0 &amp; ~(NestByRefBit | LvalueBit)) | LvalueBitFlag
+<span class="lineNum">      37 </span>            :   };
+<span class="lineNum">      38 </span>            : };
+<span class="lineNum">      39 </span>            : }
+<a name="40"><span class="lineNum">      40 </span>            : </a>
+<span class="lineNum">      41 </span>            : template&lt;typename ExpressionType&gt;
+<span class="lineNum">      42 </span><span class="lineNoCov">          0 : class ArrayWrapper : public ArrayBase&lt;ArrayWrapper&lt;ExpressionType&gt; &gt;</span>
+<span class="lineNum">      43 </span>            : {
+<span class="lineNum">      44 </span>            :   public:
+<span class="lineNum">      45 </span>            :     typedef ArrayBase&lt;ArrayWrapper&gt; Base;
+<span class="lineNum">      46 </span>            :     EIGEN_DENSE_PUBLIC_INTERFACE(ArrayWrapper)
+<span class="lineNum">      47 </span>            :     EIGEN_INHERIT_ASSIGNMENT_OPERATORS(ArrayWrapper)
+<span class="lineNum">      48 </span>            :     typedef typename internal::remove_all&lt;ExpressionType&gt;::type NestedExpression;
+<span class="lineNum">      49 </span>            : 
+<span class="lineNum">      50 </span>            :     typedef typename internal::conditional&lt;
+<span class="lineNum">      51 </span>            :                        internal::is_lvalue&lt;ExpressionType&gt;::value,
+<span class="lineNum">      52 </span>            :                        Scalar,
+<span class="lineNum">      53 </span>            :                        const Scalar
+<span class="lineNum">      54 </span>            :                      &gt;::type ScalarWithConstIfNotLvalue;
+<span class="lineNum">      55 </span>            : 
+<span class="lineNum">      56 </span>            :     typedef typename internal::ref_selector&lt;ExpressionType&gt;::non_const_type NestedExpressionType;
+<span class="lineNum">      57 </span>            : 
+<span class="lineNum">      58 </span>            :     using Base::coeffRef;
+<a name="59"><span class="lineNum">      59 </span>            : </a>
+<span class="lineNum">      60 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">      61 </span><span class="lineNoCov">          0 :     explicit EIGEN_STRONG_INLINE ArrayWrapper(ExpressionType&amp; matrix) : m_expression(matrix) {}</span>
+<a name="62"><span class="lineNum">      62 </span>            : </a>
+<span class="lineNum">      63 </span>            :     EIGEN_DEVICE_FUNC
+<a name="64"><span class="lineNum">      64 </span><span class="lineNoCov">          0 :     inline Index rows() const { return m_expression.rows(); }</span></a>
+<span class="lineNum">      65 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">      66 </span><span class="lineNoCov">          0 :     inline Index cols() const { return m_expression.cols(); }</span>
+<span class="lineNum">      67 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">      68 </span>            :     inline Index outerStride() const { return m_expression.outerStride(); }
+<span class="lineNum">      69 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">      70 </span>            :     inline Index innerStride() const { return m_expression.innerStride(); }
+<span class="lineNum">      71 </span>            : 
+<span class="lineNum">      72 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">      73 </span>            :     inline ScalarWithConstIfNotLvalue* data() { return m_expression.data(); }
+<span class="lineNum">      74 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">      75 </span>            :     inline const Scalar* data() const { return m_expression.data(); }
+<span class="lineNum">      76 </span>            : 
+<span class="lineNum">      77 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">      78 </span>            :     inline const Scalar&amp; coeffRef(Index rowId, Index colId) const
+<span class="lineNum">      79 </span>            :     {
+<span class="lineNum">      80 </span>            :       return m_expression.coeffRef(rowId, colId);
+<span class="lineNum">      81 </span>            :     }
+<span class="lineNum">      82 </span>            : 
+<span class="lineNum">      83 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">      84 </span>            :     inline const Scalar&amp; coeffRef(Index index) const
+<span class="lineNum">      85 </span>            :     {
+<span class="lineNum">      86 </span>            :       return m_expression.coeffRef(index);
+<span class="lineNum">      87 </span>            :     }
+<span class="lineNum">      88 </span>            : 
+<span class="lineNum">      89 </span>            :     template&lt;typename Dest&gt;
+<span class="lineNum">      90 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">      91 </span>            :     inline void evalTo(Dest&amp; dst) const { dst = m_expression; }
+<span class="lineNum">      92 </span>            : 
+<a name="93"><span class="lineNum">      93 </span>            :     const typename internal::remove_all&lt;NestedExpressionType&gt;::type&amp; </a>
+<span class="lineNum">      94 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">      95 </span><span class="lineNoCov">          0 :     nestedExpression() const </span>
+<span class="lineNum">      96 </span>            :     {
+<span class="lineNum">      97 </span><span class="lineNoCov">          0 :       return m_expression;</span>
+<span class="lineNum">      98 </span>            :     }
+<span class="lineNum">      99 </span>            : 
+<span class="lineNum">     100 </span>            :     /** Forwards the resizing request to the nested expression
+<span class="lineNum">     101 </span>            :       * \sa DenseBase::resize(Index)  */
+<span class="lineNum">     102 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     103 </span>            :     void resize(Index newSize) { m_expression.resize(newSize); }
+<span class="lineNum">     104 </span>            :     /** Forwards the resizing request to the nested expression
+<span class="lineNum">     105 </span>            :       * \sa DenseBase::resize(Index,Index)*/
+<span class="lineNum">     106 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     107 </span>            :     void resize(Index rows, Index cols) { m_expression.resize(rows,cols); }
+<span class="lineNum">     108 </span>            : 
+<span class="lineNum">     109 </span>            :   protected:
+<span class="lineNum">     110 </span>            :     NestedExpressionType m_expression;
+<span class="lineNum">     111 </span>            : };
+<span class="lineNum">     112 </span>            : 
+<span class="lineNum">     113 </span>            : /** \class MatrixWrapper
+<span class="lineNum">     114 </span>            :   * \ingroup Core_Module
+<span class="lineNum">     115 </span>            :   *
+<span class="lineNum">     116 </span>            :   * \brief Expression of an array as a mathematical vector or matrix
+<span class="lineNum">     117 </span>            :   *
+<span class="lineNum">     118 </span>            :   * This class is the return type of ArrayBase::matrix(), and most of the time
+<span class="lineNum">     119 </span>            :   * this is the only way it is use.
+<span class="lineNum">     120 </span>            :   *
+<span class="lineNum">     121 </span>            :   * \sa MatrixBase::matrix(), class ArrayWrapper
+<span class="lineNum">     122 </span>            :   */
+<span class="lineNum">     123 </span>            : 
+<span class="lineNum">     124 </span>            : namespace internal {
+<span class="lineNum">     125 </span>            : template&lt;typename ExpressionType&gt;
+<span class="lineNum">     126 </span>            : struct traits&lt;MatrixWrapper&lt;ExpressionType&gt; &gt;
+<span class="lineNum">     127 </span>            :  : public traits&lt;typename remove_all&lt;typename ExpressionType::Nested&gt;::type &gt;
+<span class="lineNum">     128 </span>            : {
+<span class="lineNum">     129 </span>            :   typedef MatrixXpr XprKind;
+<span class="lineNum">     130 </span>            :   // Let's remove NestByRefBit
+<span class="lineNum">     131 </span>            :   enum {
+<span class="lineNum">     132 </span>            :     Flags0 = traits&lt;typename remove_all&lt;typename ExpressionType::Nested&gt;::type &gt;::Flags,
+<span class="lineNum">     133 </span>            :     LvalueBitFlag = is_lvalue&lt;ExpressionType&gt;::value ? LvalueBit : 0,
+<span class="lineNum">     134 </span>            :     Flags = (Flags0 &amp; ~(NestByRefBit | LvalueBit)) | LvalueBitFlag
+<span class="lineNum">     135 </span>            :   };
+<span class="lineNum">     136 </span>            : };
+<span class="lineNum">     137 </span>            : }
+<span class="lineNum">     138 </span>            : 
+<span class="lineNum">     139 </span>            : template&lt;typename ExpressionType&gt;
+<span class="lineNum">     140 </span>            : class MatrixWrapper : public MatrixBase&lt;MatrixWrapper&lt;ExpressionType&gt; &gt;
+<span class="lineNum">     141 </span>            : {
+<span class="lineNum">     142 </span>            :   public:
+<span class="lineNum">     143 </span>            :     typedef MatrixBase&lt;MatrixWrapper&lt;ExpressionType&gt; &gt; Base;
+<span class="lineNum">     144 </span>            :     EIGEN_DENSE_PUBLIC_INTERFACE(MatrixWrapper)
+<span class="lineNum">     145 </span>            :     EIGEN_INHERIT_ASSIGNMENT_OPERATORS(MatrixWrapper)
+<span class="lineNum">     146 </span>            :     typedef typename internal::remove_all&lt;ExpressionType&gt;::type NestedExpression;
+<span class="lineNum">     147 </span>            : 
+<span class="lineNum">     148 </span>            :     typedef typename internal::conditional&lt;
+<span class="lineNum">     149 </span>            :                        internal::is_lvalue&lt;ExpressionType&gt;::value,
+<span class="lineNum">     150 </span>            :                        Scalar,
+<span class="lineNum">     151 </span>            :                        const Scalar
+<span class="lineNum">     152 </span>            :                      &gt;::type ScalarWithConstIfNotLvalue;
+<span class="lineNum">     153 </span>            : 
+<span class="lineNum">     154 </span>            :     typedef typename internal::ref_selector&lt;ExpressionType&gt;::non_const_type NestedExpressionType;
+<span class="lineNum">     155 </span>            : 
+<span class="lineNum">     156 </span>            :     using Base::coeffRef;
+<span class="lineNum">     157 </span>            : 
+<span class="lineNum">     158 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     159 </span>            :     explicit inline MatrixWrapper(ExpressionType&amp; matrix) : m_expression(matrix) {}
+<span class="lineNum">     160 </span>            : 
+<span class="lineNum">     161 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     162 </span>            :     inline Index rows() const { return m_expression.rows(); }
+<span class="lineNum">     163 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     164 </span>            :     inline Index cols() const { return m_expression.cols(); }
+<span class="lineNum">     165 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     166 </span>            :     inline Index outerStride() const { return m_expression.outerStride(); }
+<span class="lineNum">     167 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     168 </span>            :     inline Index innerStride() const { return m_expression.innerStride(); }
+<span class="lineNum">     169 </span>            : 
+<span class="lineNum">     170 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     171 </span>            :     inline ScalarWithConstIfNotLvalue* data() { return m_expression.data(); }
+<span class="lineNum">     172 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     173 </span>            :     inline const Scalar* data() const { return m_expression.data(); }
+<span class="lineNum">     174 </span>            : 
+<span class="lineNum">     175 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     176 </span>            :     inline const Scalar&amp; coeffRef(Index rowId, Index colId) const
+<span class="lineNum">     177 </span>            :     {
+<span class="lineNum">     178 </span>            :       return m_expression.derived().coeffRef(rowId, colId);
+<span class="lineNum">     179 </span>            :     }
+<span class="lineNum">     180 </span>            : 
+<span class="lineNum">     181 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     182 </span>            :     inline const Scalar&amp; coeffRef(Index index) const
+<span class="lineNum">     183 </span>            :     {
+<span class="lineNum">     184 </span>            :       return m_expression.coeffRef(index);
+<span class="lineNum">     185 </span>            :     }
+<span class="lineNum">     186 </span>            : 
+<span class="lineNum">     187 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     188 </span>            :     const typename internal::remove_all&lt;NestedExpressionType&gt;::type&amp; 
+<span class="lineNum">     189 </span>            :     nestedExpression() const 
+<span class="lineNum">     190 </span>            :     {
+<span class="lineNum">     191 </span>            :       return m_expression;
+<span class="lineNum">     192 </span>            :     }
+<span class="lineNum">     193 </span>            : 
+<span class="lineNum">     194 </span>            :     /** Forwards the resizing request to the nested expression
+<span class="lineNum">     195 </span>            :       * \sa DenseBase::resize(Index)  */
+<span class="lineNum">     196 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     197 </span>            :     void resize(Index newSize) { m_expression.resize(newSize); }
+<span class="lineNum">     198 </span>            :     /** Forwards the resizing request to the nested expression
+<span class="lineNum">     199 </span>            :       * \sa DenseBase::resize(Index,Index)*/
+<span class="lineNum">     200 </span>            :     EIGEN_DEVICE_FUNC
+<span class="lineNum">     201 </span>            :     void resize(Index rows, Index cols) { m_expression.resize(rows,cols); }
+<span class="lineNum">     202 </span>            : 
+<span class="lineNum">     203 </span>            :   protected:
+<span class="lineNum">     204 </span>            :     NestedExpressionType m_expression;
+<span class="lineNum">     205 </span>            : };
+<span class="lineNum">     206 </span>            : 
+<span class="lineNum">     207 </span>            : } // end namespace Eigen
+<span class="lineNum">     208 </span>            : 
+<span class="lineNum">     209 </span>            : #endif // EIGEN_ARRAYWRAPPER_H
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

@@ -1,0 +1,1196 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - PyHost Code Analysis - /usr/local/include/eigen3/Eigen/src/Core/ProductEvaluators.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../../index.html">top level</a> - <a href="index.html">usr/local/include/eigen3/Eigen/src/Core</a> - ProductEvaluators.h<span style="font-size: 80%;"> (source / <a href="ProductEvaluators.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">PyHost Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">108</td>
+            <td class="headerCovTableEntry">119</td>
+            <td class="headerCovTableEntryHi">90.8 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 17:04:23</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">257</td>
+            <td class="headerCovTableEntry">389</td>
+            <td class="headerCovTableEntryLo">66.1 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // This file is part of Eigen, a lightweight C++ template library</a>
+<span class="lineNum">       2 </span>            : // for linear algebra.
+<span class="lineNum">       3 </span>            : //
+<span class="lineNum">       4 </span>            : // Copyright (C) 2006-2008 Benoit Jacob &lt;jacob.benoit.1@gmail.com&gt;
+<span class="lineNum">       5 </span>            : // Copyright (C) 2008-2010 Gael Guennebaud &lt;gael.guennebaud@inria.fr&gt;
+<span class="lineNum">       6 </span>            : // Copyright (C) 2011 Jitse Niesen &lt;jitse@maths.leeds.ac.uk&gt;
+<span class="lineNum">       7 </span>            : //
+<span class="lineNum">       8 </span>            : // This Source Code Form is subject to the terms of the Mozilla
+<span class="lineNum">       9 </span>            : // Public License v. 2.0. If a copy of the MPL was not distributed
+<span class="lineNum">      10 </span>            : // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+<span class="lineNum">      11 </span>            : 
+<span class="lineNum">      12 </span>            : 
+<span class="lineNum">      13 </span>            : #ifndef EIGEN_PRODUCTEVALUATORS_H
+<span class="lineNum">      14 </span>            : #define EIGEN_PRODUCTEVALUATORS_H
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span>            : namespace Eigen {
+<span class="lineNum">      17 </span>            :   
+<span class="lineNum">      18 </span>            : namespace internal {
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span>            : /** \internal
+<span class="lineNum">      21 </span>            :   * Evaluator of a product expression.
+<span class="lineNum">      22 </span>            :   * Since products require special treatments to handle all possible cases,
+<span class="lineNum">      23 </span>            :   * we simply deffer the evaluation logic to a product_evaluator class
+<span class="lineNum">      24 </span>            :   * which offers more partial specialization possibilities.
+<span class="lineNum">      25 </span>            :   * 
+<span class="lineNum">      26 </span>            :   * \sa class product_evaluator
+<a name="27"><span class="lineNum">      27 </span>            :   */</a>
+<span class="lineNum">      28 </span>            : template&lt;typename Lhs, typename Rhs, int Options&gt;
+<span class="lineNum">      29 </span><span class="lineCov">     460487 : struct evaluator&lt;Product&lt;Lhs, Rhs, Options&gt; &gt; </span>
+<span class="lineNum">      30 </span>            :  : public product_evaluator&lt;Product&lt;Lhs, Rhs, Options&gt; &gt;
+<span class="lineNum">      31 </span>            : {
+<span class="lineNum">      32 </span>            :   typedef Product&lt;Lhs, Rhs, Options&gt; XprType;
+<a name="33"><span class="lineNum">      33 </span>            :   typedef product_evaluator&lt;XprType&gt; Base;</a>
+<span class="lineNum">      34 </span>            :   
+<span class="lineNum">      35 </span><span class="lineCov">     460487 :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE explicit evaluator(const XprType&amp; xpr) : Base(xpr) {}</span>
+<span class="lineNum">      36 </span>            : };
+<span class="lineNum">      37 </span>            :  
+<span class="lineNum">      38 </span>            : // Catch &quot;scalar * ( A * B )&quot; and transform it to &quot;(A*scalar) * B&quot;
+<span class="lineNum">      39 </span>            : // TODO we should apply that rule only if that's really helpful
+<span class="lineNum">      40 </span>            : template&lt;typename Lhs, typename Rhs, typename Scalar1, typename Scalar2, typename Plain1&gt;
+<span class="lineNum">      41 </span>            : struct evaluator_assume_aliasing&lt;CwiseBinaryOp&lt;internal::scalar_product_op&lt;Scalar1,Scalar2&gt;,
+<span class="lineNum">      42 </span>            :                                                const CwiseNullaryOp&lt;internal::scalar_constant_op&lt;Scalar1&gt;, Plain1&gt;,
+<span class="lineNum">      43 </span>            :                                                const Product&lt;Lhs, Rhs, DefaultProduct&gt; &gt; &gt;
+<span class="lineNum">      44 </span>            : {
+<span class="lineNum">      45 </span>            :   static const bool value = true;
+<span class="lineNum">      46 </span>            : };
+<span class="lineNum">      47 </span>            : template&lt;typename Lhs, typename Rhs, typename Scalar1, typename Scalar2, typename Plain1&gt;
+<span class="lineNum">      48 </span>            : struct evaluator&lt;CwiseBinaryOp&lt;internal::scalar_product_op&lt;Scalar1,Scalar2&gt;,
+<span class="lineNum">      49 </span>            :                                const CwiseNullaryOp&lt;internal::scalar_constant_op&lt;Scalar1&gt;, Plain1&gt;,
+<span class="lineNum">      50 </span>            :                                const Product&lt;Lhs, Rhs, DefaultProduct&gt; &gt; &gt;
+<span class="lineNum">      51 </span>            :  : public evaluator&lt;Product&lt;EIGEN_SCALAR_BINARYOP_EXPR_RETURN_TYPE(Scalar1,Lhs,product), Rhs, DefaultProduct&gt; &gt;
+<span class="lineNum">      52 </span>            : {
+<span class="lineNum">      53 </span>            :   typedef CwiseBinaryOp&lt;internal::scalar_product_op&lt;Scalar1,Scalar2&gt;,
+<span class="lineNum">      54 </span>            :                                const CwiseNullaryOp&lt;internal::scalar_constant_op&lt;Scalar1&gt;, Plain1&gt;,
+<span class="lineNum">      55 </span>            :                                const Product&lt;Lhs, Rhs, DefaultProduct&gt; &gt; XprType;
+<span class="lineNum">      56 </span>            :   typedef evaluator&lt;Product&lt;EIGEN_SCALAR_BINARYOP_EXPR_RETURN_TYPE(Scalar1,Lhs,product), Rhs, DefaultProduct&gt; &gt; Base;
+<span class="lineNum">      57 </span>            : 
+<span class="lineNum">      58 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE explicit evaluator(const XprType&amp; xpr)
+<span class="lineNum">      59 </span>            :     : Base(xpr.lhs().functor().m_other * xpr.rhs().lhs() * xpr.rhs().rhs())
+<span class="lineNum">      60 </span>            :   {}
+<span class="lineNum">      61 </span>            : };
+<span class="lineNum">      62 </span>            : 
+<span class="lineNum">      63 </span>            : 
+<span class="lineNum">      64 </span>            : template&lt;typename Lhs, typename Rhs, int DiagIndex&gt;
+<span class="lineNum">      65 </span>            : struct evaluator&lt;Diagonal&lt;const Product&lt;Lhs, Rhs, DefaultProduct&gt;, DiagIndex&gt; &gt; 
+<span class="lineNum">      66 </span>            :  : public evaluator&lt;Diagonal&lt;const Product&lt;Lhs, Rhs, LazyProduct&gt;, DiagIndex&gt; &gt;
+<span class="lineNum">      67 </span>            : {
+<span class="lineNum">      68 </span>            :   typedef Diagonal&lt;const Product&lt;Lhs, Rhs, DefaultProduct&gt;, DiagIndex&gt; XprType;
+<span class="lineNum">      69 </span>            :   typedef evaluator&lt;Diagonal&lt;const Product&lt;Lhs, Rhs, LazyProduct&gt;, DiagIndex&gt; &gt; Base;
+<span class="lineNum">      70 </span>            :   
+<span class="lineNum">      71 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE explicit evaluator(const XprType&amp; xpr)
+<span class="lineNum">      72 </span>            :     : Base(Diagonal&lt;const Product&lt;Lhs, Rhs, LazyProduct&gt;, DiagIndex&gt;(
+<span class="lineNum">      73 </span>            :         Product&lt;Lhs, Rhs, LazyProduct&gt;(xpr.nestedExpression().lhs(), xpr.nestedExpression().rhs()),
+<span class="lineNum">      74 </span>            :         xpr.index() ))
+<span class="lineNum">      75 </span>            :   {}
+<span class="lineNum">      76 </span>            : };
+<span class="lineNum">      77 </span>            : 
+<span class="lineNum">      78 </span>            : 
+<span class="lineNum">      79 </span>            : // Helper class to perform a matrix product with the destination at hand.
+<span class="lineNum">      80 </span>            : // Depending on the sizes of the factors, there are different evaluation strategies
+<span class="lineNum">      81 </span>            : // as controlled by internal::product_type.
+<span class="lineNum">      82 </span>            : template&lt; typename Lhs, typename Rhs,
+<span class="lineNum">      83 </span>            :           typename LhsShape = typename evaluator_traits&lt;Lhs&gt;::Shape,
+<span class="lineNum">      84 </span>            :           typename RhsShape = typename evaluator_traits&lt;Rhs&gt;::Shape,
+<span class="lineNum">      85 </span>            :           int ProductType = internal::product_type&lt;Lhs,Rhs&gt;::value&gt;
+<span class="lineNum">      86 </span>            : struct generic_product_impl;
+<span class="lineNum">      87 </span>            : 
+<span class="lineNum">      88 </span>            : template&lt;typename Lhs, typename Rhs&gt;
+<span class="lineNum">      89 </span>            : struct evaluator_assume_aliasing&lt;Product&lt;Lhs, Rhs, DefaultProduct&gt; &gt; {
+<span class="lineNum">      90 </span>            :   static const bool value = true;
+<span class="lineNum">      91 </span>            : };
+<span class="lineNum">      92 </span>            : 
+<span class="lineNum">      93 </span>            : // This is the default evaluator implementation for products:
+<a name="94"><span class="lineNum">      94 </span>            : // It creates a temporary and call generic_product_impl</a>
+<span class="lineNum">      95 </span>            : template&lt;typename Lhs, typename Rhs, int Options, int ProductTag, typename LhsShape, typename RhsShape&gt;
+<span class="lineNum">      96 </span><span class="lineCov">      42095 : struct product_evaluator&lt;Product&lt;Lhs, Rhs, Options&gt;, ProductTag, LhsShape, RhsShape&gt;</span>
+<span class="lineNum">      97 </span>            :   : public evaluator&lt;typename Product&lt;Lhs, Rhs, Options&gt;::PlainObject&gt;
+<span class="lineNum">      98 </span>            : {
+<span class="lineNum">      99 </span>            :   typedef Product&lt;Lhs, Rhs, Options&gt; XprType;
+<span class="lineNum">     100 </span>            :   typedef typename XprType::PlainObject PlainObject;
+<span class="lineNum">     101 </span>            :   typedef evaluator&lt;PlainObject&gt; Base;
+<span class="lineNum">     102 </span>            :   enum {
+<span class="lineNum">     103 </span>            :     Flags = Base::Flags | EvalBeforeNestingBit
+<span class="lineNum">     104 </span>            :   };
+<a name="105"><span class="lineNum">     105 </span>            : </a>
+<span class="lineNum">     106 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     107 </span><span class="lineCov">      42095 :   explicit product_evaluator(const XprType&amp; xpr)</span>
+<span class="lineNum">     108 </span><span class="lineCov">      42095 :     : m_result(xpr.rows(), xpr.cols())</span>
+<span class="lineNum">     109 </span>            :   {
+<span class="lineNum">     110 </span><span class="lineCov">      42095 :     ::new (static_cast&lt;Base*&gt;(this)) Base(m_result);</span>
+<span class="lineNum">     111 </span>            :     
+<span class="lineNum">     112 </span>            : // FIXME shall we handle nested_eval here?,
+<span class="lineNum">     113 </span>            : // if so, then we must take care at removing the call to nested_eval in the specializations (e.g., in permutation_matrix_product, transposition_matrix_product, etc.)
+<span class="lineNum">     114 </span>            : //     typedef typename internal::nested_eval&lt;Lhs,Rhs::ColsAtCompileTime&gt;::type LhsNested;
+<span class="lineNum">     115 </span>            : //     typedef typename internal::nested_eval&lt;Rhs,Lhs::RowsAtCompileTime&gt;::type RhsNested;
+<span class="lineNum">     116 </span>            : //     typedef typename internal::remove_all&lt;LhsNested&gt;::type LhsNestedCleaned;
+<span class="lineNum">     117 </span>            : //     typedef typename internal::remove_all&lt;RhsNested&gt;::type RhsNestedCleaned;
+<span class="lineNum">     118 </span>            : //     
+<span class="lineNum">     119 </span>            : //     const LhsNested lhs(xpr.lhs());
+<span class="lineNum">     120 </span>            : //     const RhsNested rhs(xpr.rhs());
+<span class="lineNum">     121 </span>            : //   
+<span class="lineNum">     122 </span>            : //     generic_product_impl&lt;LhsNestedCleaned, RhsNestedCleaned&gt;::evalTo(m_result, lhs, rhs);
+<span class="lineNum">     123 </span>            : 
+<span class="lineNum">     124 </span><span class="lineCov">      42095 :     generic_product_impl&lt;Lhs, Rhs, LhsShape, RhsShape, ProductTag&gt;::evalTo(m_result, xpr.lhs(), xpr.rhs());</span>
+<span class="lineNum">     125 </span><span class="lineCov">      42095 :   }</span>
+<span class="lineNum">     126 </span>            :   
+<span class="lineNum">     127 </span>            : protected:  
+<span class="lineNum">     128 </span>            :   PlainObject m_result;
+<span class="lineNum">     129 </span>            : };
+<span class="lineNum">     130 </span>            : 
+<span class="lineNum">     131 </span>            : // The following three shortcuts are enabled only if the scalar types match excatly.
+<span class="lineNum">     132 </span>            : // TODO: we could enable them for different scalar types when the product is not vectorized.
+<span class="lineNum">     133 </span>            : 
+<span class="lineNum">     134 </span>            : // Dense = Product
+<span class="lineNum">     135 </span>            : template&lt; typename DstXprType, typename Lhs, typename Rhs, int Options, typename Scalar&gt;
+<span class="lineNum">     136 </span>            : struct Assignment&lt;DstXprType, Product&lt;Lhs,Rhs,Options&gt;, internal::assign_op&lt;Scalar,Scalar&gt;, Dense2Dense,
+<span class="lineNum">     137 </span>            :   typename enable_if&lt;(Options==DefaultProduct || Options==AliasFreeProduct)&gt;::type&gt;
+<span class="lineNum">     138 </span>            : {
+<a name="139"><span class="lineNum">     139 </span>            :   typedef Product&lt;Lhs,Rhs,Options&gt; SrcXprType;</a>
+<span class="lineNum">     140 </span>            :   static EIGEN_STRONG_INLINE
+<span class="lineNum">     141 </span><span class="lineCov">     380238 :   void run(DstXprType &amp;dst, const SrcXprType &amp;src, const internal::assign_op&lt;Scalar,Scalar&gt; &amp;)</span>
+<span class="lineNum">     142 </span>            :   {
+<span class="lineNum">     143 </span><span class="lineCov">     380238 :     Index dstRows = src.rows();</span>
+<span class="lineNum">     144 </span><span class="lineCov">     380238 :     Index dstCols = src.cols();</span>
+<span class="lineNum">     145 </span><span class="lineCov">     380238 :     if((dst.rows()!=dstRows) || (dst.cols()!=dstCols))</span>
+<span class="lineNum">     146 </span><span class="lineCov">      60651 :       dst.resize(dstRows, dstCols);</span>
+<span class="lineNum">     147 </span>            :     // FIXME shall we handle nested_eval here?
+<span class="lineNum">     148 </span><span class="lineCov">     380238 :     generic_product_impl&lt;Lhs, Rhs&gt;::evalTo(dst, src.lhs(), src.rhs());</span>
+<span class="lineNum">     149 </span><span class="lineCov">     380238 :   }</span>
+<span class="lineNum">     150 </span>            : };
+<span class="lineNum">     151 </span>            : 
+<span class="lineNum">     152 </span>            : // Dense += Product
+<span class="lineNum">     153 </span>            : template&lt; typename DstXprType, typename Lhs, typename Rhs, int Options, typename Scalar&gt;
+<span class="lineNum">     154 </span>            : struct Assignment&lt;DstXprType, Product&lt;Lhs,Rhs,Options&gt;, internal::add_assign_op&lt;Scalar,Scalar&gt;, Dense2Dense,
+<span class="lineNum">     155 </span>            :   typename enable_if&lt;(Options==DefaultProduct || Options==AliasFreeProduct)&gt;::type&gt;
+<span class="lineNum">     156 </span>            : {
+<a name="157"><span class="lineNum">     157 </span>            :   typedef Product&lt;Lhs,Rhs,Options&gt; SrcXprType;</a>
+<span class="lineNum">     158 </span>            :   static EIGEN_STRONG_INLINE
+<span class="lineNum">     159 </span><span class="lineCov">       8154 :   void run(DstXprType &amp;dst, const SrcXprType &amp;src, const internal::add_assign_op&lt;Scalar,Scalar&gt; &amp;)</span>
+<span class="lineNum">     160 </span>            :   {
+<span class="lineNum">     161 </span><span class="lineCov">       8154 :     eigen_assert(dst.rows() == src.rows() &amp;&amp; dst.cols() == src.cols());</span>
+<span class="lineNum">     162 </span>            :     // FIXME shall we handle nested_eval here?
+<span class="lineNum">     163 </span><span class="lineCov">       8154 :     generic_product_impl&lt;Lhs, Rhs&gt;::addTo(dst, src.lhs(), src.rhs());</span>
+<span class="lineNum">     164 </span><span class="lineCov">       8154 :   }</span>
+<span class="lineNum">     165 </span>            : };
+<span class="lineNum">     166 </span>            : 
+<span class="lineNum">     167 </span>            : // Dense -= Product
+<span class="lineNum">     168 </span>            : template&lt; typename DstXprType, typename Lhs, typename Rhs, int Options, typename Scalar&gt;
+<span class="lineNum">     169 </span>            : struct Assignment&lt;DstXprType, Product&lt;Lhs,Rhs,Options&gt;, internal::sub_assign_op&lt;Scalar,Scalar&gt;, Dense2Dense,
+<span class="lineNum">     170 </span>            :   typename enable_if&lt;(Options==DefaultProduct || Options==AliasFreeProduct)&gt;::type&gt;
+<span class="lineNum">     171 </span>            : {
+<a name="172"><span class="lineNum">     172 </span>            :   typedef Product&lt;Lhs,Rhs,Options&gt; SrcXprType;</a>
+<span class="lineNum">     173 </span>            :   static EIGEN_STRONG_INLINE
+<span class="lineNum">     174 </span><span class="lineCov">      19270 :   void run(DstXprType &amp;dst, const SrcXprType &amp;src, const internal::sub_assign_op&lt;Scalar,Scalar&gt; &amp;)</span>
+<span class="lineNum">     175 </span>            :   {
+<span class="lineNum">     176 </span><span class="lineCov">      19270 :     eigen_assert(dst.rows() == src.rows() &amp;&amp; dst.cols() == src.cols());</span>
+<span class="lineNum">     177 </span>            :     // FIXME shall we handle nested_eval here?
+<span class="lineNum">     178 </span><span class="lineCov">      19270 :     generic_product_impl&lt;Lhs, Rhs&gt;::subTo(dst, src.lhs(), src.rhs());</span>
+<span class="lineNum">     179 </span><span class="lineCov">      19270 :   }</span>
+<span class="lineNum">     180 </span>            : };
+<span class="lineNum">     181 </span>            : 
+<span class="lineNum">     182 </span>            : 
+<span class="lineNum">     183 </span>            : // Dense ?= scalar * Product
+<span class="lineNum">     184 </span>            : // TODO we should apply that rule if that's really helpful
+<span class="lineNum">     185 </span>            : // for instance, this is not good for inner products
+<span class="lineNum">     186 </span>            : template&lt; typename DstXprType, typename Lhs, typename Rhs, typename AssignFunc, typename Scalar, typename ScalarBis, typename Plain&gt;
+<span class="lineNum">     187 </span>            : struct Assignment&lt;DstXprType, CwiseBinaryOp&lt;internal::scalar_product_op&lt;ScalarBis,Scalar&gt;, const CwiseNullaryOp&lt;internal::scalar_constant_op&lt;ScalarBis&gt;,Plain&gt;,
+<span class="lineNum">     188 </span>            :                                            const Product&lt;Lhs,Rhs,DefaultProduct&gt; &gt;, AssignFunc, Dense2Dense&gt;
+<span class="lineNum">     189 </span>            : {
+<span class="lineNum">     190 </span>            :   typedef CwiseBinaryOp&lt;internal::scalar_product_op&lt;ScalarBis,Scalar&gt;,
+<span class="lineNum">     191 </span>            :                         const CwiseNullaryOp&lt;internal::scalar_constant_op&lt;ScalarBis&gt;,Plain&gt;,
+<span class="lineNum">     192 </span>            :                         const Product&lt;Lhs,Rhs,DefaultProduct&gt; &gt; SrcXprType;
+<span class="lineNum">     193 </span>            :   static EIGEN_STRONG_INLINE
+<span class="lineNum">     194 </span>            :   void run(DstXprType &amp;dst, const SrcXprType &amp;src, const AssignFunc&amp; func)
+<span class="lineNum">     195 </span>            :   {
+<span class="lineNum">     196 </span>            :     call_assignment_no_alias(dst, (src.lhs().functor().m_other * src.rhs().lhs())*src.rhs().rhs(), func);
+<span class="lineNum">     197 </span>            :   }
+<span class="lineNum">     198 </span>            : };
+<span class="lineNum">     199 </span>            : 
+<span class="lineNum">     200 </span>            : //----------------------------------------
+<span class="lineNum">     201 </span>            : // Catch &quot;Dense ?= xpr + Product&lt;&gt;&quot; expression to save one temporary
+<span class="lineNum">     202 </span>            : // FIXME we could probably enable these rules for any product, i.e., not only Dense and DefaultProduct
+<span class="lineNum">     203 </span>            : 
+<span class="lineNum">     204 </span>            : template&lt;typename OtherXpr, typename Lhs, typename Rhs&gt;
+<span class="lineNum">     205 </span>            : struct evaluator_assume_aliasing&lt;CwiseBinaryOp&lt;internal::scalar_sum_op&lt;typename OtherXpr::Scalar,typename Product&lt;Lhs,Rhs,DefaultProduct&gt;::Scalar&gt;, const OtherXpr,
+<span class="lineNum">     206 </span>            :                                                const Product&lt;Lhs,Rhs,DefaultProduct&gt; &gt;, DenseShape &gt; {
+<span class="lineNum">     207 </span>            :   static const bool value = true;
+<span class="lineNum">     208 </span>            : };
+<span class="lineNum">     209 </span>            : 
+<span class="lineNum">     210 </span>            : template&lt;typename OtherXpr, typename Lhs, typename Rhs&gt;
+<span class="lineNum">     211 </span>            : struct evaluator_assume_aliasing&lt;CwiseBinaryOp&lt;internal::scalar_difference_op&lt;typename OtherXpr::Scalar,typename Product&lt;Lhs,Rhs,DefaultProduct&gt;::Scalar&gt;, const OtherXpr,
+<span class="lineNum">     212 </span>            :                                                const Product&lt;Lhs,Rhs,DefaultProduct&gt; &gt;, DenseShape &gt; {
+<span class="lineNum">     213 </span>            :   static const bool value = true;
+<span class="lineNum">     214 </span>            : };
+<span class="lineNum">     215 </span>            : 
+<span class="lineNum">     216 </span>            : template&lt;typename DstXprType, typename OtherXpr, typename ProductType, typename Func1, typename Func2&gt;
+<span class="lineNum">     217 </span>            : struct assignment_from_xpr_op_product
+<span class="lineNum">     218 </span>            : {
+<a name="219"><span class="lineNum">     219 </span>            :   template&lt;typename SrcXprType, typename InitialFunc&gt;</a>
+<span class="lineNum">     220 </span>            :   static EIGEN_STRONG_INLINE
+<span class="lineNum">     221 </span><span class="lineCov">       8154 :   void run(DstXprType &amp;dst, const SrcXprType &amp;src, const InitialFunc&amp; /*func*/)</span>
+<span class="lineNum">     222 </span>            :   {
+<span class="lineNum">     223 </span><span class="lineCov">       8154 :     call_assignment_no_alias(dst, src.lhs(), Func1());</span>
+<span class="lineNum">     224 </span><span class="lineCov">       8154 :     call_assignment_no_alias(dst, src.rhs(), Func2());</span>
+<span class="lineNum">     225 </span><span class="lineCov">       8154 :   }</span>
+<span class="lineNum">     226 </span>            : };
+<span class="lineNum">     227 </span>            : 
+<span class="lineNum">     228 </span>            : #define EIGEN_CATCH_ASSIGN_XPR_OP_PRODUCT(ASSIGN_OP,BINOP,ASSIGN_OP2) \
+<span class="lineNum">     229 </span>            :   template&lt; typename DstXprType, typename OtherXpr, typename Lhs, typename Rhs, typename DstScalar, typename SrcScalar, typename OtherScalar,typename ProdScalar&gt; \
+<span class="lineNum">     230 </span>            :   struct Assignment&lt;DstXprType, CwiseBinaryOp&lt;internal::BINOP&lt;OtherScalar,ProdScalar&gt;, const OtherXpr, \
+<span class="lineNum">     231 </span>            :                                             const Product&lt;Lhs,Rhs,DefaultProduct&gt; &gt;, internal::ASSIGN_OP&lt;DstScalar,SrcScalar&gt;, Dense2Dense&gt; \
+<span class="lineNum">     232 </span>            :     : assignment_from_xpr_op_product&lt;DstXprType, OtherXpr, Product&lt;Lhs,Rhs,DefaultProduct&gt;, internal::ASSIGN_OP&lt;DstScalar,OtherScalar&gt;, internal::ASSIGN_OP2&lt;DstScalar,ProdScalar&gt; &gt; \
+<span class="lineNum">     233 </span>            :   {}
+<span class="lineNum">     234 </span>            : 
+<span class="lineNum">     235 </span>            : EIGEN_CATCH_ASSIGN_XPR_OP_PRODUCT(assign_op,    scalar_sum_op,add_assign_op);
+<span class="lineNum">     236 </span>            : EIGEN_CATCH_ASSIGN_XPR_OP_PRODUCT(add_assign_op,scalar_sum_op,add_assign_op);
+<span class="lineNum">     237 </span>            : EIGEN_CATCH_ASSIGN_XPR_OP_PRODUCT(sub_assign_op,scalar_sum_op,sub_assign_op);
+<span class="lineNum">     238 </span>            : 
+<span class="lineNum">     239 </span>            : EIGEN_CATCH_ASSIGN_XPR_OP_PRODUCT(assign_op,    scalar_difference_op,sub_assign_op);
+<span class="lineNum">     240 </span>            : EIGEN_CATCH_ASSIGN_XPR_OP_PRODUCT(add_assign_op,scalar_difference_op,sub_assign_op);
+<span class="lineNum">     241 </span>            : EIGEN_CATCH_ASSIGN_XPR_OP_PRODUCT(sub_assign_op,scalar_difference_op,add_assign_op);
+<span class="lineNum">     242 </span>            : 
+<span class="lineNum">     243 </span>            : //----------------------------------------
+<span class="lineNum">     244 </span>            : 
+<span class="lineNum">     245 </span>            : template&lt;typename Lhs, typename Rhs&gt;
+<span class="lineNum">     246 </span>            : struct generic_product_impl&lt;Lhs,Rhs,DenseShape,DenseShape,InnerProduct&gt;
+<a name="247"><span class="lineNum">     247 </span>            : {</a>
+<span class="lineNum">     248 </span>            :   template&lt;typename Dst&gt;
+<span class="lineNum">     249 </span><span class="lineCov">      19740 :   static EIGEN_STRONG_INLINE void evalTo(Dst&amp; dst, const Lhs&amp; lhs, const Rhs&amp; rhs)</span>
+<span class="lineNum">     250 </span>            :   {
+<span class="lineNum">     251 </span><span class="lineCov">      19740 :     dst.coeffRef(0,0) = (lhs.transpose().cwiseProduct(rhs)).sum();</span>
+<span class="lineNum">     252 </span><span class="lineCov">      19740 :   }</span>
+<span class="lineNum">     253 </span>            :   
+<span class="lineNum">     254 </span>            :   template&lt;typename Dst&gt;
+<span class="lineNum">     255 </span>            :   static EIGEN_STRONG_INLINE void addTo(Dst&amp; dst, const Lhs&amp; lhs, const Rhs&amp; rhs)
+<span class="lineNum">     256 </span>            :   {
+<span class="lineNum">     257 </span>            :     dst.coeffRef(0,0) += (lhs.transpose().cwiseProduct(rhs)).sum();
+<span class="lineNum">     258 </span>            :   }
+<span class="lineNum">     259 </span>            :   
+<span class="lineNum">     260 </span>            :   template&lt;typename Dst&gt;
+<span class="lineNum">     261 </span>            :   static EIGEN_STRONG_INLINE void subTo(Dst&amp; dst, const Lhs&amp; lhs, const Rhs&amp; rhs)
+<span class="lineNum">     262 </span>            :   { dst.coeffRef(0,0) -= (lhs.transpose().cwiseProduct(rhs)).sum(); }
+<span class="lineNum">     263 </span>            : };
+<span class="lineNum">     264 </span>            : 
+<span class="lineNum">     265 </span>            : 
+<span class="lineNum">     266 </span>            : /***********************************************************************
+<span class="lineNum">     267 </span>            : *  Implementation of outer dense * dense vector product
+<span class="lineNum">     268 </span>            : ***********************************************************************/
+<span class="lineNum">     269 </span>            : 
+<span class="lineNum">     270 </span>            : // Column major result
+<span class="lineNum">     271 </span>            : template&lt;typename Dst, typename Lhs, typename Rhs, typename Func&gt;
+<span class="lineNum">     272 </span>            : void outer_product_selector_run(Dst&amp; dst, const Lhs &amp;lhs, const Rhs &amp;rhs, const Func&amp; func, const false_type&amp;)
+<span class="lineNum">     273 </span>            : {
+<span class="lineNum">     274 </span>            :   evaluator&lt;Rhs&gt; rhsEval(rhs);
+<span class="lineNum">     275 </span>            :   typename nested_eval&lt;Lhs,Rhs::SizeAtCompileTime&gt;::type actual_lhs(lhs);
+<span class="lineNum">     276 </span>            :   // FIXME if cols is large enough, then it might be useful to make sure that lhs is sequentially stored
+<span class="lineNum">     277 </span>            :   // FIXME not very good if rhs is real and lhs complex while alpha is real too
+<span class="lineNum">     278 </span>            :   const Index cols = dst.cols();
+<span class="lineNum">     279 </span>            :   for (Index j=0; j&lt;cols; ++j)
+<span class="lineNum">     280 </span>            :     func(dst.col(j), rhsEval.coeff(Index(0),j) * actual_lhs);
+<span class="lineNum">     281 </span>            : }
+<span class="lineNum">     282 </span>            : 
+<span class="lineNum">     283 </span>            : // Row major result
+<span class="lineNum">     284 </span>            : template&lt;typename Dst, typename Lhs, typename Rhs, typename Func&gt;
+<span class="lineNum">     285 </span>            : void outer_product_selector_run(Dst&amp; dst, const Lhs &amp;lhs, const Rhs &amp;rhs, const Func&amp; func, const true_type&amp;)
+<span class="lineNum">     286 </span>            : {
+<span class="lineNum">     287 </span>            :   evaluator&lt;Lhs&gt; lhsEval(lhs);
+<span class="lineNum">     288 </span>            :   typename nested_eval&lt;Rhs,Lhs::SizeAtCompileTime&gt;::type actual_rhs(rhs);
+<span class="lineNum">     289 </span>            :   // FIXME if rows is large enough, then it might be useful to make sure that rhs is sequentially stored
+<span class="lineNum">     290 </span>            :   // FIXME not very good if lhs is real and rhs complex while alpha is real too
+<span class="lineNum">     291 </span>            :   const Index rows = dst.rows();
+<span class="lineNum">     292 </span>            :   for (Index i=0; i&lt;rows; ++i)
+<span class="lineNum">     293 </span>            :     func(dst.row(i), lhsEval.coeff(i,Index(0)) * actual_rhs);
+<span class="lineNum">     294 </span>            : }
+<span class="lineNum">     295 </span>            : 
+<span class="lineNum">     296 </span>            : template&lt;typename Lhs, typename Rhs&gt;
+<span class="lineNum">     297 </span>            : struct generic_product_impl&lt;Lhs,Rhs,DenseShape,DenseShape,OuterProduct&gt;
+<span class="lineNum">     298 </span>            : {
+<span class="lineNum">     299 </span>            :   template&lt;typename T&gt; struct is_row_major : internal::conditional&lt;(int(T::Flags)&amp;RowMajorBit), internal::true_type, internal::false_type&gt;::type {};
+<span class="lineNum">     300 </span>            :   typedef typename Product&lt;Lhs,Rhs&gt;::Scalar Scalar;
+<span class="lineNum">     301 </span>            :   
+<span class="lineNum">     302 </span>            :   // TODO it would be nice to be able to exploit our *_assign_op functors for that purpose
+<span class="lineNum">     303 </span>            :   struct set  { template&lt;typename Dst, typename Src&gt; void operator()(const Dst&amp; dst, const Src&amp; src) const { dst.const_cast_derived()  = src; } };
+<span class="lineNum">     304 </span>            :   struct add  { template&lt;typename Dst, typename Src&gt; void operator()(const Dst&amp; dst, const Src&amp; src) const { dst.const_cast_derived() += src; } };
+<span class="lineNum">     305 </span>            :   struct sub  { template&lt;typename Dst, typename Src&gt; void operator()(const Dst&amp; dst, const Src&amp; src) const { dst.const_cast_derived() -= src; } };
+<span class="lineNum">     306 </span>            :   struct adds {
+<span class="lineNum">     307 </span>            :     Scalar m_scale;
+<span class="lineNum">     308 </span>            :     explicit adds(const Scalar&amp; s) : m_scale(s) {}
+<span class="lineNum">     309 </span>            :     template&lt;typename Dst, typename Src&gt; void operator()(const Dst&amp; dst, const Src&amp; src) const {
+<span class="lineNum">     310 </span>            :       dst.const_cast_derived() += m_scale * src;
+<span class="lineNum">     311 </span>            :     }
+<span class="lineNum">     312 </span>            :   };
+<span class="lineNum">     313 </span>            :   
+<span class="lineNum">     314 </span>            :   template&lt;typename Dst&gt;
+<span class="lineNum">     315 </span>            :   static EIGEN_STRONG_INLINE void evalTo(Dst&amp; dst, const Lhs&amp; lhs, const Rhs&amp; rhs)
+<span class="lineNum">     316 </span>            :   {
+<span class="lineNum">     317 </span>            :     internal::outer_product_selector_run(dst, lhs, rhs, set(), is_row_major&lt;Dst&gt;());
+<span class="lineNum">     318 </span>            :   }
+<span class="lineNum">     319 </span>            :   
+<span class="lineNum">     320 </span>            :   template&lt;typename Dst&gt;
+<span class="lineNum">     321 </span>            :   static EIGEN_STRONG_INLINE void addTo(Dst&amp; dst, const Lhs&amp; lhs, const Rhs&amp; rhs)
+<span class="lineNum">     322 </span>            :   {
+<span class="lineNum">     323 </span>            :     internal::outer_product_selector_run(dst, lhs, rhs, add(), is_row_major&lt;Dst&gt;());
+<span class="lineNum">     324 </span>            :   }
+<span class="lineNum">     325 </span>            :   
+<span class="lineNum">     326 </span>            :   template&lt;typename Dst&gt;
+<span class="lineNum">     327 </span>            :   static EIGEN_STRONG_INLINE void subTo(Dst&amp; dst, const Lhs&amp; lhs, const Rhs&amp; rhs)
+<span class="lineNum">     328 </span>            :   {
+<span class="lineNum">     329 </span>            :     internal::outer_product_selector_run(dst, lhs, rhs, sub(), is_row_major&lt;Dst&gt;());
+<span class="lineNum">     330 </span>            :   }
+<span class="lineNum">     331 </span>            :   
+<span class="lineNum">     332 </span>            :   template&lt;typename Dst&gt;
+<span class="lineNum">     333 </span>            :   static EIGEN_STRONG_INLINE void scaleAndAddTo(Dst&amp; dst, const Lhs&amp; lhs, const Rhs&amp; rhs, const Scalar&amp; alpha)
+<span class="lineNum">     334 </span>            :   {
+<span class="lineNum">     335 </span>            :     internal::outer_product_selector_run(dst, lhs, rhs, adds(alpha), is_row_major&lt;Dst&gt;());
+<span class="lineNum">     336 </span>            :   }
+<span class="lineNum">     337 </span>            :   
+<span class="lineNum">     338 </span>            : };
+<span class="lineNum">     339 </span>            : 
+<span class="lineNum">     340 </span>            : 
+<span class="lineNum">     341 </span>            : // This base class provides default implementations for evalTo, addTo, subTo, in terms of scaleAndAddTo
+<span class="lineNum">     342 </span>            : template&lt;typename Lhs, typename Rhs, typename Derived&gt;
+<span class="lineNum">     343 </span>            : struct generic_product_impl_base
+<span class="lineNum">     344 </span>            : {
+<span class="lineNum">     345 </span>            :   typedef typename Product&lt;Lhs,Rhs&gt;::Scalar Scalar;
+<a name="346"><span class="lineNum">     346 </span>            :   </a>
+<span class="lineNum">     347 </span>            :   template&lt;typename Dst&gt;
+<span class="lineNum">     348 </span><span class="lineCov">      12565 :   static EIGEN_STRONG_INLINE void evalTo(Dst&amp; dst, const Lhs&amp; lhs, const Rhs&amp; rhs)</span>
+<span class="lineNum">     349 </span><span class="lineCov">      12565 :   { dst.setZero(); scaleAndAddTo(dst, lhs, rhs, Scalar(1)); }</span>
+<span class="lineNum">     350 </span>            : 
+<span class="lineNum">     351 </span>            :   template&lt;typename Dst&gt;
+<span class="lineNum">     352 </span>            :   static EIGEN_STRONG_INLINE void addTo(Dst&amp; dst, const Lhs&amp; lhs, const Rhs&amp; rhs)
+<span class="lineNum">     353 </span>            :   { scaleAndAddTo(dst,lhs, rhs, Scalar(1)); }
+<a name="354"><span class="lineNum">     354 </span>            : </a>
+<span class="lineNum">     355 </span>            :   template&lt;typename Dst&gt;
+<span class="lineNum">     356 </span><span class="lineCov">      19270 :   static EIGEN_STRONG_INLINE void subTo(Dst&amp; dst, const Lhs&amp; lhs, const Rhs&amp; rhs)</span>
+<span class="lineNum">     357 </span><span class="lineCov">      19270 :   { scaleAndAddTo(dst, lhs, rhs, Scalar(-1)); }</span>
+<a name="358"><span class="lineNum">     358 </span>            :   </a>
+<span class="lineNum">     359 </span>            :   template&lt;typename Dst&gt;
+<span class="lineNum">     360 </span><span class="lineCov">      31835 :   static EIGEN_STRONG_INLINE void scaleAndAddTo(Dst&amp; dst, const Lhs&amp; lhs, const Rhs&amp; rhs, const Scalar&amp; alpha)</span>
+<span class="lineNum">     361 </span><span class="lineCov">      31835 :   { Derived::scaleAndAddTo(dst,lhs,rhs,alpha); }</span>
+<span class="lineNum">     362 </span>            : 
+<span class="lineNum">     363 </span>            : };
+<span class="lineNum">     364 </span>            : 
+<span class="lineNum">     365 </span>            : template&lt;typename Lhs, typename Rhs&gt;
+<span class="lineNum">     366 </span>            : struct generic_product_impl&lt;Lhs,Rhs,DenseShape,DenseShape,GemvProduct&gt;
+<span class="lineNum">     367 </span>            :   : generic_product_impl_base&lt;Lhs,Rhs,generic_product_impl&lt;Lhs,Rhs,DenseShape,DenseShape,GemvProduct&gt; &gt;
+<span class="lineNum">     368 </span>            : {
+<span class="lineNum">     369 </span>            :   typedef typename nested_eval&lt;Lhs,1&gt;::type LhsNested;
+<span class="lineNum">     370 </span>            :   typedef typename nested_eval&lt;Rhs,1&gt;::type RhsNested;
+<span class="lineNum">     371 </span>            :   typedef typename Product&lt;Lhs,Rhs&gt;::Scalar Scalar;
+<span class="lineNum">     372 </span>            :   enum { Side = Lhs::IsVectorAtCompileTime ? OnTheLeft : OnTheRight };
+<span class="lineNum">     373 </span>            :   typedef typename internal::remove_all&lt;typename internal::conditional&lt;int(Side)==OnTheRight,LhsNested,RhsNested&gt;::type&gt;::type MatrixType;
+<a name="374"><span class="lineNum">     374 </span>            : </a>
+<span class="lineNum">     375 </span>            :   template&lt;typename Dest&gt;
+<span class="lineNum">     376 </span><span class="lineCov">      31835 :   static EIGEN_STRONG_INLINE void scaleAndAddTo(Dest&amp; dst, const Lhs&amp; lhs, const Rhs&amp; rhs, const Scalar&amp; alpha)</span>
+<span class="lineNum">     377 </span>            :   {
+<span class="lineNum">     378 </span><span class="lineCov">      31835 :     LhsNested actual_lhs(lhs);</span>
+<span class="lineNum">     379 </span><span class="lineCov">      31835 :     RhsNested actual_rhs(rhs);</span>
+<span class="lineNum">     380 </span><span class="lineCov">      31835 :     internal::gemv_dense_selector&lt;Side,</span>
+<span class="lineNum">     381 </span>            :                             (int(MatrixType::Flags)&amp;RowMajorBit) ? RowMajor : ColMajor,
+<span class="lineNum">     382 </span>            :                             bool(internal::blas_traits&lt;MatrixType&gt;::HasUsableDirectAccess)
+<span class="lineNum">     383 </span>            :                            &gt;::run(actual_lhs, actual_rhs, dst, alpha);
+<span class="lineNum">     384 </span><span class="lineCov">      31835 :   }</span>
+<span class="lineNum">     385 </span>            : };
+<span class="lineNum">     386 </span>            : 
+<span class="lineNum">     387 </span>            : template&lt;typename Lhs, typename Rhs&gt;
+<span class="lineNum">     388 </span>            : struct generic_product_impl&lt;Lhs,Rhs,DenseShape,DenseShape,CoeffBasedProductMode&gt; 
+<span class="lineNum">     389 </span>            : {
+<span class="lineNum">     390 </span>            :   typedef typename Product&lt;Lhs,Rhs&gt;::Scalar Scalar;
+<a name="391"><span class="lineNum">     391 </span>            :   </a>
+<span class="lineNum">     392 </span>            :   template&lt;typename Dst&gt;
+<span class="lineNum">     393 </span><span class="lineCov">     388618 :   static EIGEN_STRONG_INLINE void evalTo(Dst&amp; dst, const Lhs&amp; lhs, const Rhs&amp; rhs)</span>
+<span class="lineNum">     394 </span>            :   {
+<span class="lineNum">     395 </span>            :     // Same as: dst.noalias() = lhs.lazyProduct(rhs);
+<span class="lineNum">     396 </span>            :     // but easier on the compiler side
+<span class="lineNum">     397 </span><span class="lineCov">     388618 :     call_assignment_no_alias(dst, lhs.lazyProduct(rhs), internal::assign_op&lt;typename Dst::Scalar,Scalar&gt;());</span>
+<span class="lineNum">     398 </span><span class="lineCov">     388618 :   }</span>
+<a name="399"><span class="lineNum">     399 </span>            :   </a>
+<span class="lineNum">     400 </span>            :   template&lt;typename Dst&gt;
+<span class="lineNum">     401 </span><span class="lineCov">       8154 :   static EIGEN_STRONG_INLINE void addTo(Dst&amp; dst, const Lhs&amp; lhs, const Rhs&amp; rhs)</span>
+<span class="lineNum">     402 </span>            :   {
+<span class="lineNum">     403 </span>            :     // dst.noalias() += lhs.lazyProduct(rhs);
+<span class="lineNum">     404 </span><span class="lineCov">       8154 :     call_assignment_no_alias(dst, lhs.lazyProduct(rhs), internal::add_assign_op&lt;typename Dst::Scalar,Scalar&gt;());</span>
+<span class="lineNum">     405 </span><span class="lineCov">       8154 :   }</span>
+<a name="406"><span class="lineNum">     406 </span>            :   </a>
+<span class="lineNum">     407 </span>            :   template&lt;typename Dst&gt;
+<span class="lineNum">     408 </span><span class="lineNoCov">          0 :   static EIGEN_STRONG_INLINE void subTo(Dst&amp; dst, const Lhs&amp; lhs, const Rhs&amp; rhs)</span>
+<span class="lineNum">     409 </span>            :   {
+<span class="lineNum">     410 </span>            :     // dst.noalias() -= lhs.lazyProduct(rhs);
+<span class="lineNum">     411 </span><span class="lineNoCov">          0 :     call_assignment_no_alias(dst, lhs.lazyProduct(rhs), internal::sub_assign_op&lt;typename Dst::Scalar,Scalar&gt;());</span>
+<span class="lineNum">     412 </span><span class="lineNoCov">          0 :   }</span>
+<span class="lineNum">     413 </span>            :   
+<span class="lineNum">     414 </span>            : //   template&lt;typename Dst&gt;
+<span class="lineNum">     415 </span>            : //   static inline void scaleAndAddTo(Dst&amp; dst, const Lhs&amp; lhs, const Rhs&amp; rhs, const Scalar&amp; alpha)
+<span class="lineNum">     416 </span>            : //   { dst.noalias() += alpha * lhs.lazyProduct(rhs); }
+<span class="lineNum">     417 </span>            : };
+<span class="lineNum">     418 </span>            : 
+<span class="lineNum">     419 </span>            : // This specialization enforces the use of a coefficient-based evaluation strategy
+<span class="lineNum">     420 </span>            : template&lt;typename Lhs, typename Rhs&gt;
+<span class="lineNum">     421 </span>            : struct generic_product_impl&lt;Lhs,Rhs,DenseShape,DenseShape,LazyCoeffBasedProductMode&gt;
+<span class="lineNum">     422 </span>            :   : generic_product_impl&lt;Lhs,Rhs,DenseShape,DenseShape,CoeffBasedProductMode&gt; {};
+<span class="lineNum">     423 </span>            : 
+<span class="lineNum">     424 </span>            : // Case 2: Evaluate coeff by coeff
+<span class="lineNum">     425 </span>            : //
+<span class="lineNum">     426 </span>            : // This is mostly taken from CoeffBasedProduct.h
+<span class="lineNum">     427 </span>            : // The main difference is that we add an extra argument to the etor_product_*_impl::run() function
+<span class="lineNum">     428 </span>            : // for the inner dimension of the product, because evaluator object do not know their size.
+<span class="lineNum">     429 </span>            : 
+<span class="lineNum">     430 </span>            : template&lt;int Traversal, int UnrollingIndex, typename Lhs, typename Rhs, typename RetScalar&gt;
+<span class="lineNum">     431 </span>            : struct etor_product_coeff_impl;
+<span class="lineNum">     432 </span>            : 
+<span class="lineNum">     433 </span>            : template&lt;int StorageOrder, int UnrollingIndex, typename Lhs, typename Rhs, typename Packet, int LoadMode&gt;
+<span class="lineNum">     434 </span>            : struct etor_product_packet_impl;
+<a name="435"><span class="lineNum">     435 </span>            : </a>
+<span class="lineNum">     436 </span>            : template&lt;typename Lhs, typename Rhs, int ProductTag&gt;
+<span class="lineNum">     437 </span><span class="lineCov">     396772 : struct product_evaluator&lt;Product&lt;Lhs, Rhs, LazyProduct&gt;, ProductTag, DenseShape, DenseShape&gt;</span>
+<span class="lineNum">     438 </span>            :     : evaluator_base&lt;Product&lt;Lhs, Rhs, LazyProduct&gt; &gt;
+<span class="lineNum">     439 </span>            : {
+<span class="lineNum">     440 </span>            :   typedef Product&lt;Lhs, Rhs, LazyProduct&gt; XprType;
+<span class="lineNum">     441 </span>            :   typedef typename XprType::Scalar Scalar;
+<span class="lineNum">     442 </span>            :   typedef typename XprType::CoeffReturnType CoeffReturnType;
+<a name="443"><span class="lineNum">     443 </span>            : </a>
+<span class="lineNum">     444 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+<span class="lineNum">     445 </span><span class="lineCov">     396772 :   explicit product_evaluator(const XprType&amp; xpr)</span>
+<span class="lineNum">     446 </span>            :     : m_lhs(xpr.lhs()),
+<span class="lineNum">     447 </span>            :       m_rhs(xpr.rhs()),
+<span class="lineNum">     448 </span>            :       m_lhsImpl(m_lhs),     // FIXME the creation of the evaluator objects should result in a no-op, but check that!
+<span class="lineNum">     449 </span>            :       m_rhsImpl(m_rhs),     //       Moreover, they are only useful for the packet path, so we could completely disable them when not needed,
+<span class="lineNum">     450 </span>            :                             //       or perhaps declare them on the fly on the packet method... We have experiment to check what's best.
+<span class="lineNum">     451 </span><span class="lineCov">     396772 :       m_innerDim(xpr.lhs().cols())</span>
+<span class="lineNum">     452 </span>            :   {
+<span class="lineNum">     453 </span>            :     EIGEN_INTERNAL_CHECK_COST_VALUE(NumTraits&lt;Scalar&gt;::MulCost);
+<span class="lineNum">     454 </span>            :     EIGEN_INTERNAL_CHECK_COST_VALUE(NumTraits&lt;Scalar&gt;::AddCost);
+<span class="lineNum">     455 </span>            :     EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+<span class="lineNum">     456 </span>            : #if 0
+<span class="lineNum">     457 </span>            :     std::cerr &lt;&lt; &quot;LhsOuterStrideBytes=  &quot; &lt;&lt; LhsOuterStrideBytes &lt;&lt; &quot;\n&quot;;
+<span class="lineNum">     458 </span>            :     std::cerr &lt;&lt; &quot;RhsOuterStrideBytes=  &quot; &lt;&lt; RhsOuterStrideBytes &lt;&lt; &quot;\n&quot;;
+<span class="lineNum">     459 </span>            :     std::cerr &lt;&lt; &quot;LhsAlignment=         &quot; &lt;&lt; LhsAlignment &lt;&lt; &quot;\n&quot;;
+<span class="lineNum">     460 </span>            :     std::cerr &lt;&lt; &quot;RhsAlignment=         &quot; &lt;&lt; RhsAlignment &lt;&lt; &quot;\n&quot;;
+<span class="lineNum">     461 </span>            :     std::cerr &lt;&lt; &quot;CanVectorizeLhs=      &quot; &lt;&lt; CanVectorizeLhs &lt;&lt; &quot;\n&quot;;
+<span class="lineNum">     462 </span>            :     std::cerr &lt;&lt; &quot;CanVectorizeRhs=      &quot; &lt;&lt; CanVectorizeRhs &lt;&lt; &quot;\n&quot;;
+<span class="lineNum">     463 </span>            :     std::cerr &lt;&lt; &quot;CanVectorizeInner=    &quot; &lt;&lt; CanVectorizeInner &lt;&lt; &quot;\n&quot;;
+<span class="lineNum">     464 </span>            :     std::cerr &lt;&lt; &quot;EvalToRowMajor=       &quot; &lt;&lt; EvalToRowMajor &lt;&lt; &quot;\n&quot;;
+<span class="lineNum">     465 </span>            :     std::cerr &lt;&lt; &quot;Alignment=            &quot; &lt;&lt; Alignment &lt;&lt; &quot;\n&quot;;
+<span class="lineNum">     466 </span>            :     std::cerr &lt;&lt; &quot;Flags=                &quot; &lt;&lt; Flags &lt;&lt; &quot;\n&quot;;
+<span class="lineNum">     467 </span>            : #endif
+<span class="lineNum">     468 </span><span class="lineCov">     396772 :   }</span>
+<span class="lineNum">     469 </span>            : 
+<span class="lineNum">     470 </span>            :   // Everything below here is taken from CoeffBasedProduct.h
+<span class="lineNum">     471 </span>            : 
+<span class="lineNum">     472 </span>            :   typedef typename internal::nested_eval&lt;Lhs,Rhs::ColsAtCompileTime&gt;::type LhsNested;
+<span class="lineNum">     473 </span>            :   typedef typename internal::nested_eval&lt;Rhs,Lhs::RowsAtCompileTime&gt;::type RhsNested;
+<span class="lineNum">     474 </span>            :   
+<span class="lineNum">     475 </span>            :   typedef typename internal::remove_all&lt;LhsNested&gt;::type LhsNestedCleaned;
+<span class="lineNum">     476 </span>            :   typedef typename internal::remove_all&lt;RhsNested&gt;::type RhsNestedCleaned;
+<span class="lineNum">     477 </span>            : 
+<span class="lineNum">     478 </span>            :   typedef evaluator&lt;LhsNestedCleaned&gt; LhsEtorType;
+<span class="lineNum">     479 </span>            :   typedef evaluator&lt;RhsNestedCleaned&gt; RhsEtorType;
+<span class="lineNum">     480 </span>            : 
+<span class="lineNum">     481 </span>            :   enum {
+<span class="lineNum">     482 </span>            :     RowsAtCompileTime = LhsNestedCleaned::RowsAtCompileTime,
+<span class="lineNum">     483 </span>            :     ColsAtCompileTime = RhsNestedCleaned::ColsAtCompileTime,
+<span class="lineNum">     484 </span>            :     InnerSize = EIGEN_SIZE_MIN_PREFER_FIXED(LhsNestedCleaned::ColsAtCompileTime, RhsNestedCleaned::RowsAtCompileTime),
+<span class="lineNum">     485 </span>            :     MaxRowsAtCompileTime = LhsNestedCleaned::MaxRowsAtCompileTime,
+<span class="lineNum">     486 </span>            :     MaxColsAtCompileTime = RhsNestedCleaned::MaxColsAtCompileTime
+<span class="lineNum">     487 </span>            :   };
+<span class="lineNum">     488 </span>            : 
+<span class="lineNum">     489 </span>            :   typedef typename find_best_packet&lt;Scalar,RowsAtCompileTime&gt;::type LhsVecPacketType;
+<span class="lineNum">     490 </span>            :   typedef typename find_best_packet&lt;Scalar,ColsAtCompileTime&gt;::type RhsVecPacketType;
+<span class="lineNum">     491 </span>            : 
+<span class="lineNum">     492 </span>            :   enum {
+<span class="lineNum">     493 </span>            :       
+<span class="lineNum">     494 </span>            :     LhsCoeffReadCost = LhsEtorType::CoeffReadCost,
+<span class="lineNum">     495 </span>            :     RhsCoeffReadCost = RhsEtorType::CoeffReadCost,
+<span class="lineNum">     496 </span>            :     CoeffReadCost = InnerSize==0 ? NumTraits&lt;Scalar&gt;::ReadCost
+<span class="lineNum">     497 </span>            :                   : InnerSize == Dynamic ? HugeCost
+<span class="lineNum">     498 </span>            :                   : InnerSize * (NumTraits&lt;Scalar&gt;::MulCost + LhsCoeffReadCost + RhsCoeffReadCost)
+<span class="lineNum">     499 </span>            :                     + (InnerSize - 1) * NumTraits&lt;Scalar&gt;::AddCost,
+<span class="lineNum">     500 </span>            : 
+<span class="lineNum">     501 </span>            :     Unroll = CoeffReadCost &lt;= EIGEN_UNROLLING_LIMIT,
+<span class="lineNum">     502 </span>            :     
+<span class="lineNum">     503 </span>            :     LhsFlags = LhsEtorType::Flags,
+<span class="lineNum">     504 </span>            :     RhsFlags = RhsEtorType::Flags,
+<span class="lineNum">     505 </span>            :     
+<span class="lineNum">     506 </span>            :     LhsRowMajor = LhsFlags &amp; RowMajorBit,
+<span class="lineNum">     507 </span>            :     RhsRowMajor = RhsFlags &amp; RowMajorBit,
+<span class="lineNum">     508 </span>            : 
+<span class="lineNum">     509 </span>            :     LhsVecPacketSize = unpacket_traits&lt;LhsVecPacketType&gt;::size,
+<span class="lineNum">     510 </span>            :     RhsVecPacketSize = unpacket_traits&lt;RhsVecPacketType&gt;::size,
+<span class="lineNum">     511 </span>            : 
+<span class="lineNum">     512 </span>            :     // Here, we don't care about alignment larger than the usable packet size.
+<span class="lineNum">     513 </span>            :     LhsAlignment = EIGEN_PLAIN_ENUM_MIN(LhsEtorType::Alignment,LhsVecPacketSize*int(sizeof(typename LhsNestedCleaned::Scalar))),
+<span class="lineNum">     514 </span>            :     RhsAlignment = EIGEN_PLAIN_ENUM_MIN(RhsEtorType::Alignment,RhsVecPacketSize*int(sizeof(typename RhsNestedCleaned::Scalar))),
+<span class="lineNum">     515 </span>            :       
+<span class="lineNum">     516 </span>            :     SameType = is_same&lt;typename LhsNestedCleaned::Scalar,typename RhsNestedCleaned::Scalar&gt;::value,
+<span class="lineNum">     517 </span>            : 
+<span class="lineNum">     518 </span>            :     CanVectorizeRhs = bool(RhsRowMajor) &amp;&amp; (RhsFlags &amp; PacketAccessBit) &amp;&amp; (ColsAtCompileTime!=1),
+<span class="lineNum">     519 </span>            :     CanVectorizeLhs = (!LhsRowMajor) &amp;&amp; (LhsFlags &amp; PacketAccessBit) &amp;&amp; (RowsAtCompileTime!=1),
+<span class="lineNum">     520 </span>            : 
+<span class="lineNum">     521 </span>            :     EvalToRowMajor = (MaxRowsAtCompileTime==1&amp;&amp;MaxColsAtCompileTime!=1) ? 1
+<span class="lineNum">     522 </span>            :                     : (MaxColsAtCompileTime==1&amp;&amp;MaxRowsAtCompileTime!=1) ? 0
+<span class="lineNum">     523 </span>            :                     : (bool(RhsRowMajor) &amp;&amp; !CanVectorizeLhs),
+<span class="lineNum">     524 </span>            : 
+<span class="lineNum">     525 </span>            :     Flags = ((unsigned int)(LhsFlags | RhsFlags) &amp; HereditaryBits &amp; ~RowMajorBit)
+<span class="lineNum">     526 </span>            :           | (EvalToRowMajor ? RowMajorBit : 0)
+<span class="lineNum">     527 </span>            :           // TODO enable vectorization for mixed types
+<span class="lineNum">     528 </span>            :           | (SameType &amp;&amp; (CanVectorizeLhs || CanVectorizeRhs) ? PacketAccessBit : 0)
+<span class="lineNum">     529 </span>            :           | (XprType::IsVectorAtCompileTime ? LinearAccessBit : 0),
+<span class="lineNum">     530 </span>            :           
+<span class="lineNum">     531 </span>            :     LhsOuterStrideBytes = int(LhsNestedCleaned::OuterStrideAtCompileTime) * int(sizeof(typename LhsNestedCleaned::Scalar)),
+<span class="lineNum">     532 </span>            :     RhsOuterStrideBytes = int(RhsNestedCleaned::OuterStrideAtCompileTime) * int(sizeof(typename RhsNestedCleaned::Scalar)),
+<span class="lineNum">     533 </span>            : 
+<span class="lineNum">     534 </span>            :     Alignment = bool(CanVectorizeLhs) ? (LhsOuterStrideBytes&lt;=0 || (int(LhsOuterStrideBytes) % EIGEN_PLAIN_ENUM_MAX(1,LhsAlignment))!=0 ? 0 : LhsAlignment)
+<span class="lineNum">     535 </span>            :               : bool(CanVectorizeRhs) ? (RhsOuterStrideBytes&lt;=0 || (int(RhsOuterStrideBytes) % EIGEN_PLAIN_ENUM_MAX(1,RhsAlignment))!=0 ? 0 : RhsAlignment)
+<span class="lineNum">     536 </span>            :               : 0,
+<span class="lineNum">     537 </span>            : 
+<span class="lineNum">     538 </span>            :     /* CanVectorizeInner deserves special explanation. It does not affect the product flags. It is not used outside
+<span class="lineNum">     539 </span>            :      * of Product. If the Product itself is not a packet-access expression, there is still a chance that the inner
+<span class="lineNum">     540 </span>            :      * loop of the product might be vectorized. This is the meaning of CanVectorizeInner. Since it doesn't affect
+<span class="lineNum">     541 </span>            :      * the Flags, it is safe to make this value depend on ActualPacketAccessBit, that doesn't affect the ABI.
+<span class="lineNum">     542 </span>            :      */
+<span class="lineNum">     543 </span>            :     CanVectorizeInner =    SameType
+<span class="lineNum">     544 </span>            :                         &amp;&amp; LhsRowMajor
+<span class="lineNum">     545 </span>            :                         &amp;&amp; (!RhsRowMajor)
+<span class="lineNum">     546 </span>            :                         &amp;&amp; (LhsFlags &amp; RhsFlags &amp; ActualPacketAccessBit)
+<span class="lineNum">     547 </span>            :                         &amp;&amp; (InnerSize % packet_traits&lt;Scalar&gt;::size == 0)
+<a name="548"><span class="lineNum">     548 </span>            :   };</a>
+<span class="lineNum">     549 </span>            :   
+<span class="lineNum">     550 </span><span class="lineCov">     247232 :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const CoeffReturnType coeff(Index row, Index col) const</span>
+<span class="lineNum">     551 </span>            :   {
+<span class="lineNum">     552 </span><span class="lineCov">     247232 :     return (m_lhs.row(row).transpose().cwiseProduct( m_rhs.col(col) )).sum();</span>
+<span class="lineNum">     553 </span>            :   }
+<span class="lineNum">     554 </span>            : 
+<span class="lineNum">     555 </span>            :   /* Allow index-based non-packet access. It is impossible though to allow index-based packed access,
+<span class="lineNum">     556 </span>            :    * which is why we don't set the LinearAccessBit.
+<a name="557"><span class="lineNum">     557 </span>            :    * TODO: this seems possible when the result is a vector</a>
+<span class="lineNum">     558 </span>            :    */
+<span class="lineNum">     559 </span><span class="lineCov">     436439 :   EIGEN_DEVICE_FUNC const CoeffReturnType coeff(Index index) const</span>
+<span class="lineNum">     560 </span>            :   {
+<span class="lineNum">     561 </span><span class="lineCov">     436439 :     const Index row = (RowsAtCompileTime == 1 || MaxRowsAtCompileTime==1) ? 0 : index;</span>
+<span class="lineNum">     562 </span><span class="lineCov">     436439 :     const Index col = (RowsAtCompileTime == 1 || MaxRowsAtCompileTime==1) ? index : 0;</span>
+<span class="lineNum">     563 </span><span class="lineCov">     436439 :     return (m_lhs.row(row).transpose().cwiseProduct( m_rhs.col(col) )).sum();</span>
+<span class="lineNum">     564 </span>            :   }
+<a name="565"><span class="lineNum">     565 </span>            : </a>
+<span class="lineNum">     566 </span>            :   template&lt;int LoadMode, typename PacketType&gt;
+<span class="lineNum">     567 </span><span class="lineCov">    1872773 :   const PacketType packet(Index row, Index col) const</span>
+<span class="lineNum">     568 </span>            :   {
+<span class="lineNum">     569 </span>            :     PacketType res;
+<span class="lineNum">     570 </span>            :     typedef etor_product_packet_impl&lt;bool(int(Flags)&amp;RowMajorBit) ? RowMajor : ColMajor,
+<span class="lineNum">     571 </span>            :                                      Unroll ? int(InnerSize) : Dynamic,
+<span class="lineNum">     572 </span>            :                                      LhsEtorType, RhsEtorType, PacketType, LoadMode&gt; PacketImpl;
+<span class="lineNum">     573 </span><span class="lineCov">    1872773 :     PacketImpl::run(row, col, m_lhsImpl, m_rhsImpl, m_innerDim, res);</span>
+<span class="lineNum">     574 </span><span class="lineCov">    1872773 :     return res;</span>
+<span class="lineNum">     575 </span>            :   }
+<a name="576"><span class="lineNum">     576 </span>            : </a>
+<span class="lineNum">     577 </span>            :   template&lt;int LoadMode, typename PacketType&gt;
+<span class="lineNum">     578 </span><span class="lineCov">       7537 :   const PacketType packet(Index index) const</span>
+<span class="lineNum">     579 </span>            :   {
+<span class="lineNum">     580 </span><span class="lineCov">       7537 :     const Index row = (RowsAtCompileTime == 1 || MaxRowsAtCompileTime==1) ? 0 : index;</span>
+<span class="lineNum">     581 </span><span class="lineCov">       7537 :     const Index col = (RowsAtCompileTime == 1 || MaxRowsAtCompileTime==1) ? index : 0;</span>
+<span class="lineNum">     582 </span><span class="lineCov">       7537 :     return packet&lt;LoadMode,PacketType&gt;(row,col);</span>
+<span class="lineNum">     583 </span>            :   }
+<span class="lineNum">     584 </span>            : 
+<span class="lineNum">     585 </span>            : protected:
+<span class="lineNum">     586 </span>            :   typename internal::add_const_on_value_type&lt;LhsNested&gt;::type m_lhs;
+<span class="lineNum">     587 </span>            :   typename internal::add_const_on_value_type&lt;RhsNested&gt;::type m_rhs;
+<span class="lineNum">     588 </span>            :   
+<span class="lineNum">     589 </span>            :   LhsEtorType m_lhsImpl;
+<span class="lineNum">     590 </span>            :   RhsEtorType m_rhsImpl;
+<span class="lineNum">     591 </span>            : 
+<span class="lineNum">     592 </span>            :   // TODO: Get rid of m_innerDim if known at compile time
+<span class="lineNum">     593 </span>            :   Index m_innerDim;
+<span class="lineNum">     594 </span>            : };
+<span class="lineNum">     595 </span>            : 
+<span class="lineNum">     596 </span>            : template&lt;typename Lhs, typename Rhs&gt;
+<span class="lineNum">     597 </span>            : struct product_evaluator&lt;Product&lt;Lhs, Rhs, DefaultProduct&gt;, LazyCoeffBasedProductMode, DenseShape, DenseShape&gt;
+<span class="lineNum">     598 </span>            :   : product_evaluator&lt;Product&lt;Lhs, Rhs, LazyProduct&gt;, CoeffBasedProductMode, DenseShape, DenseShape&gt;
+<span class="lineNum">     599 </span>            : {
+<span class="lineNum">     600 </span>            :   typedef Product&lt;Lhs, Rhs, DefaultProduct&gt; XprType;
+<span class="lineNum">     601 </span>            :   typedef Product&lt;Lhs, Rhs, LazyProduct&gt; BaseProduct;
+<span class="lineNum">     602 </span>            :   typedef product_evaluator&lt;BaseProduct, CoeffBasedProductMode, DenseShape, DenseShape&gt; Base;
+<span class="lineNum">     603 </span>            :   enum {
+<span class="lineNum">     604 </span>            :     Flags = Base::Flags | EvalBeforeNestingBit
+<span class="lineNum">     605 </span>            :   };
+<span class="lineNum">     606 </span>            :   EIGEN_DEVICE_FUNC explicit product_evaluator(const XprType&amp; xpr)
+<span class="lineNum">     607 </span>            :     : Base(BaseProduct(xpr.lhs(),xpr.rhs()))
+<span class="lineNum">     608 </span>            :   {}
+<span class="lineNum">     609 </span>            : };
+<span class="lineNum">     610 </span>            : 
+<span class="lineNum">     611 </span>            : /****************************************
+<span class="lineNum">     612 </span>            : *** Coeff based product, Packet path  ***
+<span class="lineNum">     613 </span>            : ****************************************/
+<span class="lineNum">     614 </span>            : 
+<span class="lineNum">     615 </span>            : template&lt;int UnrollingIndex, typename Lhs, typename Rhs, typename Packet, int LoadMode&gt;
+<span class="lineNum">     616 </span>            : struct etor_product_packet_impl&lt;RowMajor, UnrollingIndex, Lhs, Rhs, Packet, LoadMode&gt;
+<span class="lineNum">     617 </span>            : {
+<span class="lineNum">     618 </span>            :   static EIGEN_STRONG_INLINE void run(Index row, Index col, const Lhs&amp; lhs, const Rhs&amp; rhs, Index innerDim, Packet &amp;res)
+<span class="lineNum">     619 </span>            :   {
+<span class="lineNum">     620 </span>            :     etor_product_packet_impl&lt;RowMajor, UnrollingIndex-1, Lhs, Rhs, Packet, LoadMode&gt;::run(row, col, lhs, rhs, innerDim, res);
+<span class="lineNum">     621 </span>            :     res =  pmadd(pset1&lt;Packet&gt;(lhs.coeff(row, Index(UnrollingIndex-1))), rhs.template packet&lt;LoadMode,Packet&gt;(Index(UnrollingIndex-1), col), res);
+<span class="lineNum">     622 </span>            :   }
+<span class="lineNum">     623 </span>            : };
+<span class="lineNum">     624 </span>            : 
+<span class="lineNum">     625 </span>            : template&lt;int UnrollingIndex, typename Lhs, typename Rhs, typename Packet, int LoadMode&gt;
+<a name="626"><span class="lineNum">     626 </span>            : struct etor_product_packet_impl&lt;ColMajor, UnrollingIndex, Lhs, Rhs, Packet, LoadMode&gt;</a>
+<span class="lineNum">     627 </span>            : {
+<span class="lineNum">     628 </span><span class="lineCov">    7142442 :   static EIGEN_STRONG_INLINE void run(Index row, Index col, const Lhs&amp; lhs, const Rhs&amp; rhs, Index innerDim, Packet &amp;res)</span>
+<span class="lineNum">     629 </span>            :   {
+<span class="lineNum">     630 </span><span class="lineCov">    7142442 :     etor_product_packet_impl&lt;ColMajor, UnrollingIndex-1, Lhs, Rhs, Packet, LoadMode&gt;::run(row, col, lhs, rhs, innerDim, res);</span>
+<span class="lineNum">     631 </span><span class="lineCov">    7142442 :     res =  pmadd(lhs.template packet&lt;LoadMode,Packet&gt;(row, Index(UnrollingIndex-1)), pset1&lt;Packet&gt;(rhs.coeff(Index(UnrollingIndex-1), col)), res);</span>
+<span class="lineNum">     632 </span><span class="lineCov">    7142442 :   }</span>
+<span class="lineNum">     633 </span>            : };
+<span class="lineNum">     634 </span>            : 
+<span class="lineNum">     635 </span>            : template&lt;typename Lhs, typename Rhs, typename Packet, int LoadMode&gt;
+<span class="lineNum">     636 </span>            : struct etor_product_packet_impl&lt;RowMajor, 1, Lhs, Rhs, Packet, LoadMode&gt;
+<span class="lineNum">     637 </span>            : {
+<span class="lineNum">     638 </span>            :   static EIGEN_STRONG_INLINE void run(Index row, Index col, const Lhs&amp; lhs, const Rhs&amp; rhs, Index /*innerDim*/, Packet &amp;res)
+<span class="lineNum">     639 </span>            :   {
+<span class="lineNum">     640 </span>            :     res = pmul(pset1&lt;Packet&gt;(lhs.coeff(row, Index(0))),rhs.template packet&lt;LoadMode,Packet&gt;(Index(0), col));
+<span class="lineNum">     641 </span>            :   }
+<span class="lineNum">     642 </span>            : };
+<span class="lineNum">     643 </span>            : 
+<span class="lineNum">     644 </span>            : template&lt;typename Lhs, typename Rhs, typename Packet, int LoadMode&gt;
+<a name="645"><span class="lineNum">     645 </span>            : struct etor_product_packet_impl&lt;ColMajor, 1, Lhs, Rhs, Packet, LoadMode&gt;</a>
+<span class="lineNum">     646 </span>            : {
+<span class="lineNum">     647 </span><span class="lineCov">    1790494 :   static EIGEN_STRONG_INLINE void run(Index row, Index col, const Lhs&amp; lhs, const Rhs&amp; rhs, Index /*innerDim*/, Packet &amp;res)</span>
+<span class="lineNum">     648 </span>            :   {
+<span class="lineNum">     649 </span><span class="lineCov">    1790494 :     res = pmul(lhs.template packet&lt;LoadMode,Packet&gt;(row, Index(0)), pset1&lt;Packet&gt;(rhs.coeff(Index(0), col)));</span>
+<span class="lineNum">     650 </span><span class="lineCov">    1790494 :   }</span>
+<span class="lineNum">     651 </span>            : };
+<span class="lineNum">     652 </span>            : 
+<span class="lineNum">     653 </span>            : template&lt;typename Lhs, typename Rhs, typename Packet, int LoadMode&gt;
+<span class="lineNum">     654 </span>            : struct etor_product_packet_impl&lt;RowMajor, 0, Lhs, Rhs, Packet, LoadMode&gt;
+<span class="lineNum">     655 </span>            : {
+<span class="lineNum">     656 </span>            :   static EIGEN_STRONG_INLINE void run(Index /*row*/, Index /*col*/, const Lhs&amp; /*lhs*/, const Rhs&amp; /*rhs*/, Index /*innerDim*/, Packet &amp;res)
+<span class="lineNum">     657 </span>            :   {
+<span class="lineNum">     658 </span>            :     res = pset1&lt;Packet&gt;(typename unpacket_traits&lt;Packet&gt;::type(0));
+<span class="lineNum">     659 </span>            :   }
+<span class="lineNum">     660 </span>            : };
+<span class="lineNum">     661 </span>            : 
+<span class="lineNum">     662 </span>            : template&lt;typename Lhs, typename Rhs, typename Packet, int LoadMode&gt;
+<span class="lineNum">     663 </span>            : struct etor_product_packet_impl&lt;ColMajor, 0, Lhs, Rhs, Packet, LoadMode&gt;
+<span class="lineNum">     664 </span>            : {
+<span class="lineNum">     665 </span>            :   static EIGEN_STRONG_INLINE void run(Index /*row*/, Index /*col*/, const Lhs&amp; /*lhs*/, const Rhs&amp; /*rhs*/, Index /*innerDim*/, Packet &amp;res)
+<span class="lineNum">     666 </span>            :   {
+<span class="lineNum">     667 </span>            :     res = pset1&lt;Packet&gt;(typename unpacket_traits&lt;Packet&gt;::type(0));
+<span class="lineNum">     668 </span>            :   }
+<span class="lineNum">     669 </span>            : };
+<span class="lineNum">     670 </span>            : 
+<span class="lineNum">     671 </span>            : template&lt;typename Lhs, typename Rhs, typename Packet, int LoadMode&gt;
+<span class="lineNum">     672 </span>            : struct etor_product_packet_impl&lt;RowMajor, Dynamic, Lhs, Rhs, Packet, LoadMode&gt;
+<span class="lineNum">     673 </span>            : {
+<span class="lineNum">     674 </span>            :   static EIGEN_STRONG_INLINE void run(Index row, Index col, const Lhs&amp; lhs, const Rhs&amp; rhs, Index innerDim, Packet&amp; res)
+<span class="lineNum">     675 </span>            :   {
+<span class="lineNum">     676 </span>            :     res = pset1&lt;Packet&gt;(typename unpacket_traits&lt;Packet&gt;::type(0));
+<span class="lineNum">     677 </span>            :     for(Index i = 0; i &lt; innerDim; ++i)
+<span class="lineNum">     678 </span>            :       res =  pmadd(pset1&lt;Packet&gt;(lhs.coeff(row, i)), rhs.template packet&lt;LoadMode,Packet&gt;(i, col), res);
+<span class="lineNum">     679 </span>            :   }
+<span class="lineNum">     680 </span>            : };
+<span class="lineNum">     681 </span>            : 
+<span class="lineNum">     682 </span>            : template&lt;typename Lhs, typename Rhs, typename Packet, int LoadMode&gt;
+<a name="683"><span class="lineNum">     683 </span>            : struct etor_product_packet_impl&lt;ColMajor, Dynamic, Lhs, Rhs, Packet, LoadMode&gt;</a>
+<span class="lineNum">     684 </span>            : {
+<span class="lineNum">     685 </span><span class="lineCov">      82279 :   static EIGEN_STRONG_INLINE void run(Index row, Index col, const Lhs&amp; lhs, const Rhs&amp; rhs, Index innerDim, Packet&amp; res)</span>
+<span class="lineNum">     686 </span>            :   {
+<span class="lineNum">     687 </span><span class="lineCov">      82279 :     res = pset1&lt;Packet&gt;(typename unpacket_traits&lt;Packet&gt;::type(0));</span>
+<span class="lineNum">     688 </span><span class="lineCov">     511006 :     for(Index i = 0; i &lt; innerDim; ++i)</span>
+<span class="lineNum">     689 </span><span class="lineCov">     428727 :       res =  pmadd(lhs.template packet&lt;LoadMode,Packet&gt;(row, i), pset1&lt;Packet&gt;(rhs.coeff(i, col)), res);</span>
+<span class="lineNum">     690 </span><span class="lineCov">      82279 :   }</span>
+<span class="lineNum">     691 </span>            : };
+<span class="lineNum">     692 </span>            : 
+<span class="lineNum">     693 </span>            : 
+<span class="lineNum">     694 </span>            : /***************************************************************************
+<span class="lineNum">     695 </span>            : * Triangular products
+<span class="lineNum">     696 </span>            : ***************************************************************************/
+<span class="lineNum">     697 </span>            : template&lt;int Mode, bool LhsIsTriangular,
+<span class="lineNum">     698 </span>            :          typename Lhs, bool LhsIsVector,
+<span class="lineNum">     699 </span>            :          typename Rhs, bool RhsIsVector&gt;
+<span class="lineNum">     700 </span>            : struct triangular_product_impl;
+<span class="lineNum">     701 </span>            : 
+<span class="lineNum">     702 </span>            : template&lt;typename Lhs, typename Rhs, int ProductTag&gt;
+<span class="lineNum">     703 </span>            : struct generic_product_impl&lt;Lhs,Rhs,TriangularShape,DenseShape,ProductTag&gt;
+<span class="lineNum">     704 </span>            :   : generic_product_impl_base&lt;Lhs,Rhs,generic_product_impl&lt;Lhs,Rhs,TriangularShape,DenseShape,ProductTag&gt; &gt;
+<span class="lineNum">     705 </span>            : {
+<span class="lineNum">     706 </span>            :   typedef typename Product&lt;Lhs,Rhs&gt;::Scalar Scalar;
+<a name="707"><span class="lineNum">     707 </span>            :   </a>
+<span class="lineNum">     708 </span>            :   template&lt;typename Dest&gt;
+<span class="lineNum">     709 </span><span class="lineNoCov">          0 :   static void scaleAndAddTo(Dest&amp; dst, const Lhs&amp; lhs, const Rhs&amp; rhs, const Scalar&amp; alpha)</span>
+<span class="lineNum">     710 </span>            :   {
+<span class="lineNum">     711 </span><span class="lineNoCov">          0 :     triangular_product_impl&lt;Lhs::Mode,true,typename Lhs::MatrixType,false,Rhs, Rhs::ColsAtCompileTime==1&gt;</span>
+<span class="lineNum">     712 </span><span class="lineNoCov">          0 :         ::run(dst, lhs.nestedExpression(), rhs, alpha);</span>
+<span class="lineNum">     713 </span><span class="lineNoCov">          0 :   }</span>
+<span class="lineNum">     714 </span>            : };
+<span class="lineNum">     715 </span>            : 
+<span class="lineNum">     716 </span>            : template&lt;typename Lhs, typename Rhs, int ProductTag&gt;
+<span class="lineNum">     717 </span>            : struct generic_product_impl&lt;Lhs,Rhs,DenseShape,TriangularShape,ProductTag&gt;
+<span class="lineNum">     718 </span>            : : generic_product_impl_base&lt;Lhs,Rhs,generic_product_impl&lt;Lhs,Rhs,DenseShape,TriangularShape,ProductTag&gt; &gt;
+<span class="lineNum">     719 </span>            : {
+<span class="lineNum">     720 </span>            :   typedef typename Product&lt;Lhs,Rhs&gt;::Scalar Scalar;
+<a name="721"><span class="lineNum">     721 </span>            :   </a>
+<span class="lineNum">     722 </span>            :   template&lt;typename Dest&gt;
+<span class="lineNum">     723 </span><span class="lineNoCov">          0 :   static void scaleAndAddTo(Dest&amp; dst, const Lhs&amp; lhs, const Rhs&amp; rhs, const Scalar&amp; alpha)</span>
+<span class="lineNum">     724 </span>            :   {
+<span class="lineNum">     725 </span><span class="lineNoCov">          0 :     triangular_product_impl&lt;Rhs::Mode,false,Lhs,Lhs::RowsAtCompileTime==1, typename Rhs::MatrixType, false&gt;::run(dst, lhs, rhs.nestedExpression(), alpha);</span>
+<span class="lineNum">     726 </span><span class="lineNoCov">          0 :   }</span>
+<span class="lineNum">     727 </span>            : };
+<span class="lineNum">     728 </span>            : 
+<span class="lineNum">     729 </span>            : 
+<span class="lineNum">     730 </span>            : /***************************************************************************
+<span class="lineNum">     731 </span>            : * SelfAdjoint products
+<span class="lineNum">     732 </span>            : ***************************************************************************/
+<span class="lineNum">     733 </span>            : template &lt;typename Lhs, int LhsMode, bool LhsIsVector,
+<span class="lineNum">     734 </span>            :           typename Rhs, int RhsMode, bool RhsIsVector&gt;
+<span class="lineNum">     735 </span>            : struct selfadjoint_product_impl;
+<span class="lineNum">     736 </span>            : 
+<span class="lineNum">     737 </span>            : template&lt;typename Lhs, typename Rhs, int ProductTag&gt;
+<span class="lineNum">     738 </span>            : struct generic_product_impl&lt;Lhs,Rhs,SelfAdjointShape,DenseShape,ProductTag&gt;
+<span class="lineNum">     739 </span>            :   : generic_product_impl_base&lt;Lhs,Rhs,generic_product_impl&lt;Lhs,Rhs,SelfAdjointShape,DenseShape,ProductTag&gt; &gt;
+<span class="lineNum">     740 </span>            : {
+<span class="lineNum">     741 </span>            :   typedef typename Product&lt;Lhs,Rhs&gt;::Scalar Scalar;
+<span class="lineNum">     742 </span>            :   
+<span class="lineNum">     743 </span>            :   template&lt;typename Dest&gt;
+<span class="lineNum">     744 </span>            :   static void scaleAndAddTo(Dest&amp; dst, const Lhs&amp; lhs, const Rhs&amp; rhs, const Scalar&amp; alpha)
+<span class="lineNum">     745 </span>            :   {
+<span class="lineNum">     746 </span>            :     selfadjoint_product_impl&lt;typename Lhs::MatrixType,Lhs::Mode,false,Rhs,0,Rhs::IsVectorAtCompileTime&gt;::run(dst, lhs.nestedExpression(), rhs, alpha);
+<span class="lineNum">     747 </span>            :   }
+<span class="lineNum">     748 </span>            : };
+<span class="lineNum">     749 </span>            : 
+<span class="lineNum">     750 </span>            : template&lt;typename Lhs, typename Rhs, int ProductTag&gt;
+<span class="lineNum">     751 </span>            : struct generic_product_impl&lt;Lhs,Rhs,DenseShape,SelfAdjointShape,ProductTag&gt;
+<span class="lineNum">     752 </span>            : : generic_product_impl_base&lt;Lhs,Rhs,generic_product_impl&lt;Lhs,Rhs,DenseShape,SelfAdjointShape,ProductTag&gt; &gt;
+<span class="lineNum">     753 </span>            : {
+<span class="lineNum">     754 </span>            :   typedef typename Product&lt;Lhs,Rhs&gt;::Scalar Scalar;
+<span class="lineNum">     755 </span>            :   
+<span class="lineNum">     756 </span>            :   template&lt;typename Dest&gt;
+<span class="lineNum">     757 </span>            :   static void scaleAndAddTo(Dest&amp; dst, const Lhs&amp; lhs, const Rhs&amp; rhs, const Scalar&amp; alpha)
+<span class="lineNum">     758 </span>            :   {
+<span class="lineNum">     759 </span>            :     selfadjoint_product_impl&lt;Lhs,0,Lhs::IsVectorAtCompileTime,typename Rhs::MatrixType,Rhs::Mode,false&gt;::run(dst, lhs, rhs.nestedExpression(), alpha);
+<span class="lineNum">     760 </span>            :   }
+<span class="lineNum">     761 </span>            : };
+<span class="lineNum">     762 </span>            : 
+<span class="lineNum">     763 </span>            : 
+<span class="lineNum">     764 </span>            : /***************************************************************************
+<span class="lineNum">     765 </span>            : * Diagonal products
+<span class="lineNum">     766 </span>            : ***************************************************************************/
+<a name="767"><span class="lineNum">     767 </span>            :   </a>
+<span class="lineNum">     768 </span>            : template&lt;typename MatrixType, typename DiagonalType, typename Derived, int ProductOrder&gt;
+<span class="lineNum">     769 </span><span class="lineCov">      21620 : struct diagonal_product_evaluator_base</span>
+<span class="lineNum">     770 </span>            :   : evaluator_base&lt;Derived&gt;
+<span class="lineNum">     771 </span>            : {
+<span class="lineNum">     772 </span>            :    typedef typename ScalarBinaryOpTraits&lt;typename MatrixType::Scalar, typename DiagonalType::Scalar&gt;::ReturnType Scalar;
+<span class="lineNum">     773 </span>            : public:
+<span class="lineNum">     774 </span>            :   enum {
+<span class="lineNum">     775 </span>            :     CoeffReadCost = NumTraits&lt;Scalar&gt;::MulCost + evaluator&lt;MatrixType&gt;::CoeffReadCost + evaluator&lt;DiagonalType&gt;::CoeffReadCost,
+<span class="lineNum">     776 </span>            :     
+<span class="lineNum">     777 </span>            :     MatrixFlags = evaluator&lt;MatrixType&gt;::Flags,
+<span class="lineNum">     778 </span>            :     DiagFlags = evaluator&lt;DiagonalType&gt;::Flags,
+<span class="lineNum">     779 </span>            :     _StorageOrder = MatrixFlags &amp; RowMajorBit ? RowMajor : ColMajor,
+<span class="lineNum">     780 </span>            :     _ScalarAccessOnDiag =  !((int(_StorageOrder) == ColMajor &amp;&amp; int(ProductOrder) == OnTheLeft)
+<span class="lineNum">     781 </span>            :                            ||(int(_StorageOrder) == RowMajor &amp;&amp; int(ProductOrder) == OnTheRight)),
+<span class="lineNum">     782 </span>            :     _SameTypes = is_same&lt;typename MatrixType::Scalar, typename DiagonalType::Scalar&gt;::value,
+<span class="lineNum">     783 </span>            :     // FIXME currently we need same types, but in the future the next rule should be the one
+<span class="lineNum">     784 </span>            :     //_Vectorizable = bool(int(MatrixFlags)&amp;PacketAccessBit) &amp;&amp; ((!_PacketOnDiag) || (_SameTypes &amp;&amp; bool(int(DiagFlags)&amp;PacketAccessBit))),
+<span class="lineNum">     785 </span>            :     _Vectorizable = bool(int(MatrixFlags)&amp;PacketAccessBit) &amp;&amp; _SameTypes &amp;&amp; (_ScalarAccessOnDiag || (bool(int(DiagFlags)&amp;PacketAccessBit))),
+<span class="lineNum">     786 </span>            :     _LinearAccessMask = (MatrixType::RowsAtCompileTime==1 || MatrixType::ColsAtCompileTime==1) ? LinearAccessBit : 0,
+<span class="lineNum">     787 </span>            :     Flags = ((HereditaryBits|_LinearAccessMask) &amp; (unsigned int)(MatrixFlags)) | (_Vectorizable ? PacketAccessBit : 0),
+<span class="lineNum">     788 </span>            :     Alignment = evaluator&lt;MatrixType&gt;::Alignment,
+<span class="lineNum">     789 </span>            : 
+<span class="lineNum">     790 </span>            :     AsScalarProduct =     (DiagonalType::SizeAtCompileTime==1)
+<span class="lineNum">     791 </span>            :                       ||  (DiagonalType::SizeAtCompileTime==Dynamic &amp;&amp; MatrixType::RowsAtCompileTime==1 &amp;&amp; ProductOrder==OnTheLeft)
+<span class="lineNum">     792 </span>            :                       ||  (DiagonalType::SizeAtCompileTime==Dynamic &amp;&amp; MatrixType::ColsAtCompileTime==1 &amp;&amp; ProductOrder==OnTheRight)
+<a name="793"><span class="lineNum">     793 </span>            :   };</a>
+<span class="lineNum">     794 </span>            :   
+<span class="lineNum">     795 </span><span class="lineCov">      21620 :   diagonal_product_evaluator_base(const MatrixType &amp;mat, const DiagonalType &amp;diag)</span>
+<span class="lineNum">     796 </span><span class="lineCov">      21620 :     : m_diagImpl(diag), m_matImpl(mat)</span>
+<span class="lineNum">     797 </span>            :   {
+<span class="lineNum">     798 </span>            :     EIGEN_INTERNAL_CHECK_COST_VALUE(NumTraits&lt;Scalar&gt;::MulCost);
+<span class="lineNum">     799 </span>            :     EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+<a name="800"><span class="lineNum">     800 </span><span class="lineCov">      21620 :   }</span></a>
+<span class="lineNum">     801 </span>            :   
+<span class="lineNum">     802 </span><span class="lineCov">     426290 :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Scalar coeff(Index idx) const</span>
+<span class="lineNum">     803 </span>            :   {
+<span class="lineNum">     804 </span>            :     if(AsScalarProduct)
+<span class="lineNum">     805 </span>            :       return m_diagImpl.coeff(0) * m_matImpl.coeff(idx);
+<span class="lineNum">     806 </span>            :     else
+<span class="lineNum">     807 </span><span class="lineCov">     426290 :       return m_diagImpl.coeff(idx) * m_matImpl.coeff(idx);</span>
+<span class="lineNum">     808 </span>            :   }
+<span class="lineNum">     809 </span>            :   
+<span class="lineNum">     810 </span>            : protected:
+<span class="lineNum">     811 </span>            :   template&lt;int LoadMode,typename PacketType&gt;
+<span class="lineNum">     812 </span>            :   EIGEN_STRONG_INLINE PacketType packet_impl(Index row, Index col, Index id, internal::true_type) const
+<span class="lineNum">     813 </span>            :   {
+<span class="lineNum">     814 </span>            :     return internal::pmul(m_matImpl.template packet&lt;LoadMode,PacketType&gt;(row, col),
+<span class="lineNum">     815 </span>            :                           internal::pset1&lt;PacketType&gt;(m_diagImpl.coeff(id)));
+<span class="lineNum">     816 </span>            :   }
+<a name="817"><span class="lineNum">     817 </span>            :   </a>
+<span class="lineNum">     818 </span>            :   template&lt;int LoadMode,typename PacketType&gt;
+<span class="lineNum">     819 </span><span class="lineCov">      39480 :   EIGEN_STRONG_INLINE PacketType packet_impl(Index row, Index col, Index id, internal::false_type) const</span>
+<span class="lineNum">     820 </span>            :   {
+<span class="lineNum">     821 </span>            :     enum {
+<span class="lineNum">     822 </span>            :       InnerSize = (MatrixType::Flags &amp; RowMajorBit) ? MatrixType::ColsAtCompileTime : MatrixType::RowsAtCompileTime,
+<span class="lineNum">     823 </span>            :       DiagonalPacketLoadMode = EIGEN_PLAIN_ENUM_MIN(LoadMode,((InnerSize%16) == 0) ? int(Aligned16) : int(evaluator&lt;DiagonalType&gt;::Alignment)) // FIXME hardcoded 16!!
+<span class="lineNum">     824 </span>            :     };
+<span class="lineNum">     825 </span><span class="lineCov">      78960 :     return internal::pmul(m_matImpl.template packet&lt;LoadMode,PacketType&gt;(row, col),</span>
+<span class="lineNum">     826 </span><span class="lineCov">      78960 :                           m_diagImpl.template packet&lt;DiagonalPacketLoadMode,PacketType&gt;(id));</span>
+<span class="lineNum">     827 </span>            :   }
+<span class="lineNum">     828 </span>            :   
+<span class="lineNum">     829 </span>            :   evaluator&lt;DiagonalType&gt; m_diagImpl;
+<span class="lineNum">     830 </span>            :   evaluator&lt;MatrixType&gt;   m_matImpl;
+<span class="lineNum">     831 </span>            : };
+<span class="lineNum">     832 </span>            : 
+<a name="833"><span class="lineNum">     833 </span>            : // diagonal * dense</a>
+<span class="lineNum">     834 </span>            : template&lt;typename Lhs, typename Rhs, int ProductKind, int ProductTag&gt;
+<span class="lineNum">     835 </span><span class="lineCov">      21620 : struct product_evaluator&lt;Product&lt;Lhs, Rhs, ProductKind&gt;, ProductTag, DiagonalShape, DenseShape&gt;</span>
+<span class="lineNum">     836 </span>            :   : diagonal_product_evaluator_base&lt;Rhs, typename Lhs::DiagonalVectorType, Product&lt;Lhs, Rhs, LazyProduct&gt;, OnTheLeft&gt;
+<span class="lineNum">     837 </span>            : {
+<span class="lineNum">     838 </span>            :   typedef diagonal_product_evaluator_base&lt;Rhs, typename Lhs::DiagonalVectorType, Product&lt;Lhs, Rhs, LazyProduct&gt;, OnTheLeft&gt; Base;
+<span class="lineNum">     839 </span>            :   using Base::m_diagImpl;
+<span class="lineNum">     840 </span>            :   using Base::m_matImpl;
+<span class="lineNum">     841 </span>            :   using Base::coeff;
+<span class="lineNum">     842 </span>            :   typedef typename Base::Scalar Scalar;
+<span class="lineNum">     843 </span>            :   
+<span class="lineNum">     844 </span>            :   typedef Product&lt;Lhs, Rhs, ProductKind&gt; XprType;
+<span class="lineNum">     845 </span>            :   typedef typename XprType::PlainObject PlainObject;
+<span class="lineNum">     846 </span>            :   
+<span class="lineNum">     847 </span>            :   enum {
+<span class="lineNum">     848 </span>            :     StorageOrder = int(Rhs::Flags) &amp; RowMajorBit ? RowMajor : ColMajor
+<a name="849"><span class="lineNum">     849 </span>            :   };</a>
+<span class="lineNum">     850 </span>            : 
+<span class="lineNum">     851 </span><span class="lineCov">      21620 :   EIGEN_DEVICE_FUNC explicit product_evaluator(const XprType&amp; xpr)</span>
+<span class="lineNum">     852 </span><span class="lineCov">      21620 :     : Base(xpr.rhs(), xpr.lhs().diagonal())</span>
+<span class="lineNum">     853 </span>            :   {
+<span class="lineNum">     854 </span><span class="lineCov">      21620 :   }</span>
+<span class="lineNum">     855 </span>            :   
+<span class="lineNum">     856 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Scalar coeff(Index row, Index col) const
+<span class="lineNum">     857 </span>            :   {
+<span class="lineNum">     858 </span>            :     return m_diagImpl.coeff(row) * m_matImpl.coeff(row, col);
+<span class="lineNum">     859 </span>            :   }
+<span class="lineNum">     860 </span>            :   
+<a name="861"><span class="lineNum">     861 </span>            : #ifndef __CUDACC__</a>
+<span class="lineNum">     862 </span>            :   template&lt;int LoadMode,typename PacketType&gt;
+<span class="lineNum">     863 </span><span class="lineCov">      39480 :   EIGEN_STRONG_INLINE PacketType packet(Index row, Index col) const</span>
+<span class="lineNum">     864 </span>            :   {
+<span class="lineNum">     865 </span>            :     // FIXME: NVCC used to complain about the template keyword, but we have to check whether this is still the case.
+<span class="lineNum">     866 </span>            :     // See also similar calls below.
+<span class="lineNum">     867 </span>            :     return this-&gt;template packet_impl&lt;LoadMode,PacketType&gt;(row,col, row,
+<span class="lineNum">     868 </span><span class="lineCov">      39480 :                                  typename internal::conditional&lt;int(StorageOrder)==RowMajor, internal::true_type, internal::false_type&gt;::type());</span>
+<span class="lineNum">     869 </span>            :   }
+<a name="870"><span class="lineNum">     870 </span>            :   </a>
+<span class="lineNum">     871 </span>            :   template&lt;int LoadMode,typename PacketType&gt;
+<span class="lineNum">     872 </span><span class="lineCov">      39480 :   EIGEN_STRONG_INLINE PacketType packet(Index idx) const</span>
+<span class="lineNum">     873 </span>            :   {
+<span class="lineNum">     874 </span><span class="lineCov">      39480 :     return packet&lt;LoadMode,PacketType&gt;(int(StorageOrder)==ColMajor?idx:0,int(StorageOrder)==ColMajor?0:idx);</span>
+<span class="lineNum">     875 </span>            :   }
+<span class="lineNum">     876 </span>            : #endif
+<span class="lineNum">     877 </span>            : };
+<span class="lineNum">     878 </span>            : 
+<span class="lineNum">     879 </span>            : // dense * diagonal
+<span class="lineNum">     880 </span>            : template&lt;typename Lhs, typename Rhs, int ProductKind, int ProductTag&gt;
+<span class="lineNum">     881 </span>            : struct product_evaluator&lt;Product&lt;Lhs, Rhs, ProductKind&gt;, ProductTag, DenseShape, DiagonalShape&gt;
+<span class="lineNum">     882 </span>            :   : diagonal_product_evaluator_base&lt;Lhs, typename Rhs::DiagonalVectorType, Product&lt;Lhs, Rhs, LazyProduct&gt;, OnTheRight&gt;
+<span class="lineNum">     883 </span>            : {
+<span class="lineNum">     884 </span>            :   typedef diagonal_product_evaluator_base&lt;Lhs, typename Rhs::DiagonalVectorType, Product&lt;Lhs, Rhs, LazyProduct&gt;, OnTheRight&gt; Base;
+<span class="lineNum">     885 </span>            :   using Base::m_diagImpl;
+<span class="lineNum">     886 </span>            :   using Base::m_matImpl;
+<span class="lineNum">     887 </span>            :   using Base::coeff;
+<span class="lineNum">     888 </span>            :   typedef typename Base::Scalar Scalar;
+<span class="lineNum">     889 </span>            :   
+<span class="lineNum">     890 </span>            :   typedef Product&lt;Lhs, Rhs, ProductKind&gt; XprType;
+<span class="lineNum">     891 </span>            :   typedef typename XprType::PlainObject PlainObject;
+<span class="lineNum">     892 </span>            :   
+<span class="lineNum">     893 </span>            :   enum { StorageOrder = int(Lhs::Flags) &amp; RowMajorBit ? RowMajor : ColMajor };
+<span class="lineNum">     894 </span>            : 
+<span class="lineNum">     895 </span>            :   EIGEN_DEVICE_FUNC explicit product_evaluator(const XprType&amp; xpr)
+<span class="lineNum">     896 </span>            :     : Base(xpr.lhs(), xpr.rhs().diagonal())
+<span class="lineNum">     897 </span>            :   {
+<span class="lineNum">     898 </span>            :   }
+<span class="lineNum">     899 </span>            :   
+<span class="lineNum">     900 </span>            :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Scalar coeff(Index row, Index col) const
+<span class="lineNum">     901 </span>            :   {
+<span class="lineNum">     902 </span>            :     return m_matImpl.coeff(row, col) * m_diagImpl.coeff(col);
+<span class="lineNum">     903 </span>            :   }
+<span class="lineNum">     904 </span>            :   
+<span class="lineNum">     905 </span>            : #ifndef __CUDACC__
+<span class="lineNum">     906 </span>            :   template&lt;int LoadMode,typename PacketType&gt;
+<span class="lineNum">     907 </span>            :   EIGEN_STRONG_INLINE PacketType packet(Index row, Index col) const
+<span class="lineNum">     908 </span>            :   {
+<span class="lineNum">     909 </span>            :     return this-&gt;template packet_impl&lt;LoadMode,PacketType&gt;(row,col, col,
+<span class="lineNum">     910 </span>            :                                  typename internal::conditional&lt;int(StorageOrder)==ColMajor, internal::true_type, internal::false_type&gt;::type());
+<span class="lineNum">     911 </span>            :   }
+<span class="lineNum">     912 </span>            :   
+<span class="lineNum">     913 </span>            :   template&lt;int LoadMode,typename PacketType&gt;
+<span class="lineNum">     914 </span>            :   EIGEN_STRONG_INLINE PacketType packet(Index idx) const
+<span class="lineNum">     915 </span>            :   {
+<span class="lineNum">     916 </span>            :     return packet&lt;LoadMode,PacketType&gt;(int(StorageOrder)==ColMajor?idx:0,int(StorageOrder)==ColMajor?0:idx);
+<span class="lineNum">     917 </span>            :   }
+<span class="lineNum">     918 </span>            : #endif
+<span class="lineNum">     919 </span>            : };
+<span class="lineNum">     920 </span>            : 
+<span class="lineNum">     921 </span>            : /***************************************************************************
+<span class="lineNum">     922 </span>            : * Products with permutation matrices
+<span class="lineNum">     923 </span>            : ***************************************************************************/
+<span class="lineNum">     924 </span>            : 
+<span class="lineNum">     925 </span>            : /** \internal
+<span class="lineNum">     926 </span>            :   * \class permutation_matrix_product
+<span class="lineNum">     927 </span>            :   * Internal helper class implementing the product between a permutation matrix and a matrix.
+<span class="lineNum">     928 </span>            :   * This class is specialized for DenseShape below and for SparseShape in SparseCore/SparsePermutation.h
+<span class="lineNum">     929 </span>            :   */
+<span class="lineNum">     930 </span>            : template&lt;typename ExpressionType, int Side, bool Transposed, typename ExpressionShape&gt;
+<span class="lineNum">     931 </span>            : struct permutation_matrix_product;
+<span class="lineNum">     932 </span>            : 
+<span class="lineNum">     933 </span>            : template&lt;typename ExpressionType, int Side, bool Transposed&gt;
+<span class="lineNum">     934 </span>            : struct permutation_matrix_product&lt;ExpressionType, Side, Transposed, DenseShape&gt;
+<span class="lineNum">     935 </span>            : {
+<span class="lineNum">     936 </span>            :     typedef typename nested_eval&lt;ExpressionType, 1&gt;::type MatrixType;
+<span class="lineNum">     937 </span>            :     typedef typename remove_all&lt;MatrixType&gt;::type MatrixTypeCleaned;
+<span class="lineNum">     938 </span>            : 
+<span class="lineNum">     939 </span>            :     template&lt;typename Dest, typename PermutationType&gt;
+<span class="lineNum">     940 </span>            :     static inline void run(Dest&amp; dst, const PermutationType&amp; perm, const ExpressionType&amp; xpr)
+<span class="lineNum">     941 </span>            :     {
+<span class="lineNum">     942 </span>            :       MatrixType mat(xpr);
+<span class="lineNum">     943 </span>            :       const Index n = Side==OnTheLeft ? mat.rows() : mat.cols();
+<span class="lineNum">     944 </span>            :       // FIXME we need an is_same for expression that is not sensitive to constness. For instance
+<span class="lineNum">     945 </span>            :       // is_same_xpr&lt;Block&lt;const Matrix&gt;, Block&lt;Matrix&gt; &gt;::value should be true.
+<span class="lineNum">     946 </span>            :       //if(is_same&lt;MatrixTypeCleaned,Dest&gt;::value &amp;&amp; extract_data(dst) == extract_data(mat))
+<span class="lineNum">     947 </span>            :       if(is_same_dense(dst, mat))
+<span class="lineNum">     948 </span>            :       {
+<span class="lineNum">     949 </span>            :         // apply the permutation inplace
+<span class="lineNum">     950 </span>            :         Matrix&lt;bool,PermutationType::RowsAtCompileTime,1,0,PermutationType::MaxRowsAtCompileTime&gt; mask(perm.size());
+<span class="lineNum">     951 </span>            :         mask.fill(false);
+<span class="lineNum">     952 </span>            :         Index r = 0;
+<span class="lineNum">     953 </span>            :         while(r &lt; perm.size())
+<span class="lineNum">     954 </span>            :         {
+<span class="lineNum">     955 </span>            :           // search for the next seed
+<span class="lineNum">     956 </span>            :           while(r&lt;perm.size() &amp;&amp; mask[r]) r++;
+<span class="lineNum">     957 </span>            :           if(r&gt;=perm.size())
+<span class="lineNum">     958 </span>            :             break;
+<span class="lineNum">     959 </span>            :           // we got one, let's follow it until we are back to the seed
+<span class="lineNum">     960 </span>            :           Index k0 = r++;
+<span class="lineNum">     961 </span>            :           Index kPrev = k0;
+<span class="lineNum">     962 </span>            :           mask.coeffRef(k0) = true;
+<span class="lineNum">     963 </span>            :           for(Index k=perm.indices().coeff(k0); k!=k0; k=perm.indices().coeff(k))
+<span class="lineNum">     964 </span>            :           {
+<span class="lineNum">     965 </span>            :                   Block&lt;Dest, Side==OnTheLeft ? 1 : Dest::RowsAtCompileTime, Side==OnTheRight ? 1 : Dest::ColsAtCompileTime&gt;(dst, k)
+<span class="lineNum">     966 </span>            :             .swap(Block&lt;Dest, Side==OnTheLeft ? 1 : Dest::RowsAtCompileTime, Side==OnTheRight ? 1 : Dest::ColsAtCompileTime&gt;
+<span class="lineNum">     967 </span>            :                        (dst,((Side==OnTheLeft) ^ Transposed) ? k0 : kPrev));
+<span class="lineNum">     968 </span>            : 
+<span class="lineNum">     969 </span>            :             mask.coeffRef(k) = true;
+<span class="lineNum">     970 </span>            :             kPrev = k;
+<span class="lineNum">     971 </span>            :           }
+<span class="lineNum">     972 </span>            :         }
+<span class="lineNum">     973 </span>            :       }
+<span class="lineNum">     974 </span>            :       else
+<span class="lineNum">     975 </span>            :       {
+<span class="lineNum">     976 </span>            :         for(Index i = 0; i &lt; n; ++i)
+<span class="lineNum">     977 </span>            :         {
+<span class="lineNum">     978 </span>            :           Block&lt;Dest, Side==OnTheLeft ? 1 : Dest::RowsAtCompileTime, Side==OnTheRight ? 1 : Dest::ColsAtCompileTime&gt;
+<span class="lineNum">     979 </span>            :                (dst, ((Side==OnTheLeft) ^ Transposed) ? perm.indices().coeff(i) : i)
+<span class="lineNum">     980 </span>            : 
+<span class="lineNum">     981 </span>            :           =
+<span class="lineNum">     982 </span>            : 
+<span class="lineNum">     983 </span>            :           Block&lt;const MatrixTypeCleaned,Side==OnTheLeft ? 1 : MatrixTypeCleaned::RowsAtCompileTime,Side==OnTheRight ? 1 : MatrixTypeCleaned::ColsAtCompileTime&gt;
+<span class="lineNum">     984 </span>            :                (mat, ((Side==OnTheRight) ^ Transposed) ? perm.indices().coeff(i) : i);
+<span class="lineNum">     985 </span>            :         }
+<span class="lineNum">     986 </span>            :       }
+<span class="lineNum">     987 </span>            :     }
+<span class="lineNum">     988 </span>            : };
+<span class="lineNum">     989 </span>            : 
+<span class="lineNum">     990 </span>            : template&lt;typename Lhs, typename Rhs, int ProductTag, typename MatrixShape&gt;
+<span class="lineNum">     991 </span>            : struct generic_product_impl&lt;Lhs, Rhs, PermutationShape, MatrixShape, ProductTag&gt;
+<span class="lineNum">     992 </span>            : {
+<span class="lineNum">     993 </span>            :   template&lt;typename Dest&gt;
+<span class="lineNum">     994 </span>            :   static void evalTo(Dest&amp; dst, const Lhs&amp; lhs, const Rhs&amp; rhs)
+<span class="lineNum">     995 </span>            :   {
+<span class="lineNum">     996 </span>            :     permutation_matrix_product&lt;Rhs, OnTheLeft, false, MatrixShape&gt;::run(dst, lhs, rhs);
+<span class="lineNum">     997 </span>            :   }
+<span class="lineNum">     998 </span>            : };
+<span class="lineNum">     999 </span>            : 
+<span class="lineNum">    1000 </span>            : template&lt;typename Lhs, typename Rhs, int ProductTag, typename MatrixShape&gt;
+<span class="lineNum">    1001 </span>            : struct generic_product_impl&lt;Lhs, Rhs, MatrixShape, PermutationShape, ProductTag&gt;
+<span class="lineNum">    1002 </span>            : {
+<span class="lineNum">    1003 </span>            :   template&lt;typename Dest&gt;
+<span class="lineNum">    1004 </span>            :   static void evalTo(Dest&amp; dst, const Lhs&amp; lhs, const Rhs&amp; rhs)
+<span class="lineNum">    1005 </span>            :   {
+<span class="lineNum">    1006 </span>            :     permutation_matrix_product&lt;Lhs, OnTheRight, false, MatrixShape&gt;::run(dst, rhs, lhs);
+<span class="lineNum">    1007 </span>            :   }
+<span class="lineNum">    1008 </span>            : };
+<span class="lineNum">    1009 </span>            : 
+<span class="lineNum">    1010 </span>            : template&lt;typename Lhs, typename Rhs, int ProductTag, typename MatrixShape&gt;
+<span class="lineNum">    1011 </span>            : struct generic_product_impl&lt;Inverse&lt;Lhs&gt;, Rhs, PermutationShape, MatrixShape, ProductTag&gt;
+<span class="lineNum">    1012 </span>            : {
+<span class="lineNum">    1013 </span>            :   template&lt;typename Dest&gt;
+<span class="lineNum">    1014 </span>            :   static void evalTo(Dest&amp; dst, const Inverse&lt;Lhs&gt;&amp; lhs, const Rhs&amp; rhs)
+<span class="lineNum">    1015 </span>            :   {
+<span class="lineNum">    1016 </span>            :     permutation_matrix_product&lt;Rhs, OnTheLeft, true, MatrixShape&gt;::run(dst, lhs.nestedExpression(), rhs);
+<span class="lineNum">    1017 </span>            :   }
+<span class="lineNum">    1018 </span>            : };
+<span class="lineNum">    1019 </span>            : 
+<span class="lineNum">    1020 </span>            : template&lt;typename Lhs, typename Rhs, int ProductTag, typename MatrixShape&gt;
+<span class="lineNum">    1021 </span>            : struct generic_product_impl&lt;Lhs, Inverse&lt;Rhs&gt;, MatrixShape, PermutationShape, ProductTag&gt;
+<span class="lineNum">    1022 </span>            : {
+<span class="lineNum">    1023 </span>            :   template&lt;typename Dest&gt;
+<span class="lineNum">    1024 </span>            :   static void evalTo(Dest&amp; dst, const Lhs&amp; lhs, const Inverse&lt;Rhs&gt;&amp; rhs)
+<span class="lineNum">    1025 </span>            :   {
+<span class="lineNum">    1026 </span>            :     permutation_matrix_product&lt;Lhs, OnTheRight, true, MatrixShape&gt;::run(dst, rhs.nestedExpression(), lhs);
+<span class="lineNum">    1027 </span>            :   }
+<span class="lineNum">    1028 </span>            : };
+<span class="lineNum">    1029 </span>            : 
+<span class="lineNum">    1030 </span>            : 
+<span class="lineNum">    1031 </span>            : /***************************************************************************
+<span class="lineNum">    1032 </span>            : * Products with transpositions matrices
+<span class="lineNum">    1033 </span>            : ***************************************************************************/
+<span class="lineNum">    1034 </span>            : 
+<span class="lineNum">    1035 </span>            : // FIXME could we unify Transpositions and Permutation into a single &quot;shape&quot;??
+<span class="lineNum">    1036 </span>            : 
+<span class="lineNum">    1037 </span>            : /** \internal
+<span class="lineNum">    1038 </span>            :   * \class transposition_matrix_product
+<span class="lineNum">    1039 </span>            :   * Internal helper class implementing the product between a permutation matrix and a matrix.
+<span class="lineNum">    1040 </span>            :   */
+<span class="lineNum">    1041 </span>            : template&lt;typename ExpressionType, int Side, bool Transposed, typename ExpressionShape&gt;
+<span class="lineNum">    1042 </span>            : struct transposition_matrix_product
+<span class="lineNum">    1043 </span>            : {
+<span class="lineNum">    1044 </span>            :   typedef typename nested_eval&lt;ExpressionType, 1&gt;::type MatrixType;
+<span class="lineNum">    1045 </span>            :   typedef typename remove_all&lt;MatrixType&gt;::type MatrixTypeCleaned;
+<a name="1046"><span class="lineNum">    1046 </span>            :   </a>
+<span class="lineNum">    1047 </span>            :   template&lt;typename Dest, typename TranspositionType&gt;
+<span class="lineNum">    1048 </span><span class="lineCov">        940 :   static inline void run(Dest&amp; dst, const TranspositionType&amp; tr, const ExpressionType&amp; xpr)</span>
+<span class="lineNum">    1049 </span>            :   {
+<span class="lineNum">    1050 </span><span class="lineCov">        940 :     MatrixType mat(xpr);</span>
+<span class="lineNum">    1051 </span>            :     typedef typename TranspositionType::StorageIndex StorageIndex;
+<span class="lineNum">    1052 </span><span class="lineCov">        940 :     const Index size = tr.size();</span>
+<span class="lineNum">    1053 </span><span class="lineCov">        940 :     StorageIndex j = 0;</span>
+<span class="lineNum">    1054 </span>            : 
+<span class="lineNum">    1055 </span><span class="lineCov">        940 :     if(!is_same_dense(dst,mat))</span>
+<span class="lineNum">    1056 </span><span class="lineNoCov">          0 :       dst = mat;</span>
+<span class="lineNum">    1057 </span>            : 
+<span class="lineNum">    1058 </span><span class="lineCov">      41360 :     for(Index k=(Transposed?size-1:0) ; Transposed?k&gt;=0:k&lt;size ; Transposed?--k:++k)</span>
+<span class="lineNum">    1059 </span><span class="lineCov">      40420 :       if(Index(j=tr.coeff(k))!=k)</span>
+<span class="lineNum">    1060 </span>            :       {
+<span class="lineNum">    1061 </span><span class="lineCov">      32362 :         if(Side==OnTheLeft)        dst.row(k).swap(dst.row(j));</span>
+<span class="lineNum">    1062 </span>            :         else if(Side==OnTheRight)  dst.col(k).swap(dst.col(j));
+<span class="lineNum">    1063 </span>            :       }
+<span class="lineNum">    1064 </span><span class="lineCov">        940 :   }</span>
+<span class="lineNum">    1065 </span>            : };
+<span class="lineNum">    1066 </span>            : 
+<span class="lineNum">    1067 </span>            : template&lt;typename Lhs, typename Rhs, int ProductTag, typename MatrixShape&gt;
+<span class="lineNum">    1068 </span>            : struct generic_product_impl&lt;Lhs, Rhs, TranspositionsShape, MatrixShape, ProductTag&gt;
+<a name="1069"><span class="lineNum">    1069 </span>            : {</a>
+<span class="lineNum">    1070 </span>            :   template&lt;typename Dest&gt;
+<span class="lineNum">    1071 </span><span class="lineCov">        470 :   static void evalTo(Dest&amp; dst, const Lhs&amp; lhs, const Rhs&amp; rhs)</span>
+<span class="lineNum">    1072 </span>            :   {
+<span class="lineNum">    1073 </span><span class="lineCov">        470 :     transposition_matrix_product&lt;Rhs, OnTheLeft, false, MatrixShape&gt;::run(dst, lhs, rhs);</span>
+<span class="lineNum">    1074 </span><span class="lineCov">        470 :   }</span>
+<span class="lineNum">    1075 </span>            : };
+<span class="lineNum">    1076 </span>            : 
+<span class="lineNum">    1077 </span>            : template&lt;typename Lhs, typename Rhs, int ProductTag, typename MatrixShape&gt;
+<span class="lineNum">    1078 </span>            : struct generic_product_impl&lt;Lhs, Rhs, MatrixShape, TranspositionsShape, ProductTag&gt;
+<span class="lineNum">    1079 </span>            : {
+<span class="lineNum">    1080 </span>            :   template&lt;typename Dest&gt;
+<span class="lineNum">    1081 </span>            :   static void evalTo(Dest&amp; dst, const Lhs&amp; lhs, const Rhs&amp; rhs)
+<span class="lineNum">    1082 </span>            :   {
+<span class="lineNum">    1083 </span>            :     transposition_matrix_product&lt;Lhs, OnTheRight, false, MatrixShape&gt;::run(dst, rhs, lhs);
+<span class="lineNum">    1084 </span>            :   }
+<span class="lineNum">    1085 </span>            : };
+<span class="lineNum">    1086 </span>            : 
+<span class="lineNum">    1087 </span>            : 
+<span class="lineNum">    1088 </span>            : template&lt;typename Lhs, typename Rhs, int ProductTag, typename MatrixShape&gt;
+<span class="lineNum">    1089 </span>            : struct generic_product_impl&lt;Transpose&lt;Lhs&gt;, Rhs, TranspositionsShape, MatrixShape, ProductTag&gt;
+<a name="1090"><span class="lineNum">    1090 </span>            : {</a>
+<span class="lineNum">    1091 </span>            :   template&lt;typename Dest&gt;
+<span class="lineNum">    1092 </span><span class="lineCov">        470 :   static void evalTo(Dest&amp; dst, const Transpose&lt;Lhs&gt;&amp; lhs, const Rhs&amp; rhs)</span>
+<span class="lineNum">    1093 </span>            :   {
+<span class="lineNum">    1094 </span><span class="lineCov">        470 :     transposition_matrix_product&lt;Rhs, OnTheLeft, true, MatrixShape&gt;::run(dst, lhs.nestedExpression(), rhs);</span>
+<span class="lineNum">    1095 </span><span class="lineCov">        470 :   }</span>
+<span class="lineNum">    1096 </span>            : };
+<span class="lineNum">    1097 </span>            : 
+<span class="lineNum">    1098 </span>            : template&lt;typename Lhs, typename Rhs, int ProductTag, typename MatrixShape&gt;
+<span class="lineNum">    1099 </span>            : struct generic_product_impl&lt;Lhs, Transpose&lt;Rhs&gt;, MatrixShape, TranspositionsShape, ProductTag&gt;
+<span class="lineNum">    1100 </span>            : {
+<span class="lineNum">    1101 </span>            :   template&lt;typename Dest&gt;
+<span class="lineNum">    1102 </span>            :   static void evalTo(Dest&amp; dst, const Lhs&amp; lhs, const Transpose&lt;Rhs&gt;&amp; rhs)
+<span class="lineNum">    1103 </span>            :   {
+<span class="lineNum">    1104 </span>            :     transposition_matrix_product&lt;Lhs, OnTheRight, true, MatrixShape&gt;::run(dst, rhs.nestedExpression(), lhs);
+<span class="lineNum">    1105 </span>            :   }
+<span class="lineNum">    1106 </span>            : };
+<span class="lineNum">    1107 </span>            : 
+<span class="lineNum">    1108 </span>            : } // end namespace internal
+<span class="lineNum">    1109 </span>            : 
+<span class="lineNum">    1110 </span>            : } // end namespace Eigen
+<span class="lineNum">    1111 </span>            : 
+<span class="lineNum">    1112 </span>            : #endif // EIGEN_PRODUCT_EVALUATORS_H
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

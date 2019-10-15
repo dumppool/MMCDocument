@@ -1,0 +1,482 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - PyHost Code Analysis - /usr/local/include/eigen3/Eigen/src/Core/util/BlasUtil.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../../../index.html">top level</a> - <a href="index.html">usr/local/include/eigen3/Eigen/src/Core/util</a> - BlasUtil.h<span style="font-size: 80%;"> (source / <a href="BlasUtil.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">PyHost Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">36</td>
+            <td class="headerCovTableEntry">40</td>
+            <td class="headerCovTableEntryHi">90.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 17:04:23</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">84</td>
+            <td class="headerCovTableEntry">144</td>
+            <td class="headerCovTableEntryLo">58.3 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // This file is part of Eigen, a lightweight C++ template library</a>
+<span class="lineNum">       2 </span>            : // for linear algebra.
+<span class="lineNum">       3 </span>            : //
+<span class="lineNum">       4 </span>            : // Copyright (C) 2009-2010 Gael Guennebaud &lt;gael.guennebaud@inria.fr&gt;
+<span class="lineNum">       5 </span>            : //
+<span class="lineNum">       6 </span>            : // This Source Code Form is subject to the terms of the Mozilla
+<span class="lineNum">       7 </span>            : // Public License v. 2.0. If a copy of the MPL was not distributed
+<span class="lineNum">       8 </span>            : // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+<span class="lineNum">       9 </span>            : 
+<span class="lineNum">      10 </span>            : #ifndef EIGEN_BLASUTIL_H
+<span class="lineNum">      11 </span>            : #define EIGEN_BLASUTIL_H
+<span class="lineNum">      12 </span>            : 
+<span class="lineNum">      13 </span>            : // This file contains many lightweight helper classes used to
+<span class="lineNum">      14 </span>            : // implement and control fast level 2 and level 3 BLAS-like routines.
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span>            : namespace Eigen {
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span>            : namespace internal {
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span>            : // forward declarations
+<span class="lineNum">      21 </span>            : template&lt;typename LhsScalar, typename RhsScalar, typename Index, typename DataMapper, int mr, int nr, bool ConjugateLhs=false, bool ConjugateRhs=false&gt;
+<span class="lineNum">      22 </span>            : struct gebp_kernel;
+<span class="lineNum">      23 </span>            : 
+<span class="lineNum">      24 </span>            : template&lt;typename Scalar, typename Index, typename DataMapper, int nr, int StorageOrder, bool Conjugate = false, bool PanelMode=false&gt;
+<span class="lineNum">      25 </span>            : struct gemm_pack_rhs;
+<span class="lineNum">      26 </span>            : 
+<span class="lineNum">      27 </span>            : template&lt;typename Scalar, typename Index, typename DataMapper, int Pack1, int Pack2, int StorageOrder, bool Conjugate = false, bool PanelMode = false&gt;
+<span class="lineNum">      28 </span>            : struct gemm_pack_lhs;
+<span class="lineNum">      29 </span>            : 
+<span class="lineNum">      30 </span>            : template&lt;
+<span class="lineNum">      31 </span>            :   typename Index,
+<span class="lineNum">      32 </span>            :   typename LhsScalar, int LhsStorageOrder, bool ConjugateLhs,
+<span class="lineNum">      33 </span>            :   typename RhsScalar, int RhsStorageOrder, bool ConjugateRhs,
+<span class="lineNum">      34 </span>            :   int ResStorageOrder&gt;
+<span class="lineNum">      35 </span>            : struct general_matrix_matrix_product;
+<span class="lineNum">      36 </span>            : 
+<span class="lineNum">      37 </span>            : template&lt;typename Index,
+<span class="lineNum">      38 </span>            :          typename LhsScalar, typename LhsMapper, int LhsStorageOrder, bool ConjugateLhs,
+<span class="lineNum">      39 </span>            :          typename RhsScalar, typename RhsMapper, bool ConjugateRhs, int Version=Specialized&gt;
+<span class="lineNum">      40 </span>            : struct general_matrix_vector_product;
+<span class="lineNum">      41 </span>            : 
+<span class="lineNum">      42 </span>            : 
+<span class="lineNum">      43 </span>            : template&lt;bool Conjugate&gt; struct conj_if;
+<span class="lineNum">      44 </span>            : 
+<span class="lineNum">      45 </span>            : template&lt;&gt; struct conj_if&lt;true&gt; {
+<span class="lineNum">      46 </span>            :   template&lt;typename T&gt;
+<span class="lineNum">      47 </span>            :   inline T operator()(const T&amp; x) const { return numext::conj(x); }
+<span class="lineNum">      48 </span>            :   template&lt;typename T&gt;
+<span class="lineNum">      49 </span>            :   inline T pconj(const T&amp; x) const { return internal::pconj(x); }
+<span class="lineNum">      50 </span>            : };
+<span class="lineNum">      51 </span>            : 
+<a name="52"><span class="lineNum">      52 </span>            : template&lt;&gt; struct conj_if&lt;false&gt; {</a>
+<span class="lineNum">      53 </span>            :   template&lt;typename T&gt;
+<a name="54"><span class="lineNum">      54 </span><span class="lineCov">      22560 :   inline const T&amp; operator()(const T&amp; x) const { return x; }</span></a>
+<span class="lineNum">      55 </span>            :   template&lt;typename T&gt;
+<span class="lineNum">      56 </span><span class="lineCov">       8460 :   inline const T&amp; pconj(const T&amp; x) const { return x; }</span>
+<span class="lineNum">      57 </span>            : };
+<span class="lineNum">      58 </span>            : 
+<span class="lineNum">      59 </span>            : // Generic implementation for custom complex types.
+<span class="lineNum">      60 </span>            : template&lt;typename LhsScalar, typename RhsScalar, bool ConjLhs, bool ConjRhs&gt;
+<span class="lineNum">      61 </span>            : struct conj_helper
+<span class="lineNum">      62 </span>            : {
+<span class="lineNum">      63 </span>            :   typedef typename ScalarBinaryOpTraits&lt;LhsScalar,RhsScalar&gt;::ReturnType Scalar;
+<span class="lineNum">      64 </span>            : 
+<span class="lineNum">      65 </span>            :   EIGEN_STRONG_INLINE Scalar pmadd(const LhsScalar&amp; x, const RhsScalar&amp; y, const Scalar&amp; c) const
+<span class="lineNum">      66 </span>            :   { return padd(c, pmul(x,y)); }
+<span class="lineNum">      67 </span>            : 
+<span class="lineNum">      68 </span>            :   EIGEN_STRONG_INLINE Scalar pmul(const LhsScalar&amp; x, const RhsScalar&amp; y) const
+<span class="lineNum">      69 </span>            :   { return conj_if&lt;ConjLhs&gt;()(x) *  conj_if&lt;ConjRhs&gt;()(y); }
+<span class="lineNum">      70 </span>            : };
+<span class="lineNum">      71 </span>            : 
+<a name="72"><span class="lineNum">      72 </span>            : template&lt;typename Scalar&gt; struct conj_helper&lt;Scalar,Scalar,false,false&gt;</a>
+<a name="73"><span class="lineNum">      73 </span>            : {</a>
+<span class="lineNum">      74 </span><span class="lineCov">    1054495 :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar pmadd(const Scalar&amp; x, const Scalar&amp; y, const Scalar&amp; c) const { return internal::pmadd(x,y,c); }</span>
+<span class="lineNum">      75 </span><span class="lineCov">    2782928 :   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar pmul(const Scalar&amp; x, const Scalar&amp; y) const { return internal::pmul(x,y); }</span>
+<span class="lineNum">      76 </span>            : };
+<span class="lineNum">      77 </span>            : 
+<span class="lineNum">      78 </span>            : template&lt;typename RealScalar&gt; struct conj_helper&lt;std::complex&lt;RealScalar&gt;, std::complex&lt;RealScalar&gt;, false,true&gt;
+<span class="lineNum">      79 </span>            : {
+<span class="lineNum">      80 </span>            :   typedef std::complex&lt;RealScalar&gt; Scalar;
+<span class="lineNum">      81 </span>            :   EIGEN_STRONG_INLINE Scalar pmadd(const Scalar&amp; x, const Scalar&amp; y, const Scalar&amp; c) const
+<span class="lineNum">      82 </span>            :   { return c + pmul(x,y); }
+<span class="lineNum">      83 </span>            : 
+<span class="lineNum">      84 </span>            :   EIGEN_STRONG_INLINE Scalar pmul(const Scalar&amp; x, const Scalar&amp; y) const
+<span class="lineNum">      85 </span>            :   { return Scalar(numext::real(x)*numext::real(y) + numext::imag(x)*numext::imag(y), numext::imag(x)*numext::real(y) - numext::real(x)*numext::imag(y)); }
+<span class="lineNum">      86 </span>            : };
+<span class="lineNum">      87 </span>            : 
+<span class="lineNum">      88 </span>            : template&lt;typename RealScalar&gt; struct conj_helper&lt;std::complex&lt;RealScalar&gt;, std::complex&lt;RealScalar&gt;, true,false&gt;
+<span class="lineNum">      89 </span>            : {
+<span class="lineNum">      90 </span>            :   typedef std::complex&lt;RealScalar&gt; Scalar;
+<span class="lineNum">      91 </span>            :   EIGEN_STRONG_INLINE Scalar pmadd(const Scalar&amp; x, const Scalar&amp; y, const Scalar&amp; c) const
+<span class="lineNum">      92 </span>            :   { return c + pmul(x,y); }
+<span class="lineNum">      93 </span>            : 
+<span class="lineNum">      94 </span>            :   EIGEN_STRONG_INLINE Scalar pmul(const Scalar&amp; x, const Scalar&amp; y) const
+<span class="lineNum">      95 </span>            :   { return Scalar(numext::real(x)*numext::real(y) + numext::imag(x)*numext::imag(y), numext::real(x)*numext::imag(y) - numext::imag(x)*numext::real(y)); }
+<span class="lineNum">      96 </span>            : };
+<span class="lineNum">      97 </span>            : 
+<span class="lineNum">      98 </span>            : template&lt;typename RealScalar&gt; struct conj_helper&lt;std::complex&lt;RealScalar&gt;, std::complex&lt;RealScalar&gt;, true,true&gt;
+<span class="lineNum">      99 </span>            : {
+<span class="lineNum">     100 </span>            :   typedef std::complex&lt;RealScalar&gt; Scalar;
+<span class="lineNum">     101 </span>            :   EIGEN_STRONG_INLINE Scalar pmadd(const Scalar&amp; x, const Scalar&amp; y, const Scalar&amp; c) const
+<span class="lineNum">     102 </span>            :   { return c + pmul(x,y); }
+<span class="lineNum">     103 </span>            : 
+<span class="lineNum">     104 </span>            :   EIGEN_STRONG_INLINE Scalar pmul(const Scalar&amp; x, const Scalar&amp; y) const
+<span class="lineNum">     105 </span>            :   { return Scalar(numext::real(x)*numext::real(y) - numext::imag(x)*numext::imag(y), - numext::real(x)*numext::imag(y) - numext::imag(x)*numext::real(y)); }
+<span class="lineNum">     106 </span>            : };
+<span class="lineNum">     107 </span>            : 
+<span class="lineNum">     108 </span>            : template&lt;typename RealScalar,bool Conj&gt; struct conj_helper&lt;std::complex&lt;RealScalar&gt;, RealScalar, Conj,false&gt;
+<span class="lineNum">     109 </span>            : {
+<span class="lineNum">     110 </span>            :   typedef std::complex&lt;RealScalar&gt; Scalar;
+<span class="lineNum">     111 </span>            :   EIGEN_STRONG_INLINE Scalar pmadd(const Scalar&amp; x, const RealScalar&amp; y, const Scalar&amp; c) const
+<span class="lineNum">     112 </span>            :   { return padd(c, pmul(x,y)); }
+<span class="lineNum">     113 </span>            :   EIGEN_STRONG_INLINE Scalar pmul(const Scalar&amp; x, const RealScalar&amp; y) const
+<span class="lineNum">     114 </span>            :   { return conj_if&lt;Conj&gt;()(x)*y; }
+<span class="lineNum">     115 </span>            : };
+<span class="lineNum">     116 </span>            : 
+<span class="lineNum">     117 </span>            : template&lt;typename RealScalar,bool Conj&gt; struct conj_helper&lt;RealScalar, std::complex&lt;RealScalar&gt;, false,Conj&gt;
+<span class="lineNum">     118 </span>            : {
+<span class="lineNum">     119 </span>            :   typedef std::complex&lt;RealScalar&gt; Scalar;
+<span class="lineNum">     120 </span>            :   EIGEN_STRONG_INLINE Scalar pmadd(const RealScalar&amp; x, const Scalar&amp; y, const Scalar&amp; c) const
+<span class="lineNum">     121 </span>            :   { return padd(c, pmul(x,y)); }
+<span class="lineNum">     122 </span>            :   EIGEN_STRONG_INLINE Scalar pmul(const RealScalar&amp; x, const Scalar&amp; y) const
+<span class="lineNum">     123 </span>            :   { return x*conj_if&lt;Conj&gt;()(y); }
+<span class="lineNum">     124 </span>            : };
+<span class="lineNum">     125 </span>            : 
+<span class="lineNum">     126 </span>            : template&lt;typename From,typename To&gt; struct get_factor {
+<span class="lineNum">     127 </span>            :   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE To run(const From&amp; x) { return To(x); }
+<span class="lineNum">     128 </span>            : };
+<span class="lineNum">     129 </span>            : 
+<a name="130"><span class="lineNum">     130 </span>            : template&lt;typename Scalar&gt; struct get_factor&lt;Scalar,typename NumTraits&lt;Scalar&gt;::Real&gt; {</a>
+<span class="lineNum">     131 </span>            :   EIGEN_DEVICE_FUNC
+<span class="lineNum">     132 </span><span class="lineCov">      31835 :   static EIGEN_STRONG_INLINE typename NumTraits&lt;Scalar&gt;::Real run(const Scalar&amp; x) { return numext::real(x); }</span>
+<span class="lineNum">     133 </span>            : };
+<span class="lineNum">     134 </span>            : 
+<span class="lineNum">     135 </span>            : 
+<span class="lineNum">     136 </span>            : template&lt;typename Scalar, typename Index&gt;
+<span class="lineNum">     137 </span>            : class BlasVectorMapper {
+<span class="lineNum">     138 </span>            :   public:
+<span class="lineNum">     139 </span><span class="lineCov">     606565 :   EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE BlasVectorMapper(Scalar *data) : m_data(data) {}</span>
+<span class="lineNum">     140 </span>            : 
+<span class="lineNum">     141 </span>            :   EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE Scalar operator()(Index i) const {
+<span class="lineNum">     142 </span><span class="lineCov">     653770 :     return m_data[i];</span>
+<span class="lineNum">     143 </span>            :   }
+<span class="lineNum">     144 </span>            :   template &lt;typename Packet, int AlignmentType&gt;
+<span class="lineNum">     145 </span>            :   EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE Packet load(Index i) const {
+<span class="lineNum">     146 </span><span class="lineCov">    6415210 :     return ploadt&lt;Packet, AlignmentType&gt;(m_data + i);</span>
+<span class="lineNum">     147 </span>            :   }
+<a name="148"><span class="lineNum">     148 </span>            : </a>
+<span class="lineNum">     149 </span>            :   template &lt;typename Packet&gt;
+<span class="lineNum">     150 </span><span class="lineCov">      45215 :   EIGEN_DEVICE_FUNC bool aligned(Index i) const {</span>
+<span class="lineNum">     151 </span><span class="lineCov">      45215 :     return (UIntPtr(m_data+i)%sizeof(Packet))==0;</span>
+<span class="lineNum">     152 </span>            :   }
+<span class="lineNum">     153 </span>            : 
+<span class="lineNum">     154 </span>            :   protected:
+<span class="lineNum">     155 </span>            :   Scalar* m_data;
+<span class="lineNum">     156 </span>            : };
+<span class="lineNum">     157 </span>            : 
+<span class="lineNum">     158 </span>            : template&lt;typename Scalar, typename Index, int AlignmentType&gt;
+<span class="lineNum">     159 </span>            : class BlasLinearMapper {
+<span class="lineNum">     160 </span>            :   public:
+<span class="lineNum">     161 </span>            :   typedef typename packet_traits&lt;Scalar&gt;::type Packet;
+<span class="lineNum">     162 </span>            :   typedef typename packet_traits&lt;Scalar&gt;::half HalfPacket;
+<span class="lineNum">     163 </span>            : 
+<span class="lineNum">     164 </span><span class="lineCov">       9870 :   EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE BlasLinearMapper(Scalar *data) : m_data(data) {}</span>
+<span class="lineNum">     165 </span>            : 
+<span class="lineNum">     166 </span>            :   EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void prefetch(int i) const {
+<span class="lineNum">     167 </span><span class="lineCov">       7520 :     internal::prefetch(&amp;operator()(i));</span>
+<span class="lineNum">     168 </span>            :   }
+<span class="lineNum">     169 </span>            : 
+<span class="lineNum">     170 </span>            :   EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE Scalar&amp; operator()(Index i) const {
+<span class="lineNum">     171 </span><span class="lineCov">      24910 :     return m_data[i];</span>
+<span class="lineNum">     172 </span>            :   }
+<span class="lineNum">     173 </span>            : 
+<span class="lineNum">     174 </span>            :   EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE Packet loadPacket(Index i) const {
+<span class="lineNum">     175 </span><span class="lineCov">      19740 :     return ploadt&lt;Packet, AlignmentType&gt;(m_data + i);</span>
+<span class="lineNum">     176 </span>            :   }
+<span class="lineNum">     177 </span>            : 
+<span class="lineNum">     178 </span>            :   EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE HalfPacket loadHalfPacket(Index i) const {
+<span class="lineNum">     179 </span>            :     return ploadt&lt;HalfPacket, AlignmentType&gt;(m_data + i);
+<span class="lineNum">     180 </span>            :   }
+<span class="lineNum">     181 </span>            : 
+<span class="lineNum">     182 </span>            :   EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void storePacket(Index i, const Packet &amp;p) const {
+<span class="lineNum">     183 </span><span class="lineCov">       9870 :     pstoret&lt;Scalar, Packet, AlignmentType&gt;(m_data + i, p);</span>
+<span class="lineNum">     184 </span>            :   }
+<span class="lineNum">     185 </span>            : 
+<span class="lineNum">     186 </span>            :   protected:
+<span class="lineNum">     187 </span>            :   Scalar *m_data;
+<span class="lineNum">     188 </span>            : };
+<span class="lineNum">     189 </span>            : 
+<span class="lineNum">     190 </span>            : // Lightweight helper class to access matrix coefficients.
+<span class="lineNum">     191 </span>            : template&lt;typename Scalar, typename Index, int StorageOrder, int AlignmentType = Unaligned&gt;
+<span class="lineNum">     192 </span>            : class blas_data_mapper {
+<span class="lineNum">     193 </span>            :   public:
+<span class="lineNum">     194 </span>            :   typedef typename packet_traits&lt;Scalar&gt;::type Packet;
+<span class="lineNum">     195 </span>            :   typedef typename packet_traits&lt;Scalar&gt;::half HalfPacket;
+<span class="lineNum">     196 </span>            : 
+<span class="lineNum">     197 </span>            :   typedef BlasLinearMapper&lt;Scalar, Index, AlignmentType&gt; LinearMapper;
+<span class="lineNum">     198 </span>            :   typedef BlasVectorMapper&lt;Scalar, Index&gt; VectorMapper;
+<span class="lineNum">     199 </span>            : 
+<span class="lineNum">     200 </span><span class="lineCov">      75420 :   EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE blas_data_mapper(Scalar* data, Index stride) : m_data(data), m_stride(stride) {}</span>
+<span class="lineNum">     201 </span>            : 
+<span class="lineNum">     202 </span>            :   EIGEN_DEVICE_FUNC  EIGEN_ALWAYS_INLINE blas_data_mapper&lt;Scalar, Index, StorageOrder, AlignmentType&gt;
+<span class="lineNum">     203 </span>            :   getSubMapper(Index i, Index j) const {
+<span class="lineNum">     204 </span><span class="lineCov">       1410 :     return blas_data_mapper&lt;Scalar, Index, StorageOrder, AlignmentType&gt;(&amp;operator()(i, j), m_stride);</span>
+<span class="lineNum">     205 </span>            :   }
+<span class="lineNum">     206 </span>            : 
+<span class="lineNum">     207 </span>            :   EIGEN_DEVICE_FUNC  EIGEN_ALWAYS_INLINE LinearMapper getLinearMapper(Index i, Index j) const {
+<span class="lineNum">     208 </span><span class="lineCov">      19740 :     return LinearMapper(&amp;operator()(i, j));</span>
+<span class="lineNum">     209 </span>            :   }
+<span class="lineNum">     210 </span>            : 
+<span class="lineNum">     211 </span>            :   EIGEN_DEVICE_FUNC  EIGEN_ALWAYS_INLINE VectorMapper getVectorMapper(Index i, Index j) const {
+<span class="lineNum">     212 </span><span class="lineCov">    1213130 :     return VectorMapper(&amp;operator()(i, j));</span>
+<span class="lineNum">     213 </span>            :   }
+<span class="lineNum">     214 </span>            : 
+<span class="lineNum">     215 </span>            : 
+<span class="lineNum">     216 </span>            :   EIGEN_DEVICE_FUNC
+<span class="lineNum">     217 </span>            :   EIGEN_ALWAYS_INLINE Scalar&amp; operator()(Index i, Index j) const {
+<span class="lineNum">     218 </span><span class="lineCov">    1132760 :     return m_data[StorageOrder==RowMajor ? j + i*m_stride : i + j*m_stride];</span>
+<span class="lineNum">     219 </span>            :   }
+<span class="lineNum">     220 </span>            : 
+<span class="lineNum">     221 </span>            :   EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE Packet loadPacket(Index i, Index j) const {
+<span class="lineNum">     222 </span><span class="lineCov">      16920 :     return ploadt&lt;Packet, AlignmentType&gt;(&amp;operator()(i, j));</span>
+<span class="lineNum">     223 </span>            :   }
+<span class="lineNum">     224 </span>            : 
+<span class="lineNum">     225 </span>            :   EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE HalfPacket loadHalfPacket(Index i, Index j) const {
+<span class="lineNum">     226 </span>            :     return ploadt&lt;HalfPacket, AlignmentType&gt;(&amp;operator()(i, j));
+<span class="lineNum">     227 </span>            :   }
+<span class="lineNum">     228 </span>            : 
+<span class="lineNum">     229 </span>            :   template&lt;typename SubPacket&gt;
+<span class="lineNum">     230 </span>            :   EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void scatterPacket(Index i, Index j, const SubPacket &amp;p) const {
+<span class="lineNum">     231 </span>            :     pscatter&lt;Scalar, SubPacket&gt;(&amp;operator()(i, j), p, m_stride);
+<span class="lineNum">     232 </span>            :   }
+<span class="lineNum">     233 </span>            : 
+<span class="lineNum">     234 </span>            :   template&lt;typename SubPacket&gt;
+<span class="lineNum">     235 </span>            :   EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE SubPacket gatherPacket(Index i, Index j) const {
+<span class="lineNum">     236 </span>            :     return pgather&lt;Scalar, SubPacket&gt;(&amp;operator()(i, j), m_stride);
+<a name="237"><span class="lineNum">     237 </span>            :   }</a>
+<span class="lineNum">     238 </span>            : 
+<span class="lineNum">     239 </span><span class="lineCov">      36535 :   EIGEN_DEVICE_FUNC const Index stride() const { return m_stride; }</span>
+<a name="240"><span class="lineNum">     240 </span>            :   EIGEN_DEVICE_FUNC const Scalar* data() const { return m_data; }</a>
+<span class="lineNum">     241 </span>            : 
+<span class="lineNum">     242 </span><span class="lineCov">      41235 :   EIGEN_DEVICE_FUNC Index firstAligned(Index size) const {</span>
+<span class="lineNum">     243 </span><span class="lineCov">      41235 :     if (UIntPtr(m_data)%sizeof(Scalar)) {</span>
+<span class="lineNum">     244 </span><span class="lineNoCov">          0 :       return -1;</span>
+<span class="lineNum">     245 </span>            :     }
+<span class="lineNum">     246 </span><span class="lineCov">      41235 :     return internal::first_default_aligned(m_data, size);</span>
+<span class="lineNum">     247 </span>            :   }
+<span class="lineNum">     248 </span>            : 
+<span class="lineNum">     249 </span>            :   protected:
+<span class="lineNum">     250 </span>            :   Scalar* EIGEN_RESTRICT m_data;
+<span class="lineNum">     251 </span>            :   const Index m_stride;
+<span class="lineNum">     252 </span>            : };
+<span class="lineNum">     253 </span>            : 
+<span class="lineNum">     254 </span>            : // lightweight helper class to access matrix coefficients (const version)
+<span class="lineNum">     255 </span>            : template&lt;typename Scalar, typename Index, int StorageOrder&gt;
+<span class="lineNum">     256 </span>            : class const_blas_data_mapper : public blas_data_mapper&lt;const Scalar, Index, StorageOrder&gt; {
+<span class="lineNum">     257 </span>            :   public:
+<span class="lineNum">     258 </span><span class="lineCov">      74950 :   EIGEN_ALWAYS_INLINE const_blas_data_mapper(const Scalar *data, Index stride) : blas_data_mapper&lt;const Scalar, Index, StorageOrder&gt;(data, stride) {}</span>
+<span class="lineNum">     259 </span>            : 
+<span class="lineNum">     260 </span>            :   EIGEN_ALWAYS_INLINE const_blas_data_mapper&lt;Scalar, Index, StorageOrder&gt; getSubMapper(Index i, Index j) const {
+<span class="lineNum">     261 </span><span class="lineCov">       2820 :     return const_blas_data_mapper&lt;Scalar, Index, StorageOrder&gt;(&amp;(this-&gt;operator()(i, j)), this-&gt;m_stride);</span>
+<span class="lineNum">     262 </span>            :   }
+<span class="lineNum">     263 </span>            : };
+<span class="lineNum">     264 </span>            : 
+<span class="lineNum">     265 </span>            : 
+<span class="lineNum">     266 </span>            : /* Helper class to analyze the factors of a Product expression.
+<span class="lineNum">     267 </span>            :  * In particular it allows to pop out operator-, scalar multiples,
+<span class="lineNum">     268 </span>            :  * and conjugate */
+<span class="lineNum">     269 </span>            : template&lt;typename XprType&gt; struct blas_traits
+<span class="lineNum">     270 </span>            : {
+<span class="lineNum">     271 </span>            :   typedef typename traits&lt;XprType&gt;::Scalar Scalar;
+<span class="lineNum">     272 </span>            :   typedef const XprType&amp; ExtractType;
+<span class="lineNum">     273 </span>            :   typedef XprType _ExtractType;
+<span class="lineNum">     274 </span>            :   enum {
+<span class="lineNum">     275 </span>            :     IsComplex = NumTraits&lt;Scalar&gt;::IsComplex,
+<span class="lineNum">     276 </span>            :     IsTransposed = false,
+<span class="lineNum">     277 </span>            :     NeedToConjugate = false,
+<span class="lineNum">     278 </span>            :     HasUsableDirectAccess = (    (int(XprType::Flags)&amp;DirectAccessBit)
+<span class="lineNum">     279 </span>            :                               &amp;&amp; (   bool(XprType::IsVectorAtCompileTime)
+<span class="lineNum">     280 </span>            :                                   || int(inner_stride_at_compile_time&lt;XprType&gt;::ret) == 1)
+<span class="lineNum">     281 </span>            :                              ) ?  1 : 0
+<span class="lineNum">     282 </span>            :   };
+<span class="lineNum">     283 </span>            :   typedef typename conditional&lt;bool(HasUsableDirectAccess),
+<span class="lineNum">     284 </span>            :     ExtractType,
+<a name="285"><span class="lineNum">     285 </span>            :     typename _ExtractType::PlainObject</a>
+<a name="286"><span class="lineNum">     286 </span>            :     &gt;::type DirectLinearAccessType;</a>
+<span class="lineNum">     287 </span><span class="lineCov">     265633 :   static inline ExtractType extract(const XprType&amp; x) { return x; }</span>
+<span class="lineNum">     288 </span><span class="lineCov">      64610 :   static inline const Scalar extractScalarFactor(const XprType&amp;) { return Scalar(1); }</span>
+<span class="lineNum">     289 </span>            : };
+<span class="lineNum">     290 </span>            : 
+<span class="lineNum">     291 </span>            : // pop conjugate
+<span class="lineNum">     292 </span>            : template&lt;typename Scalar, typename NestedXpr&gt;
+<span class="lineNum">     293 </span>            : struct blas_traits&lt;CwiseUnaryOp&lt;scalar_conjugate_op&lt;Scalar&gt;, NestedXpr&gt; &gt;
+<span class="lineNum">     294 </span>            :  : blas_traits&lt;NestedXpr&gt;
+<span class="lineNum">     295 </span>            : {
+<span class="lineNum">     296 </span>            :   typedef blas_traits&lt;NestedXpr&gt; Base;
+<span class="lineNum">     297 </span>            :   typedef CwiseUnaryOp&lt;scalar_conjugate_op&lt;Scalar&gt;, NestedXpr&gt; XprType;
+<span class="lineNum">     298 </span>            :   typedef typename Base::ExtractType ExtractType;
+<span class="lineNum">     299 </span>            : 
+<span class="lineNum">     300 </span>            :   enum {
+<span class="lineNum">     301 </span>            :     IsComplex = NumTraits&lt;Scalar&gt;::IsComplex,
+<span class="lineNum">     302 </span>            :     NeedToConjugate = Base::NeedToConjugate ? 0 : IsComplex
+<span class="lineNum">     303 </span>            :   };
+<span class="lineNum">     304 </span>            :   static inline ExtractType extract(const XprType&amp; x) { return Base::extract(x.nestedExpression()); }
+<span class="lineNum">     305 </span>            :   static inline Scalar extractScalarFactor(const XprType&amp; x) { return conj(Base::extractScalarFactor(x.nestedExpression())); }
+<span class="lineNum">     306 </span>            : };
+<span class="lineNum">     307 </span>            : 
+<span class="lineNum">     308 </span>            : // pop scalar multiple
+<span class="lineNum">     309 </span>            : template&lt;typename Scalar, typename NestedXpr, typename Plain&gt;
+<span class="lineNum">     310 </span>            : struct blas_traits&lt;CwiseBinaryOp&lt;scalar_product_op&lt;Scalar&gt;, const CwiseNullaryOp&lt;scalar_constant_op&lt;Scalar&gt;,Plain&gt;, NestedXpr&gt; &gt;
+<span class="lineNum">     311 </span>            :  : blas_traits&lt;NestedXpr&gt;
+<span class="lineNum">     312 </span>            : {
+<span class="lineNum">     313 </span>            :   typedef blas_traits&lt;NestedXpr&gt; Base;
+<a name="314"><span class="lineNum">     314 </span>            :   typedef CwiseBinaryOp&lt;scalar_product_op&lt;Scalar&gt;, const CwiseNullaryOp&lt;scalar_constant_op&lt;Scalar&gt;,Plain&gt;, NestedXpr&gt; XprType;</a>
+<a name="315"><span class="lineNum">     315 </span>            :   typedef typename Base::ExtractType ExtractType;</a>
+<span class="lineNum">     316 </span><span class="lineCov">        942 :   static inline ExtractType extract(const XprType&amp; x) { return Base::extract(x.rhs()); }</span>
+<span class="lineNum">     317 </span><span class="lineNoCov">          0 :   static inline Scalar extractScalarFactor(const XprType&amp; x)</span>
+<span class="lineNum">     318 </span><span class="lineNoCov">          0 :   { return x.lhs().functor().m_other * Base::extractScalarFactor(x.rhs()); }</span>
+<span class="lineNum">     319 </span>            : };
+<span class="lineNum">     320 </span>            : template&lt;typename Scalar, typename NestedXpr, typename Plain&gt;
+<span class="lineNum">     321 </span>            : struct blas_traits&lt;CwiseBinaryOp&lt;scalar_product_op&lt;Scalar&gt;, NestedXpr, const CwiseNullaryOp&lt;scalar_constant_op&lt;Scalar&gt;,Plain&gt; &gt; &gt;
+<span class="lineNum">     322 </span>            :  : blas_traits&lt;NestedXpr&gt;
+<span class="lineNum">     323 </span>            : {
+<span class="lineNum">     324 </span>            :   typedef blas_traits&lt;NestedXpr&gt; Base;
+<span class="lineNum">     325 </span>            :   typedef CwiseBinaryOp&lt;scalar_product_op&lt;Scalar&gt;, NestedXpr, const CwiseNullaryOp&lt;scalar_constant_op&lt;Scalar&gt;,Plain&gt; &gt; XprType;
+<span class="lineNum">     326 </span>            :   typedef typename Base::ExtractType ExtractType;
+<span class="lineNum">     327 </span>            :   static inline ExtractType extract(const XprType&amp; x) { return Base::extract(x.lhs()); }
+<span class="lineNum">     328 </span>            :   static inline Scalar extractScalarFactor(const XprType&amp; x)
+<span class="lineNum">     329 </span>            :   { return Base::extractScalarFactor(x.lhs()) * x.rhs().functor().m_other; }
+<span class="lineNum">     330 </span>            : };
+<span class="lineNum">     331 </span>            : template&lt;typename Scalar, typename Plain1, typename Plain2&gt;
+<span class="lineNum">     332 </span>            : struct blas_traits&lt;CwiseBinaryOp&lt;scalar_product_op&lt;Scalar&gt;, const CwiseNullaryOp&lt;scalar_constant_op&lt;Scalar&gt;,Plain1&gt;,
+<span class="lineNum">     333 </span>            :                                                             const CwiseNullaryOp&lt;scalar_constant_op&lt;Scalar&gt;,Plain2&gt; &gt; &gt;
+<span class="lineNum">     334 </span>            :  : blas_traits&lt;CwiseNullaryOp&lt;scalar_constant_op&lt;Scalar&gt;,Plain1&gt; &gt;
+<span class="lineNum">     335 </span>            : {};
+<span class="lineNum">     336 </span>            : 
+<span class="lineNum">     337 </span>            : // pop opposite
+<span class="lineNum">     338 </span>            : template&lt;typename Scalar, typename NestedXpr&gt;
+<span class="lineNum">     339 </span>            : struct blas_traits&lt;CwiseUnaryOp&lt;scalar_opposite_op&lt;Scalar&gt;, NestedXpr&gt; &gt;
+<span class="lineNum">     340 </span>            :  : blas_traits&lt;NestedXpr&gt;
+<span class="lineNum">     341 </span>            : {
+<span class="lineNum">     342 </span>            :   typedef blas_traits&lt;NestedXpr&gt; Base;
+<span class="lineNum">     343 </span>            :   typedef CwiseUnaryOp&lt;scalar_opposite_op&lt;Scalar&gt;, NestedXpr&gt; XprType;
+<span class="lineNum">     344 </span>            :   typedef typename Base::ExtractType ExtractType;
+<span class="lineNum">     345 </span>            :   static inline ExtractType extract(const XprType&amp; x) { return Base::extract(x.nestedExpression()); }
+<span class="lineNum">     346 </span>            :   static inline Scalar extractScalarFactor(const XprType&amp; x)
+<span class="lineNum">     347 </span>            :   { return - Base::extractScalarFactor(x.nestedExpression()); }
+<span class="lineNum">     348 </span>            : };
+<span class="lineNum">     349 </span>            : 
+<span class="lineNum">     350 </span>            : // pop/push transpose
+<span class="lineNum">     351 </span>            : template&lt;typename NestedXpr&gt;
+<span class="lineNum">     352 </span>            : struct blas_traits&lt;Transpose&lt;NestedXpr&gt; &gt;
+<span class="lineNum">     353 </span>            :  : blas_traits&lt;NestedXpr&gt;
+<span class="lineNum">     354 </span>            : {
+<span class="lineNum">     355 </span>            :   typedef typename NestedXpr::Scalar Scalar;
+<span class="lineNum">     356 </span>            :   typedef blas_traits&lt;NestedXpr&gt; Base;
+<span class="lineNum">     357 </span>            :   typedef Transpose&lt;NestedXpr&gt; XprType;
+<span class="lineNum">     358 </span>            :   typedef Transpose&lt;const typename Base::_ExtractType&gt;  ExtractType; // const to get rid of a compile error; anyway blas traits are only used on the RHS
+<span class="lineNum">     359 </span>            :   typedef Transpose&lt;const typename Base::_ExtractType&gt; _ExtractType;
+<span class="lineNum">     360 </span>            :   typedef typename conditional&lt;bool(Base::HasUsableDirectAccess),
+<span class="lineNum">     361 </span>            :     ExtractType,
+<span class="lineNum">     362 </span>            :     typename ExtractType::PlainObject
+<span class="lineNum">     363 </span>            :     &gt;::type DirectLinearAccessType;
+<span class="lineNum">     364 </span>            :   enum {
+<a name="365"><span class="lineNum">     365 </span>            :     IsTransposed = Base::IsTransposed ? 0 : 1</a>
+<a name="366"><span class="lineNum">     366 </span>            :   };</a>
+<span class="lineNum">     367 </span><span class="lineCov">     100746 :   static inline ExtractType extract(const XprType&amp; x) { return ExtractType(Base::extract(x.nestedExpression())); }</span>
+<span class="lineNum">     368 </span><span class="lineCov">        470 :   static inline Scalar extractScalarFactor(const XprType&amp; x) { return Base::extractScalarFactor(x.nestedExpression()); }</span>
+<span class="lineNum">     369 </span>            : };
+<span class="lineNum">     370 </span>            : 
+<span class="lineNum">     371 </span>            : template&lt;typename T&gt;
+<span class="lineNum">     372 </span>            : struct blas_traits&lt;const T&gt;
+<span class="lineNum">     373 </span>            :      : blas_traits&lt;T&gt;
+<span class="lineNum">     374 </span>            : {};
+<span class="lineNum">     375 </span>            : 
+<a name="376"><span class="lineNum">     376 </span>            : template&lt;typename T, bool HasUsableDirectAccess=blas_traits&lt;T&gt;::HasUsableDirectAccess&gt;</a>
+<span class="lineNum">     377 </span>            : struct extract_data_selector {
+<span class="lineNum">     378 </span><span class="lineCov">     200083 :   static const typename T::Scalar* run(const T&amp; m)</span>
+<span class="lineNum">     379 </span>            :   {
+<span class="lineNum">     380 </span><span class="lineCov">     200083 :     return blas_traits&lt;T&gt;::extract(m).data();</span>
+<span class="lineNum">     381 </span>            :   }
+<span class="lineNum">     382 </span>            : };
+<span class="lineNum">     383 </span>            : 
+<a name="384"><span class="lineNum">     384 </span>            : template&lt;typename T&gt;</a>
+<span class="lineNum">     385 </span>            : struct extract_data_selector&lt;T,false&gt; {
+<span class="lineNum">     386 </span><span class="lineNoCov">          0 :   static typename T::Scalar* run(const T&amp;) { return 0; }</span>
+<a name="387"><span class="lineNum">     387 </span>            : };</a>
+<span class="lineNum">     388 </span>            : 
+<span class="lineNum">     389 </span><span class="lineCov">     200083 : template&lt;typename T&gt; const typename T::Scalar* extract_data(const T&amp; m)</span>
+<span class="lineNum">     390 </span>            : {
+<span class="lineNum">     391 </span><span class="lineCov">     200083 :   return extract_data_selector&lt;T&gt;::run(m);</span>
+<span class="lineNum">     392 </span>            : }
+<span class="lineNum">     393 </span>            : 
+<span class="lineNum">     394 </span>            : } // end namespace internal
+<span class="lineNum">     395 </span>            : 
+<span class="lineNum">     396 </span>            : } // end namespace Eigen
+<span class="lineNum">     397 </span>            : 
+<span class="lineNum">     398 </span>            : #endif // EIGEN_BLASUTIL_H
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

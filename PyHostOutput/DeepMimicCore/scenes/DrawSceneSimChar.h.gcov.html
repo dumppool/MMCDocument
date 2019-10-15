@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - PyHost Code Analysis - DeepMimicCore/scenes/DrawSceneSimChar.h</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">DeepMimicCore/scenes</a> - DrawSceneSimChar.h<span style="font-size: 80%;"> (source / <a href="DrawSceneSimChar.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">PyHost Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 17:04:23</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : #pragma once</a>
+<span class="lineNum">       2 </span>            : 
+<span class="lineNum">       3 </span>            : #include &quot;scenes/DrawScene.h&quot;
+<span class="lineNum">       4 </span>            : #include &quot;scenes/SceneSimChar.h&quot;
+<span class="lineNum">       5 </span>            : #include &quot;sim/ObjTracer.h&quot;
+<span class="lineNum">       6 </span>            : 
+<span class="lineNum">       7 </span>            : #include &quot;render/DrawMesh.h&quot;
+<span class="lineNum">       8 </span>            : 
+<span class="lineNum">       9 </span>            : class cDrawSceneSimChar : virtual public cDrawScene
+<a name="10"><span class="lineNum">      10 </span>            : {</a>
+<span class="lineNum">      11 </span>            : public:
+<span class="lineNum">      12 </span><span class="lineNoCov">          0 :         EIGEN_MAKE_ALIGNED_OPERATOR_NEW</span>
+<span class="lineNum">      13 </span>            :         
+<span class="lineNum">      14 </span>            :         cDrawSceneSimChar();
+<span class="lineNum">      15 </span>            :         virtual ~cDrawSceneSimChar();
+<span class="lineNum">      16 </span>            : 
+<span class="lineNum">      17 </span>            :         virtual void Init();
+<span class="lineNum">      18 </span>            :         virtual void Clear();
+<span class="lineNum">      19 </span>            :         virtual void Update(double time_elapsed);
+<span class="lineNum">      20 </span>            : 
+<span class="lineNum">      21 </span>            :         virtual const std::shared_ptr&lt;cSceneSimChar&gt;&amp; GetScene() const;
+<span class="lineNum">      22 </span>            :         
+<span class="lineNum">      23 </span>            :         virtual void MouseClick(int button, int state, double x, double y);
+<span class="lineNum">      24 </span>            :         virtual void MouseMove(double x, double y);
+<span class="lineNum">      25 </span>            :         virtual void Keyboard(unsigned char key, double device_x, double device_y);
+<span class="lineNum">      26 </span>            :         
+<span class="lineNum">      27 </span>            :         virtual double GetTime() const;
+<span class="lineNum">      28 </span>            :         virtual bool IsEpisodeEnd() const;
+<span class="lineNum">      29 </span>            :         virtual bool CheckValidEpisode() const;
+<span class="lineNum">      30 </span>            : 
+<span class="lineNum">      31 </span>            :         virtual std::string GetName() const;
+<span class="lineNum">      32 </span>            : 
+<span class="lineNum">      33 </span>            : protected:
+<span class="lineNum">      34 </span>            : 
+<span class="lineNum">      35 </span>            :         std::shared_ptr&lt;cSceneSimChar&gt; mScene;
+<span class="lineNum">      36 </span>            : 
+<span class="lineNum">      37 </span>            :         std::unique_ptr&lt;cDrawMesh&gt; mGroundDrawMesh;
+<span class="lineNum">      38 </span>            :         size_t mPrevGroundUpdateCount;
+<span class="lineNum">      39 </span>            : 
+<span class="lineNum">      40 </span>            :         bool mEnableTrace;
+<span class="lineNum">      41 </span>            :         cObjTracer mTracer;
+<span class="lineNum">      42 </span>            :         std::vector&lt;int&gt; mTraceHandles;
+<span class="lineNum">      43 </span>            : 
+<span class="lineNum">      44 </span>            :         // UI stuff
+<span class="lineNum">      45 </span>            :         tVector mClickScreenPos;
+<span class="lineNum">      46 </span>            :         tVector mDragScreenPos;
+<span class="lineNum">      47 </span>            :         tVector mSelectObjLocalPos;
+<span class="lineNum">      48 </span>            :         cSimObj* mSelectedObj;
+<span class="lineNum">      49 </span>            : 
+<span class="lineNum">      50 </span>            :         int mTracerBufferSize;
+<span class="lineNum">      51 </span>            :         double mTracerSamplePeriod;
+<span class="lineNum">      52 </span>            : 
+<span class="lineNum">      53 </span>            :         virtual void BuildScene(std::shared_ptr&lt;cSceneSimChar&gt;&amp; out_scene) const;
+<span class="lineNum">      54 </span>            :         virtual void SetupScene(std::shared_ptr&lt;cSceneSimChar&gt;&amp; out_scene);
+<span class="lineNum">      55 </span>            :         virtual void UpdateScene(double time_elapsed);
+<span class="lineNum">      56 </span>            :         virtual void ResetScene();
+<span class="lineNum">      57 </span>            : 
+<span class="lineNum">      58 </span>            :         virtual tVector GetCamTrackPos() const;
+<span class="lineNum">      59 </span>            :         virtual tVector GetCamStillPos() const;
+<span class="lineNum">      60 </span>            :         virtual tVector GetDefaultCamFocus() const;
+<span class="lineNum">      61 </span>            :         
+<span class="lineNum">      62 </span>            :         virtual void ResetParams();
+<span class="lineNum">      63 </span>            : 
+<span class="lineNum">      64 </span>            :         virtual void ToggleTrace();
+<span class="lineNum">      65 </span>            :         virtual void InitTracer();
+<span class="lineNum">      66 </span>            :         virtual void AddTraces();
+<span class="lineNum">      67 </span>            :         virtual void AddCharTrace(const std::shared_ptr&lt;cSimCharacter&gt;&amp; character,
+<span class="lineNum">      68 </span>            :                                                                 const tVectorArr&amp; cols);
+<span class="lineNum">      69 </span>            :         virtual void UpdateTracer(double time_elapsed);
+<span class="lineNum">      70 </span>            : 
+<span class="lineNum">      71 </span>            :         virtual void SpawnProjectile();
+<span class="lineNum">      72 </span>            :         virtual void SpawnBigProjectile();
+<span class="lineNum">      73 </span>            : 
+<span class="lineNum">      74 </span>            :         virtual void OutputCharState(const std::string&amp; out_file) const;
+<span class="lineNum">      75 </span>            :         virtual std::string GetOutputCharFile() const;
+<span class="lineNum">      76 </span>            : 
+<span class="lineNum">      77 </span>            :         virtual void ResetUI();
+<span class="lineNum">      78 </span>            :         virtual void RayTest(const tVector&amp; start, const tVector&amp; end, cWorld::tRayTestResult&amp; out_result);
+<span class="lineNum">      79 </span>            :         virtual bool ObjectSelected() const;
+<span class="lineNum">      80 </span>            :         virtual void HandleRayTest(const cWorld::tRayTestResult&amp; result);
+<span class="lineNum">      81 </span>            :         virtual void ApplyUIForce(double time_step);
+<span class="lineNum">      82 </span>            : 
+<span class="lineNum">      83 </span>            :         virtual void DrawObjs() const;
+<span class="lineNum">      84 </span>            :         virtual void DrawMisc() const;
+<span class="lineNum">      85 </span>            : 
+<span class="lineNum">      86 </span>            :         virtual void DrawCoM() const;
+<span class="lineNum">      87 </span>            :         virtual void DrawTorque() const;
+<span class="lineNum">      88 </span>            :         virtual void DrawBodyVel() const;
+<span class="lineNum">      89 </span>            :         virtual void DrawHeading() const;
+<span class="lineNum">      90 </span>            :         virtual void DrawTrace() const;
+<span class="lineNum">      91 </span>            : 
+<span class="lineNum">      92 </span>            :         virtual void DrawPerturbs() const;
+<span class="lineNum">      93 </span>            : 
+<span class="lineNum">      94 </span>            :         virtual void DrawGround() const;
+<span class="lineNum">      95 </span>            :         virtual void DrawCharacters() const;
+<span class="lineNum">      96 </span>            :         virtual void DrawCharacter(const std::shared_ptr&lt;cSimCharacter&gt;&amp; character) const;
+<span class="lineNum">      97 </span>            :         virtual void UpdateGroundDrawMesh();
+<span class="lineNum">      98 </span>            :         virtual void BuildGroundDrawMesh();
+<span class="lineNum">      99 </span>            : 
+<span class="lineNum">     100 </span>            :         virtual void DrawInfo() const;
+<span class="lineNum">     101 </span>            :         virtual void DrawPoliInfo() const;
+<span class="lineNum">     102 </span>            : };
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

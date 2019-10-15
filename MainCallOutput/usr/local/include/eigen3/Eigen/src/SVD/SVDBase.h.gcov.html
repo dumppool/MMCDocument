@@ -1,0 +1,399 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Main Call Code Analysis - /usr/local/include/eigen3/Eigen/src/SVD/SVDBase.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../../index.html">top level</a> - <a href="index.html">usr/local/include/eigen3/Eigen/src/SVD</a> - SVDBase.h<span style="font-size: 80%;"> (source / <a href="SVDBase.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Main Call Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">14</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 16:51:56</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">7</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // This file is part of Eigen, a lightweight C++ template library</a>
+<span class="lineNum">       2 </span>            : // for linear algebra.
+<span class="lineNum">       3 </span>            : //
+<span class="lineNum">       4 </span>            : // Copyright (C) 2009-2010 Benoit Jacob &lt;jacob.benoit.1@gmail.com&gt;
+<span class="lineNum">       5 </span>            : // Copyright (C) 2014 Gael Guennebaud &lt;gael.guennebaud@inria.fr&gt;
+<span class="lineNum">       6 </span>            : //
+<span class="lineNum">       7 </span>            : // Copyright (C) 2013 Gauthier Brun &lt;brun.gauthier@gmail.com&gt;
+<span class="lineNum">       8 </span>            : // Copyright (C) 2013 Nicolas Carre &lt;nicolas.carre@ensimag.fr&gt;
+<span class="lineNum">       9 </span>            : // Copyright (C) 2013 Jean Ceccato &lt;jean.ceccato@ensimag.fr&gt;
+<span class="lineNum">      10 </span>            : // Copyright (C) 2013 Pierre Zoppitelli &lt;pierre.zoppitelli@ensimag.fr&gt;
+<span class="lineNum">      11 </span>            : //
+<span class="lineNum">      12 </span>            : // This Source Code Form is subject to the terms of the Mozilla
+<span class="lineNum">      13 </span>            : // Public License v. 2.0. If a copy of the MPL was not distributed
+<span class="lineNum">      14 </span>            : // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span>            : #ifndef EIGEN_SVDBASE_H
+<span class="lineNum">      17 </span>            : #define EIGEN_SVDBASE_H
+<span class="lineNum">      18 </span>            : 
+<span class="lineNum">      19 </span>            : namespace Eigen {
+<span class="lineNum">      20 </span>            : /** \ingroup SVD_Module
+<span class="lineNum">      21 </span>            :  *
+<span class="lineNum">      22 </span>            :  *
+<span class="lineNum">      23 </span>            :  * \class SVDBase
+<span class="lineNum">      24 </span>            :  *
+<span class="lineNum">      25 </span>            :  * \brief Base class of SVD algorithms
+<span class="lineNum">      26 </span>            :  *
+<span class="lineNum">      27 </span>            :  * \tparam Derived the type of the actual SVD decomposition
+<span class="lineNum">      28 </span>            :  *
+<span class="lineNum">      29 </span>            :  * SVD decomposition consists in decomposing any n-by-p matrix \a A as a product
+<span class="lineNum">      30 </span>            :  *   \f[ A = U S V^* \f]
+<span class="lineNum">      31 </span>            :  * where \a U is a n-by-n unitary, \a V is a p-by-p unitary, and \a S is a n-by-p real positive matrix which is zero outside of its main diagonal;
+<span class="lineNum">      32 </span>            :  * the diagonal entries of S are known as the \em singular \em values of \a A and the columns of \a U and \a V are known as the left
+<span class="lineNum">      33 </span>            :  * and right \em singular \em vectors of \a A respectively.
+<span class="lineNum">      34 </span>            :  *
+<span class="lineNum">      35 </span>            :  * Singular values are always sorted in decreasing order.
+<span class="lineNum">      36 </span>            :  *
+<span class="lineNum">      37 </span>            :  * 
+<span class="lineNum">      38 </span>            :  * You can ask for only \em thin \a U or \a V to be computed, meaning the following. In case of a rectangular n-by-p matrix, letting \a m be the
+<span class="lineNum">      39 </span>            :  * smaller value among \a n and \a p, there are only \a m singular vectors; the remaining columns of \a U and \a V do not correspond to actual
+<span class="lineNum">      40 </span>            :  * singular vectors. Asking for \em thin \a U or \a V means asking for only their \a m first columns to be formed. So \a U is then a n-by-m matrix,
+<span class="lineNum">      41 </span>            :  * and \a V is then a p-by-m matrix. Notice that thin \a U and \a V are all you need for (least squares) solving.
+<span class="lineNum">      42 </span>            :  *  
+<span class="lineNum">      43 </span>            :  * If the input matrix has inf or nan coefficients, the result of the computation is undefined, but the computation is guaranteed to
+<span class="lineNum">      44 </span>            :  * terminate in finite (and reasonable) time.
+<span class="lineNum">      45 </span>            :  * \sa class BDCSVD, class JacobiSVD
+<span class="lineNum">      46 </span>            :  */
+<span class="lineNum">      47 </span>            : template&lt;typename Derived&gt;
+<span class="lineNum">      48 </span>            : class SVDBase
+<span class="lineNum">      49 </span>            : {
+<span class="lineNum">      50 </span>            : 
+<span class="lineNum">      51 </span>            : public:
+<span class="lineNum">      52 </span>            :   typedef typename internal::traits&lt;Derived&gt;::MatrixType MatrixType;
+<span class="lineNum">      53 </span>            :   typedef typename MatrixType::Scalar Scalar;
+<span class="lineNum">      54 </span>            :   typedef typename NumTraits&lt;typename MatrixType::Scalar&gt;::Real RealScalar;
+<span class="lineNum">      55 </span>            :   typedef typename MatrixType::StorageIndex StorageIndex;
+<span class="lineNum">      56 </span>            :   typedef Eigen::Index Index; ///&lt; \deprecated since Eigen 3.3
+<span class="lineNum">      57 </span>            :   enum {
+<span class="lineNum">      58 </span>            :     RowsAtCompileTime = MatrixType::RowsAtCompileTime,
+<span class="lineNum">      59 </span>            :     ColsAtCompileTime = MatrixType::ColsAtCompileTime,
+<span class="lineNum">      60 </span>            :     DiagSizeAtCompileTime = EIGEN_SIZE_MIN_PREFER_DYNAMIC(RowsAtCompileTime,ColsAtCompileTime),
+<span class="lineNum">      61 </span>            :     MaxRowsAtCompileTime = MatrixType::MaxRowsAtCompileTime,
+<span class="lineNum">      62 </span>            :     MaxColsAtCompileTime = MatrixType::MaxColsAtCompileTime,
+<span class="lineNum">      63 </span>            :     MaxDiagSizeAtCompileTime = EIGEN_SIZE_MIN_PREFER_FIXED(MaxRowsAtCompileTime,MaxColsAtCompileTime),
+<span class="lineNum">      64 </span>            :     MatrixOptions = MatrixType::Options
+<span class="lineNum">      65 </span>            :   };
+<span class="lineNum">      66 </span>            : 
+<span class="lineNum">      67 </span>            :   typedef Matrix&lt;Scalar, RowsAtCompileTime, RowsAtCompileTime, MatrixOptions, MaxRowsAtCompileTime, MaxRowsAtCompileTime&gt; MatrixUType;
+<span class="lineNum">      68 </span>            :   typedef Matrix&lt;Scalar, ColsAtCompileTime, ColsAtCompileTime, MatrixOptions, MaxColsAtCompileTime, MaxColsAtCompileTime&gt; MatrixVType;
+<span class="lineNum">      69 </span>            :   typedef typename internal::plain_diag_type&lt;MatrixType, RealScalar&gt;::type SingularValuesType;
+<span class="lineNum">      70 </span>            :   
+<span class="lineNum">      71 </span>            :   Derived&amp; derived() { return *static_cast&lt;Derived*&gt;(this); }
+<span class="lineNum">      72 </span>            :   const Derived&amp; derived() const { return *static_cast&lt;const Derived*&gt;(this); }
+<span class="lineNum">      73 </span>            : 
+<span class="lineNum">      74 </span>            :   /** \returns the \a U matrix.
+<span class="lineNum">      75 </span>            :    *
+<span class="lineNum">      76 </span>            :    * For the SVD decomposition of a n-by-p matrix, letting \a m be the minimum of \a n and \a p,
+<span class="lineNum">      77 </span>            :    * the U matrix is n-by-n if you asked for \link Eigen::ComputeFullU ComputeFullU \endlink, and is n-by-m if you asked for \link Eigen::ComputeThinU ComputeThinU \endlink.
+<span class="lineNum">      78 </span>            :    *
+<span class="lineNum">      79 </span>            :    * The \a m first columns of \a U are the left singular vectors of the matrix being decomposed.
+<span class="lineNum">      80 </span>            :    *
+<span class="lineNum">      81 </span>            :    * This method asserts that you asked for \a U to be computed.
+<span class="lineNum">      82 </span>            :    */
+<span class="lineNum">      83 </span>            :   const MatrixUType&amp; matrixU() const
+<span class="lineNum">      84 </span>            :   {
+<span class="lineNum">      85 </span>            :     eigen_assert(m_isInitialized &amp;&amp; &quot;SVD is not initialized.&quot;);
+<span class="lineNum">      86 </span>            :     eigen_assert(computeU() &amp;&amp; &quot;This SVD decomposition didn't compute U. Did you ask for it?&quot;);
+<span class="lineNum">      87 </span>            :     return m_matrixU;
+<span class="lineNum">      88 </span>            :   }
+<span class="lineNum">      89 </span>            : 
+<span class="lineNum">      90 </span>            :   /** \returns the \a V matrix.
+<span class="lineNum">      91 </span>            :    *
+<span class="lineNum">      92 </span>            :    * For the SVD decomposition of a n-by-p matrix, letting \a m be the minimum of \a n and \a p,
+<span class="lineNum">      93 </span>            :    * the V matrix is p-by-p if you asked for \link Eigen::ComputeFullV ComputeFullV \endlink, and is p-by-m if you asked for \link Eigen::ComputeThinV ComputeThinV \endlink.
+<span class="lineNum">      94 </span>            :    *
+<span class="lineNum">      95 </span>            :    * The \a m first columns of \a V are the right singular vectors of the matrix being decomposed.
+<span class="lineNum">      96 </span>            :    *
+<a name="97"><span class="lineNum">      97 </span>            :    * This method asserts that you asked for \a V to be computed.</a>
+<span class="lineNum">      98 </span>            :    */
+<span class="lineNum">      99 </span><span class="lineNoCov">          0 :   const MatrixVType&amp; matrixV() const</span>
+<span class="lineNum">     100 </span>            :   {
+<span class="lineNum">     101 </span><span class="lineNoCov">          0 :     eigen_assert(m_isInitialized &amp;&amp; &quot;SVD is not initialized.&quot;);</span>
+<span class="lineNum">     102 </span><span class="lineNoCov">          0 :     eigen_assert(computeV() &amp;&amp; &quot;This SVD decomposition didn't compute V. Did you ask for it?&quot;);</span>
+<span class="lineNum">     103 </span><span class="lineNoCov">          0 :     return m_matrixV;</span>
+<span class="lineNum">     104 </span>            :   }
+<span class="lineNum">     105 </span>            : 
+<span class="lineNum">     106 </span>            :   /** \returns the vector of singular values.
+<span class="lineNum">     107 </span>            :    *
+<span class="lineNum">     108 </span>            :    * For the SVD decomposition of a n-by-p matrix, letting \a m be the minimum of \a n and \a p, the
+<span class="lineNum">     109 </span>            :    * returned vector has size \a m.  Singular values are always sorted in decreasing order.
+<span class="lineNum">     110 </span>            :    */
+<span class="lineNum">     111 </span>            :   const SingularValuesType&amp; singularValues() const
+<span class="lineNum">     112 </span>            :   {
+<span class="lineNum">     113 </span>            :     eigen_assert(m_isInitialized &amp;&amp; &quot;SVD is not initialized.&quot;);
+<span class="lineNum">     114 </span>            :     return m_singularValues;
+<span class="lineNum">     115 </span>            :   }
+<span class="lineNum">     116 </span>            : 
+<span class="lineNum">     117 </span>            :   /** \returns the number of singular values that are not exactly 0 */
+<span class="lineNum">     118 </span>            :   Index nonzeroSingularValues() const
+<span class="lineNum">     119 </span>            :   {
+<span class="lineNum">     120 </span>            :     eigen_assert(m_isInitialized &amp;&amp; &quot;SVD is not initialized.&quot;);
+<span class="lineNum">     121 </span>            :     return m_nonzeroSingularValues;
+<span class="lineNum">     122 </span>            :   }
+<span class="lineNum">     123 </span>            :   
+<span class="lineNum">     124 </span>            :   /** \returns the rank of the matrix of which \c *this is the SVD.
+<span class="lineNum">     125 </span>            :     *
+<span class="lineNum">     126 </span>            :     * \note This method has to determine which singular values should be considered nonzero.
+<span class="lineNum">     127 </span>            :     *       For that, it uses the threshold value that you can control by calling
+<span class="lineNum">     128 </span>            :     *       setThreshold(const RealScalar&amp;).
+<span class="lineNum">     129 </span>            :     */
+<span class="lineNum">     130 </span>            :   inline Index rank() const
+<span class="lineNum">     131 </span>            :   {
+<span class="lineNum">     132 </span>            :     using std::abs;
+<span class="lineNum">     133 </span>            :     eigen_assert(m_isInitialized &amp;&amp; &quot;JacobiSVD is not initialized.&quot;);
+<span class="lineNum">     134 </span>            :     if(m_singularValues.size()==0) return 0;
+<span class="lineNum">     135 </span>            :     RealScalar premultiplied_threshold = numext::maxi&lt;RealScalar&gt;(m_singularValues.coeff(0) * threshold(), (std::numeric_limits&lt;RealScalar&gt;::min)());
+<span class="lineNum">     136 </span>            :     Index i = m_nonzeroSingularValues-1;
+<span class="lineNum">     137 </span>            :     while(i&gt;=0 &amp;&amp; m_singularValues.coeff(i) &lt; premultiplied_threshold) --i;
+<span class="lineNum">     138 </span>            :     return i+1;
+<span class="lineNum">     139 </span>            :   }
+<span class="lineNum">     140 </span>            :   
+<span class="lineNum">     141 </span>            :   /** Allows to prescribe a threshold to be used by certain methods, such as rank() and solve(),
+<span class="lineNum">     142 </span>            :     * which need to determine when singular values are to be considered nonzero.
+<span class="lineNum">     143 </span>            :     * This is not used for the SVD decomposition itself.
+<span class="lineNum">     144 </span>            :     *
+<span class="lineNum">     145 </span>            :     * When it needs to get the threshold value, Eigen calls threshold().
+<span class="lineNum">     146 </span>            :     * The default is \c NumTraits&lt;Scalar&gt;::epsilon()
+<span class="lineNum">     147 </span>            :     *
+<span class="lineNum">     148 </span>            :     * \param threshold The new value to use as the threshold.
+<span class="lineNum">     149 </span>            :     *
+<span class="lineNum">     150 </span>            :     * A singular value will be considered nonzero if its value is strictly greater than
+<span class="lineNum">     151 </span>            :     *  \f$ \vert singular value \vert \leqslant threshold \times \vert max singular value \vert \f$.
+<span class="lineNum">     152 </span>            :     *
+<span class="lineNum">     153 </span>            :     * If you want to come back to the default behavior, call setThreshold(Default_t)
+<span class="lineNum">     154 </span>            :     */
+<span class="lineNum">     155 </span>            :   Derived&amp; setThreshold(const RealScalar&amp; threshold)
+<span class="lineNum">     156 </span>            :   {
+<span class="lineNum">     157 </span>            :     m_usePrescribedThreshold = true;
+<span class="lineNum">     158 </span>            :     m_prescribedThreshold = threshold;
+<span class="lineNum">     159 </span>            :     return derived();
+<span class="lineNum">     160 </span>            :   }
+<span class="lineNum">     161 </span>            : 
+<span class="lineNum">     162 </span>            :   /** Allows to come back to the default behavior, letting Eigen use its default formula for
+<span class="lineNum">     163 </span>            :     * determining the threshold.
+<span class="lineNum">     164 </span>            :     *
+<span class="lineNum">     165 </span>            :     * You should pass the special object Eigen::Default as parameter here.
+<span class="lineNum">     166 </span>            :     * \code svd.setThreshold(Eigen::Default); \endcode
+<span class="lineNum">     167 </span>            :     *
+<span class="lineNum">     168 </span>            :     * See the documentation of setThreshold(const RealScalar&amp;).
+<span class="lineNum">     169 </span>            :     */
+<span class="lineNum">     170 </span>            :   Derived&amp; setThreshold(Default_t)
+<span class="lineNum">     171 </span>            :   {
+<span class="lineNum">     172 </span>            :     m_usePrescribedThreshold = false;
+<span class="lineNum">     173 </span>            :     return derived();
+<span class="lineNum">     174 </span>            :   }
+<span class="lineNum">     175 </span>            : 
+<span class="lineNum">     176 </span>            :   /** Returns the threshold that will be used by certain methods such as rank().
+<span class="lineNum">     177 </span>            :     *
+<span class="lineNum">     178 </span>            :     * See the documentation of setThreshold(const RealScalar&amp;).
+<span class="lineNum">     179 </span>            :     */
+<span class="lineNum">     180 </span>            :   RealScalar threshold() const
+<span class="lineNum">     181 </span>            :   {
+<span class="lineNum">     182 </span>            :     eigen_assert(m_isInitialized || m_usePrescribedThreshold);
+<span class="lineNum">     183 </span>            :     // this temporary is needed to workaround a MSVC issue
+<span class="lineNum">     184 </span>            :     Index diagSize = (std::max&lt;Index&gt;)(1,m_diagSize);
+<span class="lineNum">     185 </span>            :     return m_usePrescribedThreshold ? m_prescribedThreshold
+<span class="lineNum">     186 </span>            :                                     : diagSize*NumTraits&lt;Scalar&gt;::epsilon();
+<span class="lineNum">     187 </span>            :   }
+<a name="188"><span class="lineNum">     188 </span>            : </a>
+<span class="lineNum">     189 </span>            :   /** \returns true if \a U (full or thin) is asked for in this SVD decomposition */
+<a name="190"><span class="lineNum">     190 </span><span class="lineNoCov">          0 :   inline bool computeU() const { return m_computeFullU || m_computeThinU; }</span></a>
+<span class="lineNum">     191 </span>            :   /** \returns true if \a V (full or thin) is asked for in this SVD decomposition */
+<a name="192"><span class="lineNum">     192 </span><span class="lineNoCov">          0 :   inline bool computeV() const { return m_computeFullV || m_computeThinV; }</span></a>
+<a name="193"><span class="lineNum">     193 </span>            : </a>
+<span class="lineNum">     194 </span><span class="lineNoCov">          0 :   inline Index rows() const { return m_rows; }</span>
+<span class="lineNum">     195 </span><span class="lineNoCov">          0 :   inline Index cols() const { return m_cols; }</span>
+<span class="lineNum">     196 </span>            :   
+<span class="lineNum">     197 </span>            :   /** \returns a (least squares) solution of \f$ A x = b \f$ using the current SVD decomposition of A.
+<span class="lineNum">     198 </span>            :     *
+<span class="lineNum">     199 </span>            :     * \param b the right-hand-side of the equation to solve.
+<span class="lineNum">     200 </span>            :     *
+<span class="lineNum">     201 </span>            :     * \note Solving requires both U and V to be computed. Thin U and V are enough, there is no need for full U or V.
+<span class="lineNum">     202 </span>            :     *
+<span class="lineNum">     203 </span>            :     * \note SVD solving is implicitly least-squares. Thus, this method serves both purposes of exact solving and least-squares solving.
+<span class="lineNum">     204 </span>            :     * In other words, the returned solution is guaranteed to minimize the Euclidean norm \f$ \Vert A x - b \Vert \f$.
+<span class="lineNum">     205 </span>            :     */
+<span class="lineNum">     206 </span>            :   template&lt;typename Rhs&gt;
+<span class="lineNum">     207 </span>            :   inline const Solve&lt;Derived, Rhs&gt;
+<span class="lineNum">     208 </span>            :   solve(const MatrixBase&lt;Rhs&gt;&amp; b) const
+<span class="lineNum">     209 </span>            :   {
+<span class="lineNum">     210 </span>            :     eigen_assert(m_isInitialized &amp;&amp; &quot;SVD is not initialized.&quot;);
+<span class="lineNum">     211 </span>            :     eigen_assert(computeU() &amp;&amp; computeV() &amp;&amp; &quot;SVD::solve() requires both unitaries U and V to be computed (thin unitaries suffice).&quot;);
+<span class="lineNum">     212 </span>            :     return Solve&lt;Derived, Rhs&gt;(derived(), b.derived());
+<span class="lineNum">     213 </span>            :   }
+<span class="lineNum">     214 </span>            :   
+<span class="lineNum">     215 </span>            :   #ifndef EIGEN_PARSED_BY_DOXYGEN
+<span class="lineNum">     216 </span>            :   template&lt;typename RhsType, typename DstType&gt;
+<span class="lineNum">     217 </span>            :   EIGEN_DEVICE_FUNC
+<span class="lineNum">     218 </span>            :   void _solve_impl(const RhsType &amp;rhs, DstType &amp;dst) const;
+<span class="lineNum">     219 </span>            :   #endif
+<span class="lineNum">     220 </span>            : 
+<a name="221"><span class="lineNum">     221 </span>            : protected:</a>
+<span class="lineNum">     222 </span>            :   
+<span class="lineNum">     223 </span><span class="lineNoCov">          0 :   static void check_template_parameters()</span>
+<span class="lineNum">     224 </span>            :   {
+<span class="lineNum">     225 </span>            :     EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
+<span class="lineNum">     226 </span><span class="lineNoCov">          0 :   }</span>
+<span class="lineNum">     227 </span>            :   
+<span class="lineNum">     228 </span>            :   // return true if already allocated
+<span class="lineNum">     229 </span>            :   bool allocate(Index rows, Index cols, unsigned int computationOptions) ;
+<span class="lineNum">     230 </span>            : 
+<span class="lineNum">     231 </span>            :   MatrixUType m_matrixU;
+<span class="lineNum">     232 </span>            :   MatrixVType m_matrixV;
+<span class="lineNum">     233 </span>            :   SingularValuesType m_singularValues;
+<span class="lineNum">     234 </span>            :   bool m_isInitialized, m_isAllocated, m_usePrescribedThreshold;
+<span class="lineNum">     235 </span>            :   bool m_computeFullU, m_computeThinU;
+<span class="lineNum">     236 </span>            :   bool m_computeFullV, m_computeThinV;
+<span class="lineNum">     237 </span>            :   unsigned int m_computationOptions;
+<span class="lineNum">     238 </span>            :   Index m_nonzeroSingularValues, m_rows, m_cols, m_diagSize;
+<span class="lineNum">     239 </span>            :   RealScalar m_prescribedThreshold;
+<span class="lineNum">     240 </span>            : 
+<span class="lineNum">     241 </span>            :   /** \brief Default Constructor.
+<span class="lineNum">     242 </span>            :    *
+<a name="243"><span class="lineNum">     243 </span>            :    * Default constructor of SVDBase</a>
+<span class="lineNum">     244 </span>            :    */
+<span class="lineNum">     245 </span><span class="lineNoCov">          0 :   SVDBase()</span>
+<span class="lineNum">     246 </span>            :     : m_isInitialized(false),
+<span class="lineNum">     247 </span>            :       m_isAllocated(false),
+<span class="lineNum">     248 </span>            :       m_usePrescribedThreshold(false),
+<span class="lineNum">     249 </span>            :       m_computationOptions(0),
+<span class="lineNum">     250 </span><span class="lineNoCov">          0 :       m_rows(-1), m_cols(-1), m_diagSize(0)</span>
+<span class="lineNum">     251 </span>            :   {
+<span class="lineNum">     252 </span><span class="lineNoCov">          0 :     check_template_parameters();</span>
+<span class="lineNum">     253 </span><span class="lineNoCov">          0 :   }</span>
+<span class="lineNum">     254 </span>            : 
+<span class="lineNum">     255 </span>            : 
+<span class="lineNum">     256 </span>            : };
+<span class="lineNum">     257 </span>            : 
+<span class="lineNum">     258 </span>            : #ifndef EIGEN_PARSED_BY_DOXYGEN
+<span class="lineNum">     259 </span>            : template&lt;typename Derived&gt;
+<span class="lineNum">     260 </span>            : template&lt;typename RhsType, typename DstType&gt;
+<span class="lineNum">     261 </span>            : void SVDBase&lt;Derived&gt;::_solve_impl(const RhsType &amp;rhs, DstType &amp;dst) const
+<span class="lineNum">     262 </span>            : {
+<span class="lineNum">     263 </span>            :   eigen_assert(rhs.rows() == rows());
+<span class="lineNum">     264 </span>            : 
+<span class="lineNum">     265 </span>            :   // A = U S V^*
+<span class="lineNum">     266 </span>            :   // So A^{-1} = V S^{-1} U^*
+<span class="lineNum">     267 </span>            : 
+<span class="lineNum">     268 </span>            :   Matrix&lt;Scalar, Dynamic, RhsType::ColsAtCompileTime, 0, MatrixType::MaxRowsAtCompileTime, RhsType::MaxColsAtCompileTime&gt; tmp;
+<span class="lineNum">     269 </span>            :   Index l_rank = rank();
+<span class="lineNum">     270 </span>            :   tmp.noalias() =  m_matrixU.leftCols(l_rank).adjoint() * rhs;
+<span class="lineNum">     271 </span>            :   tmp = m_singularValues.head(l_rank).asDiagonal().inverse() * tmp;
+<span class="lineNum">     272 </span>            :   dst = m_matrixV.leftCols(l_rank) * tmp;
+<span class="lineNum">     273 </span>            : }
+<span class="lineNum">     274 </span>            : #endif
+<span class="lineNum">     275 </span>            : 
+<span class="lineNum">     276 </span>            : template&lt;typename MatrixType&gt;
+<span class="lineNum">     277 </span>            : bool SVDBase&lt;MatrixType&gt;::allocate(Index rows, Index cols, unsigned int computationOptions)
+<span class="lineNum">     278 </span>            : {
+<span class="lineNum">     279 </span>            :   eigen_assert(rows &gt;= 0 &amp;&amp; cols &gt;= 0);
+<span class="lineNum">     280 </span>            : 
+<span class="lineNum">     281 </span>            :   if (m_isAllocated &amp;&amp;
+<span class="lineNum">     282 </span>            :       rows == m_rows &amp;&amp;
+<span class="lineNum">     283 </span>            :       cols == m_cols &amp;&amp;
+<span class="lineNum">     284 </span>            :       computationOptions == m_computationOptions)
+<span class="lineNum">     285 </span>            :   {
+<span class="lineNum">     286 </span>            :     return true;
+<span class="lineNum">     287 </span>            :   }
+<span class="lineNum">     288 </span>            : 
+<span class="lineNum">     289 </span>            :   m_rows = rows;
+<span class="lineNum">     290 </span>            :   m_cols = cols;
+<span class="lineNum">     291 </span>            :   m_isInitialized = false;
+<span class="lineNum">     292 </span>            :   m_isAllocated = true;
+<span class="lineNum">     293 </span>            :   m_computationOptions = computationOptions;
+<span class="lineNum">     294 </span>            :   m_computeFullU = (computationOptions &amp; ComputeFullU) != 0;
+<span class="lineNum">     295 </span>            :   m_computeThinU = (computationOptions &amp; ComputeThinU) != 0;
+<span class="lineNum">     296 </span>            :   m_computeFullV = (computationOptions &amp; ComputeFullV) != 0;
+<span class="lineNum">     297 </span>            :   m_computeThinV = (computationOptions &amp; ComputeThinV) != 0;
+<span class="lineNum">     298 </span>            :   eigen_assert(!(m_computeFullU &amp;&amp; m_computeThinU) &amp;&amp; &quot;SVDBase: you can't ask for both full and thin U&quot;);
+<span class="lineNum">     299 </span>            :   eigen_assert(!(m_computeFullV &amp;&amp; m_computeThinV) &amp;&amp; &quot;SVDBase: you can't ask for both full and thin V&quot;);
+<span class="lineNum">     300 </span>            :   eigen_assert(EIGEN_IMPLIES(m_computeThinU || m_computeThinV, MatrixType::ColsAtCompileTime==Dynamic) &amp;&amp;
+<span class="lineNum">     301 </span>            :                &quot;SVDBase: thin U and V are only available when your matrix has a dynamic number of columns.&quot;);
+<span class="lineNum">     302 </span>            : 
+<span class="lineNum">     303 </span>            :   m_diagSize = (std::min)(m_rows, m_cols);
+<span class="lineNum">     304 </span>            :   m_singularValues.resize(m_diagSize);
+<span class="lineNum">     305 </span>            :   if(RowsAtCompileTime==Dynamic)
+<span class="lineNum">     306 </span>            :     m_matrixU.resize(m_rows, m_computeFullU ? m_rows : m_computeThinU ? m_diagSize : 0);
+<span class="lineNum">     307 </span>            :   if(ColsAtCompileTime==Dynamic)
+<span class="lineNum">     308 </span>            :     m_matrixV.resize(m_cols, m_computeFullV ? m_cols : m_computeThinV ? m_diagSize : 0);
+<span class="lineNum">     309 </span>            : 
+<span class="lineNum">     310 </span>            :   return false;
+<span class="lineNum">     311 </span>            : }
+<span class="lineNum">     312 </span>            : 
+<span class="lineNum">     313 </span>            : }// end namespace
+<span class="lineNum">     314 </span>            : 
+<span class="lineNum">     315 </span>            : #endif // EIGEN_SVDBASE_H
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

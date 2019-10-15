@@ -1,0 +1,358 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Main Call Code Analysis - DeepMimicCore/render/TextureDesc.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">DeepMimicCore/render</a> - TextureDesc.cpp<span style="font-size: 80%;"> (source / <a href="TextureDesc.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Main Call Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">103</td>
+            <td class="headerCovTableEntry">150</td>
+            <td class="headerCovTableEntryLo">68.7 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 16:51:56</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">19</td>
+            <td class="headerCovTableEntry">30</td>
+            <td class="headerCovTableEntryLo">63.3 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : #include &quot;TextureDesc.h&quot;</a>
+<span class="lineNum">       2 </span>            : #include &lt;assert.h&gt;
+<span class="lineNum">       3 </span>            : #include &quot;lodepng/lodepng.h&quot;
+<span class="lineNum">       4 </span>            : 
+<a name="5"><span class="lineNum">       5 </span><span class="lineCov">          1 : std::stack&lt;cTextureDesc::tTexEntry&gt; cTextureDesc::gTexStack = std::stack&lt;cTextureDesc::tTexEntry&gt;();</span></a>
+<span class="lineNum">       6 </span>            : 
+<span class="lineNum">       7 </span><span class="lineCov">         36 : cTextureDesc::tTexEntry::tTexEntry()</span>
+<span class="lineNum">       8 </span>            : {
+<span class="lineNum">       9 </span><span class="lineCov">         36 :         mTex = 0;</span>
+<span class="lineNum">      10 </span><span class="lineCov">        180 :         for (int i = 0; i &lt; gNumViewportParams; ++i)</span>
+<span class="lineNum">      11 </span>            :         {
+<span class="lineNum">      12 </span><span class="lineCov">        144 :                 mViewportParams[i] = 0;</span>
+<span class="lineNum">      13 </span>            :         }
+<a name="14"><span class="lineNum">      14 </span><span class="lineCov">         36 : }</span></a>
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span><span class="lineCov">          2 : cTextureDesc::cTextureDesc()</span>
+<span class="lineNum">      17 </span>            : {
+<span class="lineNum">      18 </span><span class="lineCov">          2 :         mWidth = 0;</span>
+<span class="lineNum">      19 </span><span class="lineCov">          2 :         mHeight = 0;</span>
+<span class="lineNum">      20 </span><span class="lineCov">          2 :         mDepth = 0;</span>
+<span class="lineNum">      21 </span><span class="lineCov">          2 :         mChannels = GL_RGBA8;</span>
+<span class="lineNum">      22 </span><span class="lineCov">          2 :         mType = GL_UNSIGNED_BYTE;</span>
+<span class="lineNum">      23 </span><span class="lineCov">          2 :         mFormat = GL_RGBA;</span>
+<span class="lineNum">      24 </span><span class="lineCov">          2 :         mHasMips = false;</span>
+<span class="lineNum">      25 </span><span class="lineCov">          2 :         mObject = -1;</span>
+<span class="lineNum">      26 </span><span class="lineCov">          2 :         mTexture = -1;</span>
+<span class="lineNum">      27 </span><span class="lineCov">          2 :         mDepthStencil = -1;</span>
+<a name="28"><span class="lineNum">      28 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">      29 </span>            : 
+<span class="lineNum">      30 </span><span class="lineNoCov">          0 : cTextureDesc::cTextureDesc( int width, int height, int channels, GLenum format, </span>
+<span class="lineNum">      31 </span>            :                                                    GLenum type, bool mipmaps )
+<span class="lineNum">      32 </span>            :         : mWidth( width ),
+<span class="lineNum">      33 </span>            :                 mHeight( height ),
+<span class="lineNum">      34 </span>            :                 mDepth(1),
+<span class="lineNum">      35 </span>            :                 mChannels( channels ),
+<span class="lineNum">      36 </span>            :                 mFormat( format ),
+<span class="lineNum">      37 </span>            :                 mType( type ),
+<span class="lineNum">      38 </span><span class="lineNoCov">          0 :                 mHasMips( mipmaps )</span>
+<span class="lineNum">      39 </span>            : {
+<span class="lineNum">      40 </span><span class="lineNoCov">          0 :         cTextureUtil::CreateFrameBuffer(mObject, mTexture, mDepthStencil, mWidth, mHeight, mDepth,</span>
+<span class="lineNum">      41 </span><span class="lineNoCov">          0 :                                                                         mChannels, mFormat, mType, mHasMips);</span>
+<a name="42"><span class="lineNum">      42 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      43 </span>            : 
+<span class="lineNum">      44 </span><span class="lineNoCov">          0 : cTextureDesc::cTextureDesc( int width, int height, int depth, int channels, </span>
+<span class="lineNum">      45 </span>            :                                                    GLenum format, GLenum type, bool mipmaps )
+<span class="lineNum">      46 </span>            :         : mWidth( width ),
+<span class="lineNum">      47 </span>            :           mHeight( height ),
+<span class="lineNum">      48 </span>            :           mDepth(depth),
+<span class="lineNum">      49 </span>            :           mChannels( channels ),
+<span class="lineNum">      50 </span>            :           mFormat( format ),
+<span class="lineNum">      51 </span>            :           mType( type ),
+<span class="lineNum">      52 </span><span class="lineNoCov">          0 :           mHasMips( mipmaps )</span>
+<span class="lineNum">      53 </span>            : {
+<span class="lineNum">      54 </span><span class="lineNoCov">          0 :         cTextureUtil::CreateFrameBuffer(mObject, mTexture, mDepthStencil, mWidth, mHeight, mDepth,</span>
+<span class="lineNum">      55 </span><span class="lineNoCov">          0 :                                                                         mChannels, mFormat, mType, mHasMips);</span>
+<a name="56"><span class="lineNum">      56 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      57 </span>            : 
+<span class="lineNum">      58 </span><span class="lineCov">          2 : cTextureDesc::cTextureDesc( GLuint obj, GLuint tex, GLuint ds, int width, int height, </span>
+<span class="lineNum">      59 </span>            :                                                     int depth, int channels, GLenum format )
+<span class="lineNum">      60 </span>            :         : mWidth( width ),
+<span class="lineNum">      61 </span>            :           mHeight( height ),
+<span class="lineNum">      62 </span>            :           mDepth(depth),
+<span class="lineNum">      63 </span>            :           mChannels( channels ),
+<span class="lineNum">      64 </span>            :           mFormat( format ),
+<span class="lineNum">      65 </span>            :           mObject( obj ),
+<span class="lineNum">      66 </span>            :           mTexture( tex ),
+<span class="lineNum">      67 </span><span class="lineCov">          2 :           mDepthStencil( ds )</span>
+<span class="lineNum">      68 </span>            : {
+<a name="69"><span class="lineNum">      69 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">      70 </span>            : 
+<span class="lineNum">      71 </span><span class="lineCov">          1 : cTextureDesc::cTextureDesc(const std::string&amp; filename, bool gen_mips) : cTextureDesc()</span>
+<span class="lineNum">      72 </span>            : {
+<span class="lineNum">      73 </span><span class="lineCov">          2 :         std::vector&lt;unsigned char&gt; image;</span>
+<span class="lineNum">      74 </span>            :         unsigned width, height;
+<span class="lineNum">      75 </span><span class="lineCov">          1 :         unsigned error = lodepng::decode(image, width, height, filename);</span>
+<span class="lineNum">      76 </span>            : 
+<span class="lineNum">      77 </span><span class="lineCov">          1 :         if (error == 0)</span>
+<span class="lineNum">      78 </span>            :         {
+<span class="lineNum">      79 </span><span class="lineCov">          1 :                 mWidth = width;</span>
+<span class="lineNum">      80 </span><span class="lineCov">          1 :                 mHeight = height;</span>
+<span class="lineNum">      81 </span><span class="lineCov">          1 :                 mDepth = 1;</span>
+<span class="lineNum">      82 </span><span class="lineCov">          1 :                 mChannels = GL_RGBA8;</span>
+<span class="lineNum">      83 </span><span class="lineCov">          1 :                 mType = GL_UNSIGNED_BYTE;</span>
+<span class="lineNum">      84 </span><span class="lineCov">          1 :                 mFormat = GL_RGBA;</span>
+<span class="lineNum">      85 </span><span class="lineCov">          1 :                 mHasMips = true;</span>
+<span class="lineNum">      86 </span><span class="lineCov">          1 :                 int num_mipmaps = (gen_mips) ? static_cast&lt;int&gt;(log2(std::min(mWidth, mHeight))) : 1;</span>
+<span class="lineNum">      87 </span>            : 
+<span class="lineNum">      88 </span><span class="lineCov">          1 :                 glGenTextures(1, &amp;mTexture);</span>
+<span class="lineNum">      89 </span><span class="lineCov">          1 :                 glBindTexture(GL_TEXTURE_2D, mTexture);</span>
+<span class="lineNum">      90 </span><span class="lineCov">          1 :                 glTexStorage2D(GL_TEXTURE_2D, num_mipmaps, mChannels, mWidth, mHeight);</span>
+<span class="lineNum">      91 </span><span class="lineCov">          1 :                 glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, mWidth, mHeight, mFormat, mType, image.data());</span>
+<span class="lineNum">      92 </span>            : 
+<span class="lineNum">      93 </span><span class="lineCov">          1 :                 if (gen_mips)</span>
+<span class="lineNum">      94 </span>            :                 {
+<span class="lineNum">      95 </span><span class="lineCov">          1 :                         glGenerateMipmap(GL_TEXTURE_2D);</span>
+<span class="lineNum">      96 </span>            :                         
+<span class="lineNum">      97 </span><span class="lineCov">          1 :                         GLfloat max_aniso = 1.f;</span>
+<span class="lineNum">      98 </span><span class="lineCov">          1 :                         glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &amp;max_aniso);</span>
+<span class="lineNum">      99 </span><span class="lineCov">          1 :                         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, max_aniso);</span>
+<span class="lineNum">     100 </span><span class="lineCov">          1 :                         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);</span>
+<span class="lineNum">     101 </span><span class="lineCov">          1 :                         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);</span>
+<span class="lineNum">     102 </span>            :                 }
+<span class="lineNum">     103 </span>            :                 else
+<span class="lineNum">     104 </span>            :                 {
+<span class="lineNum">     105 </span><span class="lineNoCov">          0 :                         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST_MIPMAP_NEAREST);</span>
+<span class="lineNum">     106 </span><span class="lineNoCov">          0 :                         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);</span>
+<span class="lineNum">     107 </span>            :                 }
+<span class="lineNum">     108 </span>            : 
+<span class="lineNum">     109 </span><span class="lineCov">          1 :                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);</span>
+<span class="lineNum">     110 </span><span class="lineCov">          1 :                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);</span>
+<span class="lineNum">     111 </span>            : 
+<span class="lineNum">     112 </span><span class="lineCov">          1 :                 glBindTexture(GL_TEXTURE_2D, 0);</span>
+<span class="lineNum">     113 </span>            :         }
+<a name="114"><span class="lineNum">     114 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     115 </span>            : 
+<span class="lineNum">     116 </span><span class="lineCov">         36 : void cTextureDesc::BindBuffer() const</span>
+<span class="lineNum">     117 </span>            : {
+<span class="lineNum">     118 </span><span class="lineCov">         36 :         if (IsRenderBuffer())</span>
+<span class="lineNum">     119 </span>            :         {
+<span class="lineNum">     120 </span><span class="lineCov">         36 :                 glBindFramebuffer(GL_FRAMEBUFFER, mObject);</span>
+<span class="lineNum">     121 </span><span class="lineCov">         36 :                 glViewport(0, 0, mWidth, mHeight);</span>
+<span class="lineNum">     122 </span><span class="lineCov">         36 :                 PushTextureStack();</span>
+<span class="lineNum">     123 </span>            :         }
+<a name="124"><span class="lineNum">     124 </span><span class="lineCov">         36 : }</span></a>
+<span class="lineNum">     125 </span>            : 
+<span class="lineNum">     126 </span><span class="lineCov">         36 : void cTextureDesc::UnbindBuffer() const</span>
+<span class="lineNum">     127 </span>            : {
+<span class="lineNum">     128 </span><span class="lineCov">         36 :         if (IsRenderBuffer())</span>
+<span class="lineNum">     129 </span>            :         {
+<span class="lineNum">     130 </span><span class="lineCov">         36 :                 PopTextureStack();</span>
+<span class="lineNum">     131 </span>            :         }
+<a name="132"><span class="lineNum">     132 </span><span class="lineCov">         36 : }</span></a>
+<span class="lineNum">     133 </span>            : 
+<span class="lineNum">     134 </span><span class="lineCov">         36 : bool cTextureDesc::CheckBoundBuffer() const</span>
+<span class="lineNum">     135 </span>            : {
+<span class="lineNum">     136 </span>            :         GLint curr_obj;
+<span class="lineNum">     137 </span><span class="lineCov">         36 :         glGetIntegerv(GL_FRAMEBUFFER_BINDING, &amp;curr_obj);</span>
+<span class="lineNum">     138 </span><span class="lineCov">         36 :         return curr_obj == mObject;</span>
+<a name="139"><span class="lineNum">     139 </span>            : }</a>
+<span class="lineNum">     140 </span>            : 
+<span class="lineNum">     141 </span><span class="lineNoCov">          0 : void cTextureDesc::BindBuffer3DSlice(int slice) const</span>
+<span class="lineNum">     142 </span>            : {
+<span class="lineNum">     143 </span><span class="lineNoCov">          0 :         glBindFramebuffer(GL_FRAMEBUFFER, mObject);</span>
+<span class="lineNum">     144 </span>            :         glFramebufferTexture3DEXT(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, 
+<span class="lineNum">     145 </span><span class="lineNoCov">          0 :                                                         GL_TEXTURE_3D, mObject, 0, slice);</span>
+<span class="lineNum">     146 </span><span class="lineNoCov">          0 :         glViewport(0, 0, mWidth, mHeight);</span>
+<span class="lineNum">     147 </span><span class="lineNoCov">          0 :         PushTextureStack();</span>
+<a name="148"><span class="lineNum">     148 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     149 </span>            : 
+<span class="lineNum">     150 </span><span class="lineCov">         36 : void cTextureDesc::BindTex(GLint tex_slot) const</span>
+<span class="lineNum">     151 </span>            : {
+<span class="lineNum">     152 </span><span class="lineCov">         36 :         glActiveTexture(tex_slot);</span>
+<span class="lineNum">     153 </span><span class="lineCov">         36 :         glBindTexture(GL_TEXTURE_2D, GetTexture());</span>
+<a name="154"><span class="lineNum">     154 </span><span class="lineCov">         36 : }</span></a>
+<span class="lineNum">     155 </span>            : 
+<span class="lineNum">     156 </span><span class="lineCov">         18 : void cTextureDesc::UnbindTex(GLint tex_slot) const</span>
+<span class="lineNum">     157 </span>            : {
+<span class="lineNum">     158 </span><span class="lineCov">         18 :         glActiveTexture(tex_slot);</span>
+<span class="lineNum">     159 </span><span class="lineCov">         18 :         glBindTexture(GL_TEXTURE_2D, 0);</span>
+<a name="160"><span class="lineNum">     160 </span><span class="lineCov">         18 : }</span></a>
+<span class="lineNum">     161 </span>            : 
+<span class="lineNum">     162 </span><span class="lineNoCov">          0 : GLuint cTextureDesc::GetObj() const</span>
+<span class="lineNum">     163 </span>            : {
+<span class="lineNum">     164 </span><span class="lineNoCov">          0 :         return mObject;</span>
+<a name="165"><span class="lineNum">     165 </span>            : }</a>
+<span class="lineNum">     166 </span>            : 
+<span class="lineNum">     167 </span><span class="lineCov">         36 : GLuint cTextureDesc::GetTexture() const</span>
+<span class="lineNum">     168 </span>            : {
+<span class="lineNum">     169 </span><span class="lineCov">         36 :         return mTexture;</span>
+<a name="170"><span class="lineNum">     170 </span>            : }</a>
+<span class="lineNum">     171 </span>            : 
+<span class="lineNum">     172 </span><span class="lineNoCov">          0 : GLuint cTextureDesc::GetDepthStencil() const</span>
+<span class="lineNum">     173 </span>            : {
+<span class="lineNum">     174 </span><span class="lineNoCov">          0 :         return mDepthStencil;</span>
+<a name="175"><span class="lineNum">     175 </span>            : }</a>
+<span class="lineNum">     176 </span>            : 
+<span class="lineNum">     177 </span><span class="lineCov">          1 : bool cTextureDesc::IsValid() const</span>
+<span class="lineNum">     178 </span>            : {
+<span class="lineNum">     179 </span><span class="lineCov">          1 :         return mTexture != -1;</span>
+<a name="180"><span class="lineNum">     180 </span>            : }</a>
+<span class="lineNum">     181 </span>            : 
+<span class="lineNum">     182 </span><span class="lineCov">         72 : bool cTextureDesc::IsRenderBuffer() const</span>
+<span class="lineNum">     183 </span>            : {
+<span class="lineNum">     184 </span><span class="lineCov">         72 :         return mObject != -1;</span>
+<a name="185"><span class="lineNum">     185 </span>            : }</a>
+<span class="lineNum">     186 </span>            : 
+<span class="lineNum">     187 </span><span class="lineCov">         18 : int cTextureDesc::GetWidth() const</span>
+<span class="lineNum">     188 </span>            : {
+<span class="lineNum">     189 </span><span class="lineCov">         18 :         return mWidth;</span>
+<a name="190"><span class="lineNum">     190 </span>            : }</a>
+<span class="lineNum">     191 </span>            : 
+<span class="lineNum">     192 </span><span class="lineCov">         18 : int cTextureDesc::GetHeight() const</span>
+<span class="lineNum">     193 </span>            : {
+<span class="lineNum">     194 </span><span class="lineCov">         18 :         return mHeight;</span>
+<a name="195"><span class="lineNum">     195 </span>            : }</a>
+<span class="lineNum">     196 </span>            : 
+<span class="lineNum">     197 </span><span class="lineNoCov">          0 : int cTextureDesc::GetNumTexels() const</span>
+<span class="lineNum">     198 </span>            : {
+<span class="lineNum">     199 </span><span class="lineNoCov">          0 :         return GetWidth() * GetHeight();</span>
+<a name="200"><span class="lineNum">     200 </span>            : }</a>
+<span class="lineNum">     201 </span>            : 
+<span class="lineNum">     202 </span><span class="lineNoCov">          0 : int cTextureDesc::GetNumChannels() const</span>
+<span class="lineNum">     203 </span>            : {
+<span class="lineNum">     204 </span><span class="lineNoCov">          0 :         int channels = cTextureUtil::GetNumChannels(mChannels);</span>
+<span class="lineNum">     205 </span><span class="lineNoCov">          0 :         return channels;</span>
+<a name="206"><span class="lineNum">     206 </span>            : }</a>
+<span class="lineNum">     207 </span>            : 
+<span class="lineNum">     208 </span><span class="lineCov">          3 : void cTextureDesc::Reshape( int w, int h )</span>
+<span class="lineNum">     209 </span>            : {
+<span class="lineNum">     210 </span><span class="lineCov">          3 :         mWidth = std::max(1, w);</span>
+<span class="lineNum">     211 </span><span class="lineCov">          3 :         mHeight = std::max(1, h);</span>
+<span class="lineNum">     212 </span><span class="lineCov">          3 :         if (mObject != 0) // 0 indicates the device's frame buffer, so no need to resize it</span>
+<span class="lineNum">     213 </span>            :         {
+<span class="lineNum">     214 </span><span class="lineNoCov">          0 :                 cTextureUtil::DeleteFrameBuffer(mObject, mTexture, mDepthStencil);</span>
+<span class="lineNum">     215 </span><span class="lineNoCov">          0 :                 cTextureUtil::CreateFrameBuffer(mObject, mTexture, mDepthStencil, mWidth, mHeight,</span>
+<span class="lineNum">     216 </span><span class="lineNoCov">          0 :                                                         mDepth, mChannels, mFormat, mType, mHasMips);</span>
+<span class="lineNum">     217 </span>            :         }
+<a name="218"><span class="lineNum">     218 </span><span class="lineCov">          3 : }</span></a>
+<span class="lineNum">     219 </span>            : 
+<span class="lineNum">     220 </span><span class="lineNoCov">          0 : void cTextureDesc::ReadPixels(std::vector&lt;GLfloat&gt;&amp; out_data, GLenum format/*= GL_RGBA*/)</span>
+<span class="lineNum">     221 </span>            : {
+<span class="lineNum">     222 </span><span class="lineNoCov">          0 :         BindBuffer();</span>
+<span class="lineNum">     223 </span>            : 
+<span class="lineNum">     224 </span><span class="lineNoCov">          0 :         int num_channels = GetNumChannels();</span>
+<span class="lineNum">     225 </span><span class="lineNoCov">          0 :         int data_size = GetNumTexels() * num_channels;</span>
+<span class="lineNum">     226 </span><span class="lineNoCov">          0 :         out_data.resize(data_size);</span>
+<span class="lineNum">     227 </span><span class="lineNoCov">          0 :         glReadPixels(0, 0, mWidth, mHeight, format, GL_FLOAT, out_data.data());</span>
+<span class="lineNum">     228 </span>            : 
+<span class="lineNum">     229 </span><span class="lineNoCov">          0 :         UnbindBuffer();</span>
+<a name="230"><span class="lineNum">     230 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     231 </span>            : 
+<span class="lineNum">     232 </span><span class="lineNoCov">          0 : void cTextureDesc::WritePixels(const std::vector&lt;GLubyte&gt;&amp; data)</span>
+<span class="lineNum">     233 </span>            : {
+<span class="lineNum">     234 </span><span class="lineNoCov">          0 :         glBindTexture(GL_TEXTURE_2D, mTexture);</span>
+<span class="lineNum">     235 </span><span class="lineNoCov">          0 :         glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, mWidth, mHeight, mFormat, mType, data.data());</span>
+<span class="lineNum">     236 </span><span class="lineNoCov">          0 :         glBindTexture(GL_TEXTURE_2D, 0);</span>
+<a name="237"><span class="lineNum">     237 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     238 </span>            : 
+<span class="lineNum">     239 </span><span class="lineNoCov">          0 : cTextureDesc::~cTextureDesc()</span>
+<span class="lineNum">     240 </span>            : {
+<span class="lineNum">     241 </span><span class="lineNoCov">          0 :         cTextureUtil::DeleteFrameBuffer( mObject, mTexture, mDepthStencil );</span>
+<a name="242"><span class="lineNum">     242 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     243 </span>            : 
+<span class="lineNum">     244 </span><span class="lineCov">         36 : void cTextureDesc::PushTextureStack() const</span>
+<span class="lineNum">     245 </span>            : {
+<span class="lineNum">     246 </span><span class="lineCov">         36 :         tTexEntry entry;</span>
+<span class="lineNum">     247 </span><span class="lineCov">         36 :         entry.mTex = mObject;</span>
+<span class="lineNum">     248 </span><span class="lineCov">         36 :         entry.mViewportParams[0] = 0;</span>
+<span class="lineNum">     249 </span><span class="lineCov">         36 :         entry.mViewportParams[1] = 0;</span>
+<span class="lineNum">     250 </span><span class="lineCov">         36 :         entry.mViewportParams[2] = mWidth;</span>
+<span class="lineNum">     251 </span><span class="lineCov">         36 :         entry.mViewportParams[3] = mHeight;</span>
+<span class="lineNum">     252 </span>            : 
+<span class="lineNum">     253 </span><span class="lineCov">         36 :         gTexStack.push(entry);</span>
+<a name="254"><span class="lineNum">     254 </span><span class="lineCov">         36 : }</span></a>
+<span class="lineNum">     255 </span>            : 
+<span class="lineNum">     256 </span><span class="lineCov">         36 : void cTextureDesc::PopTextureStack() const</span>
+<span class="lineNum">     257 </span>            : {
+<span class="lineNum">     258 </span><span class="lineCov">         36 :         bool bound = CheckBoundBuffer();</span>
+<span class="lineNum">     259 </span><span class="lineCov">         36 :         if (bound)</span>
+<span class="lineNum">     260 </span>            :         {
+<span class="lineNum">     261 </span><span class="lineCov">         36 :                 gTexStack.pop();</span>
+<span class="lineNum">     262 </span><span class="lineCov">         36 :                 if (!gTexStack.empty())</span>
+<span class="lineNum">     263 </span>            :                 {
+<span class="lineNum">     264 </span><span class="lineCov">         18 :                         tTexEntry prev_entry = gTexStack.top();</span>
+<span class="lineNum">     265 </span><span class="lineCov">         18 :                         glBindFramebuffer(GL_FRAMEBUFFER, prev_entry.mTex);</span>
+<span class="lineNum">     266 </span><span class="lineCov">         18 :                         glViewport(prev_entry.mViewportParams[0], prev_entry.mViewportParams[1],</span>
+<span class="lineNum">     267 </span><span class="lineCov">         18 :                                 prev_entry.mViewportParams[2], prev_entry.mViewportParams[3]);</span>
+<span class="lineNum">     268 </span>            :                 }
+<span class="lineNum">     269 </span>            :         }
+<span class="lineNum">     270 </span>            :         else
+<span class="lineNum">     271 </span>            :         {
+<a name="272"><span class="lineNum">     272 </span><span class="lineNoCov">          0 :                 throw std::runtime_error(&quot;Trying to pop unbound texture from stack.\n&quot;);</span></a>
+<span class="lineNum">     273 </span>            :         }
+<span class="lineNum">     274 </span><span class="lineCov">         39 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

@@ -1,0 +1,328 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Main Call Code Analysis - /usr/local/include/bullet/BulletDynamics/Featherstone/btMultiBodyLink.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../index.html">top level</a> - <a href="index.html">usr/local/include/bullet/BulletDynamics/Featherstone</a> - btMultiBodyLink.h<span style="font-size: 80%;"> (source / <a href="btMultiBodyLink.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Main Call Code Analysis</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntryLo">40.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-08-16 16:51:56</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntryLo">66.7 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /*</a>
+<span class="lineNum">       2 </span>            : Bullet Continuous Collision Detection and Physics Library
+<span class="lineNum">       3 </span>            : Copyright (c) 2013 Erwin Coumans  http://bulletphysics.org
+<span class="lineNum">       4 </span>            : 
+<span class="lineNum">       5 </span>            : This software is provided 'as-is', without any express or implied warranty.
+<span class="lineNum">       6 </span>            : In no event will the authors be held liable for any damages arising from the use of this software.
+<span class="lineNum">       7 </span>            : Permission is granted to anyone to use this software for any purpose, 
+<span class="lineNum">       8 </span>            : including commercial applications, and to alter it and redistribute it freely, 
+<span class="lineNum">       9 </span>            : subject to the following restrictions:
+<span class="lineNum">      10 </span>            : 
+<span class="lineNum">      11 </span>            : 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
+<span class="lineNum">      12 </span>            : 2. Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.
+<span class="lineNum">      13 </span>            : 3. This notice may not be removed or altered from any source distribution.
+<span class="lineNum">      14 </span>            : */
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span>            : #ifndef BT_MULTIBODY_LINK_H
+<span class="lineNum">      17 </span>            : #define BT_MULTIBODY_LINK_H
+<span class="lineNum">      18 </span>            : 
+<span class="lineNum">      19 </span>            : #include &quot;LinearMath/btQuaternion.h&quot;
+<span class="lineNum">      20 </span>            : #include &quot;LinearMath/btVector3.h&quot;
+<span class="lineNum">      21 </span>            : #include &quot;BulletCollision/CollisionDispatch/btCollisionObject.h&quot;
+<span class="lineNum">      22 </span>            : 
+<span class="lineNum">      23 </span>            : enum    btMultiBodyLinkFlags
+<span class="lineNum">      24 </span>            : {
+<span class="lineNum">      25 </span>            :         BT_MULTIBODYLINKFLAGS_DISABLE_PARENT_COLLISION = 1,
+<span class="lineNum">      26 </span>            :         BT_MULTIBODYLINKFLAGS_DISABLE_ALL_PARENT_COLLISION = 2,
+<span class="lineNum">      27 </span>            : };
+<span class="lineNum">      28 </span>            : 
+<span class="lineNum">      29 </span>            : //both defines are now permanently enabled
+<span class="lineNum">      30 </span>            : #define BT_MULTIBODYLINK_INCLUDE_PLANAR_JOINTS
+<span class="lineNum">      31 </span>            : #define TEST_SPATIAL_ALGEBRA_LAYER
+<span class="lineNum">      32 </span>            : 
+<span class="lineNum">      33 </span>            : //
+<span class="lineNum">      34 </span>            : // Various spatial helper functions
+<span class="lineNum">      35 </span>            : //
+<span class="lineNum">      36 </span>            : 
+<span class="lineNum">      37 </span>            : //namespace {
+<span class="lineNum">      38 </span>            : 
+<span class="lineNum">      39 </span>            : 
+<span class="lineNum">      40 </span>            : #include &quot;LinearMath/btSpatialAlgebra.h&quot;
+<span class="lineNum">      41 </span>            : 
+<span class="lineNum">      42 </span>            : //}
+<span class="lineNum">      43 </span>            : 
+<span class="lineNum">      44 </span>            : //
+<span class="lineNum">      45 </span>            : // Link struct
+<span class="lineNum">      46 </span>            : //
+<span class="lineNum">      47 </span>            : 
+<span class="lineNum">      48 </span>            : struct btMultibodyLink 
+<span class="lineNum">      49 </span>            : {
+<span class="lineNum">      50 </span>            : 
+<span class="lineNum">      51 </span>            :         BT_DECLARE_ALIGNED_ALLOCATOR();
+<span class="lineNum">      52 </span>            : 
+<span class="lineNum">      53 </span>            :     btScalar m_mass;         // mass of link
+<span class="lineNum">      54 </span>            :     btVector3 m_inertiaLocal;   // inertia of link (local frame; diagonal)
+<span class="lineNum">      55 </span>            : 
+<span class="lineNum">      56 </span>            :     int m_parent;         // index of the parent link (assumed to be &lt; index of this link), or -1 if parent is the base link.
+<span class="lineNum">      57 </span>            : 
+<span class="lineNum">      58 </span>            :     btQuaternion m_zeroRotParentToThis;    // rotates vectors in parent-frame to vectors in local-frame (when q=0). constant.
+<span class="lineNum">      59 </span>            : 
+<span class="lineNum">      60 </span>            :     btVector3 m_dVector;   // vector from the inboard joint pos to this link's COM. (local frame.) constant.
+<span class="lineNum">      61 </span>            :         //this is set to zero for planar joint (see also m_eVector comment)
+<span class="lineNum">      62 </span>            :         
+<span class="lineNum">      63 </span>            :     // m_eVector is constant, but depends on the joint type:
+<span class="lineNum">      64 </span>            :     // revolute, fixed, prismatic, spherical: vector from parent's COM to the pivot point, in PARENT's frame.
+<span class="lineNum">      65 </span>            :         // planar: vector from COM of parent to COM of this link, WHEN Q = 0. (local frame.)
+<span class="lineNum">      66 </span>            :         // todo: fix the planar so it is consistent with the other joints
+<span class="lineNum">      67 </span>            :         
+<span class="lineNum">      68 </span>            :     btVector3 m_eVector;
+<span class="lineNum">      69 </span>            : 
+<span class="lineNum">      70 </span>            :         btSpatialMotionVector m_absFrameTotVelocity, m_absFrameLocVelocity;
+<span class="lineNum">      71 </span>            : 
+<span class="lineNum">      72 </span>            :         enum eFeatherstoneJointType
+<span class="lineNum">      73 </span>            :         {
+<span class="lineNum">      74 </span>            :                 eRevolute = 0,
+<span class="lineNum">      75 </span>            :                 ePrismatic = 1,
+<span class="lineNum">      76 </span>            :                 eSpherical = 2,
+<span class="lineNum">      77 </span>            :                 ePlanar = 3,
+<span class="lineNum">      78 </span>            :                 eFixed = 4,
+<span class="lineNum">      79 </span>            :                 eInvalid
+<span class="lineNum">      80 </span>            :         };
+<span class="lineNum">      81 </span>            : 
+<span class="lineNum">      82 </span>            :         
+<span class="lineNum">      83 </span>            : 
+<span class="lineNum">      84 </span>            :         // &quot;axis&quot; = spatial joint axis (Mirtich Defn 9 p104). (expressed in local frame.) constant.
+<span class="lineNum">      85 </span>            :     // for prismatic: m_axesTop[0] = zero;
+<span class="lineNum">      86 </span>            :     //                m_axesBottom[0] = unit vector along the joint axis.
+<span class="lineNum">      87 </span>            :     // for revolute: m_axesTop[0] = unit vector along the rotation axis (u);
+<span class="lineNum">      88 </span>            :     //               m_axesBottom[0] = u cross m_dVector (i.e. COM linear motion due to the rotation at the joint)
+<span class="lineNum">      89 </span>            :         //
+<span class="lineNum">      90 </span>            :         // for spherical: m_axesTop[0][1][2] (u1,u2,u3) form a 3x3 identity matrix (3 rotation axes)
+<span class="lineNum">      91 </span>            :         //                                m_axesBottom[0][1][2] cross u1,u2,u3 (i.e. COM linear motion due to the rotation at the joint)
+<span class="lineNum">      92 </span>            :         //
+<span class="lineNum">      93 </span>            :         // for planar: m_axesTop[0] = unit vector along the rotation axis (u); defines the plane of motion
+<span class="lineNum">      94 </span>            :         //                         m_axesTop[1][2] = zero
+<span class="lineNum">      95 </span>            :         //                         m_axesBottom[0] = zero
+<span class="lineNum">      96 </span>            :         //                         m_axesBottom[1][2] = unit vectors along the translational axes on that plane         
+<a name="97"><span class="lineNum">      97 </span>            :         btSpatialMotionVector m_axes[6];</a>
+<span class="lineNum">      98 </span>            :         void setAxisTop(int dof, const btVector3 &amp;axis) { m_axes[dof].m_topVec = axis; }
+<span class="lineNum">      99 </span><span class="lineNoCov">          0 :         void setAxisBottom(int dof, const btVector3 &amp;axis) </span>
+<span class="lineNum">     100 </span>            :         { 
+<span class="lineNum">     101 </span><span class="lineNoCov">          0 :                 m_axes[dof].m_bottomVec = axis; </span>
+<span class="lineNum">     102 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">     103 </span>            :         void setAxisTop(int dof, const btScalar &amp;x, const btScalar &amp;y, const btScalar &amp;z) 
+<span class="lineNum">     104 </span>            :         {
+<span class="lineNum">     105 </span>            :                 m_axes[dof].m_topVec.setValue(x, y, z); 
+<span class="lineNum">     106 </span>            :         }
+<span class="lineNum">     107 </span>            :         void setAxisBottom(int dof, const btScalar &amp;x, const btScalar &amp;y, const btScalar &amp;z) 
+<span class="lineNum">     108 </span>            :         { 
+<a name="109"><span class="lineNum">     109 </span>            :                 m_axes[dof].m_bottomVec.setValue(x, y, z); </a>
+<a name="110"><span class="lineNum">     110 </span>            :         }</a>
+<span class="lineNum">     111 </span><span class="lineCov">       5012 :         const btVector3 &amp; getAxisTop(int dof) const { return m_axes[dof].m_topVec; }</span>
+<span class="lineNum">     112 </span><span class="lineCov">       5012 :         const btVector3 &amp; getAxisBottom(int dof) const { return m_axes[dof].m_bottomVec; }</span>
+<span class="lineNum">     113 </span>            : 
+<span class="lineNum">     114 </span>            :         int m_dofOffset, m_cfgOffset;
+<span class="lineNum">     115 </span>            : 
+<span class="lineNum">     116 </span>            :     btQuaternion m_cachedRotParentToThis;   // rotates vectors in parent frame to vectors in local frame
+<span class="lineNum">     117 </span>            :     btVector3 m_cachedRVector;                // vector from COM of parent to COM of this link, in local frame.
+<span class="lineNum">     118 </span>            : 
+<span class="lineNum">     119 </span>            :     btVector3 m_appliedForce;    // In WORLD frame
+<span class="lineNum">     120 </span>            :     btVector3 m_appliedTorque;   // In WORLD frame
+<span class="lineNum">     121 </span>            : 
+<span class="lineNum">     122 </span>            : btVector3 m_appliedConstraintForce;    // In WORLD frame
+<span class="lineNum">     123 </span>            :     btVector3 m_appliedConstraintTorque;   // In WORLD frame
+<span class="lineNum">     124 </span>            : 
+<span class="lineNum">     125 </span>            :         btScalar m_jointPos[7];
+<span class="lineNum">     126 </span>            :     
+<span class="lineNum">     127 </span>            :     //m_jointTorque is the joint torque applied by the user using 'addJointTorque'.
+<span class="lineNum">     128 </span>            :     //It gets set to zero after each internal stepSimulation call
+<span class="lineNum">     129 </span>            :         btScalar m_jointTorque[6];
+<span class="lineNum">     130 </span>            :     
+<span class="lineNum">     131 </span>            :         class btMultiBodyLinkCollider* m_collider;
+<span class="lineNum">     132 </span>            :         int m_flags;
+<span class="lineNum">     133 </span>            :         
+<span class="lineNum">     134 </span>            :         
+<span class="lineNum">     135 </span>            :         int m_dofCount, m_posVarCount;                          //redundant but handy
+<span class="lineNum">     136 </span>            :         
+<span class="lineNum">     137 </span>            :         eFeatherstoneJointType m_jointType;
+<span class="lineNum">     138 </span>            :         
+<span class="lineNum">     139 </span>            :         struct btMultiBodyJointFeedback*        m_jointFeedback;
+<span class="lineNum">     140 </span>            : 
+<span class="lineNum">     141 </span>            :         btTransform     m_cachedWorldTransform;//this cache is updated when calling btMultiBody::forwardKinematics
+<span class="lineNum">     142 </span>            : 
+<span class="lineNum">     143 </span>            :         const char* m_linkName;//m_linkName memory needs to be managed by the developer/user!
+<span class="lineNum">     144 </span>            :         const char* m_jointName;//m_jointName memory needs to be managed by the developer/user!
+<span class="lineNum">     145 </span>            :     const void* m_userPtr;//m_userPtr ptr needs to be managed by the developer/user!
+<span class="lineNum">     146 </span>            :     
+<span class="lineNum">     147 </span>            :         btScalar m_jointDamping; //todo: implement this internally. It is unused for now, it is set by a URDF loader. User can apply manual damping.
+<span class="lineNum">     148 </span>            :         btScalar m_jointFriction; //todo: implement this internally. It is unused for now, it is set by a URDF loader. User can apply manual friction using a velocity motor.
+<span class="lineNum">     149 </span>            :         btScalar m_jointLowerLimit; //todo: implement this internally. It is unused for now, it is set by a URDF loader. 
+<span class="lineNum">     150 </span>            :         btScalar m_jointUpperLimit; //todo: implement this internally. It is unused for now, it is set by a URDF loader.
+<span class="lineNum">     151 </span>            :         btScalar m_jointMaxForce; //todo: implement this internally. It is unused for now, it is set by a URDF loader. 
+<span class="lineNum">     152 </span>            :         btScalar m_jointMaxVelocity;//todo: implement this internally. It is unused for now, it is set by a URDF loader. 
+<span class="lineNum">     153 </span>            :         
+<span class="lineNum">     154 </span>            :         // ctor: set some sensible defaults
+<span class="lineNum">     155 </span>            :         btMultibodyLink()
+<span class="lineNum">     156 </span>            :                 :       m_mass(1),
+<span class="lineNum">     157 </span>            :                         m_parent(-1),
+<span class="lineNum">     158 </span>            :                         m_zeroRotParentToThis(0, 0, 0, 1),
+<span class="lineNum">     159 </span>            :                         m_cachedRotParentToThis(0, 0, 0, 1),
+<span class="lineNum">     160 </span>            :                         m_collider(0),
+<span class="lineNum">     161 </span>            :                         m_flags(0),
+<span class="lineNum">     162 </span>            :                         m_dofCount(0),
+<span class="lineNum">     163 </span>            :                         m_posVarCount(0),
+<span class="lineNum">     164 </span>            :                         m_jointType(btMultibodyLink::eInvalid),
+<span class="lineNum">     165 </span>            :                         m_jointFeedback(0),
+<span class="lineNum">     166 </span>            :                         m_linkName(0),
+<span class="lineNum">     167 </span>            :                         m_jointName(0),
+<span class="lineNum">     168 </span>            :             m_userPtr(0),
+<span class="lineNum">     169 </span>            :                         m_jointDamping(0),
+<span class="lineNum">     170 </span>            :                         m_jointFriction(0),
+<span class="lineNum">     171 </span>            :                         m_jointLowerLimit(0),
+<span class="lineNum">     172 </span>            :                         m_jointUpperLimit(0),
+<span class="lineNum">     173 </span>            :                         m_jointMaxForce(0),
+<span class="lineNum">     174 </span>            :                         m_jointMaxVelocity(0)
+<span class="lineNum">     175 </span>            :         {
+<span class="lineNum">     176 </span>            :                 
+<span class="lineNum">     177 </span>            :                 m_inertiaLocal.setValue(1, 1, 1);
+<span class="lineNum">     178 </span>            :                 setAxisTop(0, 0., 0., 0.);
+<span class="lineNum">     179 </span>            :                 setAxisBottom(0, 1., 0., 0.);
+<span class="lineNum">     180 </span>            :                 m_dVector.setValue(0, 0, 0);
+<span class="lineNum">     181 </span>            :                 m_eVector.setValue(0, 0, 0);
+<span class="lineNum">     182 </span>            :                 m_cachedRVector.setValue(0, 0, 0);
+<span class="lineNum">     183 </span>            :                 m_appliedForce.setValue( 0, 0, 0);
+<span class="lineNum">     184 </span>            :                 m_appliedTorque.setValue(0, 0, 0);
+<span class="lineNum">     185 </span>            :                 //              
+<span class="lineNum">     186 </span>            :                 m_jointPos[0] = m_jointPos[1] = m_jointPos[2] = m_jointPos[4] = m_jointPos[5] = m_jointPos[6] = 0.f;
+<span class="lineNum">     187 </span>            :                 m_jointPos[3] = 1.f;                    //&quot;quat.w&quot;
+<span class="lineNum">     188 </span>            :                 m_jointTorque[0] = m_jointTorque[1] = m_jointTorque[2] = m_jointTorque[3] = m_jointTorque[4] = m_jointTorque[5] = 0.f;
+<span class="lineNum">     189 </span>            :                 m_cachedWorldTransform.setIdentity();
+<span class="lineNum">     190 </span>            :         }
+<span class="lineNum">     191 </span>            : 
+<span class="lineNum">     192 </span>            :     // routine to update m_cachedRotParentToThis and m_cachedRVector
+<span class="lineNum">     193 </span>            :         void updateCacheMultiDof(btScalar *pq = 0)
+<span class="lineNum">     194 </span>            :         {
+<span class="lineNum">     195 </span>            :                 btScalar *pJointPos = (pq ? pq : &amp;m_jointPos[0]);
+<span class="lineNum">     196 </span>            : 
+<span class="lineNum">     197 </span>            :                 switch(m_jointType)
+<span class="lineNum">     198 </span>            :                 {
+<span class="lineNum">     199 </span>            :                         case eRevolute:
+<span class="lineNum">     200 </span>            :                         {
+<span class="lineNum">     201 </span>            :                                 m_cachedRotParentToThis = btQuaternion(getAxisTop(0),-pJointPos[0]) * m_zeroRotParentToThis;
+<span class="lineNum">     202 </span>            :                                 m_cachedRVector = m_dVector + quatRotate(m_cachedRotParentToThis,m_eVector);
+<span class="lineNum">     203 </span>            : 
+<span class="lineNum">     204 </span>            :                                 break;
+<span class="lineNum">     205 </span>            :                         }
+<span class="lineNum">     206 </span>            :                         case ePrismatic:
+<span class="lineNum">     207 </span>            :                         {
+<span class="lineNum">     208 </span>            :                                 // m_cachedRotParentToThis never changes, so no need to update
+<span class="lineNum">     209 </span>            :                                 m_cachedRVector = m_dVector + quatRotate(m_cachedRotParentToThis,m_eVector) + pJointPos[0] * getAxisBottom(0);
+<span class="lineNum">     210 </span>            : 
+<span class="lineNum">     211 </span>            :                                 break;
+<span class="lineNum">     212 </span>            :                         }
+<span class="lineNum">     213 </span>            :                         case eSpherical:
+<span class="lineNum">     214 </span>            :                         {
+<span class="lineNum">     215 </span>            :                                 m_cachedRotParentToThis = btQuaternion(pJointPos[0], pJointPos[1], pJointPos[2], -pJointPos[3]) * m_zeroRotParentToThis;
+<span class="lineNum">     216 </span>            :                                 m_cachedRVector = m_dVector + quatRotate(m_cachedRotParentToThis,m_eVector);
+<span class="lineNum">     217 </span>            : 
+<span class="lineNum">     218 </span>            :                                 break;
+<span class="lineNum">     219 </span>            :                         }
+<span class="lineNum">     220 </span>            :                         case ePlanar:
+<span class="lineNum">     221 </span>            :                         {
+<span class="lineNum">     222 </span>            :                                 m_cachedRotParentToThis = btQuaternion(getAxisTop(0),-pJointPos[0]) * m_zeroRotParentToThis;                            
+<span class="lineNum">     223 </span>            :                                 m_cachedRVector = quatRotate(btQuaternion(getAxisTop(0),-pJointPos[0]), pJointPos[1] * getAxisBottom(1) + pJointPos[2] * getAxisBottom(2)) + quatRotate(m_cachedRotParentToThis,m_eVector);                             
+<span class="lineNum">     224 </span>            : 
+<span class="lineNum">     225 </span>            :                                 break;
+<span class="lineNum">     226 </span>            :                         }
+<span class="lineNum">     227 </span>            :                         case eFixed:
+<span class="lineNum">     228 </span>            :                         {
+<span class="lineNum">     229 </span>            :                                 m_cachedRotParentToThis = m_zeroRotParentToThis;
+<span class="lineNum">     230 </span>            :                                 m_cachedRVector = m_dVector + quatRotate(m_cachedRotParentToThis,m_eVector);
+<span class="lineNum">     231 </span>            : 
+<span class="lineNum">     232 </span>            :                                 break;
+<span class="lineNum">     233 </span>            :                         }
+<span class="lineNum">     234 </span>            :                         default:
+<span class="lineNum">     235 </span>            :                         {
+<span class="lineNum">     236 </span>            :                                 //invalid type
+<span class="lineNum">     237 </span>            :                                 btAssert(0);
+<span class="lineNum">     238 </span>            :                         }
+<span class="lineNum">     239 </span>            :                 }
+<span class="lineNum">     240 </span>            :         }
+<span class="lineNum">     241 </span>            : };
+<span class="lineNum">     242 </span>            : 
+<span class="lineNum">     243 </span>            : 
+<span class="lineNum">     244 </span>            : #endif //BT_MULTIBODY_LINK_H
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>
